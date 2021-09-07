@@ -1,0 +1,315 @@
+<template>
+  <!--维保服务单-->
+  <div id="offer" v-show="show">
+    <div class="body">
+      <div class="title">
+        <p>维保服务单</p>
+        <img @click="Close" src="@/assets/img/close.png"/>
+      </div>
+      <div class="foot">
+        <div>
+          <p><span>联系人姓名：</span>{{info.linkman}}</p>
+          <p><span>联系电话：</span>{{info.mob}}</p>
+          <p><span>公司名称：</span>{{info.company}}</p>
+        </div>
+        <div>
+          <p><span>服务地点：</span>{{info.addr}}</p>
+          <p><span>维保船舶：</span>{{info.docsNm}}</p>
+          <!--<p><span>一级类别：</span>{{info.type}}</p>-->
+          <p><span>产品名称：</span>{{info.deviceNms}}</p>
+          <p><span>服务内容：</span>{{info.serviceItemNm}}</p>
+          <p><span>服务内容说明：</span>{{info.serviceCont}}</p>
+          <p><span>预约时间：</span>{{info.appointmentTm}} {{info.dateSlice}}</p>
+        </div>
+
+        <div>
+          <span>维修服务内容：</span>
+          <p>{{info.serviceContProvider}}</p>
+          <div class="imgBox" v-if="info.receiptsImg">
+            <div class="img">
+              <div v-for="(item,index) in info.receiptsImg.split(',')" :key="index" :style="{height:imgBoxHeight+'px'}">
+                <img :src="item" @click="toLink(item)"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p><span>负责人员：</span>{{info.handleRealNm}}</p>
+        <p><span>完成时间：</span>{{info.finishTm ? info.finishTm.slice(0,10) : ''}}</p>
+        <div v-if="info.speed">
+          <span>评价内容：</span>
+          <p>解决速度：{{info.speed}}<br/>
+            服务态度：{{info.attitude}}<br/>
+            技术能力：{{info.capacity}}<br/>
+            服务价格：{{info.price}}<br/>
+          </p>
+        </div>
+      </div>
+      <div class="button">
+        <button @click="Close">取消</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import {mapState} from "vuex";
+  import delImg from '@/assets/img/personal/del.png'
+  import excel from '@/assets/img/personal/excel.png'
+  import ppt from '@/assets/img/personal/ppt.png'
+  import word from '@/assets/img/personal/word.png'
+  import pdf from '@/assets/img/personal/pdf.jpg'
+  import del from '@/assets/img/personal/del.png'
+
+  export default {
+    name: "serviceOrder",
+    data(){
+      return{
+        delImg,
+        excel,
+        ppt,
+        word,
+        pdf,
+        del,
+        imgBoxHeight:'85',
+
+        imgList:[],
+        form:{
+          id: '',
+          serviceContProvider: "",
+          receiptsImg: "",
+          types:'',
+        },
+        info:{}
+      }
+    },
+    props: {
+      show: {
+        type: Boolean,
+        default: false
+      },
+      id:{
+        type:Number,
+        default:null
+      }
+    },
+    computed:{
+      ...mapState([
+        'bWidth',
+        'width',
+        "currentRole"
+      ])
+    },
+    watch:{
+      id:{
+        handler:function(){
+          if(this.id){
+            this.getInfo()
+          }
+        },
+        immediate:true,
+      }
+    },
+    created(){
+
+
+    },
+    mounted(){
+
+
+    },
+    methods:{
+      async getInfo(){
+         this.info = await this.api.taskNoteDetail(this.id)
+      },
+      Close() {
+        this.$emit('close')
+      },
+
+
+    },
+  }
+</script>
+
+<style lang="less">
+
+</style>
+<style lang="less" scoped>
+  @import url("../../assets/css/init.less");
+  #offer{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.5);
+    z-index: 10;
+    .body{
+      background: #fff;
+      border-radius: 8px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      /*max-height: 597px;*/
+      padding-bottom: 20px;
+      width: 660px;
+      height: 80%;
+      display: flex;
+      display: -webkit-flex;
+      flex-direction: column;
+      .title{
+        height: 77px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        border-bottom: 1px solid #DFDFDF;
+        >p{
+          color: #333333;
+          font-size: 18px;
+        }
+        >img{
+          width: 20px;
+          position: absolute;
+          top: 19px;
+          right: 21px;
+          cursor: pointer;
+        }
+      }
+    }
+    .foot{
+      padding: 0 35px;
+      flex: 1;
+      overflow-y: scroll;
+      >div:nth-child(1){
+        padding-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        >p{
+          width: 50%;
+          height: 30px;
+          line-height: 30px;
+        }
+      }
+      >div:nth-child(2){
+        padding-bottom: 15px;
+        >p{
+          line-height: 30px;
+        }
+        border-bottom: 1px solid #DFDFDF;
+      }
+      >div:nth-child(3){
+        padding-top: 20px;
+        overflow: hidden;
+        >span{
+          float: left;
+          line-height: 30px;
+          height: 100px;
+
+        }
+        >p{
+          float: right;
+          width: 80%;
+          margin-bottom: 10px;
+          padding: 10px;
+          box-sizing: border-box;
+        }
+        .imgBox{
+          margin-left: 20%;
+          .img{
+            width: 100%;
+            >div{
+              width: 85px;
+              height: 85px;
+              margin-right: 3%;
+              margin-bottom: 10px;
+              float: left;
+              position: relative;
+              img{
+                width: 100%;
+                height: 100%;
+              }
+              .delImg{
+                position: absolute;
+                top: -7.5px;
+                right: -7.5px;
+                z-index: 200;
+                width: 15px;
+                height: 15px;
+              }
+            }
+            .uploadImg{
+              display: flex;
+              display: -webkit-flex;
+              align-items: center;
+              // width: 85px;
+              >p{
+                color: #333333;
+                font-size: 15px;
+                float: left;
+                line-height: 85px;
+                margin-left: 3%;
+              }
+              >div{
+                display: flex;
+                display: -webkit-flex;
+                color: #C6C6C6;
+                width: 100%;
+                height: 100%;
+                p{
+                  width: 100%;
+                  text-align: center;
+                  border: 1px dashed #C6C6C6;
+                  font-size: 50px;
+                }
+                input{
+                  width: 100%;
+                  height: 100%;
+                  opacity: 0;
+                  position: absolute;
+                  left: 0;
+                  top: 0;
+                }
+              }
+            }
+          }
+          .img::after{
+            content: "";
+            display: block;
+            clear: both;
+          }
+        }
+      }
+      >div:nth-of-type(4){
+         display: flex;
+        display: -webkit-flex;
+        border-top: 1px solid #DFDFDF;
+        margin-top: 20px;
+        padding-top: 20px;
+        line-height: 40px;
+
+        p{
+          flex: 1;
+        }
+      }
+    }
+    .button{
+      /*padding-left: 20%;*/
+      display: flex;
+      padding: 0 27px 0 22%;
+      justify-content: flex-end;
+      margin-top: 30px;
+      button:nth-child(1){
+        width: 179px;
+        height: 52px;
+        background-color: #FFFFFF;
+        border: 1px solid #DDDDDD;
+        font-size: 16px;
+        color: #666;
+        cursor: pointer;
+      }
+
+    }
+  }
+
+</style>
