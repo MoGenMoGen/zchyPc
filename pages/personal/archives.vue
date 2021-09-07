@@ -46,6 +46,10 @@
         <certificate v-if="tab2Id==22 "></certificate>
         <!-- 设备及其他证书 -->
         <jianyanjiance v-if="tab2Id==23"></jianyanjiance>
+        <!-- 合同列表 -->
+        <contract v-if="tab2Id==24"></contract>
+        <!-- 我的订单 -->
+        <!-- <order v-if="tab2Id==25"></order> -->
       </div>
       <div class="line4">
 
@@ -79,6 +83,8 @@
     import pinzhibaozhang from "../../components/person/pinzhibaozhang";
     import testreport from "../../components/person/testreport";
     import jianyanjiance from "../../components/person/jianyanjiance";
+    import contract from "../../components/person/contract";
+    import order from "../../components/person/order";
     export default {
         name: "archives",
         layout:'person',
@@ -97,6 +103,8 @@
             pinzhibaozhang,
             jianyanjiance,
             testreport,
+            contract,
+            order,
         },
         computed:{
           ...mapState([
@@ -176,6 +184,14 @@
                         id:23,
                         nm:'设备及其他证书',
                     },
+                    {
+                        id:24,
+                        nm:'合同列表',
+                    },
+                    // {
+                    //     id:25,
+                    //     nm:'我的订单',
+                    // },
                 ],
                 tab23:[
                     {

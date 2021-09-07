@@ -29,10 +29,10 @@
 
     </div>
 
-    <div>
+    <!-- <div>
       <p style="margin-bottom: 10px">合同编号：<span style="word-break: break-word;">{{info.contractNo}}</span></p>
       <p>订单编号：<span style="word-break: break-word">{{info.orderNo}}</span></p>
-    </div>
+    </div> -->
 
     <p class="title">主要参数</p>
     <div class="info">

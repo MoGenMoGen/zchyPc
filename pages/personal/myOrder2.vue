@@ -406,6 +406,7 @@
             }
           }
           this.query.toP(qry,this.currentPage1,this.pageSize)
+          this.query.toO(qry,'crtTm','desc')
           let param={
             keyWord:this.shipNm,
             orgEnterId:this.currentRole.id,

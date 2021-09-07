@@ -31,15 +31,27 @@
     </div>
   </div>
   <div class="ctDetail" v-for="(item,index) in ctList" :key="index" @click="toDetail(item.id)">
-    <p>合同编号：<span>{{item.contractNo}}</span></p>
+    <!-- <p>合同编号：<span>{{item.contractNo}}</span></p>
     <p>合同名称：<span>{{item.nm}}</span></p>
     <p>合同总额：<span class="red">￥{{item.totalPrice}}元</span></p>
     <p>签约日期：<span>{{item.signTm}}</span></p>
     <p>已付金额：<span>￥{{item.paid}}元</span></p>
     <i class="el-icon-arrow-right"></i>
     <p>交付日期：<span>{{item.deliveryTm}}</span></p>
-    <p>未付金额：<span>￥{{item.nPaid}}元</span></p>
-
+    <p>未付金额：<span>￥{{item.nPaid}}元</span></p> -->
+    <div class="ctDetail-left">
+      <div class="ctDetail-item" style="margin-bottom: 10px;">
+        <p>合同编号：<span>{{item.contractNo}}</span></p>
+        <p>合同名称：<span>{{item.nm}}</span></p>
+        <p>签约日期：<span>{{item.signTm}}</span></p>
+      </div>
+      <div class="ctDetail-item">
+        <p>合同总额：<span>￥{{item.totalPrice}}元</span></p>
+        <p>已付金额：<span>￥{{item.paid}}元</span></p>
+        <p>未付金额：<span class="red">￥{{item.nPaid}}元</span></p>
+      </div>
+    </div>
+    <i class="el-icon-arrow-right"></i>
   </div>
   <div class="Footer">
     <el-pagination
@@ -317,28 +329,40 @@
     }
   }
   .ctDetail{
-    height: 181px;
+    width: 90%;
+    margin: 0 auto;
     border-bottom: 1px solid #F3F3F3;
     display: flex;
-    flex-wrap: wrap;
-    padding: 30px 35px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 15px;
     cursor: pointer;
     .red{
       color: #FF3E3E;
     }
     i{
-
       color: #333333;
-
     }
-    p:nth-child(1){
-      width: 100%;
+    .ctDetail-left {
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      .ctDetail-item {
+        display: flex;
+        align-items: center;
+        p {
+          width: 33%;
+        }
+      }
     }
-    >p{
-      width: 45%;
-      color: #333333;
-      font-size: 15px;
-    }
+    // p:nth-child(1){
+    //   width: 100%;
+    // }
+    // >p{
+    //   width: 45%;
+    //   color: #333333;
+    //   font-size: 15px;
+    // }
   }
   .Footer{
     margin-top: 40px;

@@ -740,6 +740,14 @@ class api {
       })
     })
   }
+  //船舶的合同列表
+  shipContractList(query,data){
+    return new Promise(resolve => {
+      get("/ship/contract/apis/docsPage?query="+query,data,{"sinovat-token":window.sessionStorage.getItem("token")}).then(res=>{
+        resolve(res)
+      })
+    })
+  }
   //我的合同详情
   contractDetail(id){
     return new Promise(resolve => {

@@ -3,7 +3,7 @@
 <div id="home">
   <div class="title">
     <p><span class="lineC"></span>合同详情</p>
-    <p @click="back"><i class="el-icon-arrow-left"></i>返回&nbsp;<span>&nbsp;我的合同</span></p>
+    <p @click="back"><i class="el-icon-arrow-left"></i>返回</p>
   </div>
   <div class="tract" v-if="ctList">
     <p>合同编号：<span>{{ctList.contractNo}}</span></p>
@@ -23,6 +23,13 @@
       <p>{{item.fileNm}}</p>
     </div>
     <button @click="download(item.url)">下载</button>
+  </div>
+  <div class="ctDetail" v-for="(item,index) in billList" :key="index">
+    <div class="ct1">
+      <p>发票附件</p>
+      <el-image class="ctDetail-img" :src="item" :preview-src-list="billList"></el-image>
+    </div>
+    <button @click="download(item)">下载</button>
   </div>
 </div>
 </template>
@@ -45,6 +52,7 @@
           pdf,
           ctList: {},
           list:[],
+          billList: [], //发票列表
           id:'',
         }
       },
@@ -62,7 +70,10 @@
         async getInfo(){
           this.ctList=await this.api.contractDetail(this.id)
           this.list=this.ctList.attachment.split(',')
-          console.log(this.list)
+          if(this.ctList.invoice) {
+            this.billList = this.ctList.invoice.split(',')
+          }
+          console.log(this.list,this.billList)
           let imgList=[]
           this.list.forEach((item,index)=>{
             let type=item.split('.')[item.split('.').length - 1]
@@ -157,26 +168,23 @@
   }
   .ctDetail{
     width: 100%;
-    display: inline-flex;
-    height: 104px;
-    padding: 0 34px;
+    display: flex;
+    padding: 30px 34px;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #F3F3F3;
     .ct1{
-      display: inline-flex;
+      display: flex;
       align-items: center;
       width: 100%;
       p:nth-child(1){
         font-size: 15px;
         color: #333333;
-        line-height: 104px;
         // cursor: pointer;
       }
       p:nth-child(2){
         font-size: 14px;
         color: #333333;
-        line-height: 104px;
         // cursor: pointer;
       }
       img{
@@ -186,6 +194,12 @@
         padding-right: 20px;
         padding-left: 25px;
         // cursor: pointer;
+      }
+      .ctDetail-img {
+        width: 220px;
+        height: 133px;
+        margin-left: 35px;
+        cursor: pointer;
       }
     }
     >button{
