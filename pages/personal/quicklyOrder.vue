@@ -48,7 +48,7 @@
       <p style="flex: 1.8;padding-left: 10px;">产品名称</p>
       <p style="flex: 1.4;padding-left: 10px;">规格型号</p>
       <p style="flex: 1.2;padding-left: 10px;">供应商</p>
-      <p style="flex: 1.2;">单价</p><p style="flex: 1.3;">数量</p>
+      <p style="flex: 1.2;">单价</p><p style="flex: 1.3;">数量</p><p style="flex: 1.3;">单位</p>
       <p style="flex: 1.3;">交货时间</p><p style="flex: 1.4;">合计</p>
     </div>
     <div class="order-cont" v-for="(item,index) in orderList" :key="index">
@@ -56,12 +56,13 @@
       <p class="goodSelect">{{item.goodsNm}}</p>
       <p class="skuSelect">{{item.skuNm}}</p>
       <p style="flex: 1.2;">{{item.supplier}}</p>
-      <p v-if="item.origPrice!=price" style="flex: 1.3;">￥{{item.origPrice?item.origPrice:0}}</p>
+      <p v-if="item.origPrice!=price" style="flex: 1.2;">￥{{item.origPrice?item.origPrice:0}}</p>
       <p v-else style="flex: 1.2;">价格面议</p>
       <p class="numP">
         <el-input-number v-model="item.num" @change="handleChange(index)" style="flex: 1.3;" :min="0.01" :max="item.stock" :precision="2" :step="1"></el-input-number>
         <span>库存 ：{{item.stock}}</span>
       </p>
+      <p style="flex: 1.3;">{{item.unitNm}}</p>
       <p style="flex: 1.2;">{{item.leadTime}}个工作日</p>
       <p style="flex: 1.4;" v-if="item.origPrice!=price">￥{{item.origPrice?item.origPrice*item.num:0}}</p>
       <p style="flex: 1.4;" v-else>价格面议</p>

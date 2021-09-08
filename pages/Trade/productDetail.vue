@@ -139,7 +139,7 @@
               <i class="el-icon-arrow-up" @click="toAdd"></i>
               <i class="el-icon-arrow-down" @click="toLess"></i>
             </p>
-            （库存：{{currentInfo.stock}}）
+            （库存：{{currentInfo.stock}}）<span v-if="currentInfo.skuUnitNm" style="color: #595757;">单位：{{currentInfo.skuUnitNm}}</span>
           </div>
           <div class="btn">
             <p v-if="proType === 'product' && currentInfo.origPrice!=price" @click="toAddCart">加入购物车</p>
