@@ -67,6 +67,7 @@
           this.ctList=[]
           let qry = this.query.new()
           this.query.toP(qry,this.currentPage3,this.pageSize)
+          this.query.toO(qry,'crtTm','desc')
           let param={
             docsId:this.id,
             orgEnterId:this.currentRole.id

@@ -192,7 +192,7 @@
           this.ctList=[]
           let qry = this.query.new()
           this.query.toP(qry,this.currentPage3,this.pageSize)
-
+          this.query.toO(qry,'crtTm','desc')
           if(this.currentRole.identityCd=='identity10'&&this.cd ==1){//船东身份除产品合同都是船舶合同
             this.query.toW(qry,'contractTypeCd','CONTRACT_TYPE.07','NE')
           }else if(this.currentRole.identityCd=='identity10'&&this.cd ==2){
