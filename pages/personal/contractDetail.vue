@@ -26,10 +26,12 @@
   </div>
   <div class="ctDetail" v-for="(item,index) in billList" :key="index">
     <div class="ct1">
-      <p>发票附件</p>
-      <el-image class="ctDetail-img" :src="item" :preview-src-list="billList"></el-image>
+      <p>{{item.nmI}}</p>
+      <img :src="item.img" v-if="item.type==1"/>
+      <el-image v-if="item.type==2" fit="cover" class="ctDetail-img" :src="item.img" :preview-src-list="item.imgList" ></el-image>
+      <p>{{item.fileNm}}</p>
     </div>
-    <button @click="download(item)">下载</button>
+    <button @click="download(item.url)">下载</button>
   </div>
 </div>
 </template>
@@ -40,6 +42,7 @@
     import ppt from '@/assets/img/personal/ppt.png'
     import word from '@/assets/img/personal/word.png'
     import pdf from '@/assets/img/personal/pdf.jpg'
+    import other from '@/assets/img/personal/other.png'
     export default {
         name: "contractDetail",
       layout:'person',
@@ -50,6 +53,7 @@
           ppt,
           word,
           pdf,
+          other,
           ctList: {},
           list:[],
           billList: [], //发票列表
@@ -73,7 +77,6 @@
           if(this.ctList.invoice) {
             this.billList = this.ctList.invoice.split(',')
           }
-          console.log(this.list,this.billList)
           let imgList=[]
           this.list.forEach((item,index)=>{
             let type=item.split('.')[item.split('.').length - 1]
@@ -106,6 +109,36 @@
             }
           })
           this.list=imgList
+          let imgList2 = []
+          this.billList.forEach((item,index)=>{
+            let type=item.split('.')[item.split('.').length - 1]
+            let nmList=item.split('.com/')  //分割出url后的内容
+            let nm=""
+            nmList.forEach((v,k)=>{       //防止文件名中有 .com/ 所以循环加入
+              if(k!=0){
+                nm+=v
+              }
+            })
+            nmList=nm.split('_')        //分割随机字符后的内容
+            nm=""
+            nmList.forEach((v,k)=>{   //防止文件名中有 - 所以循环
+              if(k!=0){
+                nm+=v
+              }
+            })
+            nm=nm.split('.'+type)[0]
+            console.log(nm)
+            if(type=='pdf'){
+            	imgList2.push({url:item,img:this.pdf,'nmI':'发票附件'+(index+1),'fileNm':nm,type:1})
+            }else if(type=='png'||type=='jpg'||type=='jpeg'||type=='PNG'||type=='JPG'||type=='JPEG'){
+              let itemList = item.split(",")
+            	imgList2.push({url:item,img:item,'nmI':'发票附件'+(index+1),'fileNm':nm,imgList:itemList,type:2})
+            }else{
+            	imgList2.push({url:item,img:this.other,'nmI':'发票附件'+(index+1),'fileNm':nm,type:1})
+            }
+          })
+          this.billList=imgList2
+          console.log(this.list,this.billList)
         },
         download(url){
           window.open(url)
@@ -196,9 +229,11 @@
         // cursor: pointer;
       }
       .ctDetail-img {
-        width: 220px;
-        height: 133px;
-        margin-left: 35px;
+        vertical-align: middle;
+        width: 85px;
+        height: 44px;
+        padding-right: 20px;
+        padding-left: 25px;
         cursor: pointer;
       }
     }
