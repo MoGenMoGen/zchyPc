@@ -1,6 +1,11 @@
 <template>
 <!--我的合同 包括 船舶合同和产品合同-->
 <div id="home">
+  <div class="allDetail">
+    <p>总金额：<span class="red">￥10.00元</span></p>
+    <p>已付金额：<span class="red">￥10.00元</span></p>
+    <p>未付金额：<span class="red">￥10.00元</span></p>
+  </div>
   <div class="ctDetail" v-for="(item,index) in ctList" :key="index" @click="toDetail(item.id)">
     <div class="ctDetail-left">
       <div class="ctDetail-item" style="margin-bottom: 10px;">
@@ -187,6 +192,22 @@
         border-radius: 0 2px 2px 0;
         cursor: pointer;
         box-sizing: border-box;
+      }
+    }
+  }
+  .allDetail {
+    border-bottom: 1px solid #F3F3F3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 15px;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 19px;
+    p {
+      width: 33%;
+      .red {
+        color: #FF3E3E;
       }
     }
   }

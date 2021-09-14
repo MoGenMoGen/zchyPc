@@ -28,7 +28,7 @@
     <div class="ct1">
       <p>{{item.nmI}}</p>
       <img :src="item.img" v-if="item.type==1"/>
-      <el-image v-if="item.type==2" fit="cover" class="ctDetail-img" :src="item.img" :preview-src-list="item.imgList" ></el-image>
+      <img :src="item.img" v-if="item.type==2" v-viewer>
       <p>{{item.fileNm}}</p>
     </div>
     <button @click="download(item.url)">下载</button>
@@ -131,8 +131,7 @@
             if(type=='pdf'){
             	imgList2.push({url:item,img:this.pdf,'nmI':'发票附件'+(index+1),'fileNm':nm,type:1})
             }else if(type=='png'||type=='jpg'||type=='jpeg'||type=='PNG'||type=='JPG'||type=='JPEG'){
-              let itemList = item.split(",")
-            	imgList2.push({url:item,img:item,'nmI':'发票附件'+(index+1),'fileNm':nm,imgList:itemList,type:2})
+            	imgList2.push({url:item,img:item,'nmI':'发票附件'+(index+1),'fileNm':nm,type:2})
             }else{
             	imgList2.push({url:item,img:this.other,'nmI':'发票附件'+(index+1),'fileNm':nm,type:1})
             }

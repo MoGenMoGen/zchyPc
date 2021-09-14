@@ -24,6 +24,7 @@
   import mF from "../../assets/img/personal/资金管理.png"
   import aM from "../../assets/img/personal/子账户维护.png"
   import qO from "../../assets/img/personal/快速下单.png"
+  import bill from "../../assets/img/personal/发票.png"
     export default {
         name: "leftMenu8",
       props:['cd','msgNum'],
@@ -106,7 +107,25 @@
                 cd:'pswAlter',
                 href:'./pswAlter'
               }],
-            },{
+            },
+            // {
+            //   nm:'我的发票',
+            //   img:bill,
+            //   title:[{
+            //     nm:'申请发票',
+            //     cd:'myBill1',
+            //     href:'./myBill?cdType=1'
+            //   },{
+            //     nm:'增票资质',
+            //     cd:'myBill2',
+            //     href:'./myBill?cdType=2'
+            //   },{
+            //     nm:'发票帮助中心',
+            //     cd:'myBill3',
+            //     href:'./myBill?cdType=3'
+            //   }],
+            // },
+            {
               nm:'快速下单',
               img:qO,
               cd:'quicklyOrder',

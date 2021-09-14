@@ -23,6 +23,7 @@
   import mD from "../../assets/img/personal/我的资料.png"
   import mF from "../../assets/img/personal/资金管理.png"
   import qO from "../../assets/img/personal/快速下单.png"
+  import bill from "../../assets/img/personal/发票.png"
     export default {
         name: "leftMenu7",
       props:['cd','msgNum'],
@@ -116,7 +117,25 @@
                 cd:'repair',
                 href:'./repair'
               }],
-            },{
+            },
+            // {
+            //   nm:'我的发票',
+            //   img:bill,
+            //   title:[{
+            //     nm:'申请发票',
+            //     cd:'myBill1',
+            //     href:'./myBill?cdType=1'
+            //   },{
+            //     nm:'增票资质',
+            //     cd:'myBill2',
+            //     href:'./myBill?cdType=2'
+            //   },{
+            //     nm:'发票帮助中心',
+            //     cd:'myBill3',
+            //     href:'./myBill?cdType=3'
+            //   }],
+            // },
+            {
               nm:'快速下单',
               img:qO,
               cd:'quicklyOrder',
