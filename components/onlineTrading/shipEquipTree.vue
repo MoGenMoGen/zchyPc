@@ -56,6 +56,12 @@
                width="80">
              </el-table-column>
              <el-table-column
+               prop="unitNm"
+               label="单位"
+               align="center"
+               width="100">
+             </el-table-column>
+             <el-table-column
                prop="price"
                label="价格(￥)"
                width="100">

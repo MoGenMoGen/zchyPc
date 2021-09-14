@@ -11,14 +11,22 @@
           @click="chooseTab(item,index)">
           <span>{{item.nm}}</span>
         </p>
-        <span class="btm" :style="{left:tabIndex*64+30*(tabIndex+1)+'px'}"></span>
+        <span class="btm" :style="{left:(tabId-1)*129+'px'}"></span>
       </div>
+    </div>
+    <div>
+      <bill-apply v-if="tabId==1"></bill-apply>
+      <bill-qua v-if="tabId==2"></bill-qua>
+      <bill-help v-if="tabId==3"></bill-help>
     </div>
   </div>
 </template>
 
 <script>
   import tobbar from "../../components/person/tobbar";
+  import billApply from "../../components/person/billApply";
+  import billQua from "../../components/person/billQua";
+  import billHelp from "../../components/person/billHelp";
   import {
     mapState
   } from "vuex";
@@ -26,11 +34,13 @@
     name: "allShip",
     components: {
       tobbar,
+      billApply,
+      billApply,
+      billHelp
     },
     data() {
       return {
-        cdType: 1,
-        tabIndex:0,
+        tabId: 1,
         title: '我的发票',
         tabList: [{
             id: 1,
@@ -48,8 +58,8 @@
     },
     layout: 'person',
     async mounted() {
-      this.cdType = this.until.getQueryString('cdType')
-      console.log(this.cdType)
+      this.tabId = this.until.getQueryString('cdType')
+      console.log(this.tabId)
     },
     computed: {
       ...mapState([
@@ -57,13 +67,16 @@
       ])
     },
     watch: {
-
+      $route(){
+        this.tabId = this.until.getQueryString('cdType')
+        console.log(this.tabId)
+      },
     },
     methods: {
-      chooseTab(item,index){
-        if(item.id!=this.tabId){
-          this.tabId=item.id
-          this.tabIndex=index
+      chooseTab(item, index) {
+        if (item.id != this.tabId) {
+          this.tabId = item.id
+          this.$router.push('../personal/myBill?cdType='+item.id)
         }
       }
     },
@@ -79,7 +92,7 @@
       width: 100%;
 
       div {
-        padding: 0 30px;
+        // padding: 0 30px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         display: flex;
         height: 42px;
@@ -87,9 +100,7 @@
         position: relative;
 
         p {
-          // margin-left: 30px;
-          // width: 64px;
-          padding: 0 30px;
+          width: 129px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -103,9 +114,7 @@
 
         .btm {
           position: absolute;
-          // margin-left: 30px;
-          padding: 0 30px;
-          width: 64px;
+          width: 129px;
           height: 100%;
           border-bottom: 2px solid #2778BE;
           /*对left属性过渡5秒*/
@@ -113,7 +122,8 @@
         }
       }
     }
-    .active2{
+
+    .active2 {
       color: #2572B5;
     }
   }
