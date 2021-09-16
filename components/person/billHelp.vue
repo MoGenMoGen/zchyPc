@@ -1,4 +1,5 @@
 <template>
+	<!-- 发票帮助中心 -->
   <div class="list-box">
     <p v-for="(item,idnex) in 20" :key="index">· 全额支付订单，没有发票，如何保修？</p>
   </div>

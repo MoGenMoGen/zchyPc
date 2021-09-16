@@ -1,5 +1,4 @@
 <template>
-  <!--  个人资料-->
   <div class="main">
     <div style="padding:0 30px">
       <tobbar :title="title" :showAll="false"></tobbar>
@@ -35,7 +34,7 @@
     components: {
       tobbar,
       billApply,
-      billApply,
+      billQua,
       billHelp
     },
     data() {

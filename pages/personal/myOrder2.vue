@@ -93,8 +93,8 @@
      </div>
      <div class="tableOrder">
        <div class="orderTitle">
-         <p>订单详情</p><p>规格型号</p><p>单价</p><p>数量</p>
-         <p>实付款</p><p>交易状态</p><p>交易操作</p>
+         <p>订单详情</p><p style="flex: 2;">规格型号</p><p>单价</p><p style="flex: 0.8;">数量</p><p style="flex: 0.8;">单位</p>
+         <p style="flex: 1.2;">实付款</p><p style="flex: 1.2;">交易状态</p><p>交易操作</p>
        </div>
        <div class="orderBox" v-for="item in tableData">
          <div class="boxHead">
@@ -108,7 +108,7 @@
                   <span style="color: #333333;">{{v.goodsNm }}</span>
                   <span style="color: #999999;">{{v.goodsSkuAttrNm}}</span>
                 </p>
-                <p style="color: #E4393C;">￥ {{v.goodsPrice}}</p><p>{{v.qty}}</p>
+                <p style="color: #E4393C;">￥ {{v.goodsPrice}}</p><p>{{v.qty}}</p><p>台</p>
              </div>
 
            </div>
@@ -817,7 +817,8 @@
         background-color: #F7F7F7;
         font-size: 16px;
         color: #666666;
-        padding: 22px 0;
+        padding: 22px 30px;
+        box-sizing: border-box;
         display: flex;
         justify-content: space-between;
         >p{
@@ -847,7 +848,7 @@
             border-bottom: 1px solid #E7E7E7;
           }
           .infoBox{
-            flex: 4;
+            flex: 5;
             display: flex;
             flex-direction: column;
             border-bottom: none;

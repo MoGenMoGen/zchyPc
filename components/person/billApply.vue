@@ -30,8 +30,8 @@
           <div>增值税发票</div>
           <div style="color: #E4393C;">未开票</div>
           <div class="btnList">
-            <el-button type="primary" size="small" plain v-if="false">申请发票</el-button>
-            <el-button size="small" v-if="true">发票详情</el-button>
+            <el-button type="primary" size="small" plain @click="toApply(1)">申请发票</el-button>
+            <el-button size="small" @click="toDetail(1)">发票详情</el-button>
           </div>
         </div>
       </div>
@@ -60,7 +60,12 @@
       }
     },
     methods: {
-
+      toApply(id) {
+        this.$router.push('./myBillApply?id='+id)
+      },
+      toDetail(id){
+        this.$router.push('./myBillDetail?id='+id)
+      }
     }
   }
 </script>
