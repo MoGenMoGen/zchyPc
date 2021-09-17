@@ -26,6 +26,7 @@
   import aM from "../../assets/img/personal/子账户维护.png"
   import qO from "../../assets/img/personal/快速下单.png"
   import bill from "../../assets/img/personal/发票.png"
+  import zgd from "../../assets/img/personal/整改单.png"
     export default {
         name: "leftMenu4",
       props:['cd','msgNum'],
@@ -43,7 +44,7 @@
               cd:'shipDetec'
             },{
               nm:'整改单',
-              img:mS,
+              img:zgd,
               title:[{
                 nm:'全部整改单',
                 cd:'rectification1',
