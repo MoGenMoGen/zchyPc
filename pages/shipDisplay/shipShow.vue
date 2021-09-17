@@ -22,7 +22,7 @@
           <div class="line2">
 <!--            <div class="line2-item" v-for="item in list" :key="item.id" @click="toDetail(item)" :style="{marginRight:width/24+'px',width:(width-width*4/24)/5+'px'}">-->
             <div class="line2-item" v-for="item in list" :key="item.id" @click="toDetail(item)" >
-               <div class="img" :style="{height: width*0.185*9/16 + 'px'}" ><img  :src="item.imgUrl"></div>
+               <div class="img" :style="{height: width*0.185*9/16 + 'px'}" ><img class="img1" :src="item.imgUrl" ><img class="img2" :src="VRImg" @click.stop="toVR"></div>
                <p>{{item.nm}}</p>
                <p>船型：{{item.totalLen}}m</p>
             </div>
@@ -34,10 +34,12 @@
 <script>
   import {mapState} from "vuex";
     import moreIc from '../../assets/img/shipDisplay/更多.png'
+    import VRImg from '../../assets/img/personal/VR.png'
     export default {
         name: "shipCat",
         data(){
             return{
+              VRImg,
               cId:'',
               cNm:'',
               cImg:'',
@@ -154,6 +156,9 @@
             }
           })
         },
+        toVR(){
+          alert("1123132")
+        }
       },
       computed: {
         ...mapState([
@@ -206,16 +211,23 @@
             margin-right: 0!important;
           }
           .img{
+            position: relative;
             display: flex;
             display: -webkit-flex;
             width: 100%;
             height: 100%;
-            img{
+            .img1{
               /*width: 100%;*/
               /*height: 100%;*/
 
               object-fit: cover;
             }
+            .img2{
+              position: absolute;
+              top: 0;
+              left: 0;
+            }
+
           }
           p:nth-of-type(1){
             margin-top: 14px;

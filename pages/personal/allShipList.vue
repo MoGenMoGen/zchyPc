@@ -76,7 +76,9 @@
       <div class="line4">
         <div v-for="item in list" :key="item.id">
           <p>{{item.cd}}</p>
-          <p>{{item.nm}}</p>
+          <p>{{item.nm}}
+          <img :src="VRImg" >
+          </p>
           <!--<p>￥{{item.totalPrice}} /艘</p>-->
           <p>{{item.statusNm}}</p>
           <p>{{item.deliveryTm}}</p>
@@ -111,6 +113,7 @@
     import deleteIc from '../../assets/img/personal/delete.png'
     import successIc from '../../assets/img/success.png'
     import shipNotice from "@/components/person/shipNotice"
+    import VRImg from '../../assets/img/personal/VR.png'
     export default {
         name: "allShip",
         components:{
@@ -119,7 +122,7 @@
         },
         data(){
             return{
-
+                VRImg,
                 searchIc,
                 deleteIc,
                 successIc,
@@ -398,11 +401,18 @@
         color: #333333;
         font-size: 15px;
         p:nth-of-type(1){
-          flex:1.2;
+          flex:0.9;
         }
         p:nth-of-type(2){
-          flex:1.5;
+          flex:2;
           padding-right: 10px;
+          display: flex;
+          align-items: center;
+          img{
+            width: 89px;
+            height: 28px;
+            margin-left: 9px;
+          }
         }
         /*p:nth-of-type(3){*/
           /*flex:1;*/

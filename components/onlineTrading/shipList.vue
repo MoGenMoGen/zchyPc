@@ -14,6 +14,7 @@
       <div class="left2">
         <p>{{item.nm}}</p>
         <img :src="item.used==1 ? tp1 : tp2" alt=""/>
+         <img :src="VRImg" style="margin-top: 10px;" >
       </div>
       <!--中部船舶属性-->
       <div class="mid">
@@ -41,6 +42,7 @@
   import {mapState} from "vuex";
   import tp1 from '@/assets/img/onlineTrade/新造船.png'
   import tp2 from '@/assets/img/onlineTrade/二手船.png'
+  import VRImg from '../../assets/img/personal/VR.png'
   export default {
       name: "shipList",
       props:['list'],
@@ -53,6 +55,7 @@
       },
       data(){
           return{
+            VRImg,
             tp1,
             tp2,
             shipList1:[{
