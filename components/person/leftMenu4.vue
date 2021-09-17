@@ -42,6 +42,18 @@
               href:'./shipDetec',
               cd:'shipDetec'
             },{
+              nm:'整改单',
+              img:mS,
+              title:[{
+                nm:'全部整改单',
+                cd:'rectification1',
+                href:'./rectification?cdType=1'
+              },{
+                nm:'新增整改单',
+                cd:'',
+                href:'./'
+              }],
+            },{
               nm:'我的合同',
               img:mC,
               title:[{

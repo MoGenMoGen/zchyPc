@@ -36,6 +36,26 @@
               href:'bid',
               cd:'bid'
             },{
+              nm:'整改单',
+              img:mS,
+              title:[{
+                nm:'全部整改单',
+                cd:'rectification1',
+                href:'./rectification?cdType=1'
+              },{
+                nm:'待执行',
+                cd:'rectification2',
+                href:'./rectification?cdType=2'
+              },{
+                nm:'待结案',
+                cd:'rectification3',
+                href:'./rectification?cdType=3'
+              },{
+                nm:'已完成',
+                cd:'rectification4',
+                href:'./rectification?cdType=4'
+              }],
+            },{
               nm:'我的船舶',
               img:mS,
               title:[{
