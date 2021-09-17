@@ -14,7 +14,7 @@
       </div>
       <div class="search">
         <p>查询</p>
-        <p>新增整改单</p>
+        <p @click="toAdd">新增整改单</p>
       </div>
     </div>
     <div class="line2">
@@ -87,7 +87,10 @@
           this.tabId = item.id
           this.$router.push('../personal/rectification?cdType=' + item.id)
         }
-      }
+      },
+	  toAdd() {
+		  this.$router.push('../personal/rectificationAdd')
+	  }
     },
   }
 </script>
