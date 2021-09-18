@@ -53,7 +53,7 @@
                 <p style="color: #E4393C;" v-if="v.goodsPrice!=price">￥ {{v.goodsPrice}}</p>
                <p style="color: #E4393C;" v-else>价格面议</p>
                <p>x{{v.qty}}</p>
-               <p>台</p>
+               <p>{{v.goodsUnit}}</p>
              </div>
            </div>
            <div style="color: #E4393C;"  v-if="item.itms[0].goodsPrice!=price">￥ {{item.orderPrice}}</div>

@@ -108,7 +108,7 @@
                   <span style="color: #333333;">{{v.goodsNm }}</span>
                   <span style="color: #999999;">{{v.goodsSkuAttrNm}}</span>
                 </p>
-                <p style="color: #E4393C;">￥ {{v.goodsPrice}}</p><p>{{v.qty}}</p><p>台</p>
+                <p style="color: #E4393C;">￥ {{v.goodsPrice}}</p><p>{{v.qty}}</p><p>{{v.goodsUnit}}</p>
              </div>
 
            </div>

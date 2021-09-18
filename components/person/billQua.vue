@@ -17,29 +17,31 @@
         <span>填写增票资质信息<span style="color: #E4393C;font-size: 14px;"> （所有信息均为必填）</span></span>
         <div></div>
       </div>
-      <div class="submit-item">
-        <span>单位名称：</span>
-        <el-input placeholder="请输入单位名称" v-model="unit" clearable></el-input>
-      </div>
-      <div class="submit-item">
-        <span>纳税人识别码：</span>
-        <el-input placeholder="请输入纳税人识别码" v-model="identifier" clearable></el-input>
-      </div>
-      <div class="submit-item">
-        <span>注册地址：</span>
-        <el-input placeholder="请输入注册地址" v-model="address" clearable></el-input>
-      </div>
-      <div class="submit-item">
-        <span>注册电话：</span>
-        <el-input placeholder="请输入注册电话" v-model="phone" clearable></el-input>
-      </div>
-      <div class="submit-item">
-        <span>开户银行：</span>
-        <el-input placeholder="请输入开户银行" v-model="bank" clearable></el-input>
-      </div>
-      <div class="submit-item">
-        <span>银行账户：</span>
-        <el-input placeholder="请输入银行账户" v-model="bankAccount" clearable></el-input>
+      <div class="submit-line">
+        <div class="submit-item">
+          <span>单位名称：</span>
+          <el-input placeholder="请输入单位名称" v-model="unit" clearable></el-input>
+        </div>
+        <div class="submit-item">
+          <span>纳税人识别码：</span>
+          <el-input placeholder="请输入纳税人识别码" v-model="identifier" clearable></el-input>
+        </div>
+        <div class="submit-item">
+          <span>注册地址：</span>
+          <el-input placeholder="请输入注册地址" v-model="address" clearable></el-input>
+        </div>
+        <div class="submit-item">
+          <span>注册电话：</span>
+          <el-input placeholder="请输入注册电话" v-model="phone" clearable></el-input>
+        </div>
+        <div class="submit-item">
+          <span>开户银行：</span>
+          <el-input placeholder="请输入开户银行" v-model="bank" clearable></el-input>
+        </div>
+        <div class="submit-item">
+          <span>银行账户：</span>
+          <el-input placeholder="请输入银行账户" v-model="bankAccount" clearable></el-input>
+        </div>
       </div>
       <div class="submit-item">
         <span></span>
@@ -48,8 +50,8 @@
       <div class="submit-item">
         <span></span>
         <div class="submit-btn">
-          <el-button type="primary" size="small" style="margin-right: 30px;" @click="submit">提交</el-button>
-          <el-button plain size="small" @click="cancel">取消</el-button>
+          <el-button type="primary" style="margin-right: 30px;" @click="submit">提交</el-button>
+          <el-button plain @click="cancel">取消</el-button>
         </div>
       </div>
     </div>
@@ -58,12 +60,14 @@
         <span>填写增票资质信息</span>
         <div></div>
       </div>
-      <p>单位名称：宁波聚联科技有限公司</p>
-      <p>纳税人识别码：91330212316963997H</p>
-      <p>注册地址：宁波市镇海区骆驼街道文成西路南侧</p>
-      <p>注册电话：0***********0</p>
-      <p>开户银行： 宁波银行总行</p>
-      <p>银行账户：1***************3</p>
+      <div class="submit-line">
+        <p>单位名称：宁波聚联科技有限公司</p>
+        <p>纳税人识别码：91330212316963997H</p>
+        <p>注册地址：宁波市镇海区骆驼街道文成西路南侧</p>
+        <p>注册电话：0***********0</p>
+        <p>开户银行： 宁波银行总行</p>
+        <p>银行账户：1***************3</p>
+      </div>
     </div>
     <div class="submit-box" v-if="audit==3&&isPass">
       <div class="submit-title">
@@ -72,7 +76,7 @@
         <span style="color: #2778BE;margin-left: 20px;cursor: pointer;" v-if="audit2==3" @click="update2">修改</span>
       </div>
       <div class="set-line" v-if="audit2==1">您还未设置收票地址：<div class="set-btn" @click="set()">立即设置</div></div>
-      <div v-if="audit2==2">
+      <div v-if="audit2==2" class="submit-line">
         <div class="submit-item">
           <span>收票人姓名：</span>
           <el-input placeholder="请输入收票人姓名" v-model="name" clearable></el-input>
@@ -92,12 +96,12 @@
         <div class="submit-item">
           <span></span>
           <div class="submit-btn">
-            <el-button type="primary" size="small" style="margin-right: 30px;" @click="submit2">提交</el-button>
-            <el-button plain size="small" @click="cancel2">取消</el-button>
+            <el-button type="primary" style="margin-right: 30px;" @click="submit2">提交</el-button>
+            <el-button plain @click="cancel2">取消</el-button>
           </div>
         </div>
       </div>
-      <div v-if="audit2==3&&isPass2">
+      <div v-if="audit2==3&&isPass2" class="submit-line">
         <p>收票人姓名： 李雯文</p>
         <p>收票人手机号：120****1230</p>
         <p>收票人省份：浙江宁波市镇海区骆驼街道</p>
@@ -252,6 +256,7 @@
       align-items: center;
       font-size: 16px;
       color: #333333;
+      margin-bottom: 30px;
       div {
         flex: 1;
         height: 1px;
@@ -260,28 +265,37 @@
         margin-top: 3px;
       }
     }
+    .submit-line {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      p {
+        width: 50%;
+        margin: 20px 0;
+        padding-left: 35px;
+        box-sizing: border-box;
+      }
+    }
     .submit-item {
-      width: 100%;
+      width: 48%;
       display: flex;
       align-items: center;
       font-size: 14px;
       color: #666;
-      margin: 20px 0;
+      margin: 10px 0;
       span {
-        width: 100px;
+        width: 120px;
       }
       .el-input {
-        width: 400px;
+        width: 300px;
       }
       .submit-btn {
         display: flex;
         align-items: center;
+        margin-top: 20px;
       }
     }
-    p {
-      margin: 20px 0;
-      padding-left: 35px;
-    }
+
     .set-line {
       margin: 20px 0;
       padding-left: 35px;

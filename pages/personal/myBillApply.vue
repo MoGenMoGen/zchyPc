@@ -9,35 +9,37 @@
         <span>电子发票信息</span>
         <div></div>
       </div>
-      <div class="submit-item">
-        <span>订单编号：</span>
-        <el-input v-model="id" disabled></el-input>
-      </div>
-      <div class="submit-item">
-        <span><span style="color: #E4393C;">*</span>发票类型：</span>
-        <el-select v-model="invoice" placeholder="请选择">
-          <el-option v-for="item in invoiceType" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-      </div>
-      <div class="submit-item">
-        <span>发票内容：</span>
-        <div class="submit-item-choose">
-          <div class="submit-item-choose-item" @click="chooseThis(index)" v-for="(item,index) in 2" :key="index" :class="{active:selectIndex==index}">商品明细</div>
+      <div class="submit-line">
+        <div class="submit-item">
+          <span>订单编号：</span>
+          <el-input v-model="id" disabled></el-input>
         </div>
-      </div>
-      <div class="submit-item">
-        <span><span style="color: #E4393C;">*</span>抬头类型：</span>
-        <el-select v-model="headUp" placeholder="请选择">
-          <el-option v-for="item in headUpType" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-      </div>
-      <div class="submit-item">
-        <span><span style="color: #E4393C;">*</span>单位名称：</span>
-        <el-input placeholder="请输入单位名称" v-model="unitName" clearable></el-input>
-      </div>
-      <div class="submit-item">
-        <span>发票税号：</span>
-        <el-input placeholder="请输入发票税号" v-model="invoiceTaxNumber" clearable></el-input>
+        <div class="submit-item">
+          <span><span style="color: #E4393C;">*</span>发票类型：</span>
+          <el-select v-model="invoice" placeholder="请选择">
+            <el-option v-for="item in invoiceType" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          </el-select>
+        </div>
+        <div class="submit-item">
+          <span>发票内容：</span>
+          <div class="submit-item-choose">
+            <div class="submit-item-choose-item" @click="chooseThis(index)" v-for="(item,index) in 2" :key="index" :class="{active:selectIndex==index}">商品明细</div>
+          </div>
+        </div>
+        <div class="submit-item">
+          <span><span style="color: #E4393C;">*</span>抬头类型：</span>
+          <el-select v-model="headUp" placeholder="请选择">
+            <el-option v-for="item in headUpType" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          </el-select>
+        </div>
+        <div class="submit-item">
+          <span><span style="color: #E4393C;">*</span>单位名称：</span>
+          <el-input placeholder="请输入单位名称" v-model="unitName" clearable></el-input>
+        </div>
+        <div class="submit-item">
+          <span>发票税号：</span>
+          <el-input placeholder="请输入发票税号" v-model="invoiceTaxNumber" clearable></el-input>
+        </div>
       </div>
 
     </div>
@@ -46,21 +48,23 @@
         <span>资质信息</span>
         <div></div>
       </div>
-      <div class="submit-item">
-        <span><span style="color: #E4393C;">*</span>注册地址：</span>
-        <el-input placeholder="请输入注册地址" v-model="address" clearable></el-input>
-      </div>
-      <div class="submit-item">
-        <span><span style="color: #E4393C;">*</span>注册电话：</span>
-        <el-input placeholder="请输入注册电话" v-model="address" clearable></el-input>
-      </div>
-      <div class="submit-item">
-        <span><span style="color: #E4393C;">*</span>开户银行：</span>
-        <el-input placeholder="请输入开户银行" v-model="address" clearable></el-input>
-      </div>
-      <div class="submit-item">
-        <span><span style="color: #E4393C;">*</span>银行账号：</span>
-        <el-input placeholder="请输入银行账号" v-model="address" clearable></el-input>
+      <div class="submit-line">
+        <div class="submit-item">
+          <span><span style="color: #E4393C;">*</span>注册地址：</span>
+          <el-input placeholder="请输入注册地址" v-model="address" clearable></el-input>
+        </div>
+        <div class="submit-item">
+          <span><span style="color: #E4393C;">*</span>注册电话：</span>
+          <el-input placeholder="请输入注册电话" v-model="address" clearable></el-input>
+        </div>
+        <div class="submit-item">
+          <span><span style="color: #E4393C;">*</span>开户银行：</span>
+          <el-input placeholder="请输入开户银行" v-model="address" clearable></el-input>
+        </div>
+        <div class="submit-item">
+          <span><span style="color: #E4393C;">*</span>银行账号：</span>
+          <el-input placeholder="请输入银行账号" v-model="address" clearable></el-input>
+        </div>
       </div>
     </div>
     <div class="submit-box">
@@ -68,21 +72,23 @@
         <span>收票信息</span>
         <div></div>
       </div>
-      <div class="submit-item">
-        <span><span style="color: #E4393C;">*</span>收票人姓名：</span>
-        <el-input placeholder="请输入收票人姓名" v-model="address" clearable></el-input>
-      </div>
-      <div class="submit-item">
-        <span><span style="color: #E4393C;">*</span>收票人手机号：</span>
-        <el-input placeholder="请输入收票人手机号" v-model="address" clearable></el-input>
-      </div>
-      <div class="submit-item">
-        <span><span style="color: #E4393C;">*</span>收票人地区：</span>
-        <el-input placeholder="请输入收票人地区" v-model="address" clearable></el-input>
-      </div>
-      <div class="submit-item">
-        <span><span style="color: #E4393C;">*</span>收票人地址：</span>
-        <el-input placeholder="请输入收票人地址" v-model="address" clearable></el-input>
+      <div class="submit-line">
+        <div class="submit-item">
+          <span><span style="color: #E4393C;">*</span>收票人姓名：</span>
+          <el-input placeholder="请输入收票人姓名" v-model="address" clearable></el-input>
+        </div>
+        <div class="submit-item">
+          <span><span style="color: #E4393C;">*</span>收票人手机号：</span>
+          <el-input placeholder="请输入收票人手机号" v-model="address" clearable></el-input>
+        </div>
+        <div class="submit-item">
+          <span><span style="color: #E4393C;">*</span>收票人地区：</span>
+          <el-input placeholder="请输入收票人地区" v-model="address" clearable></el-input>
+        </div>
+        <div class="submit-item">
+          <span><span style="color: #E4393C;">*</span>收票人地址：</span>
+          <el-input placeholder="请输入收票人地址" v-model="address" clearable></el-input>
+        </div>
       </div>
     </div>
     <div class="submit-box">
@@ -147,6 +153,9 @@
     methods: {
       chooseThis(index) {
         this.selectIndex = index
+      },
+      cancel() {
+        this.until.back()
       }
     },
   }
@@ -163,6 +172,7 @@
         align-items: center;
         font-size: 16px;
         color: #333333;
+        margin-bottom: 20px;
         div {
           flex: 1;
           height: 1px;
@@ -172,15 +182,20 @@
           margin-left: 10px;
         }
       }
+      .submit-line {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
       .submit-item {
-        width: 100%;
+        width: 48%;
         display: flex;
         align-items: center;
         font-size: 14px;
         color: #666;
-        margin: 30px 0;
+        margin: 10px 0;
         span {
-          width: 140px;
+          width: 120px;
         }
         .submit-item-choose {
           display: flex;
@@ -203,10 +218,10 @@
           }
         }
         .el-input {
-          width: 400px;
+          width: 300px;
         }
         .el-select {
-          width: 400px;
+          width: 300px;
         }
         .submit-btn {
           display: flex;
