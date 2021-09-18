@@ -77,7 +77,7 @@
         <div v-for="item in list" :key="item.id">
           <p>{{item.cd}}</p>
           <p>{{item.nm}}
-          <img :src="VRImg" >
+          <img :src="VRImg" style="cursor: pointer;">
           </p>
           <!--<p>￥{{item.totalPrice}} /艘</p>-->
           <p>{{item.statusNm}}</p>

@@ -343,6 +343,7 @@ export default {
     }
     .td {
       .border {
+        cursor: pointer;
         border-bottom: 1px solid #dfdfdf;
       }
     }

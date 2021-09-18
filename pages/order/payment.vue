@@ -54,6 +54,7 @@
             <p>产品属性</p>
             <p>单价</p>
             <p>数量</p>
+            <p>单位</p>
             <p>小计</p>
           </div>
         </div>
@@ -73,6 +74,7 @@
                     <p v-if="j.origPrice!=price">￥{{j.origPrice}}</p>
                     <p v-else>价格面议</p>
                     <p>{{j.qty}}</p>
+                    <p>{{j.skuUnitNm}}</p>
                     <p v-if="j.origPrice!=price">￥{{(j.qty *j.origPrice).toFixed(2)}}</p>
                     <p v-else>价格面议</p>
                   </div>
@@ -902,9 +904,16 @@
 
             }
 
+            /* 单位 */
+            p:nth-of-type(5) {
+              flex: 1.5;
+              text-align: center;
+
+            }
+
             /*小计*/
 
-            p:nth-of-type(5) {
+            p:nth-of-type(6) {
               margin-left: 30px;
               width: 60px;
               flex-shrink: 0;
@@ -981,8 +990,13 @@
                   flex: 1.5;
                   text-align: center;
                 }
-                /*小计*/
+                /*单位*/
                 p:nth-of-type(5) {
+                  flex: 1.5;
+                  text-align: center;
+                }
+                /*小计*/
+                p:nth-of-type(6) {
                   margin-left: 30px;
                   width: 60px;
                   flex-shrink: 0;

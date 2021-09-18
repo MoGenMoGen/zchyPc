@@ -557,7 +557,8 @@
             qty: this.num,
             gift:this.info.gift,
             giftItems:this.info.gifts,
-            leadTime:this.currentInfo.leadTime
+            leadTime:this.currentInfo.leadTime,
+            skuUnitNm:this.currentInfo.skuUnitNm
           }]
         }
         this.until.seSave('cartList', JSON.stringify(proArr))
