@@ -150,7 +150,7 @@ export default {
           unit2: "船级社检测机构",
           issuedate: " 2020-01-15",
           status: 1,
-          id:1,
+          id: 1,
         },
         {
           no: "ZG20210330002",
@@ -160,8 +160,7 @@ export default {
           unit2: "船级社检测机构",
           issuedate: " 2020-01-15",
           status: 2,
-          id:2,
-
+          id: 2,
         },
         {
           no: "ZG20210330003",
@@ -171,8 +170,7 @@ export default {
           unit2: "船级社检测机构",
           issuedate: " 2020-01-15",
           status: 3,
-          id:3,
-
+          id: 3,
         },
       ],
     };
@@ -201,12 +199,10 @@ export default {
     toAdd() {
       this.$router.push("../personal/rectificationAdd");
     },
-    toDetail(id){
-      this.$router.push("./rectificationDetail?id="+id);
-
+    toDetail(id) {
+      this.$router.push("./rectificationDetail?id=" + id);
     },
-    query() {
-    },
+    query() {},
     handleCurrentChange() {
       console.log(`当前页: ${val}`);
       this.currentPage3 = val;
@@ -341,18 +337,26 @@ export default {
         text-align: center;
       }
     }
+
     .td {
       .border {
         cursor: pointer;
         border-bottom: 1px solid #dfdfdf;
       }
-    }
 
+      .btm {
+        position: absolute;
+        width: 129px;
+        height: 100%;
+        border-bottom: 2px solid #2778be;
+        /*对left属性过渡5秒*/
+        transition: left 0.5s;
+      }
+    }
     .Footer {
-      margin-top: 40px;
-      width: 100%;
-      display: inline-flex;
+      display: flex;
       justify-content: center;
+      margin: 44px 0 20px;
     }
   }
 }
