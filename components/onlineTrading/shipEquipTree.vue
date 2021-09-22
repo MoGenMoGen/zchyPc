@@ -56,7 +56,7 @@
                width="80">
              </el-table-column>
              <el-table-column
-               prop="unitNm"
+               prop="unit"
                label="单位"
                align="center"
                width="100">
