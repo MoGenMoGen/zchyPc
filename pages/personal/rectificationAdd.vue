@@ -4,7 +4,7 @@
       <tobbar :title="title" :showAll="false"></tobbar>
     </div>
     <p style="border-bottom: 1px solid rgba(0,0,0,0.1);"></p>
-    <div class="body" v-if="nextShow==false">
+    <div class="body" v-show="nextShow==false">
       <div class="head">
         <span>新增整改单</span>
         <div class="line">
@@ -88,27 +88,52 @@
           </div>
         </div>
         <div class="listContent">
-          <div class="listLeft">
+          <div class="listLeft" style="margin-bottom: 73px;">
             <span>*</span>
             隐患图片:
           </div>
-          <div class="listRight">
-            <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card"
+          <div class="listRight" style="width: 80%;">
+          <!--  <el-upload action="/general/oss/upload" list-type="picture-card"
               :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
               <i class="el-icon-plus"></i>
             </el-upload>
             <el-dialog :visible.sync="dialogVisible">
               <img width="100%" :src="dialogImageUrl" alt="">
-            </el-dialog>
+            </el-dialog> -->
+             <el-form :model="form">
+                <el-form-item  style="margin-bottom: -20px;">
+                  <el-upload
+                    ref="upload"
+                    action="/general/oss/upload"
+                    accept="image/png,image/gif,image/jpg,image/jpeg"
+                    list-type="picture-card"
+
+                    :auto-upload="false"
+
+                    :before-upload="handleBeforeUpload"
+                    :on-preview="handlePictureCardPreview"
+                    :on-remove="handleRemove"
+                     :on-success="handSuccess">
+
+                    <i class="el-icon-plus"></i>
+                  </el-upload>
+                  <el-dialog :visible.sync="dialogVisible" >
+                    <img width="100%" :src="dialogImageUrl" alt="">
+                  </el-dialog>
+                </el-form-item>
+                <el-form-item>
+                <div class="btn"style="margin-top:30px; margin-left: 0;" >
+                  <button type="button" class="next" @click="nextTo">下一步</button>
+                  <button type="button" class="cancel"@click="cancel">取消</button>
+                </div>
+                </el-form-item>
+              </el-form>
           </div>
         </div>
-        <div class="btn">
-          <button type="button" class="next" @click="nextTo">下一步</button>
-          <button type="button" class="cancel"@click="cancel">取消</button>
-        </div>
+
       </div>
     </div>
-    <div class="body" v-if="nextShow==true">
+    <div class="body" v-show="nextShow==true">
       <div class="head">
         <span>安全隐患整改通知单</span>
         <div class="line">
@@ -178,20 +203,7 @@
                     <textarea rows="" cols="" placeholder="请输入复查情况" v-model="reviewSituation"></textarea>
                   </div>
                 </div>
-                <div class="listContent" style="align-items: flex-start;">
-                  <div class="listLeft">
-                    隐患图片：
-                  </div>
-                  <div class="listRight">
-                      <div class="img" style="width: 148px; height: 148px;">
-                          <img src="../settleIn/component/img/yyzz.png" style="width: 100%;height: 100%;" >
-                      </div>
-                  </div>
-                </div>
-                <div class="btn">
-                  <button type="button" class="next" @click="submit">完成</button>
-                  <button type="button" class="cancel" @click="backTo">上一步</button>
-                </div>
+
 
             </div>
             <div style="width: 48%;">
@@ -232,14 +244,30 @@
                   <div class="listLeft">
                     复查人签字：
                   </div>
+
+
                   <div class="listRight">
                      <input type="" name="" id="" value="" placeholder="请签字" />
                   </div>
                 </div>
 
             </div>
-         </div>
 
+         </div>
+          <div class="listContent" style="align-items: flex-start;width: 100%;">
+            <div class="listLeft">
+              隐患图片：
+            </div>
+            <div class="listRight" style="width: 80%;">
+                <div class="img" style="display: flex;flex-wrap: wrap;" v-viewer>
+                    <img :src="item" style="width:  148px;height: 148px;margin-right: 10px;margin-bottom: 10px; " v-for="(item,index) in imgList" :key="index">
+                </div>
+            </div>
+          </div>
+          <div class="btn" style="padding-bottom: 20px;">
+            <button type="button" class="next" @click="submit">完成</button>
+            <button type="button" class="cancel" @click="backTo">上一步</button>
+          </div>
       </div>
     </div>
   </div>
@@ -258,6 +286,11 @@
     },
     data() {
       return {
+        dialogImageUrl: '',
+        dialogVisible: false,
+        formLabelWidth: '80px',
+
+        form: {},
         info:{
 
         },
@@ -325,7 +358,8 @@
         rectificationCompany:'',//整改单位
         dangerDescription:'',//隐患说明
         requirement:'',//整改要求
-        people:""//责任整改人
+        people:"",//责任整改人
+        imgList:[]
 
       }
     },
@@ -339,15 +373,54 @@
     watch: {
     },
     methods: {
+         handleBeforeUpload(file){
+            console.log('before')
+            if(!(file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/jpg' || file.type === 'image/jpeg')) {
+              this.$notify.warning({
+                title: '警告',
+                message: '请上传格式为image/png, image/gif, image/jpg, image/jpeg的图片'
+              })
+            }
+            let size = file.size / 1024 / 1024 / 2
+            if(size > 2) {
+              this.$notify.warning({
+                title: '警告',
+                message: '图片大小必须小于2M'
+              })
+            }
+          },
       handleRemove(file, fileList) {
+        this.imgList=[]
+        
+        for(let i=0;i<fileList.length;i++){
+        
+          this.imgList.push(fileList[i].response.data)
+        }
         console.log(file, fileList);
       },
       handlePictureCardPreview(file) {
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
       },
+        // uploadFile() {
+
+        //     this.$refs.upload.submit()
+        //   },
+          handSuccess(response, file, fileList){
+            this.imgList=[]
+
+            for(let i=0;i<fileList.length;i++){
+
+              this.imgList.push(fileList[i].response.data)
+            }
+
+console.log("姚峰是猪",file,fileList,this.imgList);
+          },
       nextTo() {
+         this.$refs.upload.submit()
+
         this.nextShow = true
+
       },
       cancel(){
         this.until.back()
