@@ -19,7 +19,7 @@
                 整改名称:
               </div>
               <div class="listRight">
-                <input type="" name="" id="" value="" placeholder="请输入整改名称" />
+                <input type="" name="" id="" value="" placeholder="请输入整改名称" v-model="rectificationName" />
               </div>
             </div>
             <div class="listContent">
@@ -28,8 +28,8 @@
                 整改单位:
               </div>
               <div class="listRight">
-                <el-select v-model="value" clearable filterable placeholder="请选择整改单位">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                <el-select v-model="rectificationCompany" clearable filterable placeholder="请选择整改单位">
+                  <el-option v-for="item in options" :key="item.label" :label="item.label" :value="item.label">
                   </el-option>
                 </el-select>
               </div>
@@ -49,8 +49,8 @@
                 责任整改人:
               </div>
               <div class="listRight">
-                <el-select v-model="value2" clearable filterable placeholder="请选择整改人">
-                  <el-option v-for="item in optionsTwo" :key="item.value" :label="item.label" :value="item.value">
+                <el-select v-model="people" clearable filterable placeholder="请选择整改人">
+                  <el-option v-for="item in optionsTwo" :key="item.label" :label="item.label" :value="item.label">
                   </el-option>
                 </el-select>
               </div>
@@ -73,7 +73,7 @@
                 隐患说明:
               </div>
               <div class="listRight">
-                <textarea rows="" cols="" placeholder="请输入隐患说明"></textarea>
+                <textarea rows="" cols="" placeholder="请输入隐患说明" v-model="dangerDescription"></textarea>
               </div>
             </div>
             <div class="listContent" style="align-items: flex-start;">
@@ -82,7 +82,7 @@
                 整改要求:
               </div>
               <div class="listRight">
-                <textarea rows="" cols="" placeholder="请输入整改要求"></textarea>
+                <textarea rows="" cols="" placeholder="请输入整改要求" v-model="requirement"></textarea>
               </div>
             </div>
           </div>
@@ -104,7 +104,7 @@
         </div>
         <div class="btn">
           <button type="button" class="next" @click="nextTo">下一步</button>
-          <button type="button" class="cancel">取消</button>
+          <button type="button" class="cancel"@click="cancel">取消</button>
         </div>
       </div>
     </div>
@@ -112,7 +112,134 @@
       <div class="head">
         <span>安全隐患整改通知单</span>
         <div class="line">
+
         </div>
+      </div>
+      <div class="list">
+         <div class="" style="display: flex;">
+            <div style="width: 48%;">
+                <div class="listContent">
+                  <div class="listLeft">
+                    整改单号：
+                  </div>
+                  <div class="listRight">
+                      {{danhao}}
+                  </div>
+                </div>
+                <div class="listContent">
+                  <div class="listLeft">
+                    整改单位：
+                  </div>
+                  <div class="listRight">
+                      {{rectificationCompany}}
+                  </div>
+                </div>
+                <div class="listContent">
+                  <div class="listLeft">
+                    整改要求：
+                  </div>
+                  <div class="listRight">
+                      {{requirement}}
+                  </div>
+                </div>
+                <div class="listContent">
+                  <div class="listLeft">
+                    整改责任人签字：
+                  </div>
+                  <div class="listRight">
+                     <input type="" name="" id="" value="" placeholder="请签字" />
+                  </div>
+                </div>
+                <div class="listContent">
+                  <div class="listLeft">
+                    复查日期：
+                  </div>
+                  <div class="listRight">
+                      <el-date-picker v-model="reviewTime" type="date" placeholder="选择复查日期">
+                      </el-date-picker>
+                  </div>
+                </div>
+                <div class="listContent">
+                  <div class="listLeft">
+                    检验检测单位：
+                  </div>
+                  <div class="listRight">
+                   <el-select v-model="mechanism" clearable filterable placeholder="请选择检验检测机构">
+                     <el-option v-for="item in optionsThree" :key="item.label" :label="item.label" :value="item.label">
+                     </el-option>
+                   </el-select>
+                  </div>
+                </div>
+                <div class="listContent" style="align-items: flex-start;">
+                  <div class="listLeft" style="line-height: 40px;">
+                    复查情况:
+                  </div>
+                  <div class="listRight">
+                    <textarea rows="" cols="" placeholder="请输入复查情况" v-model="reviewSituation"></textarea>
+                  </div>
+                </div>
+                <div class="listContent" style="align-items: flex-start;">
+                  <div class="listLeft">
+                    隐患图片：
+                  </div>
+                  <div class="listRight">
+                      <div class="img" style="width: 148px; height: 148px;">
+                          <img src="../settleIn/component/img/yyzz.png" style="width: 100%;height: 100%;" >
+                      </div>
+                  </div>
+                </div>
+                <div class="btn">
+                  <button type="button" class="next" @click="submit">完成</button>
+                  <button type="button" class="cancel" @click="backTo">上一步</button>
+                </div>
+
+            </div>
+            <div style="width: 48%;">
+                <div class="listContent">
+                  <div class="listLeft">
+                    整改名称：
+                  </div>
+                  <div class="listRight">
+                      {{rectificationName}}
+                  </div>
+                </div>
+                <div class="listContent">
+                  <div class="listLeft">
+                  隐患说明：
+                  </div>
+                  <div class="listRight">
+                      {{dangerDescription}}
+                  </div>
+                </div>
+                <div class="listContent">
+                  <div class="listLeft">
+                    责任整改人：
+                  </div>
+                  <div class="listRight">
+                      {{people}}
+                  </div>
+                </div>
+                <div class="listContent">
+                  <div class="listLeft">
+                    整改日期：
+                  </div>
+                  <div class="listRight">
+                      <el-date-picker v-model="rectifyTime" type="date" placeholder="选择复查日期">
+                      </el-date-picker>
+                  </div>
+                </div>
+                <div class="listContent">
+                  <div class="listLeft">
+                    复查人签字：
+                  </div>
+                  <div class="listRight">
+                     <input type="" name="" id="" value="" placeholder="请签字" />
+                  </div>
+                </div>
+
+            </div>
+         </div>
+
       </div>
     </div>
   </div>
@@ -131,6 +258,10 @@
     },
     data() {
       return {
+        info:{
+
+        },
+        danhao:"ZG20210330001",
         title: '整改单',
         value: "",
         value2: "",
@@ -169,7 +300,33 @@
         }, {
           value: '选项5',
           label: '北京烤鸭'
-        }]
+        }],
+        optionsThree: [{
+          value: '选项1',
+          label: '姚峰'
+        }, {
+          value: '选项2',
+          label: '250'
+        }, {
+          value: '选项3',
+          label: '摩根'
+        }, {
+          value: '选项4',
+          label: '龙须面'
+        }, {
+          value: '选项5',
+          label: '北京烤鸭'
+        }],
+        reviewSituation:"",//复查情况
+        mechanism:"",//检验检测机构
+        reviewTime:'',//复查日期
+        rectifyTime:'',//整改日期
+        rectificationName:'',//整改名称
+        rectificationCompany:'',//整改单位
+        dangerDescription:'',//隐患说明
+        requirement:'',//整改要求
+        people:""//责任整改人
+
       }
     },
     layout: 'person',
@@ -191,6 +348,15 @@
       },
       nextTo() {
         this.nextShow = true
+      },
+      cancel(){
+        this.until.back()
+      },
+      backTo(){
+        this.nextShow=false
+      },
+      submit(){
+      this.until.back()
       }
     },
   }
@@ -227,11 +393,14 @@
           .listLeft {
             font-size: 14px;
             font-weight: 400;
-            width: 88px;
+            width: 114px;
             span {
               color: #E4393C;
             }
+
           }
+
+
           .listRight {
             .el-select {
               width: 277px;
@@ -242,6 +411,10 @@
               font-family: Microsoft YaHei;
               font-weight: 400;
               color: #999999;
+            }
+            /deep/.el-input--suffix .el-input__inner{
+              font-size: 12px;
+              color: black;
             }
             .el-input {
               width: 277px;
@@ -296,6 +469,7 @@
             border-radius: 4px;
             font-size: 16px;
             color: #ffffff;
+            cursor: pointer;
           }
           .cancel {
             width: 86px;
@@ -306,6 +480,7 @@
             font-size: 16px;
             color: #999999;
             margin-left: 30px;
+            cursor: pointer;
           }
         }
       }
