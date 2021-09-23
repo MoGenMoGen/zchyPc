@@ -9,13 +9,15 @@
         <img :src="im1">
         <img :src="im2" class="steps-line">
         <img :src="im1">
-        <img :src="im2" class="steps-line">
-        <img :src="im1">
+        <img :src="im2" class="steps-line" v-if="isOver">
+        <img :src="im1" v-if="isOver">
+        <img :src="im4" class="steps-line" v-if="!isOver">
+        <img :src="im3" v-if="!isOver">
       </div>
       <div class="steps-p">
         <p>订单下单</p>
         <p>订单完成</p>
-        <p>发票开局</p>
+        <p>发票开具</p>
       </div>
     </div>
     <div class="table-box">
@@ -34,25 +36,26 @@
       </div>
       <div class="table-item">
         <span>发票类型</span>
-        <span>电子普通发票</span>
+        <span v-show="isOver">电子普通发票</span>
       </div>
     </div>
     <div class="table-box">
       <div class="table-title">发票信息</div>
       <div class="table-item">
         <span>发票状态</span>
-        <span style="color: #42AB3C;">已开票</span>
+        <span style="color: #42AB3C;" v-if="isOver">已开票</span>
+        <span style="color: #F56C6C;" v-if="!isOver">未开票</span>
       </div>
-      <div class="table-item">
+      <div class="table-item" v-if="isOver">
         <span>发票内容</span>
         <span>商品明细</span>
       </div>
-      <div class="table-item">
+      <div class="table-item" v-if="isOver">
         <span>发票抬头</span>
         <span>个人</span>
       </div>
     </div>
-    <div class="table-box2">
+    <div class="table-box2" v-if="isOver">
       <div class="table-title">
         <p>发票代码</p>
         <p>发票号码</p>
@@ -66,7 +69,7 @@
         <div style="cursor: pointer;" @click="downLoadImg()"><img :src="download" class="download">下载发票</div>
       </div>
     </div>
-    <div class="set-btn">发送邮箱</div>
+    <div class="set-btn" v-if="isOver">发送邮箱</div>
   </div>
 </template>
 
@@ -74,6 +77,8 @@
   import tobbar from "../../components/person/tobbar";
   import im1 from "../../assets/img/personal/勾选.png";
   import im2 from "../../assets/img/personal/进度.png";
+  import im3 from "../../assets/img/personal/灰钩.png";
+  import im4 from "../../assets/img/personal/箭头.png";
   import download from "../../assets/img/personal/下载.png";
   import {
     mapState
@@ -87,9 +92,12 @@
       return {
         im1,
         im2,
+        im3,
+        im4,
         download,
         title: '发票详情',
-        id: ''
+        id: '',
+        isOver: true
       }
     },
     layout: 'person',
@@ -178,7 +186,7 @@
           box-sizing: border-box;
         }
       }
-      .table-item:first-child {
+      .table-item:last-child {
         border-bottom: none;
       }
     }
