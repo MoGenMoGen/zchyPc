@@ -24,7 +24,7 @@
             style="width: 386px; margin-top: 30px"
           ></el-input>
           <el-upload
-            style="margin-top: 20px"
+            style="margin-top: 20px;"
             ref="upload"
             action="/general/oss/upload"
             accept="image/png,image/gif,image/jpg,image/jpeg"
@@ -37,7 +37,7 @@
           >
             <i class="el-icon-plus"></i>
           </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
+          <el-dialog :visible.sync="dialogVisible" :modal-append-to-body="false">
             <img width="100%" :src="dialogImageUrl" alt="" />
           </el-dialog>
           <div class="btn">
@@ -309,6 +309,7 @@ export default {
       }
     },
     handleRemove(file, fileList) {
+      console.log(2222,fileList);
       this.info.Issuepiclist = [];
 
       for (let i = 0; i < fileList.length; i++) {
@@ -321,10 +322,11 @@ export default {
       this.dialogVisible = true;
     },
     handSuccess(response, file, fileList) {
+      console.log(1324,fileList);
       this.info.Issuepiclist = [];
 
       for (let i = 0; i < fileList.length; i++) {
-        this.info.info.Issuepiclist.push(fileList[i].response.data);
+        this.info.Issuepiclist.push(fileList[i].response.data);
       }
     },
     handleconfirmIssue(){
@@ -333,7 +335,9 @@ export default {
   },
 };
 </script>
+<style lang="less" scoped>
 
+</style>
 <style scoped lang="less">
 .main {
   width: 100%;
@@ -348,7 +352,7 @@ export default {
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 500;
+    z-index: 1;
     display: flex;
     justify-content: center;
     align-items: center;
