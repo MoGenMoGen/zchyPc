@@ -362,13 +362,13 @@
         },
         //申请开票
         toInvoice(item){
-          this.invoiceId = item.id
-          let arr = []
-          item.itms.forEach(v=>{
-            arr.push(v.goodsNm)
-          })
-          this.invoiceProNm = arr.join('/')
-
+          // this.invoiceId = item.id
+          // let arr = []
+          // item.itms.forEach(v=>{
+          //   arr.push(v.goodsNm)
+          // })
+          // this.invoiceProNm = arr.join('/')
+          this.$router.push('./myBillApply?id='+item.id)
         },
         //开票成功
         invoiceConfirm(){

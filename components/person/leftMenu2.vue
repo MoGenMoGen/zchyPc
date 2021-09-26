@@ -122,23 +122,23 @@
                 href:'./pswAlter'
               }],
             },
-            // {
-            //   nm:'我的发票',
-            //   img:bill,
-            //   title:[{
-            //     nm:'申请发票',
-            //     cd:'myBill1',
-            //     href:'./myBill?cdType=1'
-            //   },{
-            //     nm:'增票资质',
-            //     cd:'myBill2',
-            //     href:'./myBill?cdType=2'
-            //   },{
-            //     nm:'发票帮助中心',
-            //     cd:'myBill3',
-            //     href:'./myBill?cdType=3'
-            //   }],
-            // },
+            {
+              nm:'我的发票',
+              img:bill,
+              title:[{
+                nm:'申请发票',
+                cd:'myBill1',
+                href:'./myBill?cdType=1'
+              },{
+                nm:'增票资质',
+                cd:'myBill2',
+                href:'./myBill?cdType=2'
+              },{
+                nm:'发票帮助中心',
+                cd:'myBill3',
+                href:'./myBill?cdType=3'
+              }],
+            },
             {
               nm:'快速下单',
               img:qO,

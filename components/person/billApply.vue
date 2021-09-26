@@ -1,37 +1,40 @@
 <template>
   <div>
     <div class="top-img">
-      <img :src="ts">
+      <img :src="imgUrl">
     </div>
     <div class="tableOrder">
       <div class="orderTitle">
         <p>订单详情</p>
         <p style="flex:2">规格型号</p>
         <p>数量</p>
-        <p>发票类型</p>
+        <!-- <p>发票类型</p> -->
         <p>状态</p>
         <p>操作</p>
       </div>
-      <div class="orderBox" v-for="item in 3">
+      <div class="orderBox" v-for="item in list">
         <div class="boxHead">
-          <span>2020-10-12  08:20:11</span><span>订单号：20201012082011</span><span>中创海洋旗舰店</span>
+          <span>{{item.crtTm}}</span><span>订单号：{{item.orderCd}}</span><span>{{item.shopNm}}</span>
         </div>
         <div class="boxBodyer">
           <div class="infoBox">
-            <div v-for="v in 3">
-              <p v-show="true"><img :src="ts"></p>
+            <div v-for="v in item.itms">
+              <p v-show="true"><img :src="v.goodsImgUrl"></p>
               <p class="nmBox" :style="true?'flex: 3;':'flex: 4;'">
-                <span style="color: #333333;">水下推进器 Lefeet S1r 浮潜工具潜水工具</span>
-                <span style="color: #999999;">颜色：红色 规格：s</span>
+                <span style="color: #333333;">{{v.goodsNm}}</span>
+                <span style="color: #999999;">{{v.goodsSkuAttrNm}}</span>
               </p>
-              <p>x 1</p>
+              <p>x {{v.qty}}</p>
             </div>
           </div>
-          <div>增值税发票</div>
-          <div style="color: #E4393C;">未开票</div>
+          <!-- <div>增值税发票</div> -->
+          <div style="color: #E4393C;" v-if="item.invoiceType==0">未开票</div>
+          <div style="color: #E4393C;" v-if="item.invoiceType==1">已提交开票申请</div>
+          <div style="color: #E4393C;" v-if="item.invoiceType==2">部分开票</div>
+          <div v-if="item.invoiceType==3">已开票</div>
           <div class="btnList">
-            <el-button type="primary" size="small" plain @click="toApply(1)">申请发票</el-button>
-            <el-button size="small" @click="toDetail(1)">发票详情</el-button>
+            <el-button type="primary" size="small" plain @click="toApply(item.id,item.orderCd)" v-if="item.invoiceType!=3">申请发票</el-button>
+            <el-button size="small" @click="toDetail(item.orderCd)" v-if="item.invoiceType!=0&&item.invoiceType!=1">发票详情</el-button>
           </div>
         </div>
       </div>
@@ -45,7 +48,6 @@
 </template>
 
 <script>
-  import ts from "../../assets/img/personal/提示2.png";
   export default {
     name: "billApply",
     props: {
@@ -53,19 +55,40 @@
     },
     data() {
       return {
-        ts,
+        imgUrl: '',
         currentPage1: 1,      //前往哪页
         pageSize:4,       //每页数量
         total:0,         //总数
+        list: []
       }
     },
+    mounted() {
+      this.api.getAdert('billAd').then(res => {
+        this.imgUrl=res[0].imgUrl
+      })
+      this.getList()
+    },
     methods: {
-      toApply(id) {
-        this.$router.push('./myBillApply?id='+id)
+      getList() {
+        let qry = this.query.new()
+        this.query.toP(qry,this.currentPage1,this.pageSize)
+        this.query.toO(qry,'crtTm','desc')
+        this.api.myOrderP(this.query.toEncode(qry)).then(res => {
+          this.total=res.page.total
+          this.list = res.data.list
+        })
+      },
+      toApply(id,cd) {
+        this.$router.push(`./myBillApply?id=${id}&orderCd=${cd}`)
       },
       toDetail(id){
         this.$router.push('./myBillDetail?id='+id)
-      }
+      },
+      handleCurrentChange(val){
+        this.currentPage1=val
+        this.list=[]
+        this.getList()
+      },
     }
   }
 </script>

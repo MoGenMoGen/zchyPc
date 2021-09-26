@@ -2,17 +2,17 @@
   <!-- 增票资质 -->
   <div>
     <div class="top-img">
-      <img :src="ts">
+      <img :src="imgUrl">
     </div>
-    <div class="tip-box" v-if="audit!=2">
+    <div class="tip-box" v-show="audit!=2">
       <span>您的增票资质：</span>
-      <span style="color: #909090;" v-if="!isPass">未添加</span>
-      <span style="color: #529F2D;" v-if="isPass">已通过审核</span>
-      <p class="add-btn" v-if="!isPass" @click="addQua">添加增票资质</p>
-      <p class="upd-btn" v-if="isPass" @click="update">修改</p>
-      <p class="del-btn" v-if="isPass" @click="del">删除</p>
+      <span style="color: #909090;" v-show="!isPass">未添加</span>
+      <span v-show="isPass">已添加</span>
+      <p class="add-btn" v-show="!isPass" @click="addQua">添加增票资质</p>
+      <p class="upd-btn" v-show="isPass" @click="update">修改</p>
+      <p class="del-btn" v-show="isPass" @click="del">删除</p>
     </div>
-    <div class="submit-box" v-if="audit==2">
+    <div class="submit-box" v-show="audit==2">
       <div class="submit-title">
         <span>填写增票资质信息<span style="color: #E4393C;font-size: 14px;"> （所有信息均为必填）</span></span>
         <div></div>
@@ -20,27 +20,27 @@
       <div class="submit-line">
         <div class="submit-item">
           <span>单位名称：</span>
-          <el-input placeholder="请输入单位名称" v-model="unit" clearable></el-input>
+          <el-input placeholder="请输入单位名称" v-model="info.nm" clearable></el-input>
         </div>
         <div class="submit-item">
           <span>纳税人识别码：</span>
-          <el-input placeholder="请输入纳税人识别码" v-model="identifier" clearable></el-input>
+          <el-input placeholder="请输入纳税人识别码" v-model="info.taxNum" clearable></el-input>
         </div>
         <div class="submit-item">
           <span>注册地址：</span>
-          <el-input placeholder="请输入注册地址" v-model="address" clearable></el-input>
+          <el-input placeholder="请输入注册地址" v-model="info.address" clearable></el-input>
         </div>
         <div class="submit-item">
           <span>注册电话：</span>
-          <el-input placeholder="请输入注册电话" v-model="phone" clearable></el-input>
+          <el-input placeholder="请输入注册电话" v-model="info.tel" clearable></el-input>
         </div>
         <div class="submit-item">
           <span>开户银行：</span>
-          <el-input placeholder="请输入开户银行" v-model="bank" clearable></el-input>
+          <el-input placeholder="请输入开户银行" v-model="info.bank" clearable></el-input>
         </div>
         <div class="submit-item">
           <span>银行账户：</span>
-          <el-input placeholder="请输入银行账户" v-model="bankAccount" clearable></el-input>
+          <el-input placeholder="请输入银行账户" v-model="info.account" clearable></el-input>
         </div>
       </div>
       <div class="submit-item">
@@ -61,38 +61,44 @@
         <div></div>
       </div>
       <div class="submit-line">
-        <p>单位名称：宁波聚联科技有限公司</p>
-        <p>纳税人识别码：91330212316963997H</p>
-        <p>注册地址：宁波市镇海区骆驼街道文成西路南侧</p>
-        <p>注册电话：0***********0</p>
-        <p>开户银行： 宁波银行总行</p>
-        <p>银行账户：1***************3</p>
+        <p>单位名称：{{info.nm}}</p>
+        <p>纳税人识别码：{{info.taxNum}}</p>
+        <p>注册地址：{{info.address}}</p>
+        <p>注册电话：{{phone}}</p>
+        <p>开户银行：{{info.bank}}</p>
+        <p>银行账户：{{account}}</p>
       </div>
     </div>
-    <div class="submit-box" v-if="audit==3&&isPass">
+    <div class="submit-box" v-show="audit==3&&isPass">
       <div class="submit-title">
         <span>增票收票地址</span>
         <div></div>
-        <span style="color: #2778BE;margin-left: 20px;cursor: pointer;" v-if="audit2==3" @click="update2">修改</span>
+        <span style="color: #2778BE;margin-left: 20px;cursor: pointer;" v-show="audit2==3" @click="update2">修改</span>
       </div>
-      <div class="set-line" v-if="audit2==1">您还未设置收票地址：<div class="set-btn" @click="set()">立即设置</div></div>
-      <div v-if="audit2==2" class="submit-line">
+      <div class="set-line" v-show="audit2==1">您还未设置收票地址：<div class="set-btn" @click="set()">立即设置</div></div>
+      <div v-show="audit2==2" class="submit-line">
         <div class="submit-item">
           <span>收票人姓名：</span>
-          <el-input placeholder="请输入收票人姓名" v-model="name" clearable></el-input>
+          <el-input placeholder="请输入收票人姓名" v-model="recInfo.linkman" clearable></el-input>
         </div>
         <div class="submit-item">
           <span>收票人手机号：</span>
-          <el-input placeholder="请输入收票人手机号" v-model="mob" clearable></el-input>
+          <el-input placeholder="请输入收票人手机号" v-model="recInfo.phone" clearable></el-input>
         </div>
         <div class="submit-item">
-          <span>收票人省份：</span>
-          <el-input placeholder="请输入收票人省份" v-model="province" clearable></el-input>
+          <span>收票人地区：</span>
+          <addr @changeAddr="changeAddr" ref="addrChoose" style="width: 300px;"></addr>
         </div>
         <div class="submit-item">
           <span>收票人地址：</span>
-          <el-input placeholder="请输入收票人地址" v-model="address2" clearable></el-input>
+          <el-input placeholder="请输入收票人地址" v-model="recInfo.addrDetail" clearable></el-input>
         </div>
+        <div class="submit-item">
+          <span>收票人邮箱：</span>
+          <el-input placeholder="请输入收票人邮箱" v-model="recInfo.email" clearable></el-input>
+        </div>
+      </div>
+      <div v-show="audit2==2" class="submit-line">
         <div class="submit-item">
           <span></span>
           <div class="submit-btn">
@@ -102,17 +108,21 @@
         </div>
       </div>
       <div v-if="audit2==3&&isPass2" class="submit-line">
-        <p>收票人姓名： 李雯文</p>
-        <p>收票人手机号：120****1230</p>
-        <p>收票人省份：浙江宁波市镇海区骆驼街道</p>
-        <p>收票人地址：329创业社区212室</p>
+        <p>收票人姓名： {{recInfo.linkman}}</p>
+        <p>收票人手机号：{{phone2}}</p>
+        <p>收票人地区：{{recInfo.addrNm}}</p>
+        <p>收票人地址：{{recInfo.addrDetail}}</p>
+        <p>收票人邮箱：{{recInfo.email}}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import ts from "../../assets/img/personal/提示1.png";
+  import addr from "../addr.vue";
+  import {
+    mapState
+  } from "vuex";
   export default {
     name: "billQua",
     props: {
@@ -120,23 +130,51 @@
     },
     data() {
       return {
-        ts,
+        imgUrl: '',
         isPass:false,
-        audit:1, //1未审核，2审核中（填写或修改），3审核通过
-        unit: '',
-        identifier: '',
-        address: '',
+        audit:1, //1未填写，2填写中（填写或修改），3填写完成
+        info: {
+          orgEnterId: '',
+          nm: "", //名字
+          taxNum: "", //税号
+          tel: "", //电话号码
+          address: "", //地址
+          bank: "", //开户行
+          account: "", //账户
+        },
+        recInfo: {
+          orgEnterId: '', //机构id
+          linkman: "", //联系人
+          phone: "", //联系电话
+          addrNm: "", //地址名称
+          addrDetail: "", //发票寄送地址
+          email: "", //电子邮箱，比如 example@qq.com
+        },
         phone: '',
-        bank: '',
-        bankAccount: '',
+        account: '',
+        id: '',
+        phone2: '',
         checked: false,
         isPass2: false,
-        audit2: 1, //1未审核，2审核中（填写或修改），3审核通过
-        name: '',
-        mob: '',
-        province: '',
-        address2: ''
+        audit2: 1, //1未填写，2填写中（填写或修改），3填写完成
+        currentRole: ''
       }
+    },
+    mounted() {
+      this.api.getAdert('billAd').then(res => {
+        this.imgUrl=res[1].imgUrl
+      })
+      this.currentRole=JSON.parse(this.until.seGet('currentRole'))
+      this.getInfo()
+      this.$refs.addrChoose.getProvice()
+    },
+    computed: {
+      ...mapState([
+        'currentRole'
+      ])
+    },
+    components: {
+      addr
     },
     methods: {
       addQua() {
@@ -151,21 +189,76 @@
         }
       },
       submit() {
-        this.$message({
-          message:'增票资质添加成功！',
-          type: 'success'
-        })
-        this.audit = 3
-        this.isPass = true
+        this.info.orgEnterId = this.currentRole.id
+        if(this.info.nm=='') {
+          this.$message.error('请输入单位名称');
+          return
+        }
+        if(this.info.taxNum=='') {
+          this.$message.error('请输入纳税人识别码');
+          return
+        }
+        if(this.info.address=='') {
+          this.$message.error('请输入注册地址');
+          return
+        }
+        if(this.reg.checkPhone(this.info.tel)!='ok') {
+          this.$message.error(this.reg.checkPhone(this.info.tel));
+          return
+        }
+        if(this.info.bank=='') {
+          this.$message.error('请输入开户银行');
+          return
+        }
+        if(this.info.account=='') {
+          this.$message.error('请输入银行账户');
+          return
+        }
+        if(!this.checked) {
+          this.$message.error('请阅读并同意《增票资质确认书》');
+          return
+        }
+        if(!this.isPass) {
+          this.api.qualiAdd(this.info).then(res => {
+            if(res.msg=='成功') {
+              this.$message({
+                message:'增票资质添加成功！',
+                type: 'success'
+              })
+              this.audit = 3
+              this.isPass = true
+              this.getInfo()
+            }
+          })
+        } else {
+          this.api.qualiUpd(this.info).then(res => {
+            if(res.msg=='成功') {
+              this.$message({
+                message:'增票资质修改成功！',
+                type: 'success'
+              })
+              this.audit = 3
+              this.getInfo()
+            }
+          })
+        }
       },
       update() {
         this.audit = 2
       },
       del() {
-        this.audit = 1
-        this.audit2 = 1
-        this.isPass = false
-        this.isPass2 = false
+        this.api.qualiDel({ids:this.id}).then(res => {
+          if(res.msg=='成功') {
+            this.$message({
+              message:'增票资质删除成功！',
+              type: 'success'
+            })
+            this.audit = 1
+            this.audit2 = 1
+            this.isPass = false
+            this.isPass2 = false
+          }
+        })
       },
       set() {
         this.audit2 = 2
@@ -178,11 +271,91 @@
         }
       },
       submit2() {
-        this.audit2 = 3
-        this.isPass2 = true
+        this.recInfo.orgEnterId = this.currentRole.id
+        if(this.recInfo.linkman=='') {
+          this.$message.error('请输入收票人姓名');
+          return
+        }
+        if(this.reg.checkPhone(this.recInfo.phone)!='ok') {
+          this.$message.error(this.reg.checkPhone(this.recInfo.phone));
+          return
+        }
+        if(this.recInfo.addrNm=='') {
+          this.$message.error('请选择收票人地区');
+          return
+        }
+        if(this.recInfo.addrDetail=='') {
+          this.$message.error('请输入收票人地址');
+          return
+        }
+        if(this.reg.checkMail(this.recInfo.email)!='ok') {
+          this.$message.error(this.reg.checkMail(this.recInfo.email));
+          return
+        }
+        if(!this.isPass2) {
+          this.api.qualiAddrAdd(this.recInfo).then(res => {
+            if(res.msg=='成功') {
+              this.$message({
+                message:'收票地址设置成功！',
+                type: 'success'
+              })
+              this.audit2 = 3
+              this.isPass2 = true
+            }
+          })
+        } else {
+          this.api.qualiAddrUpd(this.recInfo).then(res => {
+            if(res.msg=='成功') {
+              this.$message({
+                message:'收票地址修改成功！',
+                type: 'success'
+              })
+              this.audit2 = 3
+            }
+          })
+        }
       },
       update2() {
         this.audit2 = 2
+      },
+      //获取地区信息
+      changeAddr(info){
+          let data = JSON.parse(info)
+          this.recInfo.addrNm = data.province+'-'+data.city+'-'+data.region
+      },
+      getInfo() {
+        let param={
+          orgEnterId:this.currentRole.id
+        }
+        this.api.getQualiInfo(param).then(res => {
+          if(res.data) {
+            this.audit=3
+            this.isPass = true
+            this.info = res.data
+            this.id = res.data.id
+            this.phone = this.info.tel.replace(/.(?=.{4})/g, '*')
+            this.account = this.info.account.replace(/.(?=.{4})/g, '*')
+            this.getRecInfo()
+          } else {
+            this.audit=1
+          }
+        })
+      },
+      getRecInfo() {
+        let param={
+          orgEnterId:this.currentRole.id
+        }
+        this.api.getQualiAddrInfo(param).then(res => {
+          if(res.data.list.length>0) {
+            this.audit2 = 3
+            this.isPass2 = true
+            this.recInfo = res.data.list[0]
+            this.phone2 = this.recInfo.phone.replace(/.(?=.{4})/g, '*')
+            this.$refs.addrChoose.getProvice(this.recInfo.addrNm)
+          } else {
+            this.audit2 = 1
+          }
+        })
       }
     }
   }

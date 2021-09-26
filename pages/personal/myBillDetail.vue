@@ -34,10 +34,6 @@
         <span>下单时间</span>
         <span> 2021-06-20  12:00:20</span>
       </div>
-      <div class="table-item">
-        <span>发票类型</span>
-        <span v-show="isOver">电子普通发票</span>
-      </div>
     </div>
     <div class="table-box">
       <div class="table-title">发票信息</div>
@@ -46,10 +42,14 @@
         <span style="color: #42AB3C;" v-if="isOver">已开票</span>
         <span style="color: #F56C6C;" v-if="!isOver">未开票</span>
       </div>
-      <div class="table-item" v-if="isOver">
+      <!-- <div class="table-item" v-if="isOver">
         <span>发票内容</span>
         <span>商品明细</span>
-      </div>
+      </div> -->
+	  <div class="table-item" v-show="isOver">
+	    <span>发票类型</span>
+	    <span>电子普通发票</span>
+	  </div>
       <div class="table-item" v-if="isOver">
         <span>发票抬头</span>
         <span>个人</span>
@@ -65,11 +65,12 @@
       <div class="table-item">
         <div>0330021110211</div>
         <div>42815277</div>
-        <div><img src="" class="erCode"></div>
+        <div><vue-qr text="01,10,131880930821,82139728,98.23,20210926,75208378462510177130,882D," :size="200"></vue-qr></div>
         <div style="cursor: pointer;" @click="downLoadImg()"><img :src="download" class="download">下载发票</div>
       </div>
     </div>
     <div class="set-btn" v-if="isOver">发送邮箱</div>
+	<div class="set-btn" v-if="!isOver">申请开票</div>
   </div>
 </template>
 
@@ -80,13 +81,14 @@
   import im3 from "../../assets/img/personal/灰钩.png";
   import im4 from "../../assets/img/personal/箭头.png";
   import download from "../../assets/img/personal/下载.png";
+  import vueQr from 'vue-qr'
   import {
     mapState
   } from "vuex";
   export default {
     name: "allShip",
     components: {
-      tobbar
+      tobbar,vueQr
     },
     data() {
       return {
@@ -104,6 +106,9 @@
     async mounted() {
       this.id = this.until.getQueryString('id')
       console.log(this.id)
+      this.api.getInvoiceResult({orderNo:id}).then(res => {
+        console.log(res)
+      })
     },
     computed: {
       ...mapState([
