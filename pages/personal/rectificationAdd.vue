@@ -195,14 +195,14 @@
                    </el-select>
                   </div>
                 </div>
-                <div class="listContent" style="align-items: flex-start;">
+          <!--      <div class="listContent" style="align-items: flex-start;">
                   <div class="listLeft" style="line-height: 40px;">
                     复查情况:
                   </div>
                   <div class="listRight">
                     <textarea rows="" cols="" placeholder="请输入复查情况" v-model="reviewSituation"></textarea>
                   </div>
-                </div>
+                </div> -->
 
 
             </div>
@@ -231,7 +231,7 @@
                       {{people}}
                   </div>
                 </div>
-                <div class="listContent">
+            <!--    <div class="listContent">
                   <div class="listLeft">
                     整改日期：
                   </div>
@@ -239,7 +239,7 @@
                       <el-date-picker v-model="rectifyTime" type="date" placeholder="选择复查日期">
                       </el-date-picker>
                   </div>
-                </div>
+                </div> -->
                 <div class="listContent">
                   <div class="listLeft">
                     复查人签字：
@@ -493,7 +493,7 @@ console.log("姚峰是猪",file,fileList,this.imgList);
           this.$message.error('整改要求未填');
           return false
         }
-        if(!this.imgList){
+        if(this.imgList==[]){
           this.$message.error('隐患图片未选');
           return false
         }
@@ -521,14 +521,8 @@ console.log("姚峰是猪",file,fileList,this.imgList);
           this.$message.error('检验检测单位未选');
           return false
         }
-        if(this.reviewSituation==''){
-          this.$message.error('复查情况未填');
-          return false
-        }
-        if(this.rectifyTime==''){
-          this.$message.error('整改日期未选');
-          return false
-        }
+      
+   
         if(this.reviewerSign==''){
           this.$message.error('复查人未签字');
           return false
@@ -546,7 +540,7 @@ console.log("姚峰是猪",file,fileList,this.imgList);
          rectifyDemand:this.requirement,
          troubleImg:this.imgList.join(","),
          rectifyerSign:this.rectifyerSign,
-         rectifyTm:this.rectifyTime,
+       
          rectifyTmLimit:this.pickTime,
          reviewerTm:this.reviewTime,
          reviewerSign:this.reviewerSign,
