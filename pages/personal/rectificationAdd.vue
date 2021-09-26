@@ -520,10 +520,7 @@ console.log("姚峰是猪",file,fileList,this.imgList);
           this.$message.error('复查日期未选');
           return false
         }
-        if(this.mechanism==''){
-          this.$message.error('检验检测单位未选');
-          return false
-        }
+     
 
 
         if(this.reviewerSign==''){

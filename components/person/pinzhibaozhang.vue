@@ -390,6 +390,7 @@
       },
       imgSuccess(res,file,fileList)
       {
+        console.log(fileList);
         this.temporaryimg=fileList
         this.imgInfo=[]
         for(let i=0;i<fileList.length;i++)
