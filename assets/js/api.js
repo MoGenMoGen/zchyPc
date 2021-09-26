@@ -2480,7 +2480,38 @@ class api {
       })
     })
   }
-
+  //获取整改单号
+  getCd(){
+	  return new Promise(resolve => {
+	    get("/ship/docsRectify/apis/getCd").then(res=>{
+	      resolve(res.data)
+	    })
+	  })
+  }
+  //获取整改单位
+  getRecitifyList(query){
+    return new Promise(resolve => {
+      get('/ship/orgEnter/api/list?query='+query).then(res=>{
+        resolve(res)
+      })
+    })
+  }
+  //获取整改单位人员列表
+  getRecitifyPeople(query){
+    return new Promise(resolve => {
+      get('/ship/memberOrgEnterLink/api/listA?query='+query).then(res=>{
+        resolve(res)
+      })
+    })
+  }
+  //新增整改单
+  rectifyAdd(data){
+    return new Promise(resolve => {
+      post('/ship/docsRectify/apis/add',data).then(res=>{
+        resolve(res)
+      })
+    })
+  }
 }
 
 export { api,hostUrl };

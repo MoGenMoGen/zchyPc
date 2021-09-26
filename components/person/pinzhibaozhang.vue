@@ -46,26 +46,19 @@
           上传附件：
         </div>
         <div class="listContent">
-          <el-upload action="#" list-type="picture-card" :auto-upload="false" ref="pictureUpload">
-            <i slot="default" class="el-icon-plus"></i>
-            <div slot="file" slot-scope="{file}">
-              <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
-              <span class="el-upload-list__item-actions">
-                <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
-                  <i class="el-icon-zoom-in"></i>
-                </span>
-                <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleDownload(file)">
-                  <i class="el-icon-download"></i>
-                </span>
-                <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleRemove(file)">
-                  <i class="el-icon-delete"></i>
-                </span>
-              </span>
-            </div>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt="">
-          </el-dialog>
+          <el-form :model="form">
+            <el-form-item>
+              <el-upload ref="upload" action="/general/oss/upload" accept="image/png,image/gif,image/jpg,image/jpeg"
+                list-type="picture-card" :auto-upload="false" :before-upload="handleBeforeUpload"
+                :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :on-success="imgSuccess" :before-remove="removeBefore">
+                <i class="el-icon-plus"></i>
+              </el-upload>
+              <el-dialog :visible.sync="dialogVisible">
+                <img width="100%" :src="dialogImageUrl" alt="">
+              </el-dialog>
+            </el-form-item>
+
+          </el-form>
         </div>
       </div>
       <div class="list">
@@ -73,26 +66,17 @@
           上传文档：
         </div>
         <div class="listContent">
-          <el-upload action="#" list-type="picture-card" :auto-upload="false" ref="pictureUpload">
-            <i slot="default" class="el-icon-plus"></i>
-            <div slot="file" slot-scope="{file}">
-              <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
-              <span class="el-upload-list__item-actions">
-                <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
-                  <i class="el-icon-zoom-in"></i>
-                </span>
-                <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleDownload(file)">
-                  <i class="el-icon-download"></i>
-                </span>
-                <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleRemove(file)">
-                  <i class="el-icon-delete"></i>
-                </span>
-              </span>
-            </div>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt="">
-          </el-dialog>
+          <el-form :model="formTwo">
+            <el-form-item>
+              <el-upload ref="uploadExcel" action="/general/oss/upload" :auto-upload="false"
+                :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess"
+                :on-error="handleError" :file-list="fileInfo" :on-preview="HandFilePreView">
+                <el-button size="small" plain>选择文件</el-button>
+
+              </el-upload>
+            </el-form-item>
+
+          </el-form>
         </div>
       </div>
       <div class="list">
@@ -100,12 +84,12 @@
 
         </div>
         <div class="listContent">
-          <button type="button" cover="point">保存</button>
+          <button type="button" cover="point" @click="save">保存</button>
         </div>
       </div>
     </div>
     <div class="content" v-for="(item,index) in contentList" :key="index">
-      <div class="contentHead" >
+      <div class="contentHead">
         <img :src="arrowDown" class="down" :class="item.flag==true?'rotate':''">
         <div class="left">
           第{{index+1}}期(检验时间：{{item.time}})
@@ -129,7 +113,7 @@
 
       </div>
       <div class="contentBodyTwo" v-if="item.isFinish=='审核中'" :class="item.flag==true?'active':''">
-        <el-upload action="#" list-type="picture-card" :auto-upload="false" ref="pictureUpload">
+        <!--  <el-upload action="#" list-type="picture-card" :auto-upload="false" ref="pictureUpload">
           <i slot="default" class="el-icon-plus"></i>
           <div slot="file" slot-scope="{file}">
             <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
@@ -148,7 +132,7 @@
         </el-upload>
         <el-dialog :visible.sync="dialogVisible">
           <img width="100%" :src="dialogImageUrl" alt="">
-        </el-dialog>
+        </el-dialog> -->
       </div>
     </div>
     <!-- <div class="jianzaoBox"> -->
@@ -251,20 +235,28 @@
     name: "fangansheji",
     data() {
       return {
-        currentIndex:-1,
+
         dialogImageUrl: '',
         dialogVisible: false,
+        formLabelWidth: '80px',
+        limitNum: 3,
+        form: {},
+        formTwo: {
+          file: ''
+        },
+        imgInfo: [],
+        currentIndex: -1,
         disabled: false,
-        fileList: [],
+        fileInfo: [],
         contentList: [{
             time: "2020-04-16",
             isFinish: "完成检验",
-            flag:false
+            flag: false
           },
           {
             time: "2020-04-19",
             isFinish: "审核中",
-            flag:false
+            flag: false
           }
         ],
         pickerOptions: {
@@ -303,6 +295,7 @@
         shipCd: "",
         shipStatus: "",
         list: [],
+        temporaryimg:[],
         info: {},
         currentRole: {},
         options: [], //分类
@@ -349,22 +342,98 @@
 
     },
     methods: {
-      showDetail(item)
-      {
-       item.flag=!item.flag
+      handleBeforeUpload(file) {
+        console.log('before')
+        if (!(file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/jpg' || file.type ===
+            'image/jpeg')) {
+          this.$notify.warning({
+            title: '警告',
+            message: '请上传格式为image/png, image/gif, image/jpg, image/jpeg的图片'
+          })
+        }
+        let size = file.size / 1024 / 1024 / 2
+        if (size > 2) {
+          this.$notify.warning({
+            title: '警告',
+            message: '图片大小必须小于2M'
+          })
+        }
+      },
+      removeBefore(file,fileList){
+        this.temporaryimg=fileList
       },
       handleRemove(file, fileList) {
-        console.log(file);
-        this.$refs.pictureUpload.handleRemov
-        e(file)
-
+        this.fileInfo=[]
+        
+        // for(let i=0;i<fileList.length;i++)
+        // {
+        //   console.log(123,fileList[i]);
+        //   this.fileInfo.push(fileList[i].response.data)
+        // }
+        console.log(file, fileList);
       },
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl =   file.url;
+        this.dialogVisible = true;
+      },
+
+      fileChange(file, fileList) {
+        console.log('change')
+        console.log(file)
+        this.form.file = file.raw
+        console.log(this.form.file)
+        console.log(fileList)
+      },
+      imgSuccess(res,file,fileList)
+      {
+        this.temporaryimg=fileList
+        this.imgInfo=[]
+        for(let i=0;i<fileList.length;i++)
+        {
+          this.imgInfo.push(fileList[i].response.data)
+        }
+        console.log("图片",this.imgInfo);
+      },
+      handleSuccess(res, file, fileList) {
+
+        this.fileInfo=[]
+        for(let i=0;i<fileList.length;i++)
+        {
+          this.fileInfo.push(fileList[i].response.data)
+        }
+        console.log("文件",this.fileInfo);
+
+        // this.$notify.success({
+        //   title: '成功',
+        //   message: `文件上传成功`
+        // });
+      },
+      handleError(err, file, fileList) {
+        this.$notify.error({
+          title: '错误',
+          message: `文件上传失败`
+        });
+      },
+
+
+      showDetail(item) {
+        item.flag = !item.flag
+      },
+      HandFilePreView(file){
+        console.log(file);
+      },
+
       handlePictureCardPreview(file) {
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
       },
       handleDownload(file) {
         console.log(file);
+      },
+      save()
+      {
+        this.$refs.upload.submit()
+         this.$refs.uploadExcel.submit()
       },
       async getDic() {
         this.options = await this.api.dataDictionary('DOCS_SURVEY_CYCLE')
@@ -623,8 +692,9 @@
 
   .content {
     margin-bottom: 20px;
+
     .contentHead {
-      width: 914px;
+      width: 100%;
       height: 40px;
       background: #F7F7F7;
       border: 1px solid #EEEEEE;
@@ -634,20 +704,22 @@
       box-sizing: border-box;
       padding: 0 28px;
       position: relative;
-      .down{
+
+      .down {
         width: 13px;
         height: 7px;
         position: absolute;
         right: 10px;
-        top:45%;
+        top: 45%;
         transform: translateY(-60%);
-       transition: 0.5s;
-        transform:rotate(0deg);
-      }
-      .rotate{
-        transform:rotate(180deg);
         transition: 0.5s;
-         // transform-origin: top center;
+        transform: rotate(0deg);
+      }
+
+      .rotate {
+        transform: rotate(180deg);
+        transition: 0.5s;
+        // transform-origin: top center;
       }
 
       .left {
@@ -657,14 +729,15 @@
 
 
       }
-      .right{
+
+      .right {
         cursor: pointer;
       }
     }
 
     .contentBody {
       padding: 29px 19px;
-        display: none;
+      display: none;
 
 
       .titleone {
@@ -692,10 +765,11 @@
     .contentBodyTwo {
       padding: 29px 19px;
       min-height: 220px;
-       display: none;
+      display: none;
       border: 1px solid #EEEEEE;
     }
-    .active{
+
+    .active {
       display: block;
 
     }

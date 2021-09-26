@@ -1,5 +1,6 @@
 let hostUrl = 'https://www.ship88.cn'
-//测试服务器
+
+// let hostUrl = 'http://kprrmf.natappfree.cc'//测试服务器
 // let hostUrl = "http://47.101.191.248"
 // let hostUrl = "http://sin.jinkworld.com"
 

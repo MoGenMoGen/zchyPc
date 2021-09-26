@@ -28,8 +28,8 @@
                 整改单位:
               </div>
               <div class="listRight">
-                <el-select v-model="rectificationCompany" clearable filterable placeholder="请选择整改单位">
-                  <el-option v-for="item in options" :key="item.label" :label="item.label" :value="item.label">
+                <el-select v-model="rectificationCompany" clearable filterable placeholder="请选择整改单位" @change="pick1">
+                  <el-option v-for="(item,index) in options" :key="index" :label="item.company" :value="index" >
                   </el-option>
                 </el-select>
               </div>
@@ -40,7 +40,7 @@
                 检查区域:
               </div>
               <div class="listRight">
-                <input type="" name="" id="" value="" placeholder="请输入检查区域" />
+                <input type="" name="" id="" value="" placeholder="请输入检查区域" v-model="inspArea"/>
               </div>
             </div>
             <div class="listContent">
@@ -49,8 +49,8 @@
                 责任整改人:
               </div>
               <div class="listRight">
-                <el-select v-model="people" clearable filterable placeholder="请选择整改人">
-                  <el-option v-for="item in optionsTwo" :key="item.label" :label="item.label" :value="item.label">
+                <el-select v-model="people" clearable filterable placeholder="请选择整改人" @change="pick3">
+                  <el-option v-for="(item,index) in optionsTwo" :key="index" :label="item.realNm" :value="index">
                   </el-option>
                 </el-select>
               </div>
@@ -172,7 +172,7 @@
                     整改责任人签字：
                   </div>
                   <div class="listRight">
-                     <input type="" name="" id="" value="" placeholder="请签字" />
+                     <input type="" name="" id="" value="" placeholder="请签字" v-model="rectifyerSign"/>
                   </div>
                 </div>
                 <div class="listContent">
@@ -189,8 +189,8 @@
                     检验检测单位：
                   </div>
                   <div class="listRight">
-                   <el-select v-model="mechanism" clearable filterable placeholder="请选择检验检测机构">
-                     <el-option v-for="item in optionsThree" :key="item.label" :label="item.label" :value="item.label">
+                   <el-select v-model="mechanism" clearable filterable placeholder="请选择检验检测机构" @change="pick2">
+                     <el-option v-for="item in optionsThree" :key="item.id" :label="item.company" :value="item.id">
                      </el-option>
                    </el-select>
                   </div>
@@ -247,7 +247,7 @@
 
 
                   <div class="listRight">
-                     <input type="" name="" id="" value="" placeholder="请签字" />
+                     <input type="" name="" id="" value="" placeholder="请签字" v-model="reviewerSign"/>
                   </div>
                 </div>
 
@@ -294,12 +294,17 @@
         info:{
 
         },
+        inspArea:"",
+
         danhao:"ZG20210330001",
         title: '整改单',
         value: "",
         value2: "",
         pickTime: "",
+        rectifyerSign:'',
+        reviewerSign:"",
         dialogImageUrl: '',
+        rectifyer:'',
         nextShow: false,
         dialogVisible: false,
         options: [{
@@ -352,10 +357,13 @@
         }],
         reviewSituation:"",//复查情况
         mechanism:"",//检验检测机构
+        mechanismId:'',
+
         reviewTime:'',//复查日期
         rectifyTime:'',//整改日期
         rectificationName:'',//整改名称
         rectificationCompany:'',//整改单位
+        rectificationCompanyId:'',
         dangerDescription:'',//隐患说明
         requirement:'',//整改要求
         people:"",//责任整改人
@@ -364,7 +372,25 @@
       }
     },
     layout: 'person',
-    async mounted() {},
+    async mounted() {
+      this.api.getCd().then(res=>{
+         this.danhao=res
+      })
+      let qry1=this.query.new()
+      let qry3=this.query.new()
+      this.query.toW(qry1,'identityCd','identity30','EQ')
+         this.query.toW(qry1,'audit','2','EQ')
+        this.query.toW(qry3,'identityCd','identity50','EQ')
+         this.query.toW(qry3,'audit','2','EQ')
+      this.api.getRecitifyList(this.query.toEncode(qry1)).then(res=>{
+          this.options=res.data.list
+          console.log("看一看",this.options);
+      })
+      this.api.getRecitifyList(this.query.toEncode(qry3)).then(res=>{
+          this.optionsThree=res.data.list
+      })
+
+    },
     computed: {
       ...mapState([
         'currentRole'
@@ -373,6 +399,26 @@
     watch: {
     },
     methods: {
+      pick1(index){
+        console.log(123,index);
+        this.rectificationCompanyId=this.options[index].id
+        this.rectificationCompany=this.options[index].company
+        let qry2=this.query.new()
+          this.query.toW(qry2,'orgEnterId',this.options[index].id,'EQ')
+          this.api.getRecitifyPeople(this.query.toEncode(qry2)).then(res=>{
+
+            this.optionsTwo=res.data.list
+            console.log(789,this.optionsTwo);
+          })
+      },
+      pick2(id){
+        this.mechanismId=id
+      },
+      pick3(index){
+        this.rectifyer=this.optionsTwo[index].id
+        this.people=this.optionsTwo[index].realNm
+
+      },
          handleBeforeUpload(file){
             console.log('before')
             if(!(file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/jpg' || file.type === 'image/jpeg')) {
@@ -391,12 +437,13 @@
           },
       handleRemove(file, fileList) {
         this.imgList=[]
-        
+        this.$refs.upload.submit()
+        console.log(file, fileList);
         for(let i=0;i<fileList.length;i++){
-        
+
           this.imgList.push(fileList[i].response.data)
         }
-        console.log(file, fileList);
+
       },
       handlePictureCardPreview(file) {
         this.dialogImageUrl = file.url;
@@ -417,6 +464,39 @@
 console.log("姚峰是猪",file,fileList,this.imgList);
           },
       nextTo() {
+        if(this.rectificationName==''){
+            this.$message.error('整改名称未填');
+            return false
+        }
+        if(this.rectificationCompany==''){
+         this.$message.error('整改单位未选');
+         return false
+        }
+        if(this.inspArea==''){
+          this.$message.error('检查区域未填');
+          return false
+        }
+        if(this.people=='')
+        {
+          this.$message.error('整改人未选');
+          return false
+        }
+        if(this.pickTime==''){
+          this.$message.error('整改期限未选');
+          return false
+        }
+        if(this.dangerDescription==''){
+          this.$message.error('隐患说明未填');
+          return false
+        }
+        if(this.requirement==''){
+          this.$message.error('整改要求未填');
+          return false
+        }
+        if(!this.imgList){
+          this.$message.error('隐患图片未选');
+          return false
+        }
          this.$refs.upload.submit()
 
         this.nextShow = true
@@ -429,7 +509,54 @@ console.log("姚峰是猪",file,fileList,this.imgList);
         this.nextShow=false
       },
       submit(){
-      this.until.back()
+        if(this.rectifyerSign==''){
+          this.$message.error('整改责任人未签字');
+          return false
+        }
+        if(this.reviewTime==''){
+          this.$message.error('复查日期未选');
+          return false
+        }
+        if(this.mechanism==''){
+          this.$message.error('检验检测单位未选');
+          return false
+        }
+        if(this.reviewSituation==''){
+          this.$message.error('复查情况未填');
+          return false
+        }
+        if(this.rectifyTime==''){
+          this.$message.error('整改日期未选');
+          return false
+        }
+        if(this.reviewerSign==''){
+          this.$message.error('复查人未签字');
+          return false
+        }
+        
+       let info={
+         docsId:0,
+         cd:this.danhao,
+         nm:this.rectificationName,
+         orgEnterId:this.rectificationCompanyId,
+         orgTestEnterId:this.mechanismId,
+         inspArea:this.inspArea,
+         rectifyer:this.rectifyer,
+         explains:this.dangerDescription,
+         rectifyDemand:this.requirement,
+         troubleImg:this.imgList.join(","),
+         rectifyerSign:this.rectifyerSign,
+         rectifyTm:this.rectifyTime,
+         rectifyTmLimit:this.pickTime,
+         reviewerTm:this.reviewTime,
+         reviewerSign:this.reviewerSign,
+         rmks:"",
+       }
+       this.api.rectifyAdd(info).then(res=>{
+         console.log(res);
+           this.until.back()
+       })
+
       }
     },
   }
