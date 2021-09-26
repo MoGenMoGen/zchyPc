@@ -50,7 +50,7 @@
             <el-form-item>
               <el-upload ref="upload" action="/general/oss/upload" accept="image/png,image/gif,image/jpg,image/jpeg"
                 list-type="picture-card" :auto-upload="false" :before-upload="handleBeforeUpload"
-                :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :on-success="imgSuccess" :before-remove="removeBefore">
+                :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :on-success="imgSuccess" >
                 <i class="el-icon-plus"></i>
               </el-upload>
               <el-dialog :visible.sync="dialogVisible">
@@ -69,7 +69,7 @@
           <el-form :model="formTwo">
             <el-form-item>
               <el-upload ref="uploadExcel" action="/general/oss/upload" :auto-upload="false"
-                :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess"
+                 :on-change="fileChange" :on-success="handleSuccess"
                 :on-error="handleError" :file-list="fileInfo" :on-preview="HandFilePreView">
                 <el-button size="small" plain>选择文件</el-button>
 
@@ -359,12 +359,16 @@
           })
         }
       },
-      removeBefore(file,fileList){
-        this.temporaryimg=fileList
-      },
+
       handleRemove(file, fileList) {
         this.fileInfo=[]
-        
+        console.log("qian",this.temporaryimg);
+        for(let i=0;i<this.temporaryimg.length;i++){
+          if(file.uid==this.temporaryimg[i].uid){
+            this.imgInfo.splice(i,1)
+          }
+        }
+        console.log("kan",this.imgInfo);
         // for(let i=0;i<fileList.length;i++)
         // {
         //   console.log(123,fileList[i]);

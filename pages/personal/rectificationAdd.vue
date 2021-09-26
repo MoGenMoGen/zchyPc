@@ -184,7 +184,7 @@
                       </el-date-picker>
                   </div>
                 </div>
-                <div class="listContent">
+              <!--  <div class="listContent">
                   <div class="listLeft">
                     检验检测单位：
                   </div>
@@ -194,7 +194,7 @@
                      </el-option>
                    </el-select>
                   </div>
-                </div>
+                </div> -->
           <!--      <div class="listContent" style="align-items: flex-start;">
                   <div class="listLeft" style="line-height: 40px;">
                     复查情况:
@@ -367,7 +367,9 @@
         dangerDescription:'',//隐患说明
         requirement:'',//整改要求
         people:"",//责任整改人
-        imgList:[]
+        imgList:[],
+        id:'',
+
 
       }
     },
@@ -376,6 +378,7 @@
       this.api.getCd().then(res=>{
          this.danhao=res
       })
+      this.id=this.currentRole.id
       let qry1=this.query.new()
       let qry3=this.query.new()
       this.query.toW(qry1,'identityCd','identity30','EQ')
@@ -411,9 +414,9 @@
             console.log(789,this.optionsTwo);
           })
       },
-      pick2(id){
-        this.mechanismId=id
-      },
+      // pick2(id){
+      //   this.mechanismId=id
+      // },
       pick3(index){
         this.rectifyer=this.optionsTwo[index].id
         this.people=this.optionsTwo[index].realNm
@@ -521,26 +524,26 @@ console.log("姚峰是猪",file,fileList,this.imgList);
           this.$message.error('检验检测单位未选');
           return false
         }
-      
-   
+
+
         if(this.reviewerSign==''){
           this.$message.error('复查人未签字');
           return false
         }
-        
+
        let info={
          docsId:0,
          cd:this.danhao,
          nm:this.rectificationName,
          orgEnterId:this.rectificationCompanyId,
-         orgTestEnterId:this.mechanismId,
+         orgTestEnterId:this.id,
          inspArea:this.inspArea,
          rectifyer:this.rectifyer,
          explains:this.dangerDescription,
          rectifyDemand:this.requirement,
          troubleImg:this.imgList.join(","),
          rectifyerSign:this.rectifyerSign,
-       
+
          rectifyTmLimit:this.pickTime,
          reviewerTm:this.reviewTime,
          reviewerSign:this.reviewerSign,
