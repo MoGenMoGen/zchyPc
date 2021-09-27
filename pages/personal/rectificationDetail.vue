@@ -20,16 +20,16 @@
             type="textarea"
             :rows="8"
             placeholder="请输入二次下发内容"
-            v-model="info.desc"
+            v-model="info.reissueReport"
             style="width: 386px; margin-top: 30px"
           ></el-input>
           <el-upload
-            style="margin-top: 20px;"
+            style="margin-top: 20px"
             ref="upload"
             action="/general/oss/upload"
             accept="image/png,image/gif,image/jpg,image/jpeg"
             list-type="picture-card"
-            :auto-upload="false"
+            :auto-upload="true"
             :before-upload="handleBeforeUpload"
             :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
@@ -37,11 +37,14 @@
           >
             <i class="el-icon-plus"></i>
           </el-upload>
-          <el-dialog :visible.sync="dialogVisible" :modal-append-to-body="false">
+          <el-dialog
+            :visible.sync="dialogVisible"
+            :modal-append-to-body="false"
+          >
             <img width="100%" :src="dialogImageUrl" alt="" />
           </el-dialog>
           <div class="btn">
-            <div class="cancel button" @click="Issueshow=false">取消</div>
+            <div class="cancel button" @click="Issueshow = false">取消</div>
             <div class="confirm button" @click="handleconfirmIssue">确认</div>
           </div>
         </div>
@@ -53,16 +56,16 @@
         <div style="display: flex">
           <div class="lefttextpart">
             <div class="itemstyle">整改单号：{{ info.cd }}</div>
-            <div class="itemstyle">整改单位：{{ info.unit }}</div>
-            <div class="itemstyle">整改日期： {{ info.zgdate }}</div>
-            <div class="itemstyle">检查区域：{{ info.jcarea }}</div>
-            <div class="itemstyle">整改要求：{{ info.zgrequire }}</div>
+            <div class="itemstyle">整改单位：{{ info.orgEnterId }}</div>
+            <div class="itemstyle">整改日期： {{ info.rectifyTm }}</div>
+            <div class="itemstyle">检查区域：{{ info.inspArea }}</div>
+            <div class="itemstyle">整改要求：{{ info.rectifyDemand }}</div>
           </div>
           <div class="righttextpart">
-            <div class="itemstyle">整改名称：{{ info.zgname }}</div>
-            <div class="itemstyle">整改责任人：{{ info.zgperson }}</div>
-            <div class="itemstyle">下发日期：{{ info.xfdate }}</div>
-            <div class="itemstyle">隐患说明：{{ info.yhintro }}</div>
+            <div class="itemstyle">整改名称：{{ info.nm }}</div>
+            <div class="itemstyle">整改责任人：{{ info.rectifyerSign }}</div>
+            <div class="itemstyle">下发日期：{{ info.issueTm }}</div>
+            <div class="itemstyle">隐患说明：{{ info.explains }}</div>
           </div>
         </div>
         <div class="itemstyle">隐患图片</div>
@@ -71,14 +74,14 @@
             :src="item"
             class="dangerpic"
             alt=""
-            v-for="(item, index) in info.ygpiclist"
+            v-for="(item, index) in hiddenPics"
             :key="index"
           />
         </div>
         <div class="lefttextpart">
-          <div class="itemstyle">复查人：{{ info.fcperson }}</div>
-          <div class="itemstyle">检验检测单位：{{ info.jyunit }}</div>
-          <div class="itemstyle">检查时间：{{ info.jcdate }}</div>
+          <div class="itemstyle">复查人：{{ info.reviewerSign }}</div>
+          <div class="itemstyle">检验检测单位：{{ info.orgTestEnterNm }}</div>
+          <div class="itemstyle">检查时间：{{ info.reviewerTm }}</div>
         </div>
       </div>
       <div class="contitle">整改执行情况<span class="sontitle"></span></div>
@@ -88,14 +91,14 @@
         v-if="
           currentRole &&
           currentRole.identityCd == 'identity30' &&
-          info.status == 1
+          info.state == 2
         "
       >
         <div class="itemstyle">整改上报</div>
         <vue-ueditor-wrap
-          v-model="info.fulltext"
+          v-model="info.rectifyReport"
           style="z-index: 99; width: 100%"
-          :config="info.myConfig"
+          :config="myConfig"
         ></vue-ueditor-wrap>
         <div style="display: flex; padding: 15px 0">
           <div class="itemstyle">备注内容：</div>
@@ -103,12 +106,12 @@
             type="textarea"
             :rows="5"
             placeholder="请输入内容"
-            v-model="info.desc"
+            v-model="info.rmks"
             style="width: 277px"
           ></el-input>
         </div>
         <div class="btn">
-          <div class="confirm button">确定</div>
+          <div class="confirm button" @click="handleRectifyReport">确定</div>
           <div class="cancel button">取消</div>
         </div>
       </div>
@@ -119,7 +122,7 @@
         v-else-if="
           currentRole &&
           currentRole.identityCd == 'identity50' &&
-          info.status == 1
+          info.state == 2
         "
       >
         <div class="itemstyle">
@@ -129,7 +132,22 @@
       <!-- 检验检测待执行结束 -->
       <!-- 检验检测、船厂其他情况开始 -->
       <div class="conwrapper" v-else>
-        <div class="itemstyle">整改上报：{{ info.zgsb }}</div>
+        <div class="item_border" v-for="(item, index) in reissueList" :key="index">
+          <div v-if="reissueList.length>1&&item.reissueReport">下发说明:{{ item.reissueReport }}</div>
+          <div v-viewer class="problempiclist">
+            <img
+              :src="item1"
+              class="dangerpic"
+              alt=""
+              v-for="(item1, index1) in (item.reissueImg?item.reissueImg:'')
+                .split(',')
+                .filter((item2) => item2 != '')"
+              :key="index1"
+            />
+          </div>
+          <div style="padding-top:40px" v-html="item.rectifyReport"></div>
+        </div>
+        <!-- <div class="itemstyle">整改上报：{{ info.rectifyReport }}</div>
         <div class="problempiclist" v-viewer>
           <img
             :src="item"
@@ -143,15 +161,15 @@
           <div class="itemstyle">上报日期{{ info.zgyj }}</div>
           <div class="itemstyle">确认人： {{ info.qfr }}</div>
           <div class="itemstyle">确认日期：{{ info.confirmdate1 }}</div>
-        </div>
+        </div> -->
       </div>
       <!-- 检验检测、船厂其他情况结束 -->
       <!--  船厂已完成、检验检测已完成、待结案才有结案标题开始-->
       <div
         class="contitle"
         v-if="
-          info.status == 3 ||
-          (info.status == 2 &&
+          info.state == 4 ||
+          (info.state == 3 &&
             currentRole &&
             currentRole.identityCd == 'identity50')
         "
@@ -161,12 +179,12 @@
       <!--  船厂已完成、检验检测已完成、待结案才有结案标题结束-->
 
       <!-- 检验检测、船厂已完成开始 -->
-      <div class="conwrapper" v-if="info.status == 3">
+      <div class="conwrapper" v-if="info.state == 4">
         <div class="lefttextpart">
-          <div class="itemstyle">结案意见：{{ info.zgyj }}</div>
-          <div class="itemstyle">签发人： {{ info.qfr }}</div>
-          <div class="itemstyle">确认日期：{{ info.confirmdate2 }}</div>
-          <div class="itemstyle">检验检测单位：{{ info.jcunit }}</div>
+          <div class="itemstyle">结案意见：{{ info.closeReport }}</div>
+          <div class="itemstyle">签发人： {{ info.closeUserNm }}</div>
+          <div class="itemstyle">确认日期：{{ info.closeDate }}</div>
+          <div class="itemstyle">检验检测单位：{{ info.orgTestEnterNm }}</div>
         </div>
       </div>
       <!-- 检验检测、船厂已完成结束 -->
@@ -174,7 +192,7 @@
       <div
         class="conwrapper"
         v-else-if="
-          info.status == 2 &&
+          info.state == 3 &&
           currentRole &&
           currentRole.identityCd == 'identity50'
         "
@@ -185,13 +203,15 @@
             type="textarea"
             :rows="5"
             placeholder="请输入内容"
-            v-model="info.jacontent"
+            v-model="info.closeReport"
             style="width: 277px"
           ></el-input>
         </div>
         <div class="closeCaseBtn">
-          <div class="jabtn button">确认结案</div>
-          <div class="nextIssuebtn button" @click="Issueshow = true">下次下发</div>
+          <div class="jabtn button" @click="handleRectifyclose">确认结案</div>
+          <div class="nextIssuebtn button" @click="Issueshow = true">
+            再次下发
+          </div>
           <div class="cancelbtn button">取消</div>
         </div>
       </div>
@@ -220,67 +240,42 @@ export default {
       dialogVisible: false,
       // 预览路径
       dialogImageUrl: "",
+      myConfig: {
+        // 编辑器不自动被内容撑高
+        autoHeightEnabled: false,
+        // 初始容器高度
+        initialFrameHeight: 440,
+        // 初始容器宽度
+        initialFrameWidth: "100%",
+        // 上传文件接口（这个地址是我为了方便各位体验文件上传功能搭建的临时接口，请勿在生产环境使用！！！）
+        serverUrl: "https://www.ship88.cn/general/ueditor/exec",
+        // serverUrl: "https://www.ship88.cn/general/oss/upload",
 
-      info: {
-        cd: "ZG20210330001",
-        unit: "澳新船厂有限公司",
-        zgdate: "2021年3月25日",
-        jcarea: "消防通道",
-        zgrequire: "请按照要求进行整改",
-        zgname: "消防通道畅通整改",
-        zgperson: "张三",
-        xfdate: "2021年3月25日",
-        yhintro: "消防通道堵塞",
-        ygpiclist: [
-          "https://img0.baidu.com/it/u=1493112636,2334046030&fm=26&fmt=auto",
-          "https://img0.baidu.com/it/u=1493112636,2334046030&fm=26&fmt=auto",
-          "https://img0.baidu.com/it/u=1493112636,2334046030&fm=26&fmt=auto",
-          "https://img0.baidu.com/it/u=1493112636,2334046030&fm=26&fmt=auto",
-          "https://img0.baidu.com/it/u=1493112636,2334046030&fm=26&fmt=auto",
-        ],
-        fcperson: "章老师",
-        jyunit: "船级社检测机构",
-        jcdate: "2021年03月25日",
-        zgsb: "已按整改要求完成整改。",
-        sbdate: "2021年03月25日",
-        confirmer: "张三",
-        confirmdate1: "2021年03月25日",
-        zgyj: "整改有效，允许结案。",
-        qfr: "章老师",
-        confirmdate2: "2021年03月25日",
-        jcunit: "船级社检测机构",
-        // 完成情况，1:待执行，2：待结案，3：已完成
-        status: 2,
-        desc: "",
-        jacontent: "",
-        fulltext: "",
-        myConfig: {
-          // 编辑器不自动被内容撑高
-          autoHeightEnabled: false,
-          // 初始容器高度
-          initialFrameHeight: 440,
-          // 初始容器宽度
-          initialFrameWidth: "100%",
-          // 上传文件接口（这个地址是我为了方便各位体验文件上传功能搭建的临时接口，请勿在生产环境使用！！！）
-          serverUrl: "https://www.ship88.cn/general/ueditor/exec",
-          UEDITOR_HOME_URL: "/sinovat/UEditor/",
-          // UEditor 资源文件的存放路径，如果你使用的是 vue-cli 生成的项目，通常不需要设置该选项，vue-ueditor-wrap 会自动处理常见的情况，如果需要特殊配置，参考下方的常见问题2
-          // UEDITOR_HOME_URL:
-          //   process.env.NODE_ENV === "production"
-          //     ? "/static/ueditor/"
-          //     : "/static/ueditor/"
-        },
-        // 下发图片列表
-        Issuepiclist: [],
+        UEDITOR_HOME_URL: "/sinovat/UEditor/",
+        // UEditor 资源文件的存放路径，如果你使用的是 vue-cli 生成的项目，通常不需要设置该选项，vue-ueditor-wrap 会自动处理常见的情况，如果需要特殊配置，参考下方的常见问题2
+        // UEDITOR_HOME_URL:
+        //   process.env.NODE_ENV === "production"
+        //     ? "/static/ueditor/"
+        //     : "/static/ueditor/"
       },
+      // 再次下发列表
+      reissueList: [],
+      info: {},
     };
   },
   layout: "person",
   async mounted() {
     this.id = this.until.getQueryString("id");
+    let data = await this.api.getRectifyDetail(this.id);
+    this.info = data.shipDocsRectifyVo;
+    this.reissueList = data.reissueList;
   },
   computed: {
     ...mapState(["currentRole"]),
+    hiddenPics() {
+      if (this.info.troubleImg) return this.info.troubleImg.split(",");
+      return [];
+    },
   },
   watch: {},
   methods: {
@@ -309,41 +304,122 @@ export default {
       }
     },
     handleRemove(file, fileList) {
-      console.log(2222,fileList);
-      this.info.Issuepiclist = [];
-
-      for (let i = 0; i < fileList.length; i++) {
-        this.info.Issuepiclist.push(fileList[i].response.data);
-      }
-      console.log(file, fileList);
+      this.info.reissueImg = fileList
+        .map((item) => item.response.data)
+        .join(",");
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
     handSuccess(response, file, fileList) {
-      console.log(1324,fileList);
-      this.info.Issuepiclist = [];
-
-      for (let i = 0; i < fileList.length; i++) {
-        this.info.Issuepiclist.push(fileList[i].response.data);
+      this.info.reissueImg = fileList
+        .map((item) => item.response.data)
+        .join(",");
+    },
+    // 再次下发
+    async handleconfirmIssue() {
+      if (!this.info.reissueReport || !this.info.reissueImg) {
+        this.$notify.error({
+          title: "错误",
+          message: "请将信息填写完整",
+        });
+      } else {
+        let data = await this.api.handleRectifyReturn({
+          inspId: this.reissueList[this.reissueList.length - 1].id,
+          id: this.id,
+          cd: this.info.cd,
+          reissueImg: this.info.reissueImg,
+          reissueReport: this.info.reissueReport,
+        });
+        if (data.code == 0) {
+          this.$message({
+            message: "再次下发成功",
+            type: "success",
+          });
+          let data1 = await this.api.getRectifyDetail(this.id);
+          this.info = data1.shipDocsRectifyVo;
+          this.reissueList = data1.reissueList;
+        } else {
+          this.$message.error("再次下发失败");
+        }
+      }
+      this.Issueshow = false;
+    },
+    // 整改上报
+    async handleRectifyReport() {
+      if (this.info.rectifyReport == "") {
+        this.$notify.error({
+          title: "错误",
+          message: "整改内容不能为空",
+        });
+      } else {
+        let obj={}
+        //再下发说明列表
+         if(this.reissueList.length>1) {
+           obj = {
+            inspId: this.reissueList[this.reissueList - 1].id,
+          };
+        }
+        let res = await this.api.handleRectifyReport({
+          ...{
+            id:this.id,
+            cd:this.info.cd,
+            rectifyReport: this.info.rectifyReport,
+            rmks: this.info.rmks,
+          },
+          ...obj,
+        });
+        console.log(12222, res);
+        if (res.code == 0) {
+          this.$message({
+            message: "上报成功",
+            type: "success",
+          });
+          let data = await this.api.getRectifyDetail(this.id);
+          this.info = data.shipDocsRectifyVo;
+          this.reissueList = data.reissueList;
+        } else {
+          this.$message.error("上报失败");
+        }
       }
     },
-    handleconfirmIssue(){
-      this.Issueshow=false;
-    }
+    // 确认结案
+    async handleRectifyclose() {
+      if (this.info.closeReport == "") {
+        this.$notify.error({
+          title: "错误",
+          message: "结案内容不能为空",
+        });
+      } else {
+        let res = await this.api.handlerectifyClose({
+          id: this.id,
+          closeReport: this.info.closeReport,
+        });
+
+        if (res.code == 0) {
+          this.$message({
+            message: "结案成功",
+            type: "success",
+          });
+          let data = await this.api.getRectifyDetail(this.id);
+          this.info = data.shipDocsRectifyVo;
+          this.reissueList = data.reissueList;
+        } else {
+          this.$message.error("结案失败");
+        }
+      }
+    },
   },
 };
 </script>
 <style lang="less" scoped>
-
 </style>
 <style scoped lang="less">
 .main {
   width: 100%;
-  .button:hover{
-        cursor: pointer;
-    
+  .button:hover {
+    cursor: pointer;
   }
   #Issueshow {
     position: fixed;
@@ -446,6 +522,12 @@ export default {
       width: 100%;
       box-sizing: border-box;
       padding: 22px 0 22px 34px;
+      .item_border{
+        border-bottom:1px solid rgba(0, 0, 0, 0.1);
+      }
+      .item_border:last-child{
+        border:none;
+      }
       .lefttextpart {
         width: 250px;
         margin-right: 278px;

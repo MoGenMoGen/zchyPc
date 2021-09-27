@@ -65,27 +65,27 @@
           :key="index"
           @click="toDetail(item.id)"
         >
-          <div>{{ item.no }}</div>
-          <div>{{ item.content }}</div>
-          <div>{{ item.unit1 }}</div>
-          <div>{{ item.unit2 }}</div>
-          <div>{{ item.issuedate }}</div>
+          <div>{{ item.cd }}</div>
+          <div>{{ item.nm }}</div>
+          <div>{{ item.orgEnterNm }}</div>
+          <div>{{ item.orgTestEnterNm }}</div>
+          <div>{{ item.issueTm }}</div>
           <!-- 待执行 -->
           <div
-            v-if="item.status == 1"
+            v-if="item.state == 2"
             style="color: #ff3c00; border: 1px solid #ff3c00"
           >
             待执行
           </div>
           <!-- 待结案 -->
           <div
-            v-else-if="item.status == 2"
+            v-else-if="item.state == 3"
             style="color: #2778be; border: 1px solid #2778be"
           >
             待结案
           </div>
           <!-- 已完成 -->
-          <div v-else-if="item.status == 3">已完成</div>
+          <div v-else-if="item.state == 4">已完成</div>
         </div>
       </div>
       <!-- 分页 -->
@@ -118,6 +118,10 @@ export default {
       content: "",
       tabId: 1,
       title: "整改单",
+      // 待执行等状态
+      state: "",
+      searchText: "",
+      searchDate: "",
       tabList: [
         {
           id: 1,
@@ -137,48 +141,18 @@ export default {
         },
       ],
       // 每页显示条数
-      pageSize: 5,
+      pageSize: 10,
       total: 0,
       // 当前页
       currentPage: 1,
-      List: [
-        {
-          no: "ZG20210330001",
-          content:
-            "【澳新船厂有限公司】的消防器材未按照标准规范摆放，消防通道有障碍物存放",
-          unit1: "澳新船厂有限公司",
-          unit2: "船级社检测机构",
-          issuedate: " 2020-01-15",
-          status: 1,
-          id: 1,
-        },
-        {
-          no: "ZG20210330002",
-          content:
-            "【澳新船厂有限公司】的消防器材未按照标准规范摆放，消防通道有障碍物存放",
-          unit1: "澳新船厂有限公司",
-          unit2: "船级社检测机构",
-          issuedate: " 2020-01-15",
-          status: 2,
-          id: 2,
-        },
-        {
-          no: "ZG20210330003",
-          content:
-            "【澳新船厂有限公司】的消防器材未按照标准规范摆放，消防通道有障碍物存放",
-          unit1: "澳新船厂有限公司",
-          unit2: "船级社检测机构",
-          issuedate: " 2020-01-15",
-          status: 3,
-          id: 3,
-        },
-      ],
+      List: [],
     };
   },
   layout: "person",
   async mounted() {
-    this.tabId = this.until.getQueryString("cdType");
-    console.log(this.tabId);
+    this.tabId = this.until.getQueryString("cdType")||1;
+    // 获取整改单列表
+    this.getList(true);
   },
   computed: {
     ...mapState(["currentRole"]),
@@ -194,19 +168,59 @@ export default {
       if (item.id != this.tabId) {
         this.tabId = item.id;
         this.$router.push("../personal/rectification?cdType=" + item.id);
+        if (this.tabId == 1) {
+          this.getList(true);
+        } else {
+          this.state = item.id;
+          this.getList(false);
+        }
       }
     },
     toAdd() {
       this.$router.push("../personal/rectificationAdd");
     },
+
     toDetail(id) {
       this.$router.push("./rectificationDetail?id=" + id);
     },
     query() {},
-    handleCurrentChange() {
-      console.log(`当前页: ${val}`);
-      this.currentPage3 = val;
-      this.getList();
+    handleCurrentChange(val) {
+     
+      if (this.tabId == 1) this.getList(true);
+      else this.getList(false);
+    },
+    async getList(isall) {
+      let query = "";
+      let p = { p: { n: this.currentPage, s: this.pageSize } };
+      let r = {
+        r: [
+          {
+            n: "a1",
+            t: "and",
+            w: [
+              { k: "orgEnterId", v: this.currentRole.id.toString(), m: "EQ" },
+              { k: "state", v: this.state, m: "EQ" },
+            ],
+          },
+        ],
+      };
+      // 根据登陆者的identityCd判断，30则是orgEnterId，50为orgTestEnterId
+      // 船厂
+      if (this.currentRole.identityCd == "identity30") {
+        if (isall) {
+          r.r[0].w.pop();
+        }
+        query = encodeURIComponent(JSON.stringify({ ...r, ...p }));
+      } else if (this.currentRole.identityCd == "identity50") {
+        r.r[0].w[0].k = "orgTestEnterId";
+        if (isall) {
+          r.r[0].w.pop();
+        }
+        query = encodeURIComponent(JSON.stringify({ ...r, ...p }));
+      }
+      let data = await this.api.getrectifyList(query, this.searchText);
+      this.List = data.data.list;
+      this.total = data.page.total;
     },
   },
 };

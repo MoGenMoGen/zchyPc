@@ -41,10 +41,10 @@ function get(url, data, noTip) {
   }
   let promise = new Promise((resolve, reject) => {
     axios.get(myUrl + url, {
-        params: data,
-        headers: header
-      })
-      .then(function(res) {
+      params: data,
+      headers: header
+    })
+      .then(function (res) {
         store.commit('changeLoading', false)
         if (res.data.code === 0) {
           resolve(res.data)
@@ -67,7 +67,7 @@ function get(url, data, noTip) {
           }
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         store.commit('changeLoading', false)
         console.log(error)
         console.log(noTip)
@@ -94,9 +94,9 @@ function post(url, data) {
 
   let promise = new Promise((resolve, reject) => {
     axios.post(myUrl + url, data, {
-        headers: header
-      })
-      .then(function(res) {
+      headers: header
+    })
+      .then(function (res) {
         store.commit('changeLoading', false)
         if (res.data.code === 0) {
           resolve(res.data)
@@ -115,7 +115,7 @@ function post(url, data) {
           });
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         store.commit('changeLoading', false)
         MessageBox({
           message: JSON.stringify(error),
@@ -1020,7 +1020,7 @@ class api {
   //船舶管理 船舶详情
   shipDetail(id) {
     return new Promise(resolve => {
-      get("/ship/solutions/api/info/" + id, '', ).then(res => {
+      get("/ship/solutions/api/info/" + id, '',).then(res => {
         resolve(res.data)
       })
     })
@@ -2649,11 +2649,51 @@ class api {
       })
     })
   }
+  // 整改单列表
+  getrectifyList(condition, msg) {
+    return new Promise(resolve => {
+      get("/ship/docsRectify/apis/page?query=" + condition + "&msg=" + msg).then(res => {
+        resolve(res)
+      })
+    })
+  }
+  // 整改详情
+  getRectifyDetail(id) {
+    return new Promise(resolve => {
+      get("/ship/docsRectify/apis/info/" + id).then(res => {
+        resolve(res.data)
+      })
+    })
+  }
   //发票帮助中心详情
   getBillHelpDetail(query) {
     return new Promise(resolve => {
       get('/ds/invoiceSupport/apis/info/' + query).then(res => {
         resolve(res.data)
+      })
+    })
+  }
+  // 整改上报
+  handleRectifyReport(body) {
+    return new Promise(resolve => {
+      post("/ship/docsRectify/apis/rectifyReport", body).then(res => {
+        resolve(res)
+      })
+    })
+  }
+  // 整改确认结案
+  handlerectifyClose(body) {
+    return new Promise(resolve => {
+      post("/ship/docsRectify/apis/rectifyClose", body).then(res => {
+        resolve(res)
+      })
+    })
+  }
+  // 整改再次下发
+  handleRectifyReturn(body) {
+    return new Promise(resolve => {
+      post("/ship/docsRectify/apis/rectifyReturn", body).then(res => {
+        resolve(res)
       })
     })
   }

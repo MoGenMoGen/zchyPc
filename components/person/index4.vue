@@ -33,18 +33,18 @@
             label="序号"
           >
           </el-table-column>
-          <el-table-column prop="no" width="150" label="整改单号">
+          <el-table-column prop="cd" width="150" label="整改单号">
           </el-table-column>
           <el-table-column
             width="200"
-            prop="content"
+            prop="nm"
             align="center"
             label="整改内容"
           >
           </el-table-column>
           <el-table-column
             width="110"
-            prop="issuedate"
+            prop="issueTm"
             align="center"
             label="下发日期"
           >
@@ -58,17 +58,18 @@
           >
             <template slot-scope="scope">
               <div
-                style="border: 1px solid #e4393c; color: #e4393c"
-                v-if="scope.row.status == 1"
+                v-if="scope.row.state == 2"
+                style="color: #ff3c00; border: 1px solid #ff3c00"
               >
-                未签收
+                待执行
               </div>
               <div
-                style="border: 1px solid #2778be; color: #2778be"
-                v-if="scope.row.status == 2"
+                v-else-if="scope.row.state == 3"
+                style="color: #2778be; border: 1px solid #2778be"
               >
-                已签收
+                待结案
               </div>
+              <div v-else-if="scope.row.state == 4">已完成</div>
             </template>
           </el-table-column>
         </el-table>
@@ -127,7 +128,7 @@
                   display: flex;
                   flex-direction: column;
                   justify-content: center;
-                  align-items:center;
+                  align-items: center;
                 "
               >
                 <div
@@ -136,8 +137,8 @@
                     color: #fff;
                     font-size: 15px;
                     margin-bottom: 15px;
-                    width:60px;
-                    padding:5px;
+                    width: 60px;
+                    padding: 5px;
                   "
                   v-if="scope.row.status == 1"
                 >
@@ -314,29 +315,15 @@ export default {
       download1: false,
       applyInfo: {},
       // 整改列表
-      rectifyList: [
-        {
-          no: "ZG20210330001",
-          content:
-            "【澳新船厂有限公司】的消防器材未按照标准规范摆放，消防通道有障碍物存放。",
-          issuedate: "2022-01-01",
-          status: 1,
-          id: 1,
-        },
-        {
-          no: "ZG20210330001",
-          content:
-            "【澳新船厂有限公司】的消防器材未按照标准规范摆放，消防通道有障碍物存放。",
-          issuedate: "2022-01-01",
-          status: 2,
-          id: 2,
-        },
-      ],
+      rectifyList: [],
+
+      
       // 云检验列表
       yunCheckList: [
         {
           no: "ZCHY20200515",
-          shipname: "新型 4000KW 中型休闲新型 4000KW 中型休闲新型 4000KW 中型休闲新型 4000KW 中型休闲新型 4000KW 中型休闲",
+          shipname:
+            "新型 4000KW 中型休闲新型 4000KW 中型休闲新型 4000KW 中型休闲新型 4000KW 中型休闲新型 4000KW 中型休闲",
           cusname: "中创海洋",
           status: 1,
           id: 1,
@@ -388,6 +375,8 @@ export default {
   },
   mounted() {
     this.getData();
+    // 获取整改单列表
+    this.getrectifyList();
   },
   methods: {
     async getData() {
@@ -434,6 +423,28 @@ export default {
       };
       let data = await this.api.allShip(this.query.toEncode(qry), param);
       this.manageList = data.data.list;
+    },
+    async getrectifyList() {
+      let query = "";
+      let p = { p: { n: 1, s: 3 } };
+      let r = {
+        r: [
+          {
+            n: "a1",
+            t: "and",
+            w: [
+              {
+                k: "orgTestEnterId",
+                v: this.currentRole.id.toString(),
+                m: "EQ",
+              },
+            ],
+          },
+        ],
+      };
+      query = encodeURIComponent(JSON.stringify({ ...r, ...p }));
+      let data = await this.api.getrectifyList(query, "");
+      this.rectifyList = data.data.list;
     },
     toPage(url) {
       if (url) {
