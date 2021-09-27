@@ -268,7 +268,7 @@
           param = {
             orgEnterId: JSON.parse(this.until.seGet('currentRole')).id,
             orderId: this.id,
-            orderNo: this.orderCd,
+            orderCd: this.orderCd,
             type: this.type,
             invoiceTypeCd: this.invoice,
             buyerName: this.buyerName,
@@ -287,22 +287,30 @@
           param = {
             orgEnterId: JSON.parse(this.until.seGet('currentRole')).id,
             orderId: this.id,
-            orderNo: this.orderCd,
+            orderCd: this.orderCd,
             type: this.type,
             invoiceTypeCd: this.invoice,
             buyerName: this.buyerName,
           }
         }
-        console.log(param)
-        this.api.invoiceApply(param).then(res => {
-          console.log(res)
-          if(res.msg=='成功') {
-            this.$message.success('申请成功')
-            setTimeout(()=> {
-              this.until.back()
-            },1000)
-          }
-        })
+        this.$confirm('是否确认开票?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(() => {
+          this.api.invoiceApply(param).then(res => {
+            if(res.msg=='成功') {
+              this.$message.success('申请成功')
+              setTimeout(()=> {
+                this.until.back()
+              },1000)
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消开票'
+          });          
+        });
       }
     },
   }

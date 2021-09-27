@@ -1,6 +1,6 @@
-let hostUrl = 'https://www.ship88.cn'
+// let hostUrl = 'https://www.ship88.cn'
 // let hostUrl = 'http://kprrmf.natappfree.cc'//测试服务器
-// let hostUrl = 'http://u2768442w0.qicp.vip'
+let hostUrl = 'http://u2768442w0.qicp.vip'
 //测试服务器
 // let hostUrl = "http://47.101.191.248"
 // let hostUrl = "http://sin.jinkworld.com"
