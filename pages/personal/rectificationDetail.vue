@@ -131,21 +131,58 @@
       </div>
       <!-- 检验检测待执行结束 -->
       <!-- 检验检测、船厂其他情况开始 -->
-      <div class="conwrapper" v-else>
-        <div class="item_border" v-for="(item, index) in reissueList" :key="index">
-          <div v-if="reissueList.length>1&&item.reissueReport">下发说明:{{ item.reissueReport }}</div>
+      <div
+        class="conwrapper"
+        style="position: relative"
+        v-if="
+          !(
+            currentRole &&
+            currentRole.identityCd == 'identity50' &&
+            info.state == 2
+          )
+        "
+      >
+        <img
+        v-if="reissueList.length>0"
+          style="position: absolute; top: 16px; right: 44px"
+          :class="{ arrowTransform: !isshow, arrowTransformReturn: isshow }"
+          src="~@/assets/img/personal/下拉.png"
+          alt=""
+          @click="isshow = !isshow"
+        />
+        <div
+          v-show="isshow"
+          class="item_border"
+          v-for="(item, index) in reissueList"
+          :key="index"
+        >
+          <div v-if="reissueList.length > 1 && item.reissueReport">
+            <h3 style="padding: 20px 0px; margin-left: -16px">再次下发内容</h3>
+            <div style="padding-bottom: 2px">
+              下发说明:{{ item.reissueReport }}
+            </div>
+            <div style="padding-bottom: 2px">整改日期:{{ item.rectifyTm }}</div>
+            <div style="padding-bottom: 2px">
+              复查日期:{{ item.reviewerTm }}
+            </div>
+            <div style="padding-bottom: 2px">下发日期:{{ item.issueTm }}</div>
+          </div>
+
           <div v-viewer class="problempiclist">
             <img
               :src="item1"
               class="dangerpic"
               alt=""
-              v-for="(item1, index1) in (item.reissueImg?item.reissueImg:'')
+              v-for="(item1, index1) in (item.reissueImg ? item.reissueImg : '')
                 .split(',')
                 .filter((item2) => item2 != '')"
               :key="index1"
             />
           </div>
-          <div style="padding-top:40px" v-html="item.rectifyReport"></div>
+          <div>
+            <h3 style="padding: 20px 0px; margin-left: -16px">整改上报内容</h3>
+            <div style="padding-top: 0px" v-html="item.rectifyReport"></div>
+          </div>
         </div>
         <!-- <div class="itemstyle">整改上报：{{ info.rectifyReport }}</div>
         <div class="problempiclist" v-viewer>
@@ -233,6 +270,7 @@ export default {
   },
   data() {
     return {
+      isshow: true,
       id: 1,
       title: "整改单",
       Issueshow: false,
@@ -354,17 +392,17 @@ export default {
           message: "整改内容不能为空",
         });
       } else {
-        let obj={}
+        let obj = {};
         //再下发说明列表
-         if(this.reissueList.length>1) {
-           obj = {
+        if (this.reissueList.length > 1) {
+          obj = {
             inspId: this.reissueList[this.reissueList - 1].id,
           };
         }
         let res = await this.api.handleRectifyReport({
           ...{
-            id:this.id,
-            cd:this.info.cd,
+            id: this.id,
+            cd: this.info.cd,
             rectifyReport: this.info.rectifyReport,
             rmks: this.info.rmks,
           },
@@ -522,11 +560,11 @@ export default {
       width: 100%;
       box-sizing: border-box;
       padding: 22px 0 22px 34px;
-      .item_border{
-        border-bottom:1px solid rgba(0, 0, 0, 0.1);
+      .item_border {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       }
-      .item_border:last-child{
-        border:none;
+      .item_border:last-child {
+        border: none;
       }
       .lefttextpart {
         width: 250px;
@@ -620,6 +658,16 @@ export default {
           color: #999999;
           line-height: 35px;
         }
+      }
+      .arrowTransform {
+        transition: 0.2s;
+        transform-origin: center;
+        transform: rotateZ(180deg);
+      }
+      .arrowTransformReturn {
+        transition: 0.2s;
+        transform-origin: center;
+        transform: rotateZ(0deg);
       }
     }
   }
