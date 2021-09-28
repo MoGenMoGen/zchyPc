@@ -130,7 +130,7 @@
         </div>
       </div>
       <!-- 检验检测待执行结束 -->
-      <!-- 检验检测、船厂其他情况开始 -->
+      <!-- 除检验检测待执行开始 -->
       <div
         class="conwrapper"
         style="position: relative"
@@ -143,7 +143,7 @@
         "
       >
         <img
-        v-if="reissueList.length>0"
+          v-if="reissueList.length > 0"
           style="position: absolute; top: 16px; right: 44px"
           :class="{ arrowTransform: !isshow, arrowTransformReturn: isshow }"
           src="~@/assets/img/personal/下拉.png"
@@ -168,23 +168,37 @@
             <div style="padding-bottom: 2px">下发日期:{{ item.issueTm }}</div>
           </div>
 
-          <div v-viewer class="problempiclist">
-            <img
-              :src="item1"
-              class="dangerpic"
-              alt=""
-              v-for="(item1, index1) in (item.reissueImg ? item.reissueImg : '')
-                .split(',')
-                .filter((item2) => item2 != '')"
-              :key="index1"
-            />
-          </div>
-          <div>
-            <h3 style="padding: 20px 0px; margin-left: -16px">整改上报内容</h3>
-            <div style="padding-top: 0px" v-html="item.rectifyReport"></div>
-          </div>
-        </div>
-        <!-- <div class="itemstyle">整改上报：{{ info.rectifyReport }}</div>
+          <div class="conwrapper" v-else>
+            <div
+              class="item_border"
+              v-for="(item, index) in reissueList"
+              :key="index"
+            >
+              <div v-if="reissueList.length > 1 && item.reissueReport">
+                下发说明:{{ item.reissueReport }}
+              </div>
+              <div v-viewer class="problempiclist">
+                <img
+                  :src="item1"
+                  class="dangerpic"
+                  alt=""
+                  v-for="(item1, index1) in (item.reissueImg
+                    ? item.reissueImg
+                    : ''
+                  )
+                    .split(',')
+                    .filter((item2) => item2 != '')"
+                  :key="index1"
+                />
+              </div>
+              <div>
+                <h3 style="padding: 20px 0px; margin-left: -16px">
+                  整改上报内容
+                </h3>
+                <div style="padding-top: 0px" v-html="item.rectifyReport"></div>
+              </div>
+            </div>
+            <!-- <div class="itemstyle">整改上报：{{ info.rectifyReport }}</div>
         <div class="problempiclist" v-viewer>
           <img
             :src="item"
@@ -199,60 +213,66 @@
           <div class="itemstyle">确认人： {{ info.qfr }}</div>
           <div class="itemstyle">确认日期：{{ info.confirmdate1 }}</div>
         </div> -->
-      </div>
-      <!-- 检验检测、船厂其他情况结束 -->
-      <!--  船厂已完成、检验检测已完成、待结案才有结案标题开始-->
-      <div
-        class="contitle"
-        v-if="
-          info.state == 4 ||
-          (info.state == 3 &&
-            currentRole &&
-            currentRole.identityCd == 'identity50')
-        "
-      >
-        结案<span class="sontitle"></span>
-      </div>
-      <!--  船厂已完成、检验检测已完成、待结案才有结案标题结束-->
-
-      <!-- 检验检测、船厂已完成开始 -->
-      <div class="conwrapper" v-if="info.state == 4">
-        <div class="lefttextpart">
-          <div class="itemstyle">结案意见：{{ info.closeReport }}</div>
-          <div class="itemstyle">签发人： {{ info.closeUserNm }}</div>
-          <div class="itemstyle">确认日期：{{ info.closeDate }}</div>
-          <div class="itemstyle">检验检测单位：{{ info.orgTestEnterNm }}</div>
-        </div>
-      </div>
-      <!-- 检验检测、船厂已完成结束 -->
-      <!-- 检验检测待结案开始 -->
-      <div
-        class="conwrapper"
-        v-else-if="
-          info.state == 3 &&
-          currentRole &&
-          currentRole.identityCd == 'identity50'
-        "
-      >
-        <div style="display: flex; padding: 15px 0">
-          <div class="itemstyle">结案内容：</div>
-          <el-input
-            type="textarea"
-            :rows="5"
-            placeholder="请输入内容"
-            v-model="info.closeReport"
-            style="width: 277px"
-          ></el-input>
-        </div>
-        <div class="closeCaseBtn">
-          <div class="jabtn button" @click="handleRectifyclose">确认结案</div>
-          <div class="nextIssuebtn button" @click="Issueshow = true">
-            再次下发
           </div>
-          <div class="cancelbtn button">取消</div>
+          <!-- 除检验检测待执行结束 -->
+          <!--  船厂已完成、检验检测已完成、待结案才有结案标题开始-->
+          <div
+            class="contitle"
+            v-if="
+              info.state == 4 ||
+              (info.state == 3 &&
+                currentRole &&
+                currentRole.identityCd == 'identity50')
+            "
+          >
+            结案<span class="sontitle"></span>
+          </div>
+          <!--  船厂已完成、检验检测已完成、待结案才有结案标题结束-->
+
+          <!-- 检验检测、船厂已完成开始 -->
+          <div class="conwrapper" v-if="info.state == 4">
+            <div class="lefttextpart">
+              <div class="itemstyle">结案意见：{{ info.closeReport }}</div>
+              <div class="itemstyle">签发人： {{ info.closeUserNm }}</div>
+              <div class="itemstyle">确认日期：{{ info.closeDate }}</div>
+              <div class="itemstyle">
+                检验检测单位：{{ info.orgTestEnterNm }}
+              </div>
+            </div>
+          </div>
+          <!-- 检验检测、船厂已完成结束 -->
+          <!-- 检验检测待结案开始 -->
+          <div
+            class="conwrapper"
+            v-else-if="
+              info.state == 3 &&
+              currentRole &&
+              currentRole.identityCd == 'identity50'
+            "
+          >
+            <div style="display: flex; padding: 15px 0">
+              <div class="itemstyle">结案内容：</div>
+              <el-input
+                type="textarea"
+                :rows="5"
+                placeholder="请输入内容"
+                v-model="info.closeReport"
+                style="width: 277px"
+              ></el-input>
+            </div>
+            <div class="closeCaseBtn">
+              <div class="jabtn button" @click="handleRectifyclose">
+                确认结案
+              </div>
+              <div class="nextIssuebtn button" @click="Issueshow = true">
+                再次下发
+              </div>
+              <div class="cancelbtn button">取消</div>
+            </div>
+          </div>
+          <!-- 检验检测待结案结束 -->
         </div>
       </div>
-      <!-- 检验检测待结案结束 -->
     </div>
   </div>
 </template>
