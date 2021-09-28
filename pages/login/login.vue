@@ -108,9 +108,9 @@
                 type: 'success',
                 duration:'1500'
               });
-              setTimeout(()=>{
-                this.toPage('../')
-              },1500)
+              this.toPage('../')
+              // setTimeout(()=>{
+              // },1500)
             })
           } else {
             console.log('error submit!!');
