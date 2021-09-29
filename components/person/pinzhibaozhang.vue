@@ -50,7 +50,7 @@
             <el-form-item>
               <el-upload ref="upload" action="/general/oss/upload" accept="image/png,image/gif,image/jpg,image/jpeg"
                 list-type="picture-card" :auto-upload="false" :before-upload="handleBeforeUpload"
-                :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :on-success="imgSuccess" >
+                :on-preview="handlePictureCardPreview" :on-remove="handleRemoveOne" :on-success="imgSuccess" >
                 <i class="el-icon-plus"></i>
               </el-upload>
               <el-dialog :visible.sync="dialogVisible">
@@ -61,17 +61,17 @@
           </el-form>
         </div>
       </div>
-      <div class="list">
-        <div class="listTitle">
+      <div class="list" style="align-items: flex-start;">
+        <div class="listTitle" style="line-height: 50px;">
           上传文档：
         </div>
-        <div class="listContent">
+        <div class="listContent" style="border-bottom: 1px dotted #cccccc;">
           <el-form :model="formTwo">
-            <el-form-item>
+            <el-form-item >
               <el-upload ref="uploadExcel" action="/general/oss/upload" :auto-upload="false"
-                 :on-change="fileChange" :on-success="handleSuccess"
+                 :on-change="fileChange" :on-success="handleSuccess" :on-remove="handleRemoveTwo"
                 :on-error="handleError" :file-list="fileInfo" :on-preview="HandFilePreView">
-                <el-button size="small" plain>选择文件</el-button>
+                <el-button size="small" plain style="width: 100px;height: 50px;">选择文件</el-button>
 
               </el-upload>
             </el-form-item>
@@ -247,7 +247,7 @@
         imgInfo: [],
         currentIndex: -1,
         disabled: false,
-        fileInfo: [],
+        fileInfoList: [],
         contentList: [{
             time: "2020-04-16",
             isFinish: "完成检验",
@@ -359,22 +359,12 @@
           })
         }
       },
+  imgSuccess(res,file,fileList)
+      {
+        this.imgInfo=fileList
+      },
+      handleRemoveOne(file, fileList) {
 
-      handleRemove(file, fileList) {
-        this.fileInfo=[]
-        console.log("qian",this.temporaryimg);
-        for(let i=0;i<this.temporaryimg.length;i++){
-          if(file.uid==this.temporaryimg[i].uid){
-            this.imgInfo.splice(i,1)
-          }
-        }
-        console.log("kan",this.imgInfo);
-        // for(let i=0;i<fileList.length;i++)
-        // {
-        //   console.log(123,fileList[i]);
-        //   this.fileInfo.push(fileList[i].response.data)
-        // }
-        console.log(file, fileList);
       },
       handlePictureCardPreview(file) {
         this.dialogImageUrl =   file.url;
@@ -388,25 +378,13 @@
         console.log(this.form.file)
         console.log(fileList)
       },
-      imgSuccess(res,file,fileList)
-      {
-        console.log(fileList);
-        this.temporaryimg=fileList
-        this.imgInfo=[]
-        for(let i=0;i<fileList.length;i++)
-        {
-          this.imgInfo.push(fileList[i].response.data)
-        }
-        console.log("图片",this.imgInfo);
-      },
+       handleRemoveTwo(file,fileList){
+         console.log(this.fileInfoList);
+       },
       handleSuccess(res, file, fileList) {
 
-        this.fileInfo=[]
-        for(let i=0;i<fileList.length;i++)
-        {
-          this.fileInfo.push(fileList[i].response.data)
-        }
-        console.log("文件",this.fileInfo);
+        this.fileInfoList=fileList
+        console.log('文件',this.fileInfoList);
 
         // this.$notify.success({
         //   title: '成功',
@@ -699,7 +677,7 @@
     margin-bottom: 20px;
 
     .contentHead {
-      width: 100%;
+      width:100%;
       height: 40px;
       background: #F7F7F7;
       border: 1px solid #EEEEEE;
@@ -715,8 +693,8 @@
         height: 7px;
         position: absolute;
         right: 10px;
-        top: 45%;
-        transform: translateY(-60%);
+        top: 40%;
+        transform: translateY(-90%);
         transition: 0.5s;
         transform: rotate(0deg);
       }

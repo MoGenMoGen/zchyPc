@@ -61,7 +61,7 @@
                 整改期限:
               </div>
               <div class="listRight">
-                <el-date-picker v-model="pickTime" type="date" placeholder="选择日期">
+                <el-date-picker v-model="pickTime" type="date" placeholder="选择日期" :picker-options="pickerOptions">
                 </el-date-picker>
               </div>
             </div>
@@ -180,7 +180,7 @@
                     复查日期：
                   </div>
                   <div class="listRight">
-                      <el-date-picker v-model="reviewTime" type="date" placeholder="选择复查日期">
+                      <el-date-picker v-model="reviewTime" type="date" placeholder="选择复查日期" :picker-options="pickerOptionsTwo">
                       </el-date-picker>
                   </div>
                 </div>
@@ -286,6 +286,16 @@
     },
     data() {
       return {
+        pickerOptions: {
+              disabledDate(v) {
+                return v.getTime() < new Date().getTime() - 86400000;
+              }
+            },
+            pickerOptionsTwo: {
+                  disabledDate(v) {
+                    return v.getTime() < new Date().getTime() - 86400000;
+                  }
+                },
         dialogImageUrl: '',
         dialogVisible: false,
         formLabelWidth: '80px',
@@ -368,7 +378,7 @@
         requirement:'',//整改要求
         people:"",//责任整改人
         imgList:[],
-        id:'',
+        currentRoleId:'',
 
 
       }
@@ -378,7 +388,7 @@
       this.api.getCd().then(res=>{
          this.danhao=res
       })
-      this.id=this.currentRole.id
+      this.currentRoleId=JSON.parse(this.until.seGet('currentRole')).id
       let qry1=this.query.new()
       let qry3=this.query.new()
       this.query.toW(qry1,'identityCd','identity30','EQ')
@@ -397,11 +407,14 @@
     computed: {
       ...mapState([
         'currentRole'
-      ])
+      ]),
+
     },
     watch: {
     },
     methods: {
+
+
       pick1(index){
         console.log(123,index);
         this.rectificationCompanyId=this.options[index].id
@@ -437,7 +450,7 @@
                 message: '图片大小必须小于2M'
               })
             }
-          },
+          },  
       handleRemove(file, fileList) {
         this.imgList=[]
         this.$refs.upload.submit()
@@ -500,6 +513,12 @@ console.log("姚峰是猪",file,fileList,this.imgList);
           this.$message.error('隐患图片未选');
           return false
         }
+        this.reviewTime=new Date(new Date(this.pickTime).getTime()+2*24*60*60*1000)
+           let year =   this.reviewTime.getFullYear()
+                let month =   this.reviewTime.getMonth() + 1
+                let date =   this.reviewTime.getDate()
+         this.reviewTime=year + '-' + month + '-' + date
+        console.log("时间",this.reviewTime);
          this.$refs.upload.submit()
 
         this.nextShow = true
@@ -520,7 +539,7 @@ console.log("姚峰是猪",file,fileList,this.imgList);
           this.$message.error('复查日期未选');
           return false
         }
-     
+
 
 
         if(this.reviewerSign==''){
@@ -533,7 +552,7 @@ console.log("姚峰是猪",file,fileList,this.imgList);
          cd:this.danhao,
          nm:this.rectificationName,
          orgEnterId:this.rectificationCompanyId,
-         orgTestEnterId:this.id,
+         orgTestEnterId:this.currentRoleId,
          inspArea:this.inspArea,
          rectifyer:this.rectifyer,
          explains:this.dangerDescription,
