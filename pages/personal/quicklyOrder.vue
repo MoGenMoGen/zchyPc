@@ -372,6 +372,7 @@
               //     imgUrl=i.imgUrl
               //   }
               // })
+              console.log(item)
               proArr.push({
                 nm:item.shopNm,
                 supplierId:item.supplierId,
@@ -385,7 +386,8 @@
                   attrDesc: item.skuNm,
                   origPrice: item.origPrice,
                   qty: item.num,
-                  leadTime:item.leadTime
+                  leadTime:item.leadTime,
+                  skuUnitNm: item.unitNm
                 }]
               })
           })

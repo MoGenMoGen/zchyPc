@@ -151,25 +151,25 @@
             // {nm:'检验检测',href:'/shipDisplay/detect'}
             ]
         },{
-          // nm:'装备在线',
-          nm:'装备商城',
+          nm:'装备在线',
+          // nm:'装备商城',
           enNm:'Equipment',
           href:'/Trade/onlinetrading',
           cd:'Trade',
           ifShow:false,
           listA:[]
         },
-        // {
-        //   nm:'金融保险',
-        //   enNm:'Financial',
-        //   href:'../safe/safe',
-        //   cd:'safe',
-        //   ifShow:false,
-        //   listA:[{nm:'租赁',href:'../safe/safe'},
-        //     {nm:'保理',href:'../safe/safe'},
-        //     {nm:'金融',href:'../safe/safe'},
-        //     {nm:'保险',href:'../safe/safe'}]
-        // },
+        {
+          nm:'金融保险',
+          enNm:'Financial',
+          href:'../safe/safe',
+          cd:'safe',
+          ifShow:false,
+          listA:[{nm:'租赁',href:'../safe/safe'},
+            {nm:'保理',href:'../safe/safe'},
+            {nm:'金融',href:'../safe/safe'},
+            {nm:'保险',href:'../safe/safe'}]
+        },
         {
           // nm:'协同创新',
           // enNm:'Idea',
@@ -380,6 +380,7 @@
       setMenu(){
         let arr = this.$route.path.split('/')
         this.currentCd = arr[1] ? arr[1] : 'index'
+        console.log(this.currentCd)
         if(arr[1]=='order' || arr[2]=='storeHome' || arr[2]=='productDetail'){
           this.ifMenu = false
         }else {
