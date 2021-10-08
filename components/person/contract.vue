@@ -2,9 +2,9 @@
 <!--我的合同 包括 船舶合同和产品合同-->
 <div id="home">
   <div class="allDetail">
-    <p>总金额：<span class="red">￥10.00元</span></p>
-    <p>已付金额：<span class="red">￥10.00元</span></p>
-    <p>未付金额：<span class="red">￥10.00元</span></p>
+    <p>总金额：<span class="red">￥{{totalPrice}}元</span></p>
+    <p>已付金额：<span class="red">￥{{paid}}元</span></p>
+    <p>未付金额：<span class="red">￥{{npaid}}元</span></p>
   </div>
   <div class="ctDetail" v-for="(item,index) in ctList" :key="index" @click="toDetail(item.id)">
     <div class="ctDetail-left">
@@ -50,6 +50,9 @@
           ctList:[],
           value: '',
           currentRole:{},
+          totalPrice: '',
+          paid: '',
+          npaid: ''
         }
       },
       computed:{
@@ -65,6 +68,16 @@
       mounted() {
         this.id= this.until.getQueryString('id')
         this.currentRole=JSON.parse(this.until.seGet('currentRole'))
+        let param={
+          docsId:this.id,
+          orgEnterId:this.currentRole.id
+        }
+        this.api.shipContractSum(param).then(res => {
+          console.log(res)
+          this.totalPrice = res.data.totalPrice.toFixed(2)
+          this.paid = res.data.paid.toFixed(2)
+          this.npaid = (res.data.totalPrice - res.data.paid).toFixed(2)
+        })
         this.getInfo()
       },
       methods:{

@@ -771,6 +771,16 @@ class api {
       })
     })
   }
+  //船舶的合同列表总金额
+  shipContractSum(data) {
+    return new Promise(resolve => {
+      get("/ship/contract/apis/allSum", data, {
+        "sinovat-token": window.sessionStorage.getItem("token")
+      }).then(res => {
+        resolve(res)
+      })
+    })
+  }
   //我的合同详情
   contractDetail(id) {
     return new Promise(resolve => {
@@ -2717,7 +2727,7 @@ class api {
   handleRectifyReport(body){
     return new Promise(resolve => {
       post("/ship/docsRectify/apis/rectifyReport",body).then(res=>{
-        resolve(res) 
+        resolve(res)
       })
     })
   }
@@ -2725,7 +2735,7 @@ class api {
   handlerectifyClose(body){
     return new Promise(resolve => {
       post("/ship/docsRectify/apis/rectifyClose",body).then(res=>{
-        resolve(res) 
+        resolve(res)
       })
     })
   }
@@ -2733,7 +2743,7 @@ class api {
   handleRectifyReturn(body){
     return new Promise(resolve => {
       post("/ship/docsRectify/apis/rectifyReturn",body).then(res=>{
-        resolve(res) 
+        resolve(res)
       })
     })
   }
