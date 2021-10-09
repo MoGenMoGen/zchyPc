@@ -272,6 +272,14 @@ export default {
   mounted() {
     this.formW = this.until.getQueryString("formW");
     this.id = this.until.getQueryString("id");
+    if(this.until.getQueryString('toYunCheck')) {
+      this.tab1Id=2;
+      this.tab2Id=35;
+      this.selectList = this.tab23
+      this.tabIndex=5;
+    } else {
+      this.chooseTab1(this.tab1[0], 0);
+    }
     console.log(this.id);
     //控制显示
     // if(this.formW=='jiance'){
@@ -279,7 +287,7 @@ export default {
     // }else{
     //   this.chooseTab1(this.tab1[0],0)
     // }
-    this.chooseTab1(this.tab1[0], 0);
+    // this.chooseTab1(this.tab1[0], 0);
   },
 
   methods: {

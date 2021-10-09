@@ -16,18 +16,18 @@
     <div class="td">
       <div
         class="th border"
-        style="height: 77px;background:#fff;"
+        style="height: 77px; background: #fff"
         v-for="(item, index) in List"
         :key="index"
       >
-        <div>{{ item.no }}</div>
-        <div>{{ item.st }}</div>
-        <div>{{ item.et }}</div>
-        <div>{{ item.duration }}</div>
-        <div>{{ item.status }}</div>
-        <div>{{ item.remark }}</div>
+        <div>{{ index+1}}</div>
+        <div>{{ item.startTm }}</div>
+        <div>{{ item.endTm }}</div>
+        <div>{{ item.runTime }}</div>
+        <div>{{ item.runningStatusNm }}</div>
+        <div>{{ item.rmks }}</div>
         <div>
-          <img style="width: 94px; height: 57px" :src="item.pic" alt="" />
+          <img style="width: 94px; height: 57px" :src="item.imgUrl" alt="" />
         </div>
       </div>
     </div>
@@ -53,59 +53,48 @@ export default {
   data() {
     return {
       // 每页显示条数
-      pageSize: 5,
+      pageSize: 20,
       total: 0,
       // 当前页
       currentPage: 1,
+      id:'',
       pic,
       List: [
-        {
-          no: 1,
-          st: "2021-07-12 00:00:00",
-          et: "2021-07-12 23:59:59",
-          duration: "03:01:12",
-          status: "正常",
-          pic,
-          remark: "备注1",
-        },
-        {
-          no: 1,
-          st: "2021-07-12 01:00:00",
-          et: "2021-07-12 22:59:59",
-          duration: "03:01:12",
-          status: "正常",
-          pic,
-          remark: "备注2",
-        },
-        {
-          no: 1,
-          st: "2021-07-12 02:00:00",
-          et: "2021-07-12 21:59:59",
-          duration: "03:01:12",
-          status: "正常",
-          pic,
-          remark: "备注3",
-        },
       ],
     };
   },
+  created() {
+    this.id = this.until.getQueryString("id");
+    this.List = [];
+    this.getList();
+  },
+  mounted() {},
+
   methods: {
+    getList() {
+      let qry = this.query.new()
+      this.query.toP(qry,this.currentPage3,this.pageSize)
+      this.query.toO(qry,'crtTm','desc')
+      this.query.toW(qry,'docsId',this.id,'EQ')
+      this.api
+        .getRunAdoptList(this.query.toEncode(qry))
+        .then((res) => {
+          this.total = res.page.total;
+          this.List = [...this.List, ...res.data.list];
+        });
+    },
     handleCurrentChange() {
-      console.log(`当前页: ${val}`);
-      this.currentPage3 = val;
+      // console.log(`当前页: ${val}`);
+      this.currentPage = val;
       this.getList();
     },
   },
-  created() {},
-  mounted() {},
-
-  methods: {},
   watch: {},
 };
 </script>
 <style lang="less" scoped>
 .container {
-    margin:0 36px 0 30px;
+  margin: 0 36px 0 30px;
   .th {
     display: flex;
     align-items: center;
@@ -149,10 +138,10 @@ export default {
       transform: translate(-50%, -50%);
     }
   }
-  .td{
-      .border{
-          border-bottom: 1px solid #dfdfdf;
-      }
+  .td {
+    .border {
+      border-bottom: 1px solid #dfdfdf;
+    }
   }
 
   .Footer {

@@ -5,7 +5,10 @@
         {{ item1.title }}
         <div class="down" @click="hanglefold(item1)">
           <img
-            :class="{ arrowTransform: !item1.isshow, arrowTransformReturn: item1.isshow }"
+            :class="{
+              arrowTransform: !item1.isshow,
+              arrowTransformReturn: item1.isshow,
+            }"
             src="~@/assets/img/personal/下拉.png"
             alt=""
           />
@@ -17,11 +20,23 @@
           v-for="(item2, index2) in item1.piclist"
           :key="index2"
         >
-          <img :src="item2.pic" alt="" />
-          <p class="desc">{{ item2.desc }}</p>
-          <p class="date">{{ item2.date }}</p>
+          <img :src="item2.imgUrl" alt="" />
+          <p class="desc">{{ item2.name }}</p>
+          <p class="date">{{ item2.imgDate }}</p>
         </div>
       </div>
+    </div>
+    <!-- 分页 -->
+    <div class="Footer">
+      <el-pagination
+        background
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage"
+        :page-size="pageSize"
+        layout="prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -32,45 +47,86 @@ export default {
   name: "historyPic",
   data() {
     return {
+      // 每页显示条数
+      pageSize: 20,
+      total: 0,
+      // 当前页
+      currentPage: 1,
       pic,
+      // 船舶id
+      id: "",
+      // 存所有数据放一维数组，用于过渡
+      List: [],
       imglist: [
-        {
-          title: "2020年9月",
-          isshow: true,
-          piclist: [
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-          ],
-        },
-        {
-          title: "2020年8月",
-          isshow: true,
-          piclist: [
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-            { pic, desc: "船舶历史图片", date: "2020-4-23" },
-          ],
-        },
       ],
     };
+  },
+  created() {
+    this.id = this.until.getQueryString("id");
+    this.List = [];
+    this.imglist = [];
+    // 获取历史图片审核通过列表
+    this.getList();
   },
   methods: {
     hanglefold(item) {
       item.isshow = !item.isshow;
       this.imglist.push();
+    },
+    handleCurrentChange() {
+      // console.log(`当前页: ${val}`);
+      this.currentPage = val;
+      this.getList();
+    },
+    getList() {
+      let query = {
+        r: [
+          {
+            n: "a1",
+            t: "and",
+            w: [{ k: "docsId", v: "", m: "EQ" }],
+          },
+        ],
+        o: [{ k: "crtTm", t: "desc" }],
+        p: { n: 1, s: 20 },
+      };
+      query.r[0].w[0].v = this.id;
+      query.p.s = this.pageSize;
+      query.p.n = this.currentPage;
+
+      this.api
+        .getHisPicAdoptList(encodeURIComponent(JSON.stringify(query)))
+        .then((res) => {
+          this.total = res.page.total;
+          this.List = [...this.List, ...res.data.list];
+          console.log("一维全部展示数组", this.List);
+          // 先去重再合并
+          // 去重相同年月后的数组
+          let uniquList = this.List;
+          for (let i = 0; i < uniquList.length; i++) {
+            for (let j = i + 1; j < uniquList.length; j++) {
+              if (uniquList[i] == uniquList[j]) {
+                //第一个等同于第二个，splice方法删除第二个
+                uniquList.splice(j, 1);
+                j--;
+              }
+            }
+          }
+          console.log("去重后的数组", uniquList);
+          uniquList.forEach((item1) => {
+            //  相同年月的数组
+            let likeList = this.List.filter((item2) => {
+              return item1.years == item2.years && item1.months == item2.months;
+            });
+            console.log("相同年月数组", likeList);
+            let obj = {};
+            obj.title = `${likeList[0].years}年${likeList[0].months}月`;
+            obj.isshow = true;
+            obj.piclist = likeList;
+            this.imglist.push(obj);
+          });
+          console.log("二维目标数组", this.imglist);
+        });
     },
   },
 };
@@ -147,6 +203,12 @@ export default {
         margin-right: 0;
       }
     }
+  }
+  .Footer {
+    margin-top: 40px;
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
   }
 }
 </style>>

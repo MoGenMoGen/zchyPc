@@ -20,25 +20,21 @@
         v-for="(item, index) in List"
         :key="index"
       >
-        <div>{{ item.no }}</div>
+        <div>{{ index + 1 }}</div>
         <div>
-          <div>{{ item.st }}</div>
-          <div>{{ item.et }}</div>
+          <div>{{ item.startTm }}</div>
+          <div>{{ item.endTm }}</div>
         </div>
         <div>{{ item.duration }}</div>
         <div>{{ item.zgno }}</div>
         <div>
-          <img style="width: 94px; height: 57px" :src="item.pic" alt="" />
+          <img style="width: 94px; height: 57px" :src="item.imgUrl" alt="" />
         </div>
-        <div style="position: relative">
-          <img style="width: 94px; height: 57px" :src="item.pic" alt="" />
-          <img
-            class="play"
-            src="~@/assets/img/learning/播放.png"
-            alt=""
-          />
+        <div style="position: relative" @click="handlePlay(item.vedioUrl)">
+          <img style="width: 94px; height: 57px" :src="item.imgUrl" alt="" />
+          <img class="play" src="~@/assets/img/learning/播放.png" alt="" />
         </div>
-        <div>{{ item.remark }}</div>
+        <div>{{ item.rmks }}</div>
       </div>
     </div>
     <!-- 分页 -->
@@ -63,53 +59,42 @@ export default {
   data() {
     return {
       // 每页显示条数
+      pic,
       pageSize: 5,
       total: 0,
       // 当前页
       currentPage: 1,
-      pic,
-      List: [
-        {
-          no: 1,
-          st: "2021-07-12 00:00:00",
-          et: "2021-07-12 23:59:59",
-          duration: "03:01:12",
-          zgno: "ZC20210712060001",
-          pic,
-          remark: "备注1",
-        },
-        {
-          no: 1,
-          st: "2021-07-12 01:00:00",
-          et: "2021-07-12 22:59:59",
-          duration: "03:01:12",
-          zgno: "ZC20210712060002",
-          pic,
-          remark: "备注2",
-        },
-        {
-          no: 1,
-          st: "2021-07-12 02:00:00",
-          et: "2021-07-12 21:59:59",
-          duration: "03:01:12",
-          zgno: "ZC20210712060003",
-          pic,
-          remark: "备注3",
-        },
-      ],
+      id: "",
+      List: [],
     };
   },
   methods: {
-    handleCurrentChange() {
-      console.log(`当前页: ${val}`);
-      this.currentPage3 = val;
+    getList() {
+      let qry = this.query.new();
+      this.query.toP(qry, this.currentPage, this.pageSize);
+      this.query.toO(qry, "crtTm", "desc");
+      this.query.toW(qry, "docsId", this.id, "EQ");
+      this.api.getCloudTestAdoptList(this.query.toEncode(qry)).then((res) => {
+        this.total = res.page.total;
+        this.List = [...this.List, ...res.data.list];
+      });
+    },
+    handleCurrentChange(val) {
+      // console.log(`当前页: ${val}`);
+      this.currentPage = val;
       this.getList();
+    },
+    handlePlay(url) {
+      window.open(url);
     },
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.id = this.until.getQueryString("id");
+    this.List = [];
+    this.getList();
+  },
 
-  methods: {},
   watch: {},
 };
 </script>
@@ -153,9 +138,9 @@ export default {
       width: 24px;
       height: 24px;
       position: absolute;
-      top:50%;
-      left:50%;
-      transform: translate(-50%,-50%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
   }
 

@@ -93,11 +93,11 @@
           :cell-style="statusYun"
           style="width: 100%"
         >
-          <el-table-column prop="no" width="150" label="船舶编号">
+          <el-table-column prop="cd" width="150" label="船舶编号">
           </el-table-column>
           <el-table-column
             width="200"
-            prop="shipname"
+            prop="nm"
             align="center"
             label="船舶名称"
             show-overflow-tooltip
@@ -110,11 +110,11 @@
             label="客户名称"
           >
           </el-table-column>
-          <el-table-column width="90" align="center" label="船舶状态">
-            <template slot-scope="scope">
+          <el-table-column width="90" align="center"  prop="statusNm" label="船舶状态">
+            <!-- <template slot-scope="scope">
               <span v-if="scope.row.status == 1">建造中</span>
               <span v-else-if="scope.row.status == 2">已完成</span>
-            </template>
+            </template> -->
           </el-table-column>
           <el-table-column
             fixed="right"
@@ -140,11 +140,12 @@
                     width: 60px;
                     padding: 5px;
                   "
-                  v-if="scope.row.status == 1"
+                  v-if="scope.row.statusCd == 'DOCS_STATUS.01'||scope.row.statusCd == 'DOCS_STATUS.02'"
+               class="btn_yunCheckDetail"
                 >
                   检验
                 </div>
-                <div>查看详情</div>
+                <div style="color:rgb(39, 120, 190);" class="btn_yunCheckDetail" @click="toPage(`/personal/archives?id=${scope.row.id}&shipCd=${scope.row.cd}&shipStatus=${scope.row.statusNm}&toYunCheck=true`)">查看详情</div>
               </div>
             </template>
           </el-table-column>
@@ -317,7 +318,6 @@ export default {
       // 整改列表
       rectifyList: [],
 
-      
       // 云检验列表
       yunCheckList: [
         {
@@ -377,6 +377,8 @@ export default {
     this.getData();
     // 获取整改单列表
     this.getrectifyList();
+    // 云检验列表
+    this.getyunCheckList();
   },
   methods: {
     async getData() {
@@ -445,6 +447,18 @@ export default {
       query = encodeURIComponent(JSON.stringify({ ...r, ...p }));
       let data = await this.api.getrectifyList(query, "");
       this.rectifyList = data.data.list;
+    },
+    // 云检验列表
+   async getyunCheckList() {
+      let qry = this.query.new();
+      this.query.toP(qry, 1, 3);
+      let param = {
+        keyWord: '',
+        orgEnterId: this.currentRole.id,
+      };
+      this.query.toO(qry, "cd", "asc");
+      let data = await this.api.allShip(this.query.toEncode(qry), param);
+      this.yunCheckList=data.data.list;
     },
     toPage(url) {
       if (url) {
@@ -641,6 +655,9 @@ export default {
       border: 1px solid #2778be;
       cursor: pointer;
     }
+  }
+  .btn_yunCheckDetail:hover{
+    cursor: pointer;
   }
   .el-table__header thead {
     color: #666666;
