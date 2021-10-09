@@ -4,7 +4,7 @@
           <ul>
              <li v-for="(item,index) in menuList" :key="index">
                <b>{{item.nm}}</b>
-               <p v-for="(v,i) in item.list" :key="i" @click="toPage(v)">{{v.nm}}</p>
+               <span v-for="(v,i) in item.list" :key="i" @click="toPage(v)">{{v.nm}}</span>
              </li>
           </ul>
           <div class="ma">
@@ -102,22 +102,24 @@
          flex: 1;
          display: flex;
          display: -webkit-flex;
+         justify-content: space-around;
          li{
            display: inline-block;
-           flex: 1;
+           // flex: 1;
            b{
              font-size: 16px;
              display: block;
              padding-bottom: 15px;
            }
-           p{
-             width: auto;
+           span{
+             // width: auto;
+             display: block;
              cursor: pointer;
              font-size: 12px;
              line-height: 26px;
              color: #999999;
            }
-           p:hover{
+           span:hover{
              color: @themeColor;
            }
          }
