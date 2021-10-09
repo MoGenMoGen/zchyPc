@@ -140,6 +140,7 @@
           p:nth-of-type(1){
             text-align: center;
             font-size: 28px;
+            line-height: 28px;
             color: #333333;
             cursor:pointer;
           }
