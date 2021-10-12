@@ -28,7 +28,7 @@ axiosUrl.forEach(item=>{
 export default {
   mode: 'universal',
   router:{
-    base: '/sinovat',
+    base: '/sinovat2',
   },
   /*
   ** Headers of the page
@@ -41,7 +41,7 @@ export default {
       { name: 'keywords', content: '新材料|玻璃钢' },
       { hid: 'description', name: 'description', content: '新材料船舶综合服务平台' },
       {name:"renderer", content:"webkit|ie-comp|ie-stand"},
-      {'http-equiv':"Content-Security-Policy", content:"upgrade-insecure-requests"},
+      // {'http-equiv':"Content-Security-Policy", content:"upgrade-insecure-requests"},
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
