@@ -328,14 +328,14 @@
         data.data.list.forEach(item=>{
           item.href = '/learning/fishery?cid='+item.id+'&nm='+item.nm+'&type='+item.showType
         })
-        this.navList[7].listA = data.data.list
+        this.navList[8].listA = data.data.list
 
         //入驻角色
         let roleList = await this.api.getRoleList()
         roleList.forEach(item=>{
           item.href = '/settleIn/settleIn?type='+item.cd
         })
-        this.navList[8].listA = roleList
+        this.navList[9].listA = roleList
 
         //金融保险
         let qry2 = this.query.new()
@@ -361,7 +361,7 @@
             item.href = item.link
           }
         })
-        this.navList[4].listA = data3
+        this.navList[5].listA = data3
 
         //平台服务
         let qry4 = this.query.new()
@@ -374,7 +374,7 @@
             item.href = item.link
           }
         })
-        this.navList[5].listA = data4
+        this.navList[6].listA = data4
       },
       //设置导航栏是否显示
       setMenu(){
@@ -470,10 +470,10 @@
       async getInfoTab(){
         let qry = this.query.new()
         let data = await this.api.infoList(this.query.toEncode(qry))
-        this.navList[6].listA = data
-        this.navList[6].listA.forEach(item =>{
+        this.navList[7].listA = data
+        this.navList[7].listA.forEach(item =>{
           item.href = '../tradeInfo/tradeInfo?cid='+item.id
-          this.$set(this.navList[6].listA,'href',item.href)
+          this.$set(this.navList[7].listA,'href',item.href)
 
         })
       },
