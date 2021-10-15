@@ -125,7 +125,7 @@ export default {
     //跳转产品详情
     toProDetail(item) {
       console.log(item)
-      // let url = '../sinovat/Trade/productDetail?id='+item.id + "&type=product"
+      // let url = '../sinovat2/Trade/productDetail?id='+item.id + "&type=product"
       // window.open(url)
     },
   }

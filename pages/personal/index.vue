@@ -318,7 +318,7 @@
         // console.log('选型记录:'+this.recordN)
         this.api.msgUnRead()
         // console.log('未读消息：'+this.msgNum)
-        this.url = window.location.origin+'/sinovat/?inviCd='+this.info.inviCd
+        this.url = window.location.origin+'/sinovat2/?inviCd='+this.info.inviCd
         this.adertList = await this.api.getAdert('personAdert')
         if(this.adertList.length>0){
           let myImg = new Image()

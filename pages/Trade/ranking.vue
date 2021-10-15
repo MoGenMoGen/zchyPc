@@ -87,7 +87,7 @@
 
           //跳转产品详情
           toProDetail(item) {
-            let url = '../sinovat/Trade/productDetail?id='+item.goodsId + "&type=product"
+            let url = '../sinovat2/Trade/productDetail?id='+item.goodsId + "&type=product"
             window.open(url)
           },
           async getList(){

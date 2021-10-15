@@ -284,7 +284,7 @@
         this.id = this.$route.query.id
         this.url = window.location.origin+'/mob/views/trading/shipDetail.html?id='+this.id
         this.proType = this.$route.query.type
-        this.shareUrl = window.location.origin+'/sinovat/login/register'
+        this.shareUrl = window.location.origin+'/sinovat2/login/register'
         this.getData()
       },
       currentSpecArr: {
@@ -302,9 +302,9 @@
 
       userInfo(){
         if(this.userInfo.inviCd){
-          this.shareUrl = window.location.origin+'/sinovat/login/register?inviCd='+this.userInfo.inviCd
+          this.shareUrl = window.location.origin+'/sinovat2/login/register?inviCd='+this.userInfo.inviCd
         }else {
-          this.shareUrl = window.location.origin+'/sinovat/login/register'
+          this.shareUrl = window.location.origin+'/sinovat2/login/register'
         }
       }
     },
@@ -352,7 +352,7 @@
       this.proType = this.$route.query.type
       this.url = window.location.origin+'/mob/views/trading/shipDetail.html?id='+this.id
       // console.log(this.url)
-      this.shareUrl = window.location.origin+'/sinovat/login/register'
+      this.shareUrl = window.location.origin+'/sinovat2/login/register'
 
 
       this.getData()
@@ -390,12 +390,12 @@
       },
       //进店逛逛
       toShop(id){
-        //sinovat/Trade/storeHome?shopId=5022714488525824&tabId=0
+        //sinovat2/Trade/storeHome?shopId=5022714488525824&tabId=0
         window.open('./Trade/storeHome?shopId='+id)
       },
       //跳转产品详情
       toProDetail(id) {
-        let url = '../sinovat/Trade/productDetail?id='+ id + "&type=product"
+        let url = '../sinovat2/Trade/productDetail?id='+ id + "&type=product"
         window.open(url)
       },
       //收藏商品

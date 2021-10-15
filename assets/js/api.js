@@ -55,7 +55,7 @@ function get(url, data, noTip) {
             type: 'warning'
           }).then(() => {
             console.log('=================')
-            window.location.href = '/sinovat/login/login'
+            window.location.href = '/sinovat2/login/login'
           })
         } else {
           reject(res)
@@ -106,7 +106,7 @@ function post(url, data) {
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            window.location.href = '/sinovat/login/login'
+            window.location.href = '/sinovat2/login/login'
           })
         } else {
           MessageBox({

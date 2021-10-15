@@ -132,7 +132,7 @@
             }
           },
         toProDetail(item){
-          let url = '../sinovat/Trade/productDetail?id='+item.id + "&type=" + (item.ship ? 'ship' : 'product')
+          let url = '../sinovat2/Trade/productDetail?id='+item.id + "&type=" + (item.ship ? 'ship' : 'product')
           window.open(url)
         },
 

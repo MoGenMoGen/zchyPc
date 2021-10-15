@@ -10,7 +10,7 @@ gulp.task('dev', function(){
             host: '47.101.167.43',
             username: 'root',
             password: 'sinovat_ocean@2020',
-            dest: '/usr/local/tomcat/sinovat/web/pc'
+            dest: '/usr/local/tomcat/sinovat2/web/pc'
         }))
         .on('error', function(err) {
             throw err;
