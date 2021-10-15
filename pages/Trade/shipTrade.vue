@@ -353,7 +353,7 @@
           //   this.query.toW(qry,'catId',this.id[2],'EQ')
           // }
         }else {
-          this.query.toW(qry,'typesCd',this.typesCd)
+          this.query.toW(qry,'typesCd',this.typesCd,'EQ')
         }
 
         // this.query.toW(qry,'brandId',this.brandId,'EQ')
@@ -376,19 +376,19 @@
           this.query.toO(qry,'origPrice','asc')
         }
         if(this.used){
-          this.query.toW(qry,'used',this.used)
+          this.query.toW(qry,'used',this.used,'EQ')
         }
         if(this.sailingAreaCd){
-          this.query.toW(qry,'sailingAreaCd',this.sailingAreaCd)
+          this.query.toW(qry,'sailingAreaCd',this.sailingAreaCd,'EQ')
         }
         if(this.hullMaterialCd){
-          this.query.toW(qry,'hullMaterialCd',this.hullMaterialCd)
+          this.query.toW(qry,'hullMaterialCd',this.hullMaterialCd,'EQ')
         }
         // if(this.typesCd){
         //   this.query.toW(qry,'typesCd',this.typesCd)
         // }
         if(this.lengthCd){
-          this.query.toW(qry,'lengthCd',this.lengthCd)
+          this.query.toW(qry,'lengthCd',this.lengthCd,'EQ')
         }
         this.query.toP(qry,this.pageNo,this.pageSize)
         let data = await this.api.shipTradeList(this.query.toEncode(qry))
