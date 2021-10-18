@@ -7,7 +7,7 @@
       <div>序号</div>
       <div>检查起止时间</div>
       <div>检查时长</div>
-      <div>整改单</div>
+      <!-- <div>整改单</div> -->
       <div>检查图片</div>
       <div>检查视频</div>
       <div>备注</div>
@@ -26,7 +26,7 @@
           <div>{{ item.endTm }}</div>
         </div>
         <div>{{ item.duration }}</div>
-        <div>{{ item.zgno }}</div>
+        <!-- <div>{{ item.zgno }}</div> -->
         <div>
           <img style="width: 94px; height: 57px" :src="item.imgUrl" alt="" />
         </div>

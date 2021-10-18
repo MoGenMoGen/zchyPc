@@ -110,7 +110,12 @@
             label="客户名称"
           >
           </el-table-column>
-          <el-table-column width="90" align="center"  prop="statusNm" label="船舶状态">
+          <el-table-column
+            width="90"
+            align="center"
+            prop="statusNm"
+            label="船舶状态"
+          >
             <!-- <template slot-scope="scope">
               <span v-if="scope.row.status == 1">建造中</span>
               <span v-else-if="scope.row.status == 2">已完成</span>
@@ -133,19 +138,33 @@
               >
                 <div
                   style="
-                    background: #2778be;
+                    background: red;
                     color: #fff;
                     font-size: 15px;
                     margin-bottom: 15px;
-                    width: 60px;
+                    width: 77px;
                     padding: 5px;
                   "
-                  v-if="scope.row.statusCd == 'DOCS_STATUS.01'||scope.row.statusCd == 'DOCS_STATUS.02'"
-               class="btn_yunCheckDetail"
+                  v-if="
+                    scope.row.statusCd == 'DOCS_STATUS.01' ||
+                    scope.row.statusCd == 'DOCS_STATUS.02'
+                  "
+                  class="btn_yunCheckDetail"
+                  @click="tofpxpert"
                 >
-                  检验
+                  检验入口
                 </div>
-                <div style="color:rgb(39, 120, 190);" class="btn_yunCheckDetail" @click="toPage(`/personal/archives?id=${scope.row.id}&shipCd=${scope.row.cd}&shipStatus=${scope.row.statusNm}&toYunCheck=true`)">查看详情</div>
+                <div
+                  style="color: rgb(39, 120, 190)"
+                  class="btn_yunCheckDetail"
+                  @click="
+                    toPage(
+                      `/personal/archives?id=${scope.row.id}&shipCd=${scope.row.cd}&shipStatus=${scope.row.statusNm}&toYunCheck=true`
+                    )
+                  "
+                >
+                  查看详情
+                </div>
               </div>
             </template>
           </el-table-column>
@@ -381,6 +400,15 @@ export default {
     this.getyunCheckList();
   },
   methods: {
+    tofpxpert() {
+      let uid = "03939";
+      let ps = "zchy54321";
+      let server = "www.fpxpert.cn";
+      let url = encodeURI(
+        `esfp://login?uid=${uid}&password=${ps}&server=${server}`
+      );
+      window.location.replace(url);
+    },
     async getData() {
       this.getBidData();
       this.getList();
@@ -449,16 +477,16 @@ export default {
       this.rectifyList = data.data.list;
     },
     // 云检验列表
-   async getyunCheckList() {
+    async getyunCheckList() {
       let qry = this.query.new();
       this.query.toP(qry, 1, 3);
       let param = {
-        keyWord: '',
+        keyWord: "",
         orgEnterId: this.currentRole.id,
       };
       this.query.toO(qry, "cd", "asc");
       let data = await this.api.allShip(this.query.toEncode(qry), param);
-      this.yunCheckList=data.data.list;
+      this.yunCheckList = data.data.list;
     },
     toPage(url) {
       if (url) {
@@ -656,7 +684,7 @@ export default {
       cursor: pointer;
     }
   }
-  .btn_yunCheckDetail:hover{
+  .btn_yunCheckDetail:hover {
     cursor: pointer;
   }
   .el-table__header thead {
