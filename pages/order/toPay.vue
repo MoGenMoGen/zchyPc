@@ -286,7 +286,7 @@
           }
           idArr.push(item.orderCd)
           idArray.push(item.id)
-          this.totalPrice += item.orderPrice
+          this.totalPrice += item.orderAmt
           this.totalPrice += item.payShip
         })
         this.proNm = nmArr.join(',')
@@ -307,7 +307,7 @@
             nmArr.push(item.goodsNm)
           }
         })
-        this.totalPrice  = info.orderPrice;
+        this.totalPrice  = info.orderAmt;
         this.proNm = nmArr.join(',')
         this.ids = info.orderCd;
         this.id = info.id;

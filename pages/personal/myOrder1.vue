@@ -56,7 +56,7 @@
                <p>{{v.goodsUnit}}</p>
              </div>
            </div>
-           <div style="color: #E4393C;"  v-if="item.itms[0].goodsPrice!=price">￥ {{item.originPrice}}</div>
+           <div style="color: #E4393C;"  v-if="item.itms[0].goodsPrice!=price">￥ {{item.orderAmt}}</div>
            <div style="color: #E4393C;"  v-else>价格面议</div>
            <div>{{item.statusNm}}</div>
            <div class="btnList">
