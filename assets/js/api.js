@@ -55,7 +55,7 @@ function get(url, data, noTip) {
             type: 'warning'
           }).then(() => {
             console.log('=================')
-            window.location.href = '/sinovat2/login/login'
+            window.location.href = '/sinovat/login/login'
           })
         } else {
           reject(res)
@@ -106,7 +106,7 @@ function post(url, data) {
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            window.location.href = '/sinovat2/login/login'
+            window.location.href = '/sinovat/login/login'
           })
         } else {
           MessageBox({
@@ -364,6 +364,30 @@ class api {
         resolve(res.data.list)
       });
     });
+  }
+  //店铺列表分页
+  shopList(data) {
+    return new Promise(resolve => {
+      get("/ds/shops/api/page?query=" + data).then(res => {
+        resolve(res)
+      })
+    })
+  }
+  //店铺列表不分页
+  shopList2(data) {
+    return new Promise(resolve => {
+      get("/ds/shops/api/list?query=" + data).then(res => {
+        resolve(res.data.list)
+      })
+    })
+  }
+  //店铺详情
+  shopDetail(id) {
+    return new Promise(resolve => {
+      get("/ds/shops/api/info/" + id, '',).then(res => {
+        resolve(res.data)
+      })
+    })
   }
   //商品分类（全部，包含船舶和产品）
   shopClassify() {

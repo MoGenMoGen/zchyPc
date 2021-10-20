@@ -418,15 +418,15 @@
       //搜索
       toSeacrh(){
         if(this.selectCheck == 5){
-          this.$router.push('../search/programSearch?keyWord='+this.keyWord + "&selectCheck=" + this.selectCheck+'&time='+new Date().getTime())
+          this.$router.push('../search/programSearch2?keyWord='+this.keyWord + "&selectCheck=" + this.selectCheck+'&time='+new Date().getTime())
         }else if(this.selectCheck == 1){
-          this.$router.push('../search/shipSearch?keyWord='+this.keyWord + "&selectCheck=" + this.selectCheck+'&time='+new Date().getTime())
+          this.$router.push('../search/shipSearch2?keyWord='+this.keyWord + "&selectCheck=" + this.selectCheck+'&time='+new Date().getTime())
         }else if(this.selectCheck == 2){
-          this.$router.push('../search/productSearch?keyWord='+this.keyWord + "&selectCheck=" + this.selectCheck+'&time='+new Date().getTime())
+          this.$router.push('../search/productSearch2?keyWord='+this.keyWord + "&selectCheck=" + this.selectCheck+'&time='+new Date().getTime())
         }else if(this.selectCheck == 7){
           this.$router.push('../search/storeSearch?keyWord='+this.keyWord + "&selectCheck=" + this.selectCheck+'&time='+new Date().getTime())
         }else if(this.selectCheck == 4){
-          this.$router.push('../search/infoSearch?keyWord='+this.keyWord + "&selectCheck=" + this.selectCheck+'&time='+new Date().getTime())
+          this.$router.push('../search/infoSearch2?keyWord='+this.keyWord + "&selectCheck=" + this.selectCheck+'&time='+new Date().getTime())
         }else if(this.selectCheck == 8){
           this.$router.push('../search/brandSearch?keyWord='+this.keyWord + "&selectCheck=" + this.selectCheck+'&time='+new Date().getTime())
         }
