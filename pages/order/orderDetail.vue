@@ -110,13 +110,23 @@
           </p>
           <p>
             <span></span>
+            <span>优惠后金额：</span>
+            <span>￥{{info.orderAmt}}</span>
+          </p>
+          <p>
+            <span></span>
             <span>运费：</span>
             <span>￥{{info.payShip}}</span>
           </p>
           <p>
             <span></span>
+            <span>其他费用：</span>
+            <span>￥{{info.otherPrice}}</span>
+          </p>
+          <p>
+            <span></span>
             <span>应付总额：</span>
-            <span class="red totalAmout"  v-if="goodList.length && goodList[0].goodsPrice!==price">￥{{moneySum+info.payShip}}</span>
+            <span class="red totalAmout"  v-if="goodList.length && goodList[0].goodsPrice!==price">￥{{moneySum+info.orderAmt+info.otherPrice}}</span>
             <span class="red totalAmout"  v-if="goodList.length && goodList[0].goodsPrice===price">价格面议</span>
           </p>
         </div>
@@ -172,13 +182,13 @@ export default {
   mounted(){
     this.form = this.until.getQueryString('form')
     this.id = this.until.getQueryString('id')
-       this.getInfo()
-
+    this.getInfo()
   },
   methods:{
    getInfo(){
       this.api.orderDetail(this.id).then((res) => {
         this.info = res;
+        console.log(11,res)
         if(this.info.payTm){
           this.orderStatus = 1
         }
@@ -232,16 +242,7 @@ export default {
         }else {
           this.payType = '其他'
         }
-
-
-
       })
-
-
-
-
-
-
     },
 
     //页面跳转
@@ -252,7 +253,7 @@ export default {
     //跳转产品详情
     toProDetail(item) {
       console.log(item)
-      // let url = '../sinovat2/Trade/productDetail?id='+item.id + "&type=product"
+      // let url = '../sinovat/Trade/productDetail?id='+item.id + "&type=product"
       // window.open(url)
     },
   }
@@ -461,9 +462,10 @@ export default {
       }
       .line6{
         background: white;
-        padding-left: 48px;
-        padding-right: 48px;
-        height: 138px;
+        // padding-left: 48px;
+        // padding-right: 48px;
+        padding: 0 48px 23px;
+        // height: 138px;
         p{
           display: flex;
           margin-bottom: 25px;

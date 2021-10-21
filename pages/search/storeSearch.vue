@@ -276,12 +276,11 @@
             flex: 1;
             width: 46%;
             .pt{
-              display: flex;
+              width: calc((100% - 60px)/3);
               flex-direction: column;
               border: 1px solid #E1E1E1;
               cursor: pointer;
               margin: 0 10px;
-              flex: 1;
               .img{
                 border-bottom: 1px solid #E1E1E1;
                 height: 80%;
