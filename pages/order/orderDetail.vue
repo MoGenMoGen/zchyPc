@@ -126,7 +126,7 @@
           <p>
             <span></span>
             <span>应付总额：</span>
-            <span class="red totalAmout"  v-if="goodList.length && goodList[0].goodsPrice!==price">￥{{moneySum+info.orderAmt+info.otherPrice}}</span>
+            <span class="red totalAmout"  v-if="goodList.length && goodList[0].goodsPrice!==price">￥{{info.orderAmt+info.payShip+info.otherPrice}}</span>
             <span class="red totalAmout"  v-if="goodList.length && goodList[0].goodsPrice===price">价格面议</span>
           </p>
         </div>
