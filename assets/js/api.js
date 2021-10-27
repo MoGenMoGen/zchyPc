@@ -236,6 +236,32 @@ class api {
       })
     })
   }
+  
+  //上传图片(加密)
+  uploadImgEnc(e) {
+    let blob = e.target.files[0];
+    let maxSize = 1024 * 1024 * 10
+    if (!blob) {
+      store.commit('changeLoading', false)
+      return
+    }
+    if (blob.size > maxSize) {
+      MessageBox({
+        message: '最大不能超过10M！',
+        type: 'warning'
+      });
+      store.commit('changeLoading', false)
+      return
+    }
+    store.commit('changeLoading', true)
+    let param = new FormData();
+    param.append('file', blob);
+    return new Promise(resolve => {
+      post('/general/oss/encUpload', param).then(res => {
+        resolve(res.data)
+      })
+    })
+  }
 
   //上传图片
   uploadImgNew(file) {

@@ -151,7 +151,7 @@
         if(e.target.files.length===0){
           return
         }
-        let img = await this.api.uploadImg(e)
+        let img = await this.api.uploadImgEnc(e)
         let type=img.split('.')[img.split('.').length - 1]
         let nm = e.target.files[0].name
         this.info.attachment = img

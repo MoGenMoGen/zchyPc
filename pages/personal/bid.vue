@@ -87,9 +87,9 @@
         background
         @current-change="handleCurrentChange"
         :current-page.sync="pageNum"
-        :page-size=pageSize
+        :page-size="pageSize"
         layout="prev, pager, next, jumper"
-        :total= total>
+        :total= "total">
       </el-pagination>
     </div>
   </div>
