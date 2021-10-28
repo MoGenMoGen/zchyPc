@@ -1,7 +1,6 @@
 <template>
   <!--  品质保障-->
   <div>
-
     <!--    船舶信息-->
     <div class="info" v-if="!ifProDetail">
       <img :src="info.logo">
@@ -14,11 +13,20 @@
     <div class="postBox">
       <div class="list">
         <div class="listTitle">
-          检验周期：
+          标题：
         </div>
         <div class="listContent">
-          <el-select v-model="value1" clearable placeholder="请选择" class="select">
-            <el-option v-for="item in optionsOne" :key="item.value" :label="item.label" :value="item.value">
+          <el-input placeholder="请输入标题" style="width: 454px;" v-model="title">
+            </el-input>
+        </div>
+      </div>
+      <div class="list">
+        <div class="listTitle">
+          类别：
+        </div>
+        <div class="listContent">
+          <el-select v-model="value1" clearable placeholder="请选择" class="select" >
+            <el-option v-for="item in options" :key="item.cd" :label="item.nm" :value="item.cd"  >
             </el-option>
           </el-select>
         </div>
@@ -28,12 +36,12 @@
           过程说明：
         </div>
         <div class="listContent">
-          <textarea rows="" cols="" placeholder="多行输入"></textarea>
+          <textarea rows="" cols="" placeholder="多行输入" v-model="describe"></textarea>
         </div>
       </div>
       <div class="list">
         <div class="listTitle">
-          完成时间：
+          监理时间：
         </div>
         <div class="listContent">
           <el-date-picker class="select" v-model="pickDate" type="datetime" placeholder="选择日期时间" align="right"
@@ -43,13 +51,13 @@
       </div>
       <div class="list">
         <div class="listTitle">
-          上传附件：
+          上传图片：
         </div>
         <div class="listContent">
           <el-form :model="form">
             <el-form-item>
               <el-upload ref="upload" action="/general/oss/upload" accept="image/png,image/gif,image/jpg,image/jpeg"
-                list-type="picture-card" :auto-upload="false" :before-upload="handleBeforeUpload"
+                list-type="picture-card" :auto-upload="true" :before-upload="handleBeforeUpload"
                 :on-preview="handlePictureCardPreview" :on-remove="handleRemoveOne" :on-success="imgSuccess" >
                 <i class="el-icon-plus"></i>
               </el-upload>
@@ -68,20 +76,42 @@
         <div class="listContent" style="border-bottom: 1px dotted #cccccc;">
           <el-form :model="formTwo">
             <el-form-item >
-              <el-upload ref="uploadExcel" action="/general/oss/upload" :auto-upload="false"
+              <el-upload ref="uploadExcel" action="/general/oss/upload" :auto-upload="true"
                  :on-change="fileChange" :on-success="handleSuccess" :on-remove="handleRemoveTwo"
                 :on-error="handleError" :file-list="fileInfo" :on-preview="HandFilePreView">
                 <el-button size="small" plain style="width: 100px;height: 50px;">选择文件</el-button>
-
               </el-upload>
             </el-form-item>
-
           </el-form>
+        </div>
+      </div>
+      <div class="list" style="align-items: flex-start;">
+        <div class="listTitle" style="line-height: 50px;">
+          上传附件：
+        </div>
+        <div class="listContent" style="border-bottom: 1px dotted #cccccc;">
+          <el-form :model="formThree">
+            <el-form-item >
+              <el-upload ref="uploadExcelTwo" action="/general/oss/upload" :auto-upload="true"
+                 :on-change="fileChangeTwo" :on-success="handleSuccessTwo" :on-remove="handleRemoveThree"
+                :on-error="handleErrorTwo" :file-list="fileInfoTwo" :on-preview="HandFilePreViewTwo">
+                <el-button size="small" plain style="width: 100px;height: 50px;">选择附件</el-button>
+              </el-upload>
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
+
+      <div class="list">
+        <div class="listTitle">
+          备注：
+        </div>
+        <div class="listContent">
+          <textarea rows="" cols="" placeholder="多行输入" v-model="rmks" style="height: 100px;"></textarea>
         </div>
       </div>
       <div class="list">
         <div class="listTitle">
-
         </div>
         <div class="listContent">
           <button type="button" cover="point" @click="save">保存</button>
@@ -92,48 +122,38 @@
       <div class="contentHead">
         <img :src="arrowDown" class="down" :class="item.flag==true?'rotate':''">
         <div class="left">
-          第{{index+1}}期(检验时间：{{item.time}})
+          第{{total-index}}期(检验时间：{{item.actDt}})
         </div>
-        <div class="right" :style="{color:(item.isFinish=='完成检验'?'#2778BE':'#FF3737')}" @click="showDetail(item)">
-          {{item.isFinish}}
+        <div class="right" v-if="item.audit=='2'" style="color: #2778BE;" @click="showDetail(index)">
+            检验完成
+        </div>
+       <div class="right" v-if="item.audit=='1'" style="color:yellow;" @click="showDetail(index)">
+           审核中
+       </div>
+        <div class="right" v-if="item.audit=='3'" style="color:red;" @click="showDetail(index)">
+          审核不通过
         </div>
       </div>
-      <div class="contentBody" v-if="item.isFinish=='完成检验'" :class="item.flag==true?'active':''">
-        <div class="titleone">
-          {{index+1}}. 一期报告
+      <div class="contentBody" :class="item.flag==true?'active':''" >
+        <div class="report" v-viewer  >
+          <img :src="item1" v-for="(item1,index1) in item.imgUrl" :key="index1" v-if="item1!=[]" >
         </div>
-        <div class="report">
-          <img :src="ppt">
-          <img :src="ppt">
-          <img :src="ppt">
-          <img :src="ppt">
-
+        <div class="file">
+            <span>文件：</span>
+            <p v-for="(item1,index1) in list[index].fileList" :key="index1" v-if="item1!=[]" @click="toLink(item1.url)">
+              <img :src="item1.img"  >
+              <span style="width: 100px;">{{item1.fileNm}}</span>
+            </p>
         </div>
-
-
+        <div class="file">
+            <span>附件：</span>
+            <p v-for="(item1,index1) in list[index].attachmentList" :key="index1" v-if="item1!=[]" @click="toLink(item1.url)">
+              <img :src="item1.img"  >
+              <span style="width: 100px;">{{item1.fileNm}}</span>
+            </p>
+        </div>
       </div>
-      <div class="contentBodyTwo" v-if="item.isFinish=='审核中'" :class="item.flag==true?'active':''">
-        <!--  <el-upload action="#" list-type="picture-card" :auto-upload="false" ref="pictureUpload">
-          <i slot="default" class="el-icon-plus"></i>
-          <div slot="file" slot-scope="{file}">
-            <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
-            <span class="el-upload-list__item-actions">
-              <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
-                <i class="el-icon-zoom-in"></i>
-              </span>
-              <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleDownload(file)">
-                <i class="el-icon-download"></i>
-              </span>
-              <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleRemove(file)">
-                <i class="el-icon-delete"></i>
-              </span>
-            </span>
-          </div>
-        </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="dialogImageUrl" alt="">
-        </el-dialog> -->
-      </div>
+
     </div>
     <!-- <div class="jianzaoBox"> -->
     <!-- div class="topBox">
@@ -235,7 +255,10 @@
     name: "fangansheji",
     data() {
       return {
-
+        title:"",
+        rmks:"",
+        fileInfo:[],
+        fileInfoTwo:[],
         dialogImageUrl: '',
         dialogVisible: false,
         formLabelWidth: '80px',
@@ -244,20 +267,16 @@
         formTwo: {
           file: ''
         },
-        imgInfo: [],
+        formThree: {
+          file: ''
+        },
+        imgInfo:[],
+        imgInfo2:[],
         currentIndex: -1,
         disabled: false,
         fileInfoList: [],
-        contentList: [{
-            time: "2020-04-16",
-            isFinish: "完成检验",
-            flag: false
-          },
-          {
-            time: "2020-04-19",
-            isFinish: "审核中",
-            flag: false
-          }
+        fileInfoListTwo:[],
+        contentList: [
         ],
         pickerOptions: {
           shortcuts: [{
@@ -282,7 +301,9 @@
           }]
         },
         value1: "",
+        describe:"",
         pickDate: "",
+        total:"",
         date,
         left,
         test1,
@@ -317,6 +338,7 @@
         }],
         checkIndex: 0,
         ifProDetail: false, //是否商品详情
+        currentRole:''
       }
     },
     watch: {
@@ -325,11 +347,11 @@
       },
     },
     async mounted() {
+       this.currentRole=JSON.parse(this.until.seGet('currentRole'))
       this.ifProDetail = window.location.href.indexOf('/Trade/productDetail') === -1 ? false : true
       this.getDic()
       console.log(this.ifProDetail)
       if (!this.ifProDetail) {
-
         this.id = this.until.getQueryString('id')
         this.shipCd = this.until.getQueryString('shipCd')
         this.shipStatus = this.until.getQueryString('shipStatus')
@@ -339,7 +361,18 @@
         }
         this.info = await this.api.orgInfoBasic(param)
       }
-
+	  let qry = this.query.new()
+	   this.query.toW(qry, 'docsId', this.id, 'EQ')
+	     this.api.qualityListAll(this.query.toEncode(qry)).then(res=>{
+			 this.contentList=res
+       this.total=this.contentList.length
+       this.contentList.forEach(item => {
+         this.$set(item,'flag',false)
+         item.imgUrl=item.imgUrl.split(",")
+         item.fileUrl=item.fileUrl.split(',')
+       })
+      console.log('111111111',this.contentList);
+		 })
     },
     methods: {
       handleBeforeUpload(file) {
@@ -361,10 +394,14 @@
       },
   imgSuccess(res,file,fileList)
       {
-        this.imgInfo=fileList
+       this.imgInfo = fileList
+         .map((item) => item.response.data)
+         .join(",");
       },
       handleRemoveOne(file, fileList) {
-
+      this.imgInfo= fileList
+        .map((item) => item.response.data)
+        .join(",");
       },
       handlePictureCardPreview(file) {
         this.dialogImageUrl =   file.url;
@@ -372,24 +409,26 @@
       },
 
       fileChange(file, fileList) {
-        console.log('change')
-        console.log(file)
-        this.form.file = file.raw
-        console.log(this.form.file)
-        console.log(fileList)
+        this.formTwo.file = file.raw
+      },
+      fileChangeTwo(file, fileList) {
+        this.formThree.file = file.raw
       },
        handleRemoveTwo(file,fileList){
-         console.log(this.fileInfoList);
+         this.fileInfoList=fileList.map((item) => item.response.data)
+         .join(",");
+       },
+       handleRemoveThree(file,fileList){
+         this.fileInfoListTwo=fileList.map((item) => item.response.data)
+         .join(",");
        },
       handleSuccess(res, file, fileList) {
-
-        this.fileInfoList=fileList
-        console.log('文件',this.fileInfoList);
-
-        // this.$notify.success({
-        //   title: '成功',
-        //   message: `文件上传成功`
-        // });
+        this.fileInfoList=fileList.map((item) => item.response.data)
+        .join(",");
+      },
+      handleSuccessTwo(res, file, fileList) {
+        this.fileInfoListTwo=fileList.map((item) => item.response.data)
+        .join(",");
       },
       handleError(err, file, fileList) {
         this.$notify.error({
@@ -397,26 +436,46 @@
           message: `文件上传失败`
         });
       },
-
-
-      showDetail(item) {
-        item.flag = !item.flag
+      handleErrorTwo(err, file, fileList){
+        this.$notify.error({
+          title: '错误',
+          message: `文件上传失败`
+        });
+      },
+      showDetail(index) {
+        this.contentList[index].flag=! this.contentList[index].flag
+        console.log( this.contentList[index].flag);
       },
       HandFilePreView(file){
-        console.log(file);
       },
-
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
+      HandFilePreViewTwo(file){
       },
       handleDownload(file) {
         console.log(file);
       },
-      save()
+      selectone(cd){
+        this.statusCd=cd
+        console.log('kan',cd);
+      },
+      async save()
       {
-        this.$refs.upload.submit()
-         this.$refs.uploadExcel.submit()
+         console.log(this.currentRole);
+        let obj={
+          docsId:this.id,
+          nm:this.title,
+          statusCd:this.value1,
+          description:this.describe,
+          actDt:this.pickDate,
+          imgUrl:this.imgInfo,
+          fileUrl:this.fileInfoList,
+          attachment:this.fileInfoListTwo,
+          surveyId:this.currentRole.id,
+          surveyNm:this.currentRole.company,
+          rmks:this.rmks
+        }
+       this.api.quaGuarAdd(obj).then(res=>{
+         console.log(res);
+       })
       },
       async getDic() {
         this.options = await this.api.dataDictionary('DOCS_SURVEY_CYCLE')
@@ -425,7 +484,7 @@
         // data.forEach(item=>{
         //   this.options.push({label:item.nm,value:item.cd})
         // })
-
+        console.log('7878', this.options);
         this.getInfo()
       },
       async getInfo(id) {
@@ -440,8 +499,9 @@
           this.query.toW(qry, 'docsId', this.id, 'EQ')
         }
 
-        this.query.toW(qry, 'cd', this.options[this.checkIndex].cd, 'EQ')
-        let data = await this.api.qualityList(this.query.toEncode(qry))
+        // this.query.toW(qry, 'cd', this.options[this.checkIndex].cd, 'EQ')
+        let data = await this.api.qualityListAll(this.query.toEncode(qry))
+        console.log(787897,data);
         let data1 = []
         if (data.length > 0) {
 
@@ -452,7 +512,7 @@
               item.show = false
             }
 
-            if (this.options[this.checkIndex].cd != 'DOCS_SURVEY_CYCLE.70') {
+            // if (this.options[this.checkIndex].cd != 'DOCS_SURVEY_CYCLE.70') {
               let imgList1 = item.imgUrl ? item.imgUrl.split(',') : []
               let imgList2 = []
               imgList1.forEach(v => {
@@ -567,19 +627,20 @@
                 }
                 item.attachmentList = fileList22
               })
-            } else {
-              item.imgList1 = item.imgUrl ? item.imgUrl.split(',') : []
-              if (data1.length == 0) {
-                console.log(item)
-                data1[0] = item
-              } else {
-                if (item.actDt == data1[data1.length - 1].actDt) {
-                  data1[data1.length - 1].imgList1.push(...item.imgList1)
-                } else {
-                  data1.push(item)
-                }
-              }
-            }
+            // }
+            // else {
+            //   item.imgList1 = item.imgUrl ? item.imgUrl.split(',') : []
+            //   if (data1.length == 0) {
+            //     console.log(item)
+            //     data1[0] = item
+            //   } else {
+            //     if (item.actDt == data1[data1.length - 1].actDt) {
+            //       data1[data1.length - 1].imgList1.push(...item.imgList1)
+            //     } else {
+            //       data1.push(item)
+            //     }
+            //   }
+            // }
           })
         }
         if (this.options[this.checkIndex].cd != 'DOCS_SURVEY_CYCLE.70') {
@@ -587,7 +648,7 @@
         } else {
           this.list = data1
         }
-        console.log(this.list)
+        console.log('151',this.list)
 
       },
       toLink(url) {
@@ -730,7 +791,6 @@
       }
 
       .report {
-        margin-top: 33px;
         display: flex;
         max-width: 900px;
 
@@ -740,6 +800,26 @@
           margin-left: 10px;
 
         }
+      }
+      .file{
+        p{
+          cursor: pointer;
+          img{
+             margin-left: 10px;
+             margin-top: 10px;
+             height: 70px;
+             width: 70px;
+          }
+          span{
+            margin-top: 0;
+          }
+        }
+        span{
+          display: block;
+          margin-left: 10px;
+          margin-top: 20px;
+        }
+
       }
 
     }
