@@ -77,7 +77,7 @@
         <div v-for="item in list" :key="item.id">
           <p>{{item.cd}}</p>
           <p>{{item.nm}}
-          <img :src="VRImg" style="cursor: pointer;">
+          <img :src="VRImg" style="cursor: pointer;" v-if="item.vrUrl" @click="toVR(item.vrUrl)">
           </p>
           <!--<p>￥{{item.totalPrice}} /艘</p>-->
           <p>{{item.statusNm}}</p>
@@ -249,7 +249,10 @@
              this.form.orgEnterId = this.currentRole.id
             this.form.docsId = item.id
               this.dialogVisible=true
-          }  ,
+          },
+          toVR(url){
+            window.open(url)
+          }
         },
     }
 </script>
