@@ -25,7 +25,7 @@
           <div>{{ item.startTm }}</div>
           <div>{{ item.endTm }}</div>
         </div>
-        <div>{{ item.duration }}</div>
+        <div>{{ item.runTime }}</div>
         <!-- <div>{{ item.zgno }}</div> -->
         <div>
           <img style="width: 94px; height: 57px" :src="item.imgUrl" alt="" />
