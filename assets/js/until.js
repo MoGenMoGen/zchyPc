@@ -437,6 +437,12 @@ class until {
     let d = parseInt(count / (60 * 60) / 24);
     return d;
   }
+  TimeStep2(times) {
+    let start = new Date(times);
+    let end = new Date();
+    let count = (end.getTime() - start.getTime()) / 1000;
+    return count;
+  }
   //设置只能输入数字
   formatNumber(val, max) {
     max = parseInt(max);

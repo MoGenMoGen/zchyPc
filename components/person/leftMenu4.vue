@@ -32,12 +32,14 @@
       props:['cd','msgNum'],
       data(){
           return{
-            navList:[{
+            navList:[
+				{
               nm:'投标管理',
               img:bM,
               href:'./bid',
               cd:'bid'
-            },{
+            },
+			{
               nm:'检测船舶',
               img:moS,
               href:'./shipDetec',
@@ -135,6 +137,23 @@
                 href:'./myBill?cdType=3'
               }],
             },
+			// {
+			//   nm:'我的投标',
+			//   img:bM,
+			//   title:[{
+			//     nm:'投标报名',
+			//     cd:'bidRegistration',
+			//     href:'./bidRegistration'
+			//   },{
+			//     nm:'全部投标',
+			//     cd:'tender1',
+			//     href:'./tender?cdType=1'
+			//   },{
+			//     nm:'投标结果',
+			//     cd:'tender2',
+			//     href:'./tender?cdType=2'
+			//   }],
+			// },
             {
               nm:'快速下单',
               img:qO,

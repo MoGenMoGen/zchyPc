@@ -228,7 +228,7 @@
         },
         bidApply(row){
           // console.log(row)
-          if(this.until.TimeStep(row.completeTm) >= 0){
+          if(this.until.TimeStep2(row.completeTm+' 23:59:59') >= 0){
             this.$message({
               message: '已经过了截止时间',
               type: 'warning',
@@ -275,7 +275,7 @@
         },
         async getBidData(){
           let qry = this.query.new()
-          this.query.toO(qry,'publishTm','desc')
+           this.query.toO(qry,'publishTm','desc')
           if(this.value1){
             let timeS = this.until.formatDate(this.value1)
             this.value2 = timeS.year+'-'+timeS.month+'-'+timeS.day
@@ -301,7 +301,7 @@
             this.$set(this.bidList[i], 'disable', 'false')
           }
           this.bidList.forEach(item => {
-            if(this.until.TimeStep(item.completeTm) >= 0){
+            if(this.until.TimeStep2(item.completeTm+' 23:59:59') >= 0){
               item.disable = true;
             }
           });
