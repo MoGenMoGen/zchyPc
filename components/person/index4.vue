@@ -401,8 +401,10 @@ export default {
   },
   methods: {
     tofpxpert() {
-      let uid = "03939";
-      let ps = "zchy54321";
+      // let uid = "03939";
+      // let ps = "zchy54321";
+      let uid = "";
+      let ps = "";
       let server = "www.fpxpert.cn";
       let url = encodeURI(
         `esfp://login?uid=${uid}&password=${ps}&server=${server}`
