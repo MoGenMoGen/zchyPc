@@ -1,13 +1,10 @@
 <template>
   <div id="app">
-    <div class="header">
-      <p><span class="lineC"></span>投标报名</p>
-      <span @click="back">
-        < 返回</span>
-    </div>
+    <offer :applyInfo="applyInfo" :offer="offer" @close="close"></offer>
+    <download :download1="download1" @toClose="toClose" :applyInfo="applyInfo"></download>
     <div class="body">
-      <div class="table" style="margin-top: 10px;">
-        <el-table :data="list" style="width: 100%;cursor: pointer;" @row-click="toDetail">
+      <div class="table">
+        <el-table :data="list" style="width: 100%">
           <el-table-column type="index" align="center" min-width="150" label="序号">
             <template slot-scope="scope">
             	<span>{{(pageNum - 1) * pageSize + scope.$index + 1}}</span>
@@ -19,16 +16,18 @@
               <p>项目编号：{{scope.row.bidCd}}</p>
             </template>
           </el-table-column>
-          <el-table-column min-width="150" prop="crtTm" align="center" label="报名申请时间">
+          <el-table-column width="170" prop="publishTm" align="center" label="采购金额">
           </el-table-column>
-          <el-table-column min-width="150" align="center" label="状态">
-            <template slot-scope="scope">
-              <p v-if="scope.row.audit==1" style="color: #E4393C;">待审核</p>
-              <p v-if="scope.row.audit==2" style="color: #2778BE;">通过</p>
-              <p v-if="scope.row.audit==3" style="color: #E4393C;">已驳回</p>
-            </template>
+          <el-table-column width="170" prop="bidOpenTm" align="center" label="开标时间">
           </el-table-column>
-          <el-table-column align="center" min-width="150" fixed="right" prop="options" label="备注">
+          <el-table-column prop="statusNm" width="110" align="center" label="状态">
+          </el-table-column>
+          <el-table-column align="center" width="110" fixed="right" prop="operations" label="操作">
+            <div class="btnList" slot-scope="scope">
+              <button class="button3" :class="{disable:scope.row.disable == true}"
+                v-if="scope.row.statusCd == 'BID_OFFER_STATUS.40'" @click="openOffer(scope.row)">报价</button>
+              <button class="button4" @click="toDetail(scope.row)">查看详情</button>
+            </div>
           </el-table-column>
         </el-table>
       </div>
@@ -56,12 +55,16 @@
     name: "bid",
     data() {
       return {
+        offer: false,
+        download1: false,
         list: [],
         pageNum: 1,
         pageSize: 10,
         total: 0, //当前页码
-        orgEnterId: '',
-        identityCd: ''
+        applyInfo: {},
+        value1: '',
+        value: '',
+        identityCd: '',
       }
     },
     computed: {
@@ -69,11 +72,14 @@
         'bWidth',
         'width',
         "currentRole",
+        'loading',
+        'tel',
+        'msgNum'
       ])
     },
     watch: {
       currentRole() {
-        this.orgEnterId = JSON.parse(this.until.seGet('currentRole')).id;
+        this.identityCd = JSON.parse(this.until.seGet('currentRole')).identityCd;
       },
       offer() {
         this.getBidData()
@@ -81,8 +87,8 @@
 
     },
     mounted() {
-      this.orgEnterId = JSON.parse(this.until.seGet('currentRole')).id;
-      this.getList()
+      this.identityCd = JSON.parse(this.until.seGet('currentRole')).identityCd;
+      this.getBidData()
     },
     methods: {
       back() {
@@ -91,23 +97,55 @@
       toDetail(row) {
         this.$router.push({
           path: './bidAfficheDetail',
-          query:{
-            id:row.bidId
+          query: {
+            id: row.bidId,
           }
         })
       },
       handleCurrentChange(val) {
         this.pageNum = val
-        this.getList()
+        this.getBidData()
       },
-      getList() {
+      openOffer(row) {
+        if (row.disable == true) {
+          this.$message({
+            message: '已经过了截止时间',
+            type: 'warning',
+            duration: '1500',
+            offset: '50'
+          });
+          return
+        } else {
+          this.offer = true
+          this.applyInfo = row
+        }
+      },
+      close() {
+        this.offer = false;
+        this.getBidData()
+      },
+      toOpen(row) {
+        this.download1 = true;
+        this.applyInfo = row
+      },
+      toClose() {
+        this.download1 = false;
+      },
+      search() {
+        this.pageNum = 1
+        this.getBidData()
+      },
+      getBidData() {
         let qry = this.query.new()
-        this.query.toW(qry,'orgId',this.orgEnterId+'','EQ')
-        this.query.toP(qry,this.pageNum,this.pageSize)
-        this.api.getMyBidApplyList(this.query.toEncode(qry)).then(res => {
+        this.query.toO(qry, 'publishTm', 'desc')
+        this.query.toP(qry, this.pageNum, this.pageSize)
+        this.query.toW(qry, 'viewRangeCd', this.identityCd+'', 'LK')
+        this.api.getMyBidList(this.query.toEncode(qry)).then(res => {
+          console.log(res)
           this.list = res.data.list
+          this.total = res.page.total
         })
-      }
+      },
     },
   }
 </script>
@@ -229,6 +267,7 @@
     }
 
     .body {
+      margin-top: 10px;
       .search {
         height: 78px;
         display: flex;
@@ -297,6 +336,5 @@
     display: flex;
     width: 100%;
     justify-content: center;
-    margin-top: 40px;
   }
 </style>

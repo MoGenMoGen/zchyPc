@@ -24,19 +24,19 @@
       <div class="right">
         <div class="title1">
           <p><img src="@/assets/img/new.png"/>{{newTitle2}}</p>
-          <p class="more" @click="toPage('../tradeInfo/tradeInfo?cid='+ '5032642222281728')">更多 >></p>
+          <p class="more" @click="toPage('../tradeInfo/tradeInfo?cid=1')">更多 >></p>
         </div>
         <div class="body">
-          <div class="top">
+          <!-- <div class="top">
             <img :src="topImg" v-if="topImg" alt="topImg" class="point" @click="toDetail(topItem)"/>
             <div @click="toPage({path:'../tradeInfo/infoDetail',query:{id:topId,cid:topCid}})">
               <p class="p-title point" @click="toDetail(topItem)">{{topP}}</p>
               <P class="p-msg point" @click="toDetail(topItem)">{{topCont}}</P>
             </div>
-          </div>
+          </div> -->
           <div class="down">
-            <p v-for="(item,index) in zbList" :key="index" @click="toDetail(item)" :class="{seen:item.isSeen}" @mouseenter="enter2(index)" @mouseleave="leave2(index)">
-              <span>· {{item.nm}}</span><span>{{item.releTm}}</span></p>
+            <p v-for="(item,index) in zbggList" :key="index" @click="toDetail2(item.bidId)" :class="{seen:item.isSeen}" @mouseenter="enter3(index)" @mouseleave="leave3(index)">
+              <span>· {{item.title}}</span><span>{{item.releTm}}</span><span>{{item.bidStatus}}</span></p>
           </div>
         </div>
       </div>
@@ -327,6 +327,7 @@ export default {
       topItem:{},
       infoList:[],//导航信息的列表
       zbList:[],//招标
+      zbggList: [],//招标公告
       tabCd:0,
       newTitle1:'',
       newTitle2:'',
@@ -400,9 +401,9 @@ export default {
   mounted(){
     this.getData()
     // this.getInfoTab()
-    this.getZbData()
+    // this.getZbData()
     this.getInfoData()
-
+    this.getZbggList()
   },
   methods:{
     async getData(){
@@ -587,7 +588,7 @@ export default {
       this.lfImg = this.infoList[0].imgUrl.toString()
       this.ifItem = this.infoList[0]
       console.log(this.infoList)
-      this.zbList.splice(6)
+      // this.zbList.splice(6)
     },
     async getZbData(){
       let qry = this.query.new()
@@ -609,12 +610,35 @@ export default {
       console.log('发布')
       console.log(this.zbList)
     },
+    getZbggList() {
+      let qry = this.query.new()
+      this.query.toP(qry,1,6)
+      // this.query.toW(qry,'afficheTypeNm','采购公告','EQ')
+      this.api.getZbggList(this.query.toEncode(qry)).then(res => {
+        console.log('招标公告',res)
+        res.data.list.forEach(item => {
+          item.releTm = item.releTm.substring(0,10)
+          item.isSeen = false
+        })
+        this.zbggList = res.data.list
+
+      })
+    },
     toDetail(item){
       this.$router.push({
         path:'../tradeInfo/infoDetail',
         query:{
           id:item.id,
           cid:item.cid
+        }
+      })
+    },
+    toDetail2(id) {
+      this.$router.push({
+        path: '../tradeInfo/zbDetail',
+        query: {
+          id: id,
+          cid:1
         }
       })
     },
@@ -633,6 +657,14 @@ export default {
     },
     leave2(index){
       this.zbList[index].isSeen = false
+      this.$set(this.zbList,index,this.zbList[index])
+    },
+    enter3(index){
+      this.zbggList[index].isSeen = true
+      this.$set(this.zbList,index,this.zbList[index])
+    },
+    leave3(index){
+      this.zbggList[index].isSeen = false
       this.$set(this.zbList,index,this.zbList[index])
     },
   }
@@ -886,7 +918,7 @@ export default {
               overflow: hidden;
               display: block;
               color: #636363;
-              width: 80%;
+              width: 60%;
             }
             span:nth-child(2){
               white-space: nowrap;
@@ -894,6 +926,16 @@ export default {
               overflow: hidden;
               color: #999999;
               font-size: 12px;
+              width: 20%;
+              text-align: center;
+            }
+            span:nth-child(3){
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              color: #2778BE;
+              width: 20%;
+              text-align: center;
             }
           }
           .seen{

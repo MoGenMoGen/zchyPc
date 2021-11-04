@@ -14,20 +14,23 @@
       </div>
     </div>
     <div>
-
+      <tenderAll v-if="tabId==1"></tenderAll>
+      <tenderOver v-if="tabId==2"></tenderOver>
     </div>
   </div>
 </template>
 
 <script>
   import tobbar from "../../components/person/tobbar";
+  import tenderAll from "../../components/person/tenderAll";
+  import tenderOver from "../../components/person/tenderOver";
   import {
     mapState
   } from "vuex";
   export default {
     name: "allShip",
     components: {
-      tobbar,
+      tobbar,tenderAll,tenderOver
     },
     data() {
       return {

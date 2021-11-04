@@ -12,7 +12,7 @@
       <info-menu @changeActive="getData"></info-menu>
     </div>
     <div class="partB">
-      <div class="info" v-for="(item,index) in list" :key="index" @click="toPage(item)">
+      <div class="info" v-for="(item,index) in list" :key="index" @click="toPage(item)" v-if="id!=1">
         <div class="img">
 <!--          <img :src="item.imgUrl" alt=""/>-->
           <img :src="item.imgUrl"
@@ -30,10 +30,59 @@
           <p>{{item.releTm}}</p>
         </div>
       </div>
-      <div class="foot mian">
+      <div class="info" style="padding-bottom: 0;border-bottom: none;display: flex;flex-direction: column;" v-if="id==1">
+        <div class="info-top">
+          <div class="info-top-item">
+            <span>项目名称：</span>
+            <el-input placeholder="请输入项目名称" v-model="nm" clearable></el-input>
+          </div>
+          <div class="info-top-item">
+            <span>报名截止日期：</span>
+            <el-date-picker v-model="completeTm" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+          </div>
+          <div class="info-top-item">
+            <el-button type="primary" @click="search()">搜索</el-button>
+          </div>
+        </div>
+        <el-table :data="tableData" max-height="577" style="width: 100%" :cell-style="{
+        	    'text-align': 'center',
+        	    color: '#333',
+        	    'font-weight': '500',
+        	  }" :header-cell-style="{
+        	    color: '#606060',
+        	    background: '#f8f8f8',
+        		'text-align': 'center',
+        	  }" @row-click="toDetail">
+        	<el-table-column type="index" label="序号" min-width="50">
+        		<template slot-scope="scope">
+        			<span>{{(currentPage3 - 1) * pageSize + scope.$index + 1}}</span>
+        		</template>
+        	</el-table-column>
+        	<el-table-column prop="nm" label="项目名称" min-width="250"></el-table-column>
+          <el-table-column prop="publishTm" label="发布日期" min-width="150"></el-table-column>
+          <el-table-column prop="completeTm" label="报名截止日期" min-width="150"></el-table-column>
+          <el-table-column label="项目状态" min-width="150">
+            <template slot-scope="scope">
+              <p v-if="returnDate(scope.row.completeTm)" style="color: #2778BE;">进行中</p>
+              <p v-else>已结束</p>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="foot mian" v-if="id!=1">
         <el-pagination
           v-if="this.list != ''"
           background
+          @current-change="handleCurrentChange"
+          :current-page.sync="currentPage3"
+          :page-size='pageSize'
+          layout="prev, pager, next, jumper"
+          :total= 'totalNm'>
+        </el-pagination>
+      </div>
+      <div class="foot mian" v-if="id==1">
+        <el-pagination
+            background
           @current-change="handleCurrentChange"
           :current-page.sync="currentPage3"
           :page-size='pageSize'
@@ -61,10 +110,14 @@
             currentPage3: 1,
             pageSize: 10,
             list:[],
+            tableData: [],
             id:'', //筛选id
             totalNm: 0, //当前页码
             NoNow:'', //未使用
             adertList:[],
+            nowDate: '',
+            nm: '',
+            completeTm: ''
           }
         },
       computed: {
@@ -72,7 +125,16 @@
           'bWidth',
           'width',
           'currentRole'
-        ])
+        ]),
+        returnDate() {
+          return (date) => {
+            if((new Date(date+' 23:59:59')).getTime()>this.nowDate){
+              return true
+            } else {
+              return false
+            }
+          }
+        }
       },
       watch:{
         $route(e){
@@ -110,6 +172,7 @@
         }
         this.getData()
         // this.changeActive()
+        this.nowDate = (new Date()).getTime()
       },
       methods:{
         toUrl(url){
@@ -146,21 +209,52 @@
           if(!this.id && val){
             this.id =val
           }
-          this.query.toW(qry,'cid',this.id,'EQ')
-          // this.query.toO(qry,'seq','asc')
-          // this.query.toO(qry,'releTm','desc')
-          this.query.toP(qry,this.currentPage3,this.pageSize)
-          let data = await this.api.tradeInfo(this.query.toEncode(qry))
-          this.list = data.data.list
-          console.log(this.list)
-          this.totalNm =  data.page.total
-          this.list.forEach((item,index) =>{
-            item.cont = item.cont.replace(/<\/?[^>]*>/g, "").slice(0,150) + '...';
-            item.cont = item.cont.replace(/(&nbsp;)/g, "");
-            this.objectFitImages(this.$refs['img'+index])
-          // console.log(item.id)
-          })
+          if(this.id!=1) {
+            this.query.toW(qry,'cid',this.id,'EQ')
+            // this.query.toO(qry,'seq','asc')
+            // this.query.toO(qry,'releTm','desc')
+            this.query.toP(qry,this.currentPage3,this.pageSize)
+            let data = await this.api.tradeInfo(this.query.toEncode(qry))
+            this.list = data.data.list
+            this.totalNm =  data.page.total
+            this.list.forEach((item,index) =>{
+              item.cont = item.cont.replace(/<\/?[^>]*>/g, "").slice(0,150) + '...';
+              item.cont = item.cont.replace(/(&nbsp;)/g, "");
+              this.objectFitImages(this.$refs['img'+index])
+            // console.log(item.id)
+            })
+          } else {
+            if(this.nm) {
+              this.query.toW(qry,'nm',this.nm,'LK')
+            }
+            if(this.completeTm) {
+              let timeSearch = this.until.formatTime(this.completeTm[0])+','+this.until.formatTime(this.completeTm[1])
+              this.query.toW(qry,'completeTm',timeSearch,'BT')
+            }
+            this.query.toO(qry,'completeTm','desc')
+            this.query.toP(qry,this.currentPage3,this.pageSize)
+            this.api.getBidList(this.query.toEncode(qry)).then(res => {
+              res.data.list.forEach(item => {
+                item.completeTm = item.completeTm.substring(0,10)
+                item.publishTm = item.publishTm.substring(0,10)
+              })
+              this.tableData = res.data.list
+              this.totalNm = res.page.total
+            })
+          }
         },
+        search() {
+          this.getData()
+        },
+        toDetail(row,col,e) {
+          this.$router.push({
+            path: '../tradeInfo/zbDetail',
+            query: {
+              id: row.id,
+              cid:1
+            }
+          })
+        }
       },
 
     }
@@ -253,6 +347,22 @@
             font-size: 12px;
             line-height: 30px;
             color: #999999;
+          }
+        }
+        .info-top {
+          display: flex;
+          align-items: center;
+          margin-bottom: 30px;
+          .info-top-item {
+            display: flex;
+            align-items: center;
+            margin-right: 40px;
+            .el-input {
+              width: 240px;
+            }
+            .el-range-editor {
+              width: 400px;
+            }
           }
         }
       }

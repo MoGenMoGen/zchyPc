@@ -470,6 +470,10 @@
       async getInfoTab(){
         let qry = this.query.new()
         let data = await this.api.infoList(this.query.toEncode(qry))
+        data.push({
+          id: 1,
+          nm: '招标公告'
+        })
         this.navList[7].listA = data
         this.navList[7].listA.forEach(item =>{
           item.href = '../tradeInfo/tradeInfo?cid='+item.id

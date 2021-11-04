@@ -54,6 +54,10 @@
         async getData(){
           let qry = this.query.new()
           this.list = await this.api.infoList(this.query.toEncode(qry))
+          this.list.push({
+            id: 1,
+            nm: "招标公告"
+          })
           if(!this.choose){
             //给this.choose赋予一个初始值
             this.choose = this.list[0].id
