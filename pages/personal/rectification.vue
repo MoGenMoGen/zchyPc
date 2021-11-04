@@ -12,6 +12,7 @@
           v-model="time"
           type="date"
           placeholder="选择日期"
+          @change="handleTime"
         ></el-date-picker>
       </div>
       <div class="slt">
@@ -22,7 +23,7 @@
         ></el-input>
       </div>
       <div class="search">
-        <p @click="query">查询</p>
+        <p @click="Search">查询</p>
         <!-- 检验检测机构 -->
         <p
           @click="toAdd"
@@ -106,6 +107,8 @@
 
 <script>
 import tobbar from "../../components/person/tobbar";
+import moment from "moment";
+
 import { mapState } from "vuex";
 export default {
   name: "allShip",
@@ -150,9 +153,9 @@ export default {
   },
   layout: "person",
   async mounted() {
-    this.tabId = this.until.getQueryString("cdType")||1;
+    this.tabId = this.until.getQueryString("cdType") || 1;
     // 获取整改单列表
-    this.getList(true);
+    this.getList();
   },
   computed: {
     ...mapState(["currentRole"]),
@@ -164,15 +167,18 @@ export default {
     },
   },
   methods: {
+    handleTime(e) {
+      this.time = moment(e).format("YYYY-MM-DD");
+    },
     chooseTab(item, index) {
       if (item.id != this.tabId) {
         this.tabId = item.id;
         this.$router.push("../personal/rectification?cdType=" + item.id);
         if (this.tabId == 1) {
-          this.getList(true);
+          this.getList();
         } else {
           this.state = item.id;
-          this.getList(false);
+          this.getList();
         }
       }
     },
@@ -183,42 +189,41 @@ export default {
     toDetail(id) {
       this.$router.push("./rectificationDetail?id=" + id);
     },
-    query() {},
-    handleCurrentChange(val) {
-     
-      if (this.tabId == 1) this.getList(true);
-      else this.getList(false);
+    Search() {
+      this.pageNo = 1;
+      this.list = [];
+      this.getList();
     },
-    async getList(isall) {
-      let query = "";
-      let p = { p: { n: this.currentPage, s: this.pageSize } };
-      let r = {
-        r: [
-          {
-            n: "a1",
-            t: "and",
-            w: [
-              { k: "orgEnterId", v: this.currentRole.id.toString(), m: "EQ" },
-              { k: "state", v: this.state, m: "EQ" },
-            ],
-          },
-        ],
-      };
-      // 根据登陆者的identityCd判断，30则是orgEnterId，50为orgTestEnterId
-      // 船厂
-      if (this.currentRole.identityCd == "identity30") {
-        if (isall) {
-          r.r[0].w.pop();
-        }
-        query = encodeURIComponent(JSON.stringify({ ...r, ...p }));
-      } else if (this.currentRole.identityCd == "identity50") {
-        r.r[0].w[0].k = "orgTestEnterId";
-        if (isall) {
-          r.r[0].w.pop();
-        }
-        query = encodeURIComponent(JSON.stringify({ ...r, ...p }));
+    handleCurrentChange(val) {
+      this.pageNo = val;
+      this.getList();
+    },
+    async getList() {
+      let qry = this.query.new();
+      this.query.toP(qry, this.pageNo, this.currentPage);
+      this.query.toW(qry, "status", "0", "EQ");
+      if (this.state !== 1) {
+        this.query.toW(qry, "state", this.state, "EQ");
       }
-      let data = await this.api.getrectifyList(query, this.searchText);
+      if (this.currentRole.identityCd == "identity30") {
+        this.query.toW(qry, "orgEnterId", this.currentRole.id.toString(), "EQ");
+      } else if (this.currentRole.identityCd == "identity50") {
+        this.query.toW(
+          qry,
+          "orgTestEnterId",
+          this.currentRole.id.toString(),
+          "EQ"
+        );
+      }
+      let query = this.query.toEncode(qry);
+      if (!this.time) {
+        this.time = "";
+      }
+      let data = await this.api.getrectifyList(
+        query,
+        this.searchText,
+        this.time
+      );
       this.List = data.data.list;
       this.total = data.page.total;
     },

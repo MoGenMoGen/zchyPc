@@ -2709,22 +2709,7 @@ class api {
       })
     })
   }
-  // 整改单列表
-  getrectifyList(condition, msg) {
-    return new Promise(resolve => {
-      get("/ship/docsRectify/apis/page?query=" + condition + "&msg=" + msg).then(res => {
-        resolve(res)
-      })
-    })
-  }
-  // 整改详情
-  getRectifyDetail(id) {
-    return new Promise(resolve => {
-      get("/ship/docsRectify/apis/info/" + id).then(res => {
-        resolve(res.data)
-      })
-    })
-  }
+ 
   //发票帮助中心详情
   getBillHelpDetail(query) {
     return new Promise(resolve => {
@@ -2733,38 +2718,15 @@ class api {
       })
     })
   }
-  // 整改上报
-  handleRectifyReport(body) {
-    return new Promise(resolve => {
-      post("/ship/docsRectify/apis/rectifyReport", body).then(res => {
-        resolve(res)
-      })
-    })
-  }
-  // 整改确认结案
-  handlerectifyClose(body) {
-    return new Promise(resolve => {
-      post("/ship/docsRectify/apis/rectifyClose", body).then(res => {
-        resolve(res)
-      })
-    })
-  }
-  // 整改再次下发
-  handleRectifyReturn(body) {
-    return new Promise(resolve => {
-      post("/ship/docsRectify/apis/rectifyReturn", body).then(res => {
-        resolve(res)
-      })
-    })
-  }
+ 
   // 整改单列表
-  getrectifyList(condition,msg){
-    return new Promise(resolve => {
-      get("/ship/docsRectify/apis/page?query="+condition+"&msg="+msg).then(res=>{
-        resolve(res)
-      })
-    })
-  }
+  getrectifyList(condition, msg, issueTm) {
+		return new Promise(resolve => {
+			get("/ship/docsRectify/apis/page?query=" + condition + "&msg=" + msg + "&issueTm=" + issueTm).then(res => {
+				resolve(res)
+			})
+		})
+	}
   // 整改详情
   getRectifyDetail(id){
     return new Promise(resolve => {
