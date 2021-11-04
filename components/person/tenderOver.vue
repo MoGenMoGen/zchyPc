@@ -23,10 +23,8 @@
           <el-table-column prop="statusNm" width="110" align="center" label="状态">
           </el-table-column>
           <el-table-column align="center" width="110" fixed="right" prop="operations" label="操作">
-            <div class="btnList" slot-scope="scope">
-              <button class="button3" :class="{disable:scope.row.disable == true}"
-                v-if="scope.row.statusCd == 'BID_OFFER_STATUS.40'" @click="openOffer(scope.row)">报价</button>
-              <button class="button4" @click="toDetail(scope.row)">查看详情</button>
+            <div slot-scope="scope">
+              <p style="cursor: pointer;" @click="toDetail(scope.row)">查看</p>
             </div>
           </el-table-column>
         </el-table>
@@ -98,7 +96,7 @@
         this.$router.push({
           path: './bidAfficheDetail',
           query: {
-            id: row.bidId,
+            id: row.id,
           }
         })
       },
@@ -139,7 +137,7 @@
         let qry = this.query.new()
         this.query.toO(qry, 'publishTm', 'desc')
         this.query.toP(qry, this.pageNum, this.pageSize)
-        this.query.toW(qry, 'bidDecideTm','','NIS')
+        this.query.toWNotNull(qry, 'bidDecideTm')
         this.query.toW(qry, 'viewRangeCd', this.identityCd+'', 'LK')
         this.api.getMyBidList(this.query.toEncode(qry)).then(res => {
           console.log(res)

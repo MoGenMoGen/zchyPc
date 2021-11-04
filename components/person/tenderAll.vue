@@ -12,11 +12,11 @@
           </el-table-column>
           <el-table-column align="center" min-width="200" label="项目信息">
             <template slot-scope="scope">
-              <p>{{scope.row.bidNm}}</p>
-              <p>项目编号：{{scope.row.bidCd}}</p>
+              <p>{{scope.row.nm}}</p>
+              <p>项目编号：{{scope.row.cd}}</p>
             </template>
           </el-table-column>
-          <el-table-column width="170" prop="publishTm" align="center" label="采购金额">
+          <el-table-column width="170" prop="budget" align="center" label="采购金额">
           </el-table-column>
           <el-table-column width="170" prop="bidOpenTm" align="center" label="开标时间">
           </el-table-column>
