@@ -128,7 +128,7 @@
         this.$router.push({
           path: './bidAfficheDetail',
           query: {
-            id: row.id,
+            id: row.bidId,
           }
         })
       },
