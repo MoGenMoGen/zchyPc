@@ -41,12 +41,12 @@
                 href:'https://shop.ship88.cn/#/home',
                 cd:'myShop'
               },
-			  {
-              nm:'投标管理',
-              img:bM,
-              href:'./bid',
-              cd:'bid'
-            },
+			  // {
+     //          nm:'投标管理',
+     //          img:bM,
+     //          href:'./bid',
+     //          cd:'bid'
+     //        },
             //   {
             //   nm:'销售订单',
             //   img:sO,

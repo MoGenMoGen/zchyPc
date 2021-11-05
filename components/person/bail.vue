@@ -1,21 +1,18 @@
 <template>
-<!--投标报价弹窗-->
-<div id="offer" v-show="offer">
+<!--投标保证金弹窗-->
+<div id="offer" v-show="bail">
   <div class="body">
     <div class="title">
-      <p>报价</p>
+      <p>保证金</p>
       <img @click="close" src="@/assets/img/close.png"/>
     </div>
     <div class="foot">
       <div class="form">
         <el-form :label-position="labelPosition" label-width="100px" :model="info">
-          <el-form-item label="项目名称：">
-            <p>{{applyInfo.nm}}</p>
+          <el-form-item label="保证金金额：" style="margin-top: 10px;">
+            <el-input type="text" v-model="info.depositAmt" id="long" placeholder="请填写投标保证金金额(万元)"></el-input>
           </el-form-item>
-          <el-form-item label="投标金额：">
-            <el-input type="text" v-model="info.offerAmt" id="long" placeholder="请填写投标报价金额"></el-input>
-          </el-form-item>
-          <el-form-item label="附件上传：">
+          <el-form-item label="保证金凭证：">
               <div class="imgBox">
                 <div class="img">
                   <div class="uploadImg">
@@ -35,7 +32,7 @@
       </div>
       <div class="button">
         <button @click="close">取消</button>
-        <button @click="submit">保存</button>
+        <button @click="submit">确认</button>
       </div>
     </div>
   </div>
@@ -65,20 +62,17 @@
             del,
             fileList:[],
             info:{
-              orgId: "5024282848367616",
-              orgNm: "中创海洋科技股份有限公司",
-              bidId: "5031217130673152",
+              orgId: "",
+              orgNm: "",
+              bidId: "",
               bidNm: "",
-              offerAmt: "",
-              imgUrl: "",
-              attachment: '',
-              rmks: "",
-              completeTm:'',
+              depositAmt: "",
+              depositImgUrl: '',
             },
           }
       },
     props: {
-      offer: {
+      bail: {
         type: Boolean,
         default: false
       },
@@ -95,7 +89,7 @@
         ])
       },
       mounted() {
-          this.info.completeTm = this.applyInfo.completeTm
+
       },
     methods:{
         close(data) {
@@ -104,18 +98,9 @@
           this.$emit('close',data)
         },
       submit(){
-        if(this.until.TimeStep(this.info.completeTm) >= 0){
-          this.$message({
-            message: '已经过了截止时间',
-            type: 'warning',
-            duration: '1500',
-            offset: '50'
-          });
-          return
-        }
         if(!this.info.offerAmt){
           this.$message({
-            message: '请填写投标金额',
+            message: '请填写保证金金额',
             type: 'warning',
             duration: '1500',
             offset: '50'
@@ -126,12 +111,12 @@
           this.info.orgNm = this.applyInfo.orgNm
           this.info.bidId = this.applyInfo.bidId
           this.info.bidNm = this.applyInfo.nm
-          this.info.attachment = this.info.attachment.substring(0,this.info.attachment.length-1)
+          this.info.depositImgUrl = this.info.depositImgUrl.substring(0,this.info.depositImgUrl.length-1)
         // console.log('提交了')
         // return
-          this.api.bidOffer(this.info).then(()=>{
+          this.api.bidBail(this.info).then(()=>{
             this.$message({
-              message: '报价成功',
+              message: '上传成功',
               type: 'success',
               duration: '1500',
             });
@@ -151,10 +136,10 @@
         if(e.target.files.length===0){
           return
         }
-        let img = await this.api.uploadImgEnc(e)
+        let img = await this.api.uploadImg(e)
         let type=img.split('.')[img.split('.').length - 1]
         let nm = e.target.files[0].name
-        this.info.attachment += img + ','
+        this.info.depositImgUrl += img + ','
         if(type=='pdf'){
           this.fileList.push({url:img,imgUrl:this.pdf,type:'1',nm:nm})
         }else if(type=='doc'||type=='docx'){

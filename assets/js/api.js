@@ -2709,7 +2709,7 @@ class api {
       })
     })
   }
- 
+
   //发票帮助中心详情
   getBillHelpDetail(query) {
     return new Promise(resolve => {
@@ -2718,7 +2718,7 @@ class api {
       })
     })
   }
- 
+
   // 整改单列表
   getrectifyList(condition, msg, issueTm) {
 		return new Promise(resolve => {
@@ -2832,9 +2832,25 @@ class api {
     })
   }
   // 全部投标，投标结果列表
-  getMyBidList(data) {
+  getMyBidList(data,id) {
     return new Promise(resolve => {
-      get("/ship/bid/page?query="+data).then(res=>{
+      get("/ship/bid/pageOfMy?query="+data+'&id='+id).then(res=>{
+        resolve(res)
+      })
+    })
+  }
+  //保证金上传
+  bidBail(data) {
+    return new Promise(resolve => {
+      post("/ship/bidDeposit/add", data).then(res => {
+        resolve(res)
+      })
+    })
+  }
+  //签到
+  bidSign(data) {
+    return new Promise(resolve => {
+      post("/ship/bidSignin/bidSignin/"+data).then(res => {
         resolve(res)
       })
     })

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <offer :applyInfo="applyInfo" :offer="offer" @close="close"></offer>
-    <download :download1="download1" @toClose="toClose" :applyInfo="applyInfo"></download>
+    <bail :applyInfo="applyInfo" :bail="bail" @close="close2"></bail>
     <div class="body">
       <div class="table">
         <el-table :data="list" style="width: 100%">
@@ -20,12 +20,20 @@
           </el-table-column>
           <el-table-column width="170" prop="bidOpenTm" align="center" label="开标时间">
           </el-table-column>
-          <el-table-column prop="statusNm" width="110" align="center" label="状态">
+          <el-table-column width="110" align="center" label="状态">
+            <template slot-scope="scope">
+              <p v-if="scope.row.bidDecideTm" style="color: #E4393C;">已定标</p>
+              <p v-else-if="returnDate(1,scope.row.bidOpenTm)" style="color: #2778BE;">评标中</p>
+              <p v-else-if="returnDate(2,scope.row.bidEndTm)" style="color: #3FAB2E;">投标中</p>
+              <p v-else style="color: #E4393C;">待开标</p>
+            </template>
           </el-table-column>
           <el-table-column align="center" width="110" fixed="right" prop="operations" label="操作">
             <div class="btnList" slot-scope="scope">
-              <button class="button3" :class="{disable:scope.row.disable == true}"
-                v-if="scope.row.statusCd == 'BID_OFFER_STATUS.40'" @click="openOffer(scope.row)">报价</button>
+              <button class="button3" v-if="scope.row.depositStatus==2" @click="openBail(scope.row)">保证金上传</button>
+              <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)" @click="openOffer(scope.row)">投标报价</button>
+              <button class="button3" v-if="scope.row.signin.shipBidSigninVo.signinStatus==0&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)" @click="sign(scope.row)">签到</button>
+              <p v-if="scope.row.signin.shipBidSigninVo.signinStatus==1&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)">已签到</p>
               <button class="button4" @click="toDetail(scope.row)">查看详情</button>
             </div>
           </el-table-column>
@@ -45,18 +53,17 @@
     mapState
   } from "vuex";
   import Offer from "../../components/person/offer";
-  import Download from "../../components/person/download";
+  import bail from "../../components/person/bail";
   export default {
     components: {
-      Download,
-      Offer
+      Offer,bail
     },
     layout: 'person',
     name: "bid",
     data() {
       return {
         offer: false,
-        download1: false,
+        bail: false,
         list: [],
         pageNum: 1,
         pageSize: 10,
@@ -65,6 +72,8 @@
         value1: '',
         value: '',
         identityCd: '',
+        currentRoleId: '',
+        nowDate: ''
       }
     },
     computed: {
@@ -75,11 +84,30 @@
         'loading',
         'tel',
         'msgNum'
-      ])
+      ]),
+      returnDate() {
+        return (type,date) => {
+          if(type==1) {
+            if((new Date(date)).getTime()<this.nowDate){
+              return true
+            } else {
+              return false
+            }
+          } else if(type==2) {
+            if((new Date(date)).getTime()>this.nowDate){
+              return true
+            } else {
+              return false
+            }
+          }
+
+        }
+      }
     },
     watch: {
       currentRole() {
-        this.identityCd = JSON.parse(this.until.seGet('currentRole')).identityCd;
+        this.identityCd = JSON.parse(this.until.seGet('currentRole')).identityCd
+        this.currentRoleId = JSON.parse(this.until.seGet('currentRole')).id
       },
       offer() {
         this.getBidData()
@@ -87,8 +115,10 @@
 
     },
     mounted() {
-      this.identityCd = JSON.parse(this.until.seGet('currentRole')).identityCd;
+      this.identityCd = JSON.parse(this.until.seGet('currentRole')).identityCd
+      this.currentRoleId = JSON.parse(this.until.seGet('currentRole')).id
       this.getBidData()
+      this.nowDate = (new Date()).getTime()
     },
     methods: {
       back() {
@@ -98,7 +128,7 @@
         this.$router.push({
           path: './bidAfficheDetail',
           query: {
-            id: row.bidId,
+            id: row.id,
           }
         })
       },
@@ -106,33 +136,20 @@
         this.pageNum = val
         this.getBidData()
       },
+      openBail(row) {
+        this.bail = true
+        this.applyInfo = row
+      },
       openOffer(row) {
-        if (row.disable == true) {
-          this.$message({
-            message: '已经过了截止时间',
-            type: 'warning',
-            duration: '1500',
-            offset: '50'
-          });
-          return
-        } else {
           this.offer = true
           this.applyInfo = row
-        }
       },
       close() {
         this.offer = false;
         this.getBidData()
       },
-      toOpen(row) {
-        this.download1 = true;
-        this.applyInfo = row
-      },
-      toClose() {
-        this.download1 = false;
-      },
-      search() {
-        this.pageNum = 1
+      close2() {
+        this.bail = false;
         this.getBidData()
       },
       getBidData() {
@@ -140,12 +157,17 @@
         this.query.toO(qry, 'publishTm', 'desc')
         this.query.toP(qry, this.pageNum, this.pageSize)
         this.query.toW(qry, 'viewRangeCd', this.identityCd+'', 'LK')
-        this.api.getMyBidList(this.query.toEncode(qry)).then(res => {
-          console.log(res)
+        this.api.getMyBidList(this.query.toEncode(qry),this.currentRoleId).then(res => {
           this.list = res.data.list
           this.total = res.page.total
         })
       },
+      sign(row) {
+        let id = row.signin.shipBidSigninVo.id
+        this.api.bidSign(id).then(res => {
+          this.$message.success('签到成功')
+        })
+      }
     },
   }
 </script>

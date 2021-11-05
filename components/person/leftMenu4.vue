@@ -33,12 +33,12 @@
       data(){
           return{
             navList:[
-				{
-              nm:'投标管理',
-              img:bM,
-              href:'./bid',
-              cd:'bid'
-            },
+				// {
+    //           nm:'投标管理',
+    //           img:bM,
+    //           href:'./bid',
+    //           cd:'bid'
+    //         },
 			{
               nm:'检测船舶',
               img:moS,

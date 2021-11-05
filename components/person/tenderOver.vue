@@ -20,7 +20,11 @@
           </el-table-column>
           <el-table-column width="170" prop="bidOpenTm" align="center" label="开标时间">
           </el-table-column>
-          <el-table-column prop="statusNm" width="110" align="center" label="状态">
+          <el-table-column width="110" align="center" label="状态">
+            <template slot-scope="scope">
+              <p v-if="scope.row.myOfferStatus==1" style="color: #E4393C;">已中标</p>
+              <p v-if="scope.row.myOfferStatus==0">未中标</p>
+            </template>
           </el-table-column>
           <el-table-column align="center" width="110" fixed="right" prop="operations" label="操作">
             <div slot-scope="scope">
@@ -63,6 +67,7 @@
         value1: '',
         value: '',
         identityCd: '',
+        currentRoleId: ''
       }
     },
     computed: {
@@ -77,7 +82,8 @@
     },
     watch: {
       currentRole() {
-        this.identityCd = JSON.parse(this.until.seGet('currentRole')).identityCd;
+        this.identityCd = JSON.parse(this.until.seGet('currentRole')).identityCd
+        this.currentRoleId = JSON.parse(this.until.seGet('currentRole')).id
       },
       offer() {
         this.getBidData()
@@ -85,7 +91,8 @@
 
     },
     mounted() {
-      this.identityCd = JSON.parse(this.until.seGet('currentRole')).identityCd;
+      this.identityCd = JSON.parse(this.until.seGet('currentRole')).identityCd
+      this.currentRoleId = JSON.parse(this.until.seGet('currentRole')).id
       this.getBidData()
     },
     methods: {
@@ -139,7 +146,7 @@
         this.query.toP(qry, this.pageNum, this.pageSize)
         this.query.toWNotNull(qry, 'bidDecideTm')
         this.query.toW(qry, 'viewRangeCd', this.identityCd+'', 'LK')
-        this.api.getMyBidList(this.query.toEncode(qry)).then(res => {
+        this.api.getMyBidList(this.query.toEncode(qry),this.currentRoleId).then(res => {
           console.log(res)
           this.list = res.data.list
           this.total = res.page.total
