@@ -252,16 +252,16 @@
           </div>
           <div>
             <h3 style="padding: 20px 0px; margin-left: -16px">整改上报内容</h3>
-            <div class="itemstyle">整改上报：{{ info.rectifyReport }}</div>
+            <div class="itemstyle">整改上报：{{ item.rectifyReport }}</div>
             <div>执行图片：</div>
             <div v-viewer class="problempiclist">
               <img
                 class="dangerpic"
-                :src="item"
-                v-for="(item, index) in (item.rectifyImg ? item.rectifyImg : '')
+                :src="item3"
+                v-for="(item3, index3) in (item.rectifyImg ? item.rectifyImg : '')
                 .split(',')
-                .filter((item) => item != '')"
-                :key="index"
+                .filter((item4) => item4 != '')"
+                :key="index3"
               />
             </div>
           </div>
