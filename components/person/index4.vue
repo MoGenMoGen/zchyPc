@@ -405,25 +405,20 @@ export default {
       this.manageList = data.data.list;
     },
     async getrectifyList() {
-      let query = "";
-      let p = { p: { n: 1, s: 3 } };
-      let r = {
-        r: [
-          {
-            n: "a1",
-            t: "and",
-            w: [
-              {
-                k: "orgTestEnterId",
-                v: this.currentRole.id.toString(),
-                m: "EQ",
-              },
-            ],
-          },
-        ],
-      };
-      query = encodeURIComponent(JSON.stringify({ ...r, ...p }));
-      let data = await this.api.getrectifyList(query, "");
+      let qry = this.query.new();
+      this.query.toP(qry, 1, 3);
+      this.query.toW(qry, "status", "0", "EQ");
+      this.query.toW(
+        qry,
+        "orgTestEnterId",
+        this.currentRole.id.toString(),
+        "EQ"
+      );
+      let query = this.query.toEncode(qry);
+      if (!this.time) {
+        this.time = "";
+      }
+      let data = await this.api.getrectifyList(query, "", "");
       this.rectifyList = data.data.list;
     },
     // 云检验列表

@@ -18,7 +18,7 @@
       <div class="slt">
         <el-input
           placeholder="整改单号、整改内容"
-          v-model="content"
+          v-model="searchText"
           clearable
         ></el-input>
       </div>
@@ -67,7 +67,7 @@
           @click="toDetail(item.id)"
         >
           <div>{{ item.cd }}</div>
-          <div>{{ item.nm }}</div>
+          <div>{{ item.rectifyDemand }}</div>
           <div>{{ item.orgEnterNm }}</div>
           <div>{{ item.orgTestEnterNm }}</div>
           <div>{{ item.issueTm }}</div>
@@ -174,12 +174,10 @@ export default {
       if (item.id != this.tabId) {
         this.tabId = item.id;
         this.$router.push("../personal/rectification?cdType=" + item.id);
-        if (this.tabId == 1) {
-          this.getList();
-        } else {
-          this.state = item.id;
-          this.getList();
-        }
+        this.currentPage = 1;
+        this.List = [];
+        this.state = item.id;
+        this.getList();
       }
     },
     toAdd() {
@@ -190,17 +188,17 @@ export default {
       this.$router.push("./rectificationDetail?id=" + id);
     },
     Search() {
-      this.pageNo = 1;
-      this.list = [];
+      this.currentPage = 1;
+      this.List = [];
       this.getList();
     },
     handleCurrentChange(val) {
-      this.pageNo = val;
+      this.currentPage = val;
       this.getList();
     },
     async getList() {
       let qry = this.query.new();
-      this.query.toP(qry, this.pageNo, this.currentPage);
+      this.query.toP(qry, this.currentPage, this.pageSize);
       this.query.toW(qry, "status", "0", "EQ");
       if (this.state !== 1) {
         this.query.toW(qry, "state", this.state, "EQ");

@@ -63,7 +63,22 @@
           </div>
           <div class="righttextpart">
             <div class="itemstyle">整改名称：{{ info.nm }}</div>
-            <div class="itemstyle">整改责任人：{{ info.rectifyerSign }}</div>
+            <div
+              class="itemstyle"
+              v-if="info.rectifyerSign && info.rectifyerSign.includes('http')"
+            >
+              整改责任人：
+              <img
+                :src="info.rectifyerSign"
+                alt=""
+                style="object-fit: fill; width: 60px; height: 40px"
+                v-viewer
+              />
+            </div>
+            <div class="itemstyle" v-else>
+              整改责任人：
+              {{ info.rectifyerSign }}
+            </div>
             <div class="itemstyle">下发日期：{{ info.issueTm }}</div>
             <div class="itemstyle">隐患说明：{{ info.explains }}</div>
           </div>
@@ -79,7 +94,19 @@
           />
         </div>
         <div class="lefttextpart">
-          <div class="itemstyle">复查人：{{ info.reviewerSign }}</div>
+          <div
+            class="itemstyle"
+            v-if="info.reviewerSign && info.reviewerSign.includes('http')"
+          >
+            复查人：
+            <img
+              :src="info.reviewerSign"
+              alt=""
+              style="object-fit: fill; width: 60px; height: 40px"
+              v-viewer
+            />
+          </div>
+          <div class="itemstyle" v-else>复查人：{{ info.reviewerSign }}</div>
           <div class="itemstyle">检验检测单位：{{ info.orgTestEnterNm }}</div>
           <div class="itemstyle">检查时间：{{ info.reviewerTm }}</div>
         </div>
@@ -94,12 +121,47 @@
           info.state == 2
         "
       >
-        <div class="itemstyle">整改上报</div>
-        <vue-ueditor-wrap
+        <div style="display: flex; padding: 15px 0">
+          <div class="itemstyle">
+            <span style="color: red">*</span>整改上报：
+          </div>
+          <el-input
+            type="textarea"
+            :rows="5"
+            placeholder="请输入内容"
+            v-model="info.rectifyReport"
+            style="width: 277px"
+          ></el-input>
+        </div>
+        <div style="display: flex; padding: 15px 0">
+          <div class="itemstyle" style="width: 104px">
+            <span style="color: red">*</span>执行图片：
+          </div>
+          <el-upload
+            style="margin-top: 20px"
+            ref="upload"
+            action="/general/oss/upload"
+            accept="image/png,image/gif,image/jpg,image/jpeg"
+            list-type="picture-card"
+            :auto-upload="true"
+            :before-upload="handleBeforeUpload"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove"
+            :on-success="handSuccess"
+          >
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </div>
+        <el-dialog :visible.sync="dialogVisible" :modal-append-to-body="false">
+          <img width="100%" :src="dialogImageUrl" alt="" />
+        </el-dialog>
+        <!--
+          富文本
+           <vue-ueditor-wrap
           v-model="info.rectifyReport"
           style="z-index: 99; width: 100%"
           :config="myConfig"
-        ></vue-ueditor-wrap>
+        ></vue-ueditor-wrap> -->
         <div style="display: flex; padding: 15px 0">
           <div class="itemstyle">备注内容：</div>
           <el-input
@@ -158,14 +220,14 @@
         >
           <div v-if="reissueList.length > 1 && item.reissueReport">
             <h3 style="padding: 20px 0px; margin-left: -16px">再次下发内容</h3>
-            <div style="padding-bottom: 2px">
-              下发说明:{{ item.reissueReport }}
+            <div style="padding-bottom: 2px;font-size:15px;font-weight:bold;margin-bottom:5px;">
+              下发说明: <span style="margin-left:5px;font-size:14px;font-weight:400">{{ item.reissueReport }}</span>
             </div>
-            <div style="padding-bottom: 2px">整改日期:{{ item.rectifyTm }}</div>
-            <div style="padding-bottom: 2px">
-              复查日期:{{ item.reviewerTm }}
+            <div style="padding-bottom: 2px;font-size:15px;font-weight:bold;margin-bottom:5px;">整改日期:  <span style="margin-left:5px;font-size:14px;font-weight:400">{{ item.rectifyTm }}</span></div>
+            <div style="padding-bottom: 2px;font-size:15px;font-weight:bold;margin-bottom:5px;">
+              复查日期:<span style="margin-left:5px;font-size:14px;font-weight:400">{{ item.reviewerTm }}</span>
             </div>
-            <div style="padding-bottom: 2px">下发日期:{{ item.issueTm }}</div>
+            <div style="padding-bottom: 2px;font-size:15px;font-weight:bold;margin-bottom:5px;">下发日期: <span style="margin-left:5px;font-size:14px;font-weight:400">{{ item.issueTm }}</span></div>
           </div>
 
           <!-- <div class="conwrapper" v-else>
@@ -190,7 +252,18 @@
           </div>
           <div>
             <h3 style="padding: 20px 0px; margin-left: -16px">整改上报内容</h3>
-            <div style="padding-top: 0px" v-html="item.rectifyReport"></div>
+            <div class="itemstyle">整改上报：{{ info.rectifyReport }}</div>
+            <div>执行图片：</div>
+            <div v-viewer class="problempiclist">
+              <img
+                class="dangerpic"
+                :src="item"
+                v-for="(item, index) in (item.rectifyImg ? item.rectifyImg : '')
+                .split(',')
+                .filter((item) => item != '')"
+                :key="index"
+              />
+            </div>
           </div>
         </div>
         <!-- <div class="itemstyle">整改上报：{{ info.rectifyReport }}</div>
@@ -353,18 +426,36 @@ export default {
       }
     },
     handleRemove(file, fileList) {
-      this.info.reissueImg = fileList
-        .map((item) => item.response.data)
-        .join(",");
+      if (this.currentRole && this.currentRole.identityCd == "identity30") {
+        this.info.rectifyImg = fileList
+          .map((item) => item.response.data)
+          .join(",");
+      } else if (
+        this.currentRole &&
+        this.currentRole.identityCd == "identity50"
+      ) {
+        this.info.reissueImg = fileList
+          .map((item) => item.response.data)
+          .join(",");
+      }
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
     handSuccess(response, file, fileList) {
-      this.info.reissueImg = fileList
-        .map((item) => item.response.data)
-        .join(",");
+      if (this.currentRole && this.currentRole.identityCd == "identity30") {
+        this.info.rectifyImg = fileList
+          .map((item) => item.response.data)
+          .join(",");
+      } else if (
+        this.currentRole &&
+        this.currentRole.identityCd == "identity50"
+      ) {
+        this.info.reissueImg = fileList
+          .map((item) => item.response.data)
+          .join(",");
+      }
     },
     // 再次下发
     async handleconfirmIssue() {
@@ -588,6 +679,8 @@ export default {
         font-weight: 400;
         color: #606060;
         padding: 13px 0;
+        display: flex;
+        align-items: center;
       }
       .problempiclist {
         width: 100%;
