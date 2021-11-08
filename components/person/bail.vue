@@ -98,7 +98,7 @@
           this.$emit('close',data)
         },
       submit(){
-        if(!this.info.offerAmt){
+        if(!this.info.depositAmt){
           this.$message({
             message: '请填写保证金金额',
             type: 'warning',

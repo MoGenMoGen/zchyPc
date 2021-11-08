@@ -50,7 +50,6 @@
     layout: 'person',
     async mounted() {
       this.tabId = this.until.getQueryString('cdType')
-      console.log(this.tabId)
     },
     computed: {
       ...mapState([
@@ -60,7 +59,6 @@
     watch: {
       $route(){
         this.tabId = this.until.getQueryString('cdType')
-        console.log(this.tabId)
       },
     },
     methods: {
