@@ -2,11 +2,11 @@
 <!--我的订单(船东)-->
 <div >
   <!--申请开票-->
-  <to-invoice v-show="invoiceId" :invoiceProNm="invoiceProNm" :id="invoiceId" @close="invoiceId=''" @confirm="invoiceConfirm"></to-invoice>
+  <to-invoice v-if="invoiceId" :invoiceProNm="invoiceProNm" :id="invoiceId" @close="invoiceId=''" @confirm="invoiceConfirm"></to-invoice>
   <!--分期-->
   <fenqi v-if="type==1 " :info="currentInfo" @close="type=''"></fenqi>
   <!--售后弹窗-->
-  <after-sale v-show="currentInfo && type==2" :info="currentInfo" @close="currentInfo=null"></after-sale>
+  <after-sale v-if="currentInfo && type==2" :info="currentInfo" @close="currentInfo=null"></after-sale>
   <div class="head">
     <p><span class="lineC"></span>我的订单</p>
     <span @click="back" class="point">< 返回</span>
@@ -182,7 +182,7 @@
 
       },
       mounted() {
-         this.currentRole=JSON.parse(this.until.seGet('currentRole'))
+         this.currentRole=JSON.parse(this.until.seGet('currentRole'))?JSON.parse(this.until.seGet('currentRole')): {}
          this.tabId = this.until.getQueryString('cdType')
          this.statusCd = this.until.getQueryString('statusCd') ? this.until.getQueryString('statusCd') : 0
          this.getInfo()
@@ -328,8 +328,8 @@
           this.query.toP(qry,this.currentPage1,this.pageSize)
           let data
           if(this.currentRole.identityCd=="identity10"&&this.tabId=='3'){//船东的船舶订单是线下的订单
-            data= await this.api.shipOderPage(this.query.toEncode(qry),{orgEnterId:this.currentRole.id})
             console.log('船东船舶')
+            data= await this.api.shipOderPage(this.query.toEncode(qry),{orgEnterId:this.currentRole.id})
             console.log(data)
           }else{
             if(this.orderCd){

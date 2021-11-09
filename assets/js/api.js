@@ -2850,7 +2850,7 @@ class api {
   //签到
   bidSign(data) {
     return new Promise(resolve => {
-      post("/ship/bidSignin/bidSignin/"+data).then(res => {
+      get("/ship/bidSignin/bidSignin/"+data).then(res => {
         resolve(res)
       })
     })

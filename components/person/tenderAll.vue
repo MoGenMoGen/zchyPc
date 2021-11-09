@@ -166,6 +166,7 @@
         let id = row.signin.shipBidSigninVo.id
         this.api.bidSign(id).then(res => {
           this.$message.success('签到成功')
+          this.getBidData()
         })
       }
     },
