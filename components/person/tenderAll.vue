@@ -30,7 +30,7 @@
           </el-table-column>
           <el-table-column align="center" width="110" fixed="right" prop="operations" label="操作">
             <div class="btnList" slot-scope="scope">
-              <button class="button3" v-if="scope.row.depositStatus==2" @click="openBail(scope.row)">保证金上传</button>
+              <button class="button3" v-if="scope.row.depositStatus==2" @click="openBail(scope.row)" style="font-size: 12px;">保证金上传</button>
               <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)" @click="openOffer(scope.row)">投标报价</button>
               <button class="button3" v-if="scope.row.signin.shipBidSigninVo.signinStatus==0&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)" @click="sign(scope.row)">签到</button>
               <p v-if="scope.row.signin.shipBidSigninVo.signinStatus==1&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)">已签到</p>
@@ -156,7 +156,7 @@
         let qry = this.query.new()
         this.query.toO(qry, 'publishTm', 'desc')
         this.query.toP(qry, this.pageNum, this.pageSize)
-        this.query.toW(qry, 'viewRangeCd', this.identityCd+'', 'LK')
+        // this.query.toW(qry, 'viewRangeCd', this.identityCd+'', 'LK')
         this.api.getMyBidList(this.query.toEncode(qry),this.currentRoleId).then(res => {
           this.list = res.data.list
           this.total = res.page.total

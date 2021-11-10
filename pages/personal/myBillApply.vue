@@ -37,12 +37,16 @@
           <el-input placeholder="请输入单位名称" v-model="buyerName" clearable></el-input>
         </div>
         <div class="submit-item" v-if="headUp=='公司'">
-          <span>发票税号：</span>
-          <el-input placeholder="请输入发票税号" v-model="buyerTaxNum" clearable></el-input>
+          <span><span style="color: #E4393C;">*</span>纳税人识别号：</span>
+          <el-input placeholder="请输入纳税人识别号" v-model="buyerTaxNum" clearable></el-input>
         </div>
         <div class="submit-item" v-if="headUp=='个人'">
           <span>发票抬头：</span>
           <el-input v-model="buyerName" clearable></el-input>
+        </div>
+        <div class="submit-item" v-if="headUp=='个人'">
+          <span><span style="color: #E4393C;">*</span>收票人邮箱：</span>
+          <el-input placeholder="请输入收票人邮箱" v-model="email" clearable></el-input>
         </div>
         <div class="submit-item">
           <span>备注：</span>
@@ -57,12 +61,12 @@
       </div>
       <div class="submit-line">
         <div class="submit-item">
-          <span><span style="color: #E4393C;">*</span>注册地址：</span>
-          <el-input placeholder="请输入注册地址" v-model="buyerAddress" clearable></el-input>
+          <span><span style="color: #E4393C;">*</span>地址：</span>
+          <el-input placeholder="请输入地址" v-model="buyerAddress" clearable></el-input>
         </div>
         <div class="submit-item">
-          <span><span style="color: #E4393C;">*</span>注册电话：</span>
-          <el-input placeholder="请输入注册电话" v-model="buyerTel" clearable></el-input>
+          <span><span style="color: #E4393C;">*</span>电话：</span>
+          <el-input placeholder="请输入电话" v-model="buyerTel" clearable></el-input>
         </div>
         <div class="submit-item">
           <span><span style="color: #E4393C;">*</span>开户银行：</span>
@@ -81,19 +85,19 @@
       </div>
       <div class="submit-line">
         <div class="submit-item">
-          <span><span style="color: #E4393C;">*</span>收票人姓名：</span>
+          <span>收票人姓名：</span>
           <el-input placeholder="请输入收票人姓名" v-model="linkman" clearable></el-input>
         </div>
         <div class="submit-item">
-          <span><span style="color: #E4393C;">*</span>收票人手机号：</span>
+          <span>收票人手机号：</span>
           <el-input placeholder="请输入收票人手机号" v-model="phone" clearable></el-input>
         </div>
         <div class="submit-item">
-          <span><span style="color: #E4393C;">*</span>收票人地区：</span>
+          <span>收票人地区：</span>
           <addr @changeAddr="changeAddr" ref="addrChoose" style="width: 300px;"></addr>
         </div>
         <div class="submit-item">
-          <span><span style="color: #E4393C;">*</span>收票人地址：</span>
+          <span>收票人地址：</span>
           <el-input placeholder="请输入收票人地址" v-model="address" clearable></el-input>
         </div>
         <div class="submit-item">
@@ -234,11 +238,15 @@
             return
           }
           if(this.buyerAddress=="") {
-            this.$message.error('请输入注册地址!')
+            this.$message.error('请输入地址!')
+            return
+          }
+          if(this.buyerTaxNum=='') {
+            this.$message.error('请输入纳税人识别号!')
             return
           }
           if(this.buyerTel=="") {
-            this.$message.error('请输入注册电话!')
+            this.$message.error('请输入电话!')
             return
           }
           if(this.bank=="") {
@@ -249,18 +257,18 @@
             this.$message.error('请输入银行账户!')
             return
           }
-          if(this.linkman=="") {
-            this.$message.error('请输入收票人姓名!')
-            return
-          }
-          if(this.phone=="") {
-            this.$message.error('请输入收票人手机号!')
-            return
-          }
-          if(this.address=="") {
-            this.$message.error('请输入收票人地址!')
-            return
-          }
+          // if(this.linkman=="") {
+          //   this.$message.error('请输入收票人姓名!')
+          //   return
+          // }
+          // if(this.phone=="") {
+          //   this.$message.error('请输入收票人手机号!')
+          //   return
+          // }
+          // if(this.address=="") {
+          //   this.$message.error('请输入收票人地址!')
+          //   return
+          // }
           if(this.email=="") {
             this.$message.error('请输入收票人邮箱!')
             return
@@ -283,6 +291,10 @@
             invoiceAddr: this.addrNm.replace(/-/g,'') + this.address
           }
         } else {
+          if(this.email=="") {
+            this.$message.error('请输入收票人邮箱!')
+            return
+          }
           this.type = 2
           param = {
             orgEnterId: JSON.parse(this.until.seGet('currentRole')).id,
@@ -309,7 +321,7 @@
           this.$message({
             type: 'info',
             message: '已取消开票'
-          });          
+          });
         });
       }
     },

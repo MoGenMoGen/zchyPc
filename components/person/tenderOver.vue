@@ -145,7 +145,7 @@
         this.query.toO(qry, 'publishTm', 'desc')
         this.query.toP(qry, this.pageNum, this.pageSize)
         this.query.toWNotNull(qry, 'bidDecideTm')
-        this.query.toW(qry, 'viewRangeCd', this.identityCd+'', 'LK')
+        // this.query.toW(qry, 'viewRangeCd', this.identityCd+'', 'LK')
         this.api.getMyBidList(this.query.toEncode(qry),this.currentRoleId).then(res => {
           this.list = res.data.list
           this.total = res.page.total
