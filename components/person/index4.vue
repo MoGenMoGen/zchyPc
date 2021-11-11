@@ -1,6 +1,6 @@
 <template>
   <div class="left1">
-    <offer :applyInfo="applyInfo" :offer="offer" @close="close"></offer>
+    <offer :applyInfo="applyInfo" v-if="offer" @close="close"></offer>
     <bail :applyInfo="applyInfo" :bail="bail" @close="close2"></bail>
     <download
       :download1="download1"
@@ -370,6 +370,7 @@ export default {
     },
   },
   mounted() {
+    this.nowDate = (new Date()).getTime()
     this.identityCd = JSON.parse(this.until.seGet('currentRole')).identityCd
     this.currentRoleId = JSON.parse(this.until.seGet('currentRole')).id
     this.getData();

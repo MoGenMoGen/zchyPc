@@ -104,8 +104,10 @@
         let qry = this.query.new()
         this.query.toW(qry,'orgId',this.orgEnterId+'','EQ')
         this.query.toP(qry,this.pageNum,this.pageSize)
+        this.query.toO(qry,'crtTm','desc')
         this.api.getMyBidApplyList(this.query.toEncode(qry)).then(res => {
           this.list = res.data.list
+          this.total=res.page.total;
         })
       }
     },

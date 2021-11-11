@@ -1,7 +1,8 @@
 <template>
   <div class="left1">
     <!--报价-->
-    <offer  :applyInfo="applyInfo" :offer="offer" @close="close"></offer>
+    <offer  :applyInfo="applyInfo" v-if="offer" @close="close"></offer>
+    <bail  :applyInfo="applyInfo" :bail="bail" @close="close"></bail>
     <!--附件下载-->
     <download :download1="download1" @toClose="toClose" :applyInfo="applyInfo"></download>
     <!--采购订单-->
@@ -234,6 +235,7 @@
 		this.identityCd = JSON.parse(this.until.seGet('currentRole')).identityCd
 		this.currentRoleId = JSON.parse(this.until.seGet('currentRole')).id
       this.getBidData()
+      this.nowDate = (new Date()).getTime()
     },
     methods:{
       toPage(url){

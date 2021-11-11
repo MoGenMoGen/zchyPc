@@ -1,6 +1,6 @@
 <template>
   <div class="left1">
-    <offer  :applyInfo="applyInfo" :offer="offer" @close="close"></offer>
+    <offer  :applyInfo="applyInfo" v-if="offer" @close="close"></offer>
     <download :download1="download1" @toClose="toClose" :applyInfo="applyInfo"></download>
     <!--销售订单-->
     <div class="productOrder">

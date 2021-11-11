@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <offer :applyInfo="applyInfo" :offer="offer" @close="close"></offer>
-    <download :download1="download1" @toClose="toClose" :applyInfo="applyInfo"></download>
+    <!-- <offer :applyInfo="applyInfo" :offer="offer" @close="close"></offer> -->
+    <!-- <download :download1="download1" @toClose="toClose" :applyInfo="applyInfo"></download> -->
     <div class="body">
       <div class="table">
         <el-table :data="list" style="width: 100%">
@@ -16,7 +16,9 @@
               <p>项目编号：{{scope.row.cd}}</p>
             </template>
           </el-table-column>
-          <el-table-column width="170" prop="budget" align="center" label="采购金额">
+          <el-table-column width="150" prop="budget" align="center" label="采购金额">
+          </el-table-column>
+         <el-table-column width="150" prop="depositMoney" align="center" label="保证金(万元)">
           </el-table-column>
           <el-table-column width="170" prop="bidOpenTm" align="center" label="开标时间">
           </el-table-column>

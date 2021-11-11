@@ -1,6 +1,6 @@
 <template>
   <div class="left1">
-    <offer  :applyInfo="applyInfo" :offer="offer" @close="close"></offer>
+    <offer  :applyInfo="applyInfo" v-if="offer" @close="close"></offer>
     <bail :applyInfo="applyInfo" :bail="bail" @close="close2"></bail>
     <download :download1="download1" @toClose="toClose" :applyInfo="applyInfo"></download>
     <!--投标管理-->
@@ -178,6 +178,7 @@
       },
     },
     mounted(){
+      this.nowDate = (new Date()).getTime()
       if(this.currentRole){
         this.bidData.orgEnterId = this.currentRole.id;
         this.bidData.identityCd = this.currentRole.identityCd

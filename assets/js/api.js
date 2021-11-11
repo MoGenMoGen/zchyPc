@@ -2816,9 +2816,9 @@ class api {
     })
   }
   // 招投标详情
-  getBidInfo(data) {
+  getBidInfo(data,orgId) {
     return new Promise(resolve => {
-      get("/ship/bid/apis/api/info/"+data).then(res=>{
+      get("/ship/bid/apis/api/info/"+data+"?orgId="+orgId).then(res=>{
         resolve(res)
       })
     })

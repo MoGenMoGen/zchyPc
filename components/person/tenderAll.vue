@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <offer :applyInfo="applyInfo" :offer="offer" @close="close"></offer>
+    <offer :applyInfo="applyInfo"  v-if="offer" @close="close"></offer>
     <bail :applyInfo="applyInfo" :bail="bail" @close="close2"></bail>
     <div class="body">
       <div class="table">
@@ -16,7 +16,9 @@
               <p>项目编号：{{scope.row.cd}}</p>
             </template>
           </el-table-column>
-          <el-table-column width="170" prop="budget" align="center" label="采购金额">
+          <el-table-column width="150" prop="budget" align="center" label="采购金额(万元)"> 
+          </el-table-column>
+            <el-table-column width="150" prop="depositMoney" align="center" label="保证金(万元)">
           </el-table-column>
           <el-table-column width="170" prop="bidOpenTm" align="center" label="开标时间">
           </el-table-column>
@@ -31,7 +33,8 @@
           <el-table-column align="center" width="110" fixed="right" prop="operations" label="操作">
             <div class="btnList" slot-scope="scope">
               <button class="button3" v-if="scope.row.depositStatus==2" @click="openBail(scope.row)" style="font-size: 12px;">保证金上传</button>
-              <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)" @click="openOffer(scope.row)">投标报价</button>
+              <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)&&!scope.row.offer" @click="openOffer(scope.row)">投标报价</button>
+              <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)&&scope.row.offer" @click="openOffer(scope.row)">查看报价</button>
               <button class="button3" v-if="scope.row.signin.shipBidSigninVo.signinStatus==0&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)" @click="sign(scope.row)">签到</button>
               <p v-if="scope.row.signin.shipBidSigninVo.signinStatus==1&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)">已签到</p>
               <button class="button4" @click="toDetail(scope.row)">查看详情</button>
@@ -119,6 +122,8 @@
       this.currentRoleId = JSON.parse(this.until.seGet('currentRole')).id
       this.getBidData()
       this.nowDate = (new Date()).getTime()
+
+      
     },
     methods: {
       back() {
@@ -143,10 +148,12 @@
       openOffer(row) {
           this.offer = true
           this.applyInfo = row
+          console.log(32356346456,row);
       },
       close() {
         this.offer = false;
         this.getBidData()
+        console.log('父组件close');
       },
       close2() {
         this.bail = false;
@@ -154,7 +161,7 @@
       },
       getBidData() {
         let qry = this.query.new()
-        this.query.toO(qry, 'publishTm', 'desc')
+        this.query.toO(qry, 'bidOpenTm', 'desc')
         this.query.toP(qry, this.pageNum, this.pageSize)
         // this.query.toW(qry, 'viewRangeCd', this.identityCd+'', 'LK')
         this.api.getMyBidList(this.query.toEncode(qry),this.currentRoleId).then(res => {

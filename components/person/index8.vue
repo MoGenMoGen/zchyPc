@@ -1,6 +1,6 @@
 <template>
   <div class="left1">
-    <offer :applyInfo="applyInfo" :offer="offer" @close="close"></offer>
+    <offer :applyInfo="applyInfo" v-if="offer" @close="close"></offer>
     <bail :applyInfo="applyInfo" :bail="bail" @close="close2"></bail>
     <!--采购订单-->
     <div class="productOrder">
@@ -112,7 +112,11 @@
           <el-table-column align="center" width="110" fixed="right" prop="operations" label="操作">
             <div class="btnList" slot-scope="scope">
               <button class="button3" v-if="scope.row.depositStatus==2" @click="openBail(scope.row)">保证金上传</button>
-              <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)" @click="openOffer(scope.row)">投标报价</button>
+              <!-- <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)" @click="openOffer(scope.row)">投标报价</button> -->
+
+              <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)&&!scope.row.offer" @click="openOffer(scope.row)">投标报价</button>
+              <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)&&scope.row.offer" @click="openOffer(scope.row)">查看报价</button>
+
               <button class="button3" v-if="scope.row.signin.shipBidSigninVo.signinStatus==0&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)" @click="sign(scope.row)">签到</button>
               <p v-if="scope.row.signin.shipBidSigninVo.signinStatus==1&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)">已签到</p>
               <button class="button4" @click="toDetail(scope.row)">查看详情</button>
@@ -197,6 +201,7 @@
       this.identityCd = JSON.parse(this.until.seGet('currentRole')).identityCd
       this.currentRoleId = JSON.parse(this.until.seGet('currentRole')).id
       this.getData()
+      this.nowDate = (new Date()).getTime()
     },
     methods:{
       async getData(){
@@ -237,7 +242,7 @@
       },
       getBidData() {
         let qry = this.query.new()
-        this.query.toO(qry, 'publishTm', 'desc')
+        this.query.toO(qry, 'bidOpenTm', 'desc')
         this.query.toP(qry, 1, 3)
         // this.query.toW(qry, 'viewRangeCd', this.identityCd+'', 'LK')
         this.api.getMyBidList(this.query.toEncode(qry),this.currentRoleId).then(res => {
