@@ -24,7 +24,7 @@
             style="width: 386px; margin-top: 30px"
           ></el-input>
           <el-upload
-            style="margin-top: 20px"
+            style="margin-top: 20px; margin-left: 10px"
             ref="upload"
             action="/general/oss/upload"
             accept="image/png,image/gif,image/jpg,image/jpeg"
@@ -79,7 +79,7 @@
               整改责任人：
               {{ info.rectifyerSign }}
             </div>
-            <div class="itemstyle">下发日期：{{ info.issueTm }}</div>
+            <div class="itemstyle">下发日期：<span v-if="info.issueTm">{{ info.issueTm.slice(0,10) }}</span></div>
             <div class="itemstyle">隐患说明：{{ info.explains }}</div>
           </div>
         </div>
@@ -108,7 +108,7 @@
           </div>
           <div class="itemstyle" v-else>复查人：{{ info.reviewerSign }}</div>
           <div class="itemstyle">检验检测单位：{{ info.orgTestEnterNm }}</div>
-          <div class="itemstyle">检查时间：{{ info.reviewerTm }}</div>
+          <div class="itemstyle">检查时间：<span v-if="info.reviewerTm">{{ info.reviewerTm.slice(0,10) }}</span></div>
         </div>
       </div>
       <div class="contitle">整改执行情况<span class="sontitle"></span></div>
@@ -220,14 +220,62 @@
         >
           <div v-if="reissueList.length > 1 && item.reissueReport">
             <h3 style="padding: 20px 0px; margin-left: -16px">再次下发内容</h3>
-            <div style="padding-bottom: 2px;font-size:15px;font-weight:bold;margin-bottom:5px;">
-              下发说明: <span style="margin-left:5px;font-size:14px;font-weight:400">{{ item.reissueReport }}</span>
+            <div
+              style="
+                padding-bottom: 2px;
+                font-size: 15px;
+                font-weight: bold;
+                margin-bottom: 5px;
+              "
+            >
+              下发说明:
+              <span
+                style="margin-left: 5px; font-size: 14px; font-weight: 400"
+                >{{ item.reissueReport }}</span
+              >
             </div>
-            <div style="padding-bottom: 2px;font-size:15px;font-weight:bold;margin-bottom:5px;">整改日期:  <span style="margin-left:5px;font-size:14px;font-weight:400">{{ item.rectifyTm }}</span></div>
-            <div style="padding-bottom: 2px;font-size:15px;font-weight:bold;margin-bottom:5px;">
-              复查日期:<span style="margin-left:5px;font-size:14px;font-weight:400">{{ item.reviewerTm }}</span>
+            <div v-viewer class="problempiclist">
+              <img
+                :src="item1"
+                class="dangerpic"
+                alt=""
+                v-for="(item1, index1) in (item.reissueImg
+                  ? item.reissueImg
+                  : ''
+                )
+                  .split(',')
+                  .filter((item2) => item2 != '')"
+                :key="index1"
+              />
             </div>
-            <div style="padding-bottom: 2px;font-size:15px;font-weight:bold;margin-bottom:5px;">下发日期: <span style="margin-left:5px;font-size:14px;font-weight:400">{{ item.issueTm }}</span></div>
+
+            <!-- <div
+              style="
+                padding-bottom: 2px;
+                font-size: 15px;
+                font-weight: bold;
+                margin-bottom: 5px;
+              "
+            >
+              复查日期:<span
+                style="margin-left: 5px; font-size: 14px; font-weight: 400"
+                >{{ item.reviewerTm }}</span
+              >
+            </div>
+            <div
+              style="
+                padding-bottom: 2px;
+                font-size: 15px;
+                font-weight: bold;
+                margin-bottom: 5px;
+              "
+            >
+              下发日期:
+              <span
+                style="margin-left: 5px; font-size: 14px; font-weight: 400"
+                >{{ item.issueTm }}</span
+              >
+            </div> -->
           </div>
 
           <!-- <div class="conwrapper" v-else>
@@ -239,30 +287,57 @@
               <div v-if="reissueList.length > 1 && item.reissueReport">
                 下发说明:{{ item.reissueReport }}
               </div> -->
-          <div v-viewer class="problempiclist">
-            <img
-              :src="item1"
-              class="dangerpic"
-              alt=""
-              v-for="(item1, index1) in (item.reissueImg ? item.reissueImg : '')
-                .split(',')
-                .filter((item2) => item2 != '')"
-              :key="index1"
-            />
-          </div>
+
           <div>
             <h3 style="padding: 20px 0px; margin-left: -16px">整改上报内容</h3>
-            <div class="itemstyle">整改上报：{{ item.rectifyReport }}</div>
-            <div>执行图片：</div>
+            <div class="itemstyle" style="
+                padding-bottom: 2px;
+                font-size: 15px;
+                font-weight: bold;
+                margin-bottom: 5px;
+              ">整改上报：
+               <span
+                style="margin-left: 5px; font-size: 14px; font-weight: 400"
+                >{{ item.rectifyReport }}</span
+              >
+             </div>
+            <div
+              style="
+                padding-bottom: 2px;
+                font-size: 15px;
+                font-weight: bold;
+                margin-bottom: 5px;
+              "
+            >
+              执行图片：
+            </div>
             <div v-viewer class="problempiclist">
               <img
                 class="dangerpic"
                 :src="item3"
-                v-for="(item3, index3) in (item.rectifyImg ? item.rectifyImg : '')
-                .split(',')
-                .filter((item4) => item4 != '')"
+                v-for="(item3, index3) in (item.rectifyImg
+                  ? item.rectifyImg
+                  : ''
+                )
+                  .split(',')
+                  .filter((item4) => item4 != '')"
                 :key="index3"
               />
+            </div>
+            <div
+              style="
+                padding-bottom: 2px;
+                font-size: 15px;
+                font-weight: bold;
+                margin-bottom: 5px;
+              "
+            >
+              整改日期:
+              <span
+              v-if="info.rectifyTm"
+                style="margin-left: 5px; font-size: 14px; font-weight: 400"
+                >{{ item.rectifyTm.slice(0,10) }}</span
+              >
             </div>
           </div>
         </div>
@@ -483,8 +558,8 @@ export default {
         } else {
           this.$message.error("再次下发失败");
         }
+        this.Issueshow = false;
       }
-      this.Issueshow = false;
     },
     // 整改上报
     async handleRectifyReport() {
@@ -507,6 +582,7 @@ export default {
             cd: this.info.cd,
             rectifyReport: this.info.rectifyReport,
             rmks: this.info.rmks,
+            rectifyImg: this.info.rectifyImg,
           },
           ...obj,
         });

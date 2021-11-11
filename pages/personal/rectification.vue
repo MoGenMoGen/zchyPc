@@ -154,7 +154,13 @@ export default {
   layout: "person",
   async mounted() {
     this.tabId = this.until.getQueryString("cdType") || 1;
-    // 获取整改单列表
+    if (this.tabId == 1) {
+      this.state = "";
+    } else {
+      this.state = this.tabId;
+    }
+    this.currentPage = 1;
+    this.List = [];
     this.getList();
   },
   computed: {
@@ -164,6 +170,14 @@ export default {
     $route() {
       this.tabId = this.until.getQueryString("cdType");
       console.log(this.tabId);
+      if (this.tabId == 1) {
+        this.state = "";
+      } else {
+        this.state = this.tabId;
+      }
+      this.currentPage = 1;
+      this.List = [];
+      this.getList();
     },
   },
   methods: {
@@ -174,10 +188,10 @@ export default {
       if (item.id != this.tabId) {
         this.tabId = item.id;
         this.$router.push("../personal/rectification?cdType=" + item.id);
-        this.currentPage = 1;
-        this.List = [];
-        this.state = item.id;
-        this.getList();
+        // this.currentPage = 1;
+        // this.List = [];
+        // this.state = item.id;
+        // this.getList();
       }
     },
     toAdd() {
