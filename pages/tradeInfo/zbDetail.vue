@@ -180,13 +180,19 @@ export default {
     },
     canSign() {
       let role = JSON.parse(this.until.seGet("currentRole"));
+      console.log(role)
       let id = role.id;
       this.api.getBidInfo(this.infoId, id).then((res) => {
         this.bidInfo = res.data;
+        console.log(this.bidInfo)
         if (this.bidInfo.applyNum > 0) this.IsSignUp = true;
         let nowDate = new Date().getTime();
         if (new Date(res.data.completeTm + " 23:59:59").getTime() > nowDate) {
-          this.signFlag = true;
+          if(role.identityCd==this.bidInfo.viewRangeCd||this.bidInfo.orgEnterIds.indexOf(role.id)>-1){
+            this.signFlag = true;
+          } else {
+            this.signFlag = flase
+          }
         } else {
           this.signFlag = false;
         }
