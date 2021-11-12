@@ -4,13 +4,13 @@
     <div class="top-img">
       <img :src="imgUrl">
     </div>
-    <div class="tip-box" v-show="audit!=2">
+    <div class="tip-box" v-show="audit==1">
       <span>您的增票资质：</span>
       <span style="color: #909090;" v-show="!isPass">未添加</span>
-      <span v-show="isPass">已添加</span>
+      <!-- <span v-show="isPass">已添加</span> -->
       <p class="add-btn" v-show="!isPass" @click="addQua">添加增票资质</p>
-      <p class="upd-btn" v-show="isPass" @click="update">修改</p>
-      <p class="del-btn" v-show="isPass" @click="del">删除</p>
+      <!-- <p class="upd-btn" v-show="isPass" @click="update">修改</p>
+      <p class="del-btn" v-show="isPass" @click="del">删除</p> -->
     </div>
     <div class="submit-box" v-show="audit==2">
       <div class="submit-title">
@@ -57,8 +57,10 @@
     </div>
     <div class="submit-box" v-if="audit==3&&isPass">
       <div class="submit-title">
-        <span>填写增票资质信息</span>
+        <span>增票资质信息</span>
         <div></div>
+        <span style="color: #2778BE;margin-left: 20px;cursor: pointer;" @click="update">修改</span>
+        <span style="color: #2778BE;margin-left: 20px;cursor: pointer;" @click="del">删除</span>
       </div>
       <div class="submit-line">
         <p>单位名称：{{info.nm}}</p>
@@ -74,6 +76,7 @@
         <span>增票收票地址</span>
         <div></div>
         <span style="color: #2778BE;margin-left: 20px;cursor: pointer;" v-show="audit2==3" @click="update2">修改</span>
+        <span style="color: #2778BE;margin-left: 20px;cursor: pointer;" v-show="audit2==3" @click="del2">删除</span>
       </div>
       <div class="set-line" v-show="audit2==1">您还未设置收票地址：<div class="set-btn" @click="set()">立即设置</div></div>
       <div v-show="audit2==2" class="submit-line">
@@ -247,18 +250,52 @@
         this.audit = 2
       },
       del() {
-        this.api.qualiDel({ids:this.id}).then(res => {
-          if(res.msg=='成功') {
-            this.$message({
-              message:'增票资质删除成功！',
-              type: 'success'
-            })
-            this.audit = 1
-            this.audit2 = 1
-            this.isPass = false
-            this.isPass2 = false
-          }
-        })
+        this.$confirm('确认删除增票资质信息?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.api.qualiDel({ids:this.id}).then(res => {
+            if(res.msg=='成功') {
+              this.$message({
+                message:'增票资质删除成功！',
+                type: 'success'
+              })
+              this.audit = 1
+              this.audit2 = 1
+              this.isPass = false
+              this.isPass2 = false
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+      del2() {
+         this.$confirm('确认删除增票收票地址?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then((data) => {
+          this.api.qualiAddrDel({ids:this.recInfo.id}).then(res => {
+            if(res.msg=='成功') {
+              this.$message({
+                message:'增票收票地址删除成功！',
+                type: 'success'
+              })
+              this.audit2 = 1
+              this.isPass2 = false
+            }
+          })
+        }).catch((err) => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
       set() {
         this.audit2 = 2
@@ -301,6 +338,7 @@
               })
               this.audit2 = 3
               this.isPass2 = true
+              this.getRecInfo()
             }
           })
         } else {
@@ -312,6 +350,7 @@
               })
               this.audit2 = 3
             }
+            this.getRecInfo()
           })
         }
       },
@@ -333,8 +372,8 @@
             this.isPass = true
             this.info = res.data
             this.id = res.data.id
-            this.phone = this.info.tel.replace(/.(?=.{4})/g, '*')
-            this.account = this.info.account.replace(/.(?=.{4})/g, '*')
+            this.phone = this.info.tel
+            this.account = this.info.account
             this.getRecInfo()
           } else {
             this.audit=1
@@ -350,7 +389,8 @@
             this.audit2 = 3
             this.isPass2 = true
             this.recInfo = res.data.list[0]
-            this.phone2 = this.recInfo.phone.replace(/.(?=.{4})/g, '*')
+            // this.phone2 = this.recInfo.phone.replace(/.(?=.{4})/g, '*')
+            this.phone2 = this.recInfo.phone
             this.$refs.addrChoose.getProvice(this.recInfo.addrNm)
           } else {
             this.audit2 = 1

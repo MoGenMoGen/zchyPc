@@ -2653,7 +2653,7 @@ class api {
       })
     })
   }
-  //开票资料新增
+  //开票资料地址新增
   qualiAddrAdd(data) {
     return new Promise(resolve => {
       post("/ds/invoiceAddr/apis/add", data).then(res => {
@@ -2661,10 +2661,18 @@ class api {
       })
     })
   }
-  //开票资料更新
+  //开票资料地址更新
   qualiAddrUpd(data) {
     return new Promise(resolve => {
       post("/ds/invoiceAddr/apis/upd", data).then(res => {
+        resolve(res)
+      })
+    })
+  }
+  //开票资料地址删除
+  qualiAddrDel(data) {
+    return new Promise(resolve => {
+      get("/ds/invoiceAddr/apis/del", data).then(res => {
         resolve(res)
       })
     })

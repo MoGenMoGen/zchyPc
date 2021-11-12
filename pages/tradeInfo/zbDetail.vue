@@ -158,7 +158,7 @@ export default {
       this.api.getBidAfficheList(this.query.toEncode(qry)).then((res) => {
         res.data.list.forEach((item) => {
           item.releTm = item.releTm.substring(0, 10);
-          if (item.afficheTypeNm == "采购公告") {
+          if (item.afficheTypeNm == "招标公告") {
             item.selectImgUrl = cg1;
             item.imgUrl = "";
           } else if (item.afficheTypeNm == "更正公告") {
@@ -187,7 +187,7 @@ export default {
         console.log(this.bidInfo)
         if (this.bidInfo.applyNum > 0) this.IsSignUp = true;
         let nowDate = new Date().getTime();
-        if (new Date(res.data.completeTm + " 23:59:59").getTime() > nowDate) {
+        if (new Date(res.data.completeTm + " 23:59:59").getTime() > nowDate&&!this.until.seGet("currentRole")) {
           if(role.identityCd==this.bidInfo.viewRangeCd||this.bidInfo.orgEnterIds.indexOf(role.id)>-1){
             this.signFlag = true;
           } else {

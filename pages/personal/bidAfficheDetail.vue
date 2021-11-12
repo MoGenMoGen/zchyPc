@@ -78,7 +78,7 @@
         this.api.getBidAfficheList2(this.query.toEncode(qry)).then(res => {
           res.data.list.forEach(item => {
             item.releTm = item.releTm.substring(0,10)
-            if(item.afficheTypeNm=='采购公告'){
+            if(item.afficheTypeNm=='招标公告'){
               item.selectImgUrl = cg1
               item.imgUrl = ''
             } else if(item.afficheTypeNm=='更正公告'){

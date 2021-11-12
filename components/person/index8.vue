@@ -99,7 +99,7 @@
           </el-table-column>
           <el-table-column width="80" prop="budget" align="center" label="采购金额">
           </el-table-column>
-          <el-table-column width="170" prop="bidOpenTm" align="center" label="开标时间">
+          <el-table-column width="110" prop="bidOpenTm" align="center" label="开标时间">
           </el-table-column>
           <el-table-column width="110" align="center" label="状态">
             <template slot-scope="scope">
@@ -114,7 +114,7 @@
               <button class="button3" v-if="scope.row.depositStatus==2" @click="openBail(scope.row)" style="font-size: 12px;">保证金上传</button>
               <!-- <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)" @click="openOffer(scope.row)">投标报价</button> -->
 
-              <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)&&!scope.row.offer" @click="openOffer(scope.row)">投标报价</button>
+              <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)&&!scope.row.offer" @click="openOffer(scope.row)">资料上传</button>
               <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)&&scope.row.offer" @click="openOffer(scope.row)">查看报价</button>
 
               <button class="button3" v-if="scope.row.signin.shipBidSigninVo.signinStatus==0&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)" @click="sign(scope.row)">签到</button>
