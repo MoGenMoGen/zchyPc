@@ -191,7 +191,7 @@ export default {
           if(role.identityCd==this.bidInfo.viewRangeCd||this.bidInfo.orgEnterIds.indexOf(role.id)>-1){
             this.signFlag = true;
           } else {
-            this.signFlag = flase
+            this.signFlag = false
           }
         } else {
           this.signFlag = false;
