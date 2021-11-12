@@ -8,9 +8,9 @@
     </div>
     <div class="foot">
       <div class="form">
-        <el-form :label-position="labelPosition" label-width="100px" :model="info">
-          <el-form-item label="保证金金额：" style="margin-top: 10px;">
-            <el-input type="text" v-model="info.depositAmt" id="long" placeholder="请填写投标保证金金额(万元)"></el-input>
+        <el-form :label-position="labelPosition" label-width="120px" :model="info">
+          <el-form-item label="保证金金额(元)：" style="margin-top: 10px;">
+            <el-input type="text" v-model="info.depositAmt" id="long" placeholder="请填写投标保证金金额"></el-input>
           </el-form-item>
           <el-form-item label="保证金凭证：">
               <div class="imgBox">

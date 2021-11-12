@@ -10,13 +10,13 @@
         <div class="form">
           <el-form
             :label-position="labelPosition"
-            label-width="100px"
+            label-width="120px"
             :model="info"
           >
             <el-form-item label="项目名称：">
               <p>{{ applyInfo.nm }}</p>
             </el-form-item>
-            <el-form-item label="投标金额：">
+            <el-form-item label="投标金额(元)：">
               <el-input
                 type="text"
                 v-model="info.offerAmt"
@@ -82,7 +82,8 @@
         </div>
         <div class="button">
           <button @click="close">取消</button>
-          <button @click="submit">保存</button>
+          <button @click="submit" v-if="!applyInfo.attachment">保存</button>
+          <button @click="close" v-if="applyInfo.attachment">确定</button>
         </div>
       </div>
     </div>
@@ -97,6 +98,7 @@ import ppt from "@/assets/img/personal/ppt.png";
 import word from "@/assets/img/personal/word.png";
 import pdf from "@/assets/img/personal/pdf.jpg";
 import del from "@/assets/img/personal/del.png";
+import defaultImg from "@/assets/img/personal/defaultImg.png";
 
 export default {
   name: "offer",
@@ -176,6 +178,15 @@ export default {
         });
         return;
       }
+      if(!this.info.attachment) {
+        this.$message({
+          message: "请上传报价文件",
+          type: "warning",
+          duration: "1500",
+          offset: "50",
+        });
+        return;
+      }
       this.info.orgId = this.applyInfo.orgId;
       this.info.orgNm = this.applyInfo.orgNm;
       this.info.bidId = this.applyInfo.bidId;
@@ -220,7 +231,7 @@ export default {
       } else if (type == "xls" || type == "xlsx") {
         this.fileList.push({ url: img, imgUrl: this.excel, type: "1", nm: nm });
       } else {
-        this.fileList.push({ url: img, imgUrl: img, type: "2", nm: nm });
+        this.fileList.push({ url: img, imgUrl: defaultImg, type: "2", nm: nm });
       }
       console.log("文件列表");
       console.log(this.fileList);
