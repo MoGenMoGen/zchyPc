@@ -232,7 +232,10 @@
   }
   .foot{
     .form{
+      max-height: 440px;
+      margin-bottom: 8px;
       padding: 0 38px;
+      overflow: auto;
     }
     .button{
       display: flex;

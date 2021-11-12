@@ -78,15 +78,15 @@
         this.api.getBidAfficheList2(this.query.toEncode(qry)).then(res => {
           res.data.list.forEach(item => {
             item.releTm = item.releTm.substring(0,10)
-            if(item.afficheTypeNm=='招标公告'){
-              item.selectImgUrl = cg1
-              item.imgUrl = ''
-            } else if(item.afficheTypeNm=='更正公告'){
-              item.selectImgUrl = gz1
-              item.imgUrl = gz2
-            } else if(item.afficheTypeNm=='结果公告'){
-              item.selectImgUrl = jg1
-              item.imgUrl = jg2
+            if (item.afficheTypeCd == "5635882628584448") {
+              item.selectImgUrl = cg1;
+              item.imgUrl = "";
+            } else if (item.afficheTypeCd == "5635883070706688") {
+              item.selectImgUrl = gz1;
+              item.imgUrl = gz2;
+            } else if (item.afficheTypeCd == "5635883361522688") {
+              item.selectImgUrl = jg1;
+              item.imgUrl = jg2;
             }
             item.cont = this.until.imgStyle(item.cont)
           })

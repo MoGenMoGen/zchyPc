@@ -56,7 +56,7 @@
                 </div>
               </div>
             </el-form-item>
-            <el-form-item label="加密文件:" v-if="applyInfo.attachment">
+            <el-form-item label="加密文件:" v-if="applyInfo.offer">
               <div class="detailContent">
                 <div
                   class="fileS"
@@ -78,12 +78,13 @@
                 </div>
               </div>
             </el-form-item>
+            <div style="color: red;margin-bottom: 10px;">上传文件会自动加密，将无法打开</div>
           </el-form>
         </div>
         <div class="button">
           <button @click="close">取消</button>
-          <button @click="submit" v-if="!applyInfo.attachment">保存</button>
-          <button @click="close" v-if="applyInfo.attachment">确定</button>
+          <button @click="submit" v-if="!applyInfo.offer">保存</button>
+          <button @click="close" v-if="applyInfo.offer">确定</button>
         </div>
       </div>
     </div>
@@ -145,9 +146,12 @@ export default {
     // 已经报价过
     if (this.applyInfo.offer) {
       this.info.offerAmt = this.applyInfo.budget;
-    }
-    if (this.applyInfo.attachment) {
-      let attachments = this.applyInfo.attachment.split(",");
+      let attachments
+      if(this.applyInfo.offer.shipBidOfferVo.attachment) {
+        attachments = this.applyInfo.offer.shipBidOfferVo.attachment.split(",");
+      } else {
+        attachments = []
+      }
       this.list1 = this.getInfo(attachments);
     }
   },
@@ -291,7 +295,7 @@ export default {
           } else {
             fileList2.push({
               url: v,
-              img: v,
+              img: defaultImg,
               fileNm: nm,
             });
           }
@@ -374,7 +378,10 @@ export default {
   }
   .foot {
     .form {
+      max-height: 440px;
+      margin-bottom: 8px;
       padding: 0 38px;
+      overflow: auto;
       .detailContent {
         // padding: 30px;
         // box-sizing: border-box;
@@ -438,7 +445,7 @@ export default {
         }
 
         .fileS {
-          width: 50%;
+          // width: 50%;
           margin-top: 20px;
           display: flex;
         }

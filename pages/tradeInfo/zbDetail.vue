@@ -158,13 +158,13 @@ export default {
       this.api.getBidAfficheList(this.query.toEncode(qry)).then((res) => {
         res.data.list.forEach((item) => {
           item.releTm = item.releTm.substring(0, 10);
-          if (item.afficheTypeNm == "招标公告") {
+          if (item.afficheTypeCd == "5635882628584448") {
             item.selectImgUrl = cg1;
             item.imgUrl = "";
-          } else if (item.afficheTypeNm == "更正公告") {
+          } else if (item.afficheTypeCd == "5635883070706688") {
             item.selectImgUrl = gz1;
             item.imgUrl = gz2;
-          } else if (item.afficheTypeNm == "结果公告") {
+          } else if (item.afficheTypeCd == "5635883361522688") {
             item.selectImgUrl = jg1;
             item.imgUrl = jg2;
           }
@@ -222,12 +222,9 @@ export default {
         rmks: "",
       };
       this.api.bidApply(data).then((res) => {
-        this.$message({
-          message: "报名成功",
-          type: "success",
-          duration: "1500",
-          offset: "50",
-        });
+        this.$alert(`${this.bidInfo.nm}项目已报名成功，请进入“个人中心-我的投标”查看`, "提示", {
+          confirmButtonText: "确定",
+        })
         this.dialogVisible = false;
         this.canSign();
       });
