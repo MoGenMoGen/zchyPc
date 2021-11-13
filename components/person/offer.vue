@@ -113,6 +113,7 @@ export default {
       word,
       pdf,
       del,
+      defaultImg,
       fileList: [],
       list1: [],
       info: {

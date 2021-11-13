@@ -16,9 +16,9 @@
               <p>项目编号：{{scope.row.cd}}</p>
             </template>
           </el-table-column>
-          <el-table-column width="150" prop="budget" align="center" label="采购金额">
+          <el-table-column width="150" prop="budget" align="center" label="采购金额(元)">
           </el-table-column>
-         <el-table-column width="150" prop="depositMoney" align="center" label="保证金(万元)">
+         <el-table-column width="150" prop="depositMoney" align="center" label="保证金(元)">
           </el-table-column>
           <el-table-column width="170" prop="bidOpenTm" align="center" label="开标时间">
           </el-table-column>

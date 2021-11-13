@@ -2,7 +2,7 @@
   <div class="left1">
     <!--报价-->
     <offer  :applyInfo="applyInfo" v-if="offer" @close="close"></offer>
-    <bail  :applyInfo="applyInfo" :bail="bail" @close="close"></bail>
+    <bail  :applyInfo="applyInfo" v-if="bail" @close="close"></bail>
     <!--附件下载-->
     <download :download1="download1" @toClose="toClose" :applyInfo="applyInfo"></download>
     <!--采购订单-->
@@ -152,6 +152,7 @@
           <el-table-column align="center" width="110" fixed="right" prop="operations" label="操作">
             <div class="btnList" slot-scope="scope">
               <button class="button3" v-if="scope.row.depositStatus==2" @click="openBail(scope.row)" style="font-size: 12px;">保证金上传</button>
+              <button class="button3" v-if="scope.row.depositStatus==3" @click="openBail(scope.row)" style="font-size: 12px;">查看保证金</button>
               <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)&&!scope.row.offer" @click="openOffer(scope.row)">资料上传</button>
               <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)&&scope.row.offer" @click="openOffer(scope.row)">查看报价</button>
               <button class="button3" v-if="scope.row.signin.shipBidSigninVo.signinStatus==0&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)" @click="sign(scope.row)">签到</button>

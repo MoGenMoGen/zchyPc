@@ -55,6 +55,10 @@
           <span>发票抬头</span>
           <span>{{item.payerName}}</span>
         </div>
+      <div class="table-item" v-if="isOver">
+        <span>已开金额</span>
+        <span>{{item.orderAmount}}</span>
+      </div>
       </div>
       <div class="table-box2" v-if="isOver">
         <div class="table-title">

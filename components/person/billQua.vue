@@ -55,7 +55,7 @@
         </div>
       </div>
     </div>
-    <div class="submit-box" v-if="audit==3&&isPass">
+    <div class="submit-box" v-if="audit==3">
       <div class="submit-title">
         <span>增票资质信息</span>
         <div></div>
@@ -71,7 +71,7 @@
         <p>银行账户：{{account}}</p>
       </div>
     </div>
-    <div class="submit-box" v-show="audit==3&&isPass">
+    <div class="submit-box">
       <div class="submit-title">
         <span>增票收票地址</span>
         <div></div>
@@ -262,9 +262,7 @@
                 type: 'success'
               })
               this.audit = 1
-              this.audit2 = 1
               this.isPass = false
-              this.isPass2 = false
             }
           })
         }).catch(() => {

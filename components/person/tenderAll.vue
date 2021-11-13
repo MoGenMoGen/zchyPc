@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <offer :applyInfo="applyInfo"  v-if="offer" @close="close"></offer>
-    <bail :applyInfo="applyInfo" :bail="bail" @close="close2"></bail>
+    <bail :applyInfo="applyInfo" v-if="bail" @close="close2"></bail>
     <div class="body">
       <div class="table">
         <el-table :data="list" style="width: 100%">
@@ -16,9 +16,9 @@
               <p>项目编号：{{scope.row.cd}}</p>
             </template>
           </el-table-column>
-          <el-table-column width="150" prop="budget" align="center" label="采购金额(万元)"> 
+          <el-table-column width="150" prop="budget" align="center" label="采购金额(元)">
           </el-table-column>
-            <el-table-column width="150" prop="depositMoney" align="center" label="保证金(万元)">
+            <el-table-column width="150" prop="depositMoney" align="center" label="保证金(元)">
           </el-table-column>
           <el-table-column width="170" prop="bidOpenTm" align="center" label="开标时间">
           </el-table-column>
@@ -33,6 +33,7 @@
           <el-table-column align="center" width="110" fixed="right" prop="operations" label="操作">
             <div class="btnList" slot-scope="scope">
               <button class="button3" v-if="scope.row.depositStatus==2" @click="openBail(scope.row)" style="font-size: 12px;">保证金上传</button>
+              <button class="button3" v-if="scope.row.depositStatus==3" @click="openBail(scope.row)" style="font-size: 12px;">查看保证金</button>
               <button class="button3" v-if="!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)&&!scope.row.offer" @click="openOffer(scope.row)">资料上传</button>
               <button class="button3" v-if="!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)&&scope.row.offer" @click="openOffer(scope.row)">查看资料</button>
               <button class="button3" v-if="scope.row.signin.shipBidSigninVo.signinStatus==0&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)" @click="sign(scope.row)">签到</button>
@@ -123,7 +124,7 @@
       this.getBidData()
       this.nowDate = (new Date()).getTime()
 
-      
+
     },
     methods: {
       back() {
