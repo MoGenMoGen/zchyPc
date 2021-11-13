@@ -143,10 +143,10 @@ export default {
   },
   mounted() {
     console.log(235345436);
-    this.info.completeTm = this.applyInfo.completeTm;
+    this.info.completeTm = this.applyInfo.bidEndTm;
     // 已经报价过
     if (this.applyInfo.offer) {
-      this.info.offerAmt = this.applyInfo.budget;
+      this.info.offerAmt = this.applyInfo.offer.shipBidOfferVo.offerAmt;
       let attachments
       if(this.applyInfo.offer.shipBidOfferVo.attachment) {
         attachments = this.applyInfo.offer.shipBidOfferVo.attachment.split(",");
@@ -165,7 +165,7 @@ export default {
       this.$emit("close", data);
     },
     submit() {
-      if (this.until.TimeStep(this.info.completeTm) >= 0) {
+      if (this.until.TimeStep2(this.info.completeTm) >= 0) {
         this.$message({
           message: "已经过了截止时间",
           type: "warning",
