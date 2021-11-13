@@ -177,10 +177,12 @@
       },
       mounted() {
         this.userInfo=JSON.parse(this.until.seGet('userInfo'))
+        console.log('侧边栏mounted');
         this.getAuthz()
       },
       methods:{
       async getAuthz(){
+        console.log('getauthz');
 		    if(this.userInfo.pid){  //有pid就是子账号
           let nowList=[]
           let qry = this.query.new()
@@ -188,7 +190,7 @@
           this.juriList=await this.api.getjuri(this.query.toEncode(qry))//获取所有的权限列表
 		      let data1=await this.api.getAuthz()//获取当前子账号有的权限
 		      this.authz=data1.stringPermissions
-		      // console.log('权限:',this.authz)
+		      console.log('11111111111111111111111111111111111111111111111111权限:',this.authz)
           this.juriList.forEach(item=>{
             this.authz.forEach(i=>{
               if(item.perm==i){

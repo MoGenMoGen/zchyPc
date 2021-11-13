@@ -186,18 +186,20 @@
       },
       mounted() {
         this.userInfo=JSON.parse(this.until.seGet('userInfo'))
+        console.log('侧标栏mounted');
         this.getAuthz()
       },
       methods:{
         async getAuthz(){
+          console.log('getauthz');
           if(this.userInfo.pid){  //有pid就是子账号
             let nowList=[]
             let qry = this.query.new()
             this.query.toW(qry,'pid','5052299821765632','EQ')
             this.juriList=await this.api.getjuri(this.query.toEncode(qry))//获取所有的权限列表
             let data1=await this.api.getAuthz()//获取当前子账号有的权限
-            this.authz=data1.stringPermissions
-            // console.log('权限:',this.authz)
+            this.authz=data1.stringPermissions;
+            console.log('111111111111111111111权限:',this.authz)
             this.juriList.forEach(item=>{
               this.authz.forEach(i=>{
                 if(item.perm==i){
@@ -208,30 +210,34 @@
             // 将列表标记
             this.navList.forEach((item,index)=>{
               if(item.title){
-                item.title.forEach(i=>{
+                // item.title.forEach(i=>{
                   nowList.forEach(j=>{
-                    if(j==i.nm){
-                      i.flag=1
+                    if(j==item.nm){
+                      item.flag=1
                     }
-                  })
+                  // })
                 })
-              }else{
-                nowList.forEach(j=>{
-                  if(j==item.nm){
-                    item.flag=1
-                  }
-                })
+
               }
+              // else{
+              //   nowList.forEach(j=>{
+              //     if(j==item.nm){
+              //       item.flag=1
+              //     }
+              //   })
+              // }
               this.$set(this.navList,index,this.navList[index])
             })
             this.navList.forEach((item,index)=>{
-              if(item.title && item.nm!='我的资料'){
+              if(item.title && item.nm!='我的资料'&&!item.flag){
                 item.title.forEach(i=>{
-                  if(!i.flag){
+                  console.log(i)
+                  // if(!i.flag){
                     i.href=''
-                  }
+                  // }
                 })
-              }else{
+              }
+              else{
                 if(!item.flag && item.nm!='快速下单'){
                   item.href=''
                 }
@@ -242,6 +248,7 @@
           }
         },
           toPage(url){
+            console.log(url,this.userInfo);
             if(url){
               this.$router.push(url)
             }else if(this.userInfo.pid){
