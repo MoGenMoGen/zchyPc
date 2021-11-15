@@ -14,7 +14,7 @@
             </el-form-item>
             <el-form-item label="保证金凭证：">
               <div class="imgBox">
-                <div class="img" v-if="!applyInfo.despoit">
+                <div class="img" v-if="(applyInfo.despoit&&applyInfo.despoit.shipBidDepositVo.audit!=2)||!applyInfo.despoit">
                   <div class="uploadImg">
                     <div>
                       <p>+</p>
@@ -27,16 +27,11 @@
                       :src="item.imgUrl" /><span>{{index+1}}.{{item.nm}}</span></div>
                   <div class="cancel"><img :src="del" class="delImg" @click="deleteFile(index)" /></div>
                 </div>
-                <div v-for="(item,index) in list1" :key="index" class="fileList">
-                  <div class="fileList-item" @click="toLink(item.url)"><img
-                      :src="item.img" /><span>{{index+1}}.{{item.fileNm}}</span></div>
-                  <div class="cancel"><img :src="del" class="delImg" @click="deleteFile(index)" /></div>
-                </div>
               </div>
             </el-form-item>
           </el-form>
         </div>
-        <div class="button">
+        <div class="button" v-if="(applyInfo.despoit&&applyInfo.despoit.shipBidDepositVo.audit!=2)||!applyInfo.despoit">
           <button @click="close">取消</button>
           <button @click="submit">确认</button>
         </div>
@@ -103,15 +98,16 @@
         let attachments
         if (this.applyInfo.despoit.shipBidDepositVo.depositImgUrl) {
           attachments = this.applyInfo.despoit.shipBidDepositVo.depositImgUrl.split(",");
+          this.info.depositImgUrl = this.applyInfo.despoit.shipBidDepositVo.depositImgUrl+','
         } else {
           attachments = []
         }
-        this.list1 = this.getInfo(attachments);
+        this.fileList = this.getInfo(attachments);
       }
     },
     methods: {
       close(data) {
-        if (!this.applyInfo.deposits) {
+        if (!this.applyInfo.despoit) {
           this.$refs.upload.value = ''
           this.fileList = []
         }
@@ -127,6 +123,15 @@
           });
           return
         }
+        if(!this.info.depositImgUrl) {
+          this.$message({
+            message: '请上传保证金凭证',
+            type: 'warning',
+            duration: '1500',
+            offset: '50'
+          });
+          return
+        }
         this.info.orgId = this.applyInfo.orgId
         this.info.orgNm = this.applyInfo.orgNm
         this.info.bidId = this.applyInfo.bidId
@@ -134,17 +139,30 @@
         this.info.depositImgUrl = this.info.depositImgUrl.substring(0, this.info.depositImgUrl.length - 1)
         // console.log('提交了')
         // return
-        this.api.bidBail(this.info).then(() => {
-          this.$message({
-            message: '上传成功',
-            type: 'success',
-            duration: '1500',
-          });
-          this.fileList = []
-          this.$refs.upload.value = ''
-          this.close('submit')
-        })
-
+        if(this.applyInfo.despoit) {
+          this.info.id = this.applyInfo.despoit.shipBidDepositVo.id
+          this.api.bidBailUpd(this.info).then(() => {
+            this.$message({
+              message: '修改成功',
+              type: 'success',
+              duration: '1500',
+            });
+            this.fileList = []
+            this.$refs.upload.value = ''
+            this.close('submit')
+          })
+        } else {
+          this.api.bidBail(this.info).then(() => {
+            this.$message({
+              message: '上传成功',
+              type: 'success',
+              duration: '1500',
+            });
+            this.fileList = []
+            this.$refs.upload.value = ''
+            this.close('submit')
+          })
+        }
       },
       //删除文件
       deleteFile(index) {
@@ -230,32 +248,32 @@
             if (type == "pdf") {
               fileList2.push({
                 url: v,
-                img: this.pdf,
-                fileNm: nm,
+                imgUrl: this.pdf,
+                nm: nm,
               });
             } else if (type == "doc" || type == "docx") {
               fileList2.push({
                 url: v,
-                img: this.word,
-                fileNm: nm,
+                imgUrl: this.word,
+                nm: nm,
               });
             } else if (type == "ppt" || type == "pptx") {
               fileList2.push({
                 url: v,
-                img: this.ppt,
-                fileNm: nm,
+                imgUrl: this.ppt,
+                nm: nm,
               });
             } else if (type == "xls" || type == "xlsx") {
               fileList2.push({
                 url: v,
-                img: this.excel,
+                imgUrl: this.excel,
                 fileNm: nm,
               });
             } else {
               fileList2.push({
                 url: v,
-                img: v,
-                fileNm: nm,
+                imgUrl: v,
+                nm: nm,
               });
             }
           });

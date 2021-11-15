@@ -2855,6 +2855,14 @@ class api {
       })
     })
   }
+  //保证金修改
+  bidBailUpd(data) {
+    return new Promise(resolve => {
+      post("/ship/bidDeposit/upd", data).then(res => {
+        resolve(res)
+      })
+    })
+  }
   //签到
   bidSign(data) {
     return new Promise(resolve => {
