@@ -60,7 +60,7 @@
               <div class="detailContent">
                 <div
                   class="fileS"
-                  v-for="(item, index) in list1"
+                  v-for="(item, index) in fileList"
                   :key="index"
                 >
                   <span> {{ index + 1 }}、 </span>
@@ -115,7 +115,7 @@ export default {
       del,
       defaultImg,
       fileList: [],
-      list1: [],
+      // list1: [],
       info: {
         orgId: "5024282848367616",
         orgNm: "中创海洋科技股份有限公司",
@@ -153,7 +153,7 @@ export default {
       } else {
         attachments = []
       }
-      this.list1 = this.getInfo(attachments);
+      this.fileList = this.getInfo(attachments);
     }
   },
   methods: {
@@ -165,6 +165,18 @@ export default {
       this.$emit("close", data);
     },
     submit() {
+      this.info.orgId = this.applyInfo.orgId;
+      this.info.orgNm = this.applyInfo.orgNm;
+      this.info.bidId = this.applyInfo.bidId;
+      this.info.bidNm = this.applyInfo.nm;
+      this.info.attachment = ''
+      this.fileList.forEach(item => {
+        this.info.attachment += item.url+','
+      })
+      this.info.attachment = this.info.attachment.substring(
+        0,
+        this.info.attachment.length - 1
+      );
       if (this.until.TimeStep2(this.info.completeTm) >= 0) {
         this.$message({
           message: "已经过了截止时间",
@@ -192,14 +204,6 @@ export default {
         });
         return;
       }
-      this.info.orgId = this.applyInfo.orgId;
-      this.info.orgNm = this.applyInfo.orgNm;
-      this.info.bidId = this.applyInfo.bidId;
-      this.info.bidNm = this.applyInfo.nm;
-      this.info.attachment = this.info.attachment.substring(
-        0,
-        this.info.attachment.length - 1
-      );
       // console.log('提交了')
       // return
       this.api.bidOffer(this.info).then(() => {
@@ -226,7 +230,7 @@ export default {
       let img = await this.api.uploadImgEnc(e);
       let type = img.split(".")[img.split(".").length - 1];
       let nm = e.target.files[0].name;
-      this.info.attachment += img + ",";
+      // this.info.attachment += img + ",";
       if (type == "pdf") {
         this.fileList.push({ url: img, imgUrl: this.pdf, type: "1", nm: nm });
       } else if (type == "doc" || type == "docx") {

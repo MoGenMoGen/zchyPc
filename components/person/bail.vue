@@ -98,7 +98,7 @@
         let attachments
         if (this.applyInfo.despoit.shipBidDepositVo.depositImgUrl) {
           attachments = this.applyInfo.despoit.shipBidDepositVo.depositImgUrl.split(",");
-          this.info.depositImgUrl = this.applyInfo.despoit.shipBidDepositVo.depositImgUrl+','
+          // this.info.depositImgUrl = this.applyInfo.despoit.shipBidDepositVo.depositImgUrl+','
         } else {
           attachments = []
         }
@@ -114,6 +114,15 @@
         this.$emit('close', data)
       },
       submit() {
+        this.info.orgId = this.applyInfo.orgId
+        this.info.orgNm = this.applyInfo.orgNm
+        this.info.bidId = this.applyInfo.bidId
+        this.info.bidNm = this.applyInfo.nm
+        this.info.depositImgUrl = ''
+        this.fileList.forEach(item => {
+          this.info.depositImgUrl += item.url+','
+        })
+        this.info.depositImgUrl = this.info.depositImgUrl.substring(0, this.info.depositImgUrl.length - 1)
         if (!this.info.depositAmt) {
           this.$message({
             message: '请填写保证金金额',
@@ -132,13 +141,8 @@
           });
           return
         }
-        this.info.orgId = this.applyInfo.orgId
-        this.info.orgNm = this.applyInfo.orgNm
-        this.info.bidId = this.applyInfo.bidId
-        this.info.bidNm = this.applyInfo.nm
-        this.info.depositImgUrl = this.info.depositImgUrl.substring(0, this.info.depositImgUrl.length - 1)
-        // console.log('提交了')
-        // return
+        console.log(this.info.depositImgUrl)
+        return
         if(this.applyInfo.despoit) {
           this.info.id = this.applyInfo.despoit.shipBidDepositVo.id
           this.api.bidBailUpd(this.info).then(() => {
@@ -177,7 +181,7 @@
         let img = await this.api.uploadImg(e)
         let type = img.split('.')[img.split('.').length - 1]
         let nm = e.target.files[0].name
-        this.info.depositImgUrl += img + ','
+        // this.info.depositImgUrl += img + ','
         if (type == 'pdf') {
           this.fileList.push({
             url: img,

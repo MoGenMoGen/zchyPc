@@ -2705,7 +2705,7 @@ class api {
   getInvoiceResult(data) {
     return new Promise(resolve => {
       get("/ds/invoiceResult/apis/listByOrderId", data).then(res => {
-        resolve(res.data)
+        resolve(res)
       })
     })
   }

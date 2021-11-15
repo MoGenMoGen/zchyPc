@@ -4,6 +4,10 @@
       <tobbar :title="title" :showAll="false"></tobbar>
     </div>
     <p style="border-bottom: 1px solid rgba(0,0,0,0.1);"></p>
+    <div>
+      <p>已开金额：{{openedSum}}</p>
+      <p>未开金额：{{canOpenSum - openedSum}}</p>
+    </div>
     <!-- <div class="steps-box">
       <div class="steps-img">
         <img :src="im1">
@@ -105,7 +109,9 @@
         title: '发票详情',
         id: '',
         isOver: true,
-        list: []
+        list: [],
+        openedSum: '',
+        canOpenSum: ''
       }
     },
     layout: 'person',
@@ -113,7 +119,9 @@
       this.id = this.until.getQueryString('id')
       this.api.getInvoiceResult({orderNo:this.id}).then(res => {
         console.log(res)
-        this.list = res.list
+        this.openedSum = res.openedSum
+        this.canOpenSum = res.canOpenSum
+        this.list = res.data.list
       })
     },
     computed: {
