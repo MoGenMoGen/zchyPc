@@ -136,7 +136,7 @@
                 @click="openOffer(scope.row)">资料上传</button>
               <button class="button3"
                 v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)&&scope.row.offer"
-                @click="openOffer(scope.row)">查看报价</button>
+                @click="openOffer(scope.row)">查看资料</button>
               <button class="button3"
                 v-if="scope.row.signin.shipBidSigninVo.signinStatus==0&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)"
                 @click="sign(scope.row)">签到</button>

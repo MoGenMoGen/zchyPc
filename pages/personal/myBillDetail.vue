@@ -4,9 +4,9 @@
       <tobbar :title="title" :showAll="false"></tobbar>
     </div>
     <p style="border-bottom: 1px solid rgba(0,0,0,0.1);"></p>
-    <div>
+    <div class="sum-line">
       <p>已开金额：{{openedSum}}</p>
-      <p>未开金额：{{canOpenSum - openedSum}}</p>
+      <p style="color: red;">未开金额：{{canOpenSum - openedSum}}</p>
     </div>
     <!-- <div class="steps-box">
       <div class="steps-img">
@@ -263,6 +263,16 @@
       margin-left: 30px;
       border-radius: 5px;
       cursor: pointer;
+    }
+    .sum-line {
+      width: calc(100% - 60px);
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      p {
+        margin-right: 100px;
+        font-size: 20px;
+      }
     }
   }
 </style>

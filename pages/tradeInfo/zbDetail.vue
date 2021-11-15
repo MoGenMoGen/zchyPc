@@ -47,10 +47,10 @@
           </div>
         </div>
         <div class="body" v-html="cont"></div>
-        <div class="bottom-btn" v-if="signFlag && !IsSignUp" @click="sign">
+        <div class="bottom-btn" v-if="signFlag && !IsSignUp &&selectIndex==0" @click="sign">
           报名
         </div>
-        <div class="complated-btn" v-else-if="IsSignUp">已报名</div>
+        <div class="complated-btn" v-else-if="IsSignUp&&selectIndex==0">已报名</div>
       </div>
     </div>
     <div class="footerImg" :style="{ width: bWidth + 'px' }">
@@ -152,9 +152,12 @@ export default {
       this.$router.go(-1);
     },
     getData() {
+      let nowTm = this.until.formatTime(new Date())
       let qry = this.query.new();
       this.query.toW(qry, "bidId", this.infoId, "EQ");
       this.query.toO(qry, "afficheTypeCd", "esc");
+      this.query.toW(qry, 'audit', '2', 'EQ')
+      this.query.toW(qry, 'releTm', nowTm, 'LT')
       this.api.getBidAfficheList(this.query.toEncode(qry)).then((res) => {
         res.data.list.forEach((item) => {
           item.releTm = item.releTm.substring(0, 10);
@@ -171,6 +174,7 @@ export default {
           item.cont = this.until.imgStyle(item.cont);
         });
         this.info = res.data.list;
+        this.selectIndex = this.info.length - 1
         this.cont = this.info[this.selectIndex].cont;
       });
     },

@@ -4,6 +4,9 @@
       <tobbar :title="title" :showAll="false"></tobbar>
     </div>
     <p style="border-bottom: 1px solid rgba(0,0,0,0.1);"></p>
+    <div class="sum-line">
+      <p>未开金额：{{canOpenSum - openedSum}}</p>
+    </div>
     <div class="submit-box">
       <div class="submit-title">
         <span>电子发票信息</span>
@@ -158,7 +161,9 @@
           label: '个人'
         }],
         selectIndex: 0,
-        quaName: ''
+        quaName: '',
+        openedSum: '',
+        canOpenSum: ''
       }
     },
     layout: 'person',
@@ -212,6 +217,10 @@
           } else {
             this.$refs.addrChoose.getProvice()
           }
+        })
+        this.api.getInvoiceResult({orderNo:this.orderCd}).then(res => {
+          this.openedSum = res.openedSum
+          this.canOpenSum = res.canOpenSum
         })
       },
       chooseThis(index) {
@@ -397,6 +406,17 @@
           display: flex;
           align-items: center;
         }
+      }
+    }
+    .sum-line {
+      width: calc(100% - 60px);
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      p {
+        margin-right: 100px;
+        font-size: 20px;
+        color: red;
       }
     }
   }
