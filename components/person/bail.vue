@@ -141,8 +141,8 @@
           });
           return
         }
-        console.log(this.info.depositImgUrl)
-        return
+        // console.log(this.info.depositImgUrl)
+        // return
         if(this.applyInfo.despoit) {
           this.info.id = this.applyInfo.despoit.shipBidDepositVo.id
           this.api.bidBailUpd(this.info).then(() => {
