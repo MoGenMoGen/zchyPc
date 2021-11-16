@@ -57,9 +57,13 @@
           <div class="lefttextpart">
             <div class="itemstyle">整改单号：{{ info.cd }}</div>
             <div class="itemstyle">整改单位：{{ info.orgEnterId }}</div>
-            <div class="itemstyle">整改日期： {{ info.rectifyTm }}</div>
+            <!-- <div class="itemstyle">整改日期： {{ info.rectifyTm }}</div> -->
             <div class="itemstyle">检查区域：{{ info.inspArea }}</div>
-            <div class="itemstyle">整改要求：{{ info.rectifyDemand }}</div>
+            <div class="itemstyle">
+              整改要求：<span style="white-space: pre-line">{{
+                info.rectifyDemand
+              }}</span>
+            </div>
           </div>
           <div class="righttextpart">
             <div class="itemstyle">整改名称：{{ info.nm }}</div>
@@ -79,8 +83,16 @@
               整改责任人：
               {{ info.rectifyerSign }}
             </div>
-            <div class="itemstyle">下发日期：<span v-if="info.issueTm">{{ info.issueTm.slice(0,10) }}</span></div>
-            <div class="itemstyle">隐患说明：{{ info.explains }}</div>
+            <div class="itemstyle">
+              下发日期：<span v-if="info.issueTm">{{
+                info.issueTm.slice(0, 10)
+              }}</span>
+            </div>
+            <div class="itemstyle">
+              隐患说明：<span style="white-space: pre-line">{{
+                info.explains
+              }}</span>
+            </div>
           </div>
         </div>
         <div class="itemstyle">隐患图片</div>
@@ -108,7 +120,11 @@
           </div>
           <div class="itemstyle" v-else>复查人：{{ info.reviewerSign }}</div>
           <div class="itemstyle">检验检测单位：{{ info.orgTestEnterNm }}</div>
-          <div class="itemstyle">检查时间：<span v-if="info.reviewerTm">{{ info.reviewerTm.slice(0,10) }}</span></div>
+          <div class="itemstyle">
+            检查时间：<span v-if="info.reviewerTm">{{
+              info.reviewerTm.slice(0, 10)
+            }}</span>
+          </div>
         </div>
       </div>
       <div class="contitle">整改执行情况<span class="sontitle"></span></div>
@@ -195,7 +211,6 @@
       <!-- 除检验检测待执行开始 -->
       <div
         class="conwrapper"
-        style="position: relative"
         v-if="
           !(
             currentRole &&
@@ -204,22 +219,81 @@
           )
         "
       >
-        <img
-          v-if="reissueList.length > 0"
-          style="position: absolute; top: 16px; right: 44px"
-          :class="{ arrowTransform: !isshow, arrowTransformReturn: isshow }"
-          src="~@/assets/img/personal/下拉.png"
-          alt=""
-          @click="isshow = !isshow"
-        />
         <div
-          v-show="isshow"
           class="item_border"
           v-for="(item, index) in reissueList"
           :key="index"
         >
-          <div v-if="reissueList.length > 1 && item.reissueReport">
-            <h3 style="padding: 20px 0px; margin-left: -16px">再次下发内容</h3>
+          <img
+            v-if="reissueList.length > 0"
+            style="position: absolute; top: 16px; right: 44px;width:12px;height:7px;"
+            :class="{
+              arrowTransform: !item.isshow,
+              arrowTransformReturn: item.isshow,
+            }"
+            src="~@/assets/img/personal/下拉.png"
+            alt=""
+            @click="item.isshow = !item.isshow"
+          />
+          <!-- <div v-if="reissueList.length > 1 && item.reissueReport"> -->
+          <!-- 第一次下发 -->
+          <div v-show="item.isshow && index == 0">
+            <h3 style="padding: 20px 0px; margin-left: -16px">下发内容</h3>
+            <div
+              style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px"
+            >
+              整改要求:
+              <span
+                style="margin-left: 5px; font-size: 14px; font-weight: 400"
+                >{{ item.rectifyDemand }}</span
+              >
+            </div>
+            <div
+              style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px"
+            >
+              隐患说明:
+              <span
+                style="margin-left: 5px; font-size: 14px; font-weight: 400"
+                >{{ item.explains }}</span
+              >
+            </div>
+            <div v-viewer class="problempiclist">
+              <img
+                :src="item1"
+                class="dangerpic"
+                alt=""
+                v-for="(item1, index1) in (item.troubleImg
+                  ? item.troubleImg
+                  : ''
+                )
+                  .split(',')
+                  .filter((item2) => item2 != '')"
+                :key="index1"
+              />
+            </div>
+            <div
+              style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px"
+            >
+              下发日期:
+              <span
+                style="margin-left: 5px; font-size: 14px; font-weight: 400"
+                v-if="item.issueTm"
+                >{{ item.issueTm.slice(0, 10) }}</span
+              >
+            </div>
+            <!-- <div
+              style="
+                padding-bottom: 2px;
+                font-size: 15px;
+                font-weight: bold;
+                margin-bottom: 5px;
+              "
+            >
+              复查日期:<span
+                style="margin-left: 5px; font-size: 14px; font-weight: 400"
+                >{{ item.reviewerTm }}</span
+              >
+            </div>
             <div
               style="
                 padding-bottom: 2px;
@@ -228,9 +302,27 @@
                 margin-bottom: 5px;
               "
             >
-              下发说明:
+              下发日期:
               <span
                 style="margin-left: 5px; font-size: 14px; font-weight: 400"
+                >{{ item.issueTm }}</span
+              >
+            </div> -->
+          </div>
+          <!-- 二次下发 -->
+          <div v-show="item.isshow && index > 0">
+            <h3 style="padding: 20px 0px; margin-left: -16px">再次下发内容</h3>
+            <div
+              style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px"
+            >
+              下发说明:
+              <span
+                style="
+                  margin-left: 5px;
+                  font-size: 14px;
+                  font-weight: 400;
+                  white-space: pre-line;
+                "
                 >{{ item.reissueReport }}</span
               >
             </div>
@@ -288,26 +380,25 @@
                 下发说明:{{ item.reissueReport }}
               </div> -->
 
-          <div>
+          <div v-show="item.isshow && item.rectifyReport">
             <h3 style="padding: 20px 0px; margin-left: -16px">整改上报内容</h3>
-            <div class="itemstyle" style="
-                padding-bottom: 2px;
-                font-size: 15px;
-                font-weight: bold;
-                margin-bottom: 5px;
-              ">整改上报：
-               <span
-                style="margin-left: 5px; font-size: 14px; font-weight: 400"
+            <div
+              class="itemstyle"
+              style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px"
+            >
+              整改上报：
+              <span
+                style="
+                  margin-left: 5px;
+                  font-size: 14px;
+                  font-weight: 400;
+                  white-space: pre-line;
+                "
                 >{{ item.rectifyReport }}</span
               >
-             </div>
+            </div>
             <div
-              style="
-                padding-bottom: 2px;
-                font-size: 15px;
-                font-weight: bold;
-                margin-bottom: 5px;
-              "
+              style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px"
             >
               执行图片：
             </div>
@@ -325,18 +416,13 @@
               />
             </div>
             <div
-              style="
-                padding-bottom: 2px;
-                font-size: 15px;
-                font-weight: bold;
-                margin-bottom: 5px;
-              "
+              style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px"
             >
               整改日期:
               <span
-              v-if="info.rectifyTm"
+                v-if="info.rectifyTm"
                 style="margin-left: 5px; font-size: 14px; font-weight: 400"
-                >{{ item.rectifyTm.slice(0,10) }}</span
+                >{{ item.rectifyTm.slice(0, 10) }}</span
               >
             </div>
           </div>
@@ -377,7 +463,9 @@
         <div class="lefttextpart">
           <div class="itemstyle">结案意见：{{ info.closeReport }}</div>
           <div class="itemstyle">签发人： {{ info.closeUserNm }}</div>
-          <div class="itemstyle">确认日期：{{ info.closeDate }}</div>
+          <div class="itemstyle">
+            确认日期：{{ info.closeDate.slice(0, 10) }}
+          </div>
           <div class="itemstyle">检验检测单位：{{ info.orgTestEnterNm }}</div>
         </div>
       </div>
@@ -392,7 +480,7 @@
         "
       >
         <div style="display: flex; padding: 15px 0">
-          <div class="itemstyle">结案内容：</div>
+          <div class="itemstyle"><span style="color:red;">*</span>结案内容：</div>
           <el-input
             type="textarea"
             :rows="5"
@@ -429,7 +517,7 @@ export default {
   },
   data() {
     return {
-      isshow: true,
+      // isshow: true,
       id: 1,
       title: "整改单",
       Issueshow: false,
@@ -466,6 +554,9 @@ export default {
     let data = await this.api.getRectifyDetail(this.id);
     this.info = data.shipDocsRectifyVo;
     this.reissueList = data.reissueList;
+    this.reissueList.forEach((item) => {
+     this.$set(item,'isshow',true);
+    });
   },
   computed: {
     ...mapState(["currentRole"]),
@@ -523,6 +614,7 @@ export default {
         this.info.rectifyImg = fileList
           .map((item) => item.response.data)
           .join(",");
+          console.log('整改上报',this.info.rectifyImg,fileList);
       } else if (
         this.currentRole &&
         this.currentRole.identityCd == "identity50"
@@ -555,6 +647,9 @@ export default {
           let data1 = await this.api.getRectifyDetail(this.id);
           this.info = data1.shipDocsRectifyVo;
           this.reissueList = data1.reissueList;
+          this.reissueList.forEach((item) => {
+           this.$set(item,'isshow',true);
+          });
         } else {
           this.$message.error("再次下发失败");
         }
@@ -563,7 +658,7 @@ export default {
     },
     // 整改上报
     async handleRectifyReport() {
-      if (this.info.rectifyReport == "") {
+      if (!this.info.rectifyReport) {
         this.$notify.error({
           title: "错误",
           message: "整改内容不能为空",
@@ -586,7 +681,6 @@ export default {
           },
           ...obj,
         });
-        console.log(12222, res);
         if (res.code == 0) {
           this.$message({
             message: "上报成功",
@@ -595,6 +689,9 @@ export default {
           let data = await this.api.getRectifyDetail(this.id);
           this.info = data.shipDocsRectifyVo;
           this.reissueList = data.reissueList;
+          this.reissueList.forEach((item) => {
+           this.$set(item,'isshow',true);
+          });
         } else {
           this.$message.error("上报失败");
         }
@@ -602,12 +699,13 @@ export default {
     },
     // 确认结案
     async handleRectifyclose() {
-      if (this.info.closeReport == "") {
+      if (!this.info.closeReport) {
         this.$notify.error({
           title: "错误",
           message: "结案内容不能为空",
         });
-      } else {
+      } 
+      else {
         let res = await this.api.handlerectifyClose({
           id: this.id,
           closeReport: this.info.closeReport,
@@ -621,6 +719,9 @@ export default {
           let data = await this.api.getRectifyDetail(this.id);
           this.info = data.shipDocsRectifyVo;
           this.reissueList = data.reissueList;
+          this.reissueList.forEach((item) => {
+            this.$set(item,'isshow',true);
+          });
         } else {
           this.$message.error("结案失败");
         }
@@ -739,6 +840,8 @@ export default {
       box-sizing: border-box;
       padding: 22px 0 22px 34px;
       .item_border {
+        position: relative;
+        min-height: 35px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       }
       .item_border:last-child {
