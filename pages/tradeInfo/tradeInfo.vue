@@ -234,6 +234,7 @@
             this.query.toO(qry,'publishTm','desc')
             this.query.toP(qry,this.currentPage3,this.pageSize)
             this.query.toW(qry,'audit','2','EQ')
+            this.query.toW(qry,'status','1','EQ')
             this.api.getBidList(this.query.toEncode(qry)).then(res => {
               res.data.list.forEach(item => {
                 item.completeTm = item.completeTm.substring(0,10)
