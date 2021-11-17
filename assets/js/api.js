@@ -1822,6 +1822,14 @@ class api {
       })
     })
   }
+  //投标报价更新
+  bidOfferUpd(data) {
+    return new Promise(resolve => {
+      post("/ship/bidOffer/apis/upd", data).then(res => {
+        resolve(res)
+      })
+    })
+  }
   //报价单详情
   bidOfferInfo(id) {
     return new Promise((resolve, reject) => {

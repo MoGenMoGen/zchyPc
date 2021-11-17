@@ -24,7 +24,7 @@
                 placeholder="请填写投标报价金额"
               ></el-input>
             </el-form-item>
-            <el-form-item label="附件上传：" v-if="!applyInfo.offer">
+            <el-form-item label="附件上传：" v-if="!applyInfo.bidDecideTm&&returnDate(2,applyInfo.bidEndTm)">
               <div class="imgBox">
                 <div class="img">
                   <div class="uploadImg">
@@ -56,7 +56,7 @@
                 </div>
               </div>
             </el-form-item>
-            <el-form-item label="加密文件:" v-if="applyInfo.offer">
+            <el-form-item label="加密文件:" v-if="applyInfo.offer&&returnDate(1,applyInfo.bidEndTm)">
               <div class="detailContent">
                 <div
                   class="fileS"
@@ -66,13 +66,13 @@
                   <span> {{ index + 1 }}、 </span>
                   <div>
                     <img
-                      v-if="item.img"
-                      :src="item.img"
+                      v-if="item.imgUrl"
+                      :src="item.imgUrl"
                       style="width: 100px; height: 100px; cursor: pointer"
                       @click="toLink(item.url)"
                     />
                     <p style="cursor: pointer" @click="toLink(item.url)">
-                      {{ item.fileNm }}
+                      {{ item.nm }}
                     </p>
                   </div>
                 </div>
@@ -81,10 +81,10 @@
             <div style="color: red;margin-bottom: 10px;">上传文件会自动加密，将无法打开</div>
           </el-form>
         </div>
-        <div class="button">
+        <div class="button" v-if="returnDate(2,applyInfo.bidEndTm)">
           <button @click="close">取消</button>
           <button @click="submit" v-if="!applyInfo.offer">保存</button>
-          <button @click="close" v-if="applyInfo.offer">确定</button>
+          <button @click="udp" v-if="applyInfo.offer">修改</button>
         </div>
       </div>
     </div>
@@ -127,6 +127,7 @@ export default {
         rmks: "",
         completeTm: "",
       },
+      nowDate: ''
     };
   },
   props: {
@@ -140,9 +141,27 @@ export default {
   },
   computed: {
     ...mapState(["bWidth", "width", "currentRole"]),
+    returnDate() {
+      return (type,date) => {
+        if(type==1) {
+          if((new Date(date)).getTime()<this.nowDate){
+            return true
+          } else {
+            return false
+          }
+        } else if(type==2) {
+          if((new Date(date)).getTime()>this.nowDate){
+            return true
+          } else {
+            return false
+          }
+        }
+      }
+    }
   },
   mounted() {
     console.log(235345436);
+    this.nowDate = (new Date()).getTime()
     this.info.completeTm = this.applyInfo.bidEndTm;
     // 已经报价过
     if (this.applyInfo.offer) {
@@ -217,6 +236,61 @@ export default {
         this.close("submit");
       });
     },
+    // 修改文件
+    udp() {
+      this.info.orgId = this.applyInfo.orgId;
+      this.info.orgNm = this.applyInfo.orgNm;
+      this.info.bidId = this.applyInfo.bidId;
+      this.info.bidNm = this.applyInfo.nm;
+      this.info.id = this.applyInfo.offer.shipBidOfferVo.id
+      this.info.attachment = ''
+      this.fileList.forEach(item => {
+        this.info.attachment += item.url+','
+      })
+      this.info.attachment = this.info.attachment.substring(
+        0,
+        this.info.attachment.length - 1
+      );
+      if (this.until.TimeStep2(this.info.completeTm) >= 0) {
+        this.$message({
+          message: "已经过了截止时间",
+          type: "warning",
+          duration: "1500",
+          offset: "50",
+        });
+        return;
+      }
+      if (!this.info.offerAmt) {
+        this.$message({
+          message: "请填写投标金额",
+          type: "warning",
+          duration: "1500",
+          offset: "50",
+        });
+        return;
+      }
+      if(!this.info.attachment) {
+        this.$message({
+          message: "请上传报价文件",
+          type: "warning",
+          duration: "1500",
+          offset: "50",
+        });
+        return;
+      }
+      // console.log('提交了')
+      // return
+      this.api.bidOfferUpd(this.info).then(() => {
+        this.$message({
+          message: "报价修改成功",
+          type: "success",
+          duration: "1500",
+        });
+        this.fileList = [];
+        this.$refs.upload.value = "";
+        this.close("submit");
+      });
+    },
     //删除文件
     deleteFile(index) {
       this.fileList.splice(index, 1);
@@ -276,32 +350,32 @@ export default {
           if (type == "pdf") {
             fileList2.push({
               url: v,
-              img: this.pdf,
-              fileNm: nm,
+              imgUrl: this.pdf,
+              nm: nm,
             });
           } else if (type == "doc" || type == "docx") {
             fileList2.push({
               url: v,
-              img: this.word,
-              fileNm: nm,
+              imgUrl: this.word,
+              nm: nm,
             });
           } else if (type == "ppt" || type == "pptx") {
             fileList2.push({
               url: v,
-              img: this.ppt,
-              fileNm: nm,
+              imgUrl: this.ppt,
+              nm: nm,
             });
           } else if (type == "xls" || type == "xlsx") {
             fileList2.push({
               url: v,
-              img: this.excel,
+              imgUrl: this.excel,
               fileNm: nm,
             });
           } else {
             fileList2.push({
               url: v,
-              img: defaultImg,
-              fileNm: nm,
+              imgUrl: this.defaultImg,
+              nm: nm,
             });
           }
         });

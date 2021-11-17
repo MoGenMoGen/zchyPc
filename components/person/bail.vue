@@ -10,7 +10,7 @@
         <div class="form">
           <el-form :label-position="labelPosition" label-width="120px" :model="info">
             <el-form-item label="保证金金额(元)：" style="margin-top: 10px;">
-              <el-input type="text" v-model="info.depositAmt" id="long" placeholder="请填写投标保证金金额"></el-input>
+              <el-input type="text" v-model="info.depositAmt" id="long" placeholder="请填写投标保证金金额" :disabled="!((applyInfo.despoit&&applyInfo.despoit.shipBidDepositVo.audit!=2)||!applyInfo.despoit)"></el-input>
             </el-form-item>
             <el-form-item label="保证金凭证：">
               <div class="imgBox">
@@ -23,9 +23,11 @@
                   </div>
                 </div>
                 <div v-for="(item,index) in fileList" :key="index" class="fileList">
-                  <div class="fileList-item" @click="toLink(item.url)"><img
-                      :src="item.imgUrl" /><span>{{index+1}}.{{item.nm}}</span></div>
-                  <div class="cancel"><img :src="del" class="delImg" @click="deleteFile(index)" /></div>
+                  <div class="fileList-item">
+                    <img :src="item.imgUrl" v-viewer/>
+                    <span @click="toLink(item.url)">{{index+1}}.{{item.nm}}</span>
+                   </div>
+                  <div class="cancel" v-if="(applyInfo.despoit&&applyInfo.despoit.shipBidDepositVo.audit!=2)||!applyInfo.despoit"><img :src="del" class="delImg" @click="deleteFile(index)" /></div>
                 </div>
               </div>
             </el-form-item>
