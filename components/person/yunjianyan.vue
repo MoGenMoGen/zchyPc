@@ -45,7 +45,10 @@
           <img style="width: 94px; height: 57px" :src="item.imgUrl" alt="" />
           <img class="play" src="~@/assets/img/learning/播放.png" alt="" />
         </div>
-        <div style="position:relative;">
+        <div
+          style="position: relative"
+          v-if="currentRole && currentRole.identityCd == 'identity50'"
+        >
           <div
             style="
               background: red;
@@ -55,12 +58,11 @@
               width: 77px;
               padding: 5px;
               cursor: pointer;
-              position:absolute;
-              left:50%;
-              top:50%;
-              transform:translate(-50%,-50%)
+              position: absolute;
+              left: 50%;
+              top: 50%;
+              transform: translate(-50%, -50%);
             "
-            v-if="currentRole && currentRole.identityCd == 'identity50'"
             @click="tofpxpert"
           >
             检验入口
