@@ -73,7 +73,7 @@
           </el-table-column>
           <el-table-column prop="cd" width="150" label="整改单号">
           </el-table-column>
-          <el-table-column width="200" prop="nm" align="center" label="整改内容">
+          <el-table-column width="200" prop="rectifyDemand" align="center" label="整改内容" show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column width="110" prop="issueTm" align="center" label="下发日期">
           </el-table-column>

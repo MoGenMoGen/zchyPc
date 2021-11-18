@@ -88,11 +88,11 @@
                 info.issueTm.slice(0, 10)
               }}</span>
             </div>
-            <div class="itemstyle">
+            <!-- <div class="itemstyle">
               隐患说明：<span style="white-space: pre-line">{{
                 info.explains
               }}</span>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="itemstyle">隐患图片</div>
@@ -226,7 +226,13 @@
         >
           <img
             v-if="reissueList.length > 0"
-            style="position: absolute; top: 16px; right: 44px;width:12px;height:7px;"
+            style="
+              position: absolute;
+              top: 16px;
+              right: 44px;
+              width: 12px;
+              height: 7px;
+            "
             :class="{
               arrowTransform: !item.isshow,
               arrowTransformReturn: item.isshow,
@@ -240,20 +246,25 @@
           <div v-show="item.isshow && index == 0">
             <h3 style="padding: 20px 0px; margin-left: -16px">下发内容</h3>
             <div
-              style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px"
+              style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px;display:flex;"
             >
-              整改要求:
+            整改要求:
               <span
-                style="margin-left: 5px; font-size: 14px; font-weight: 400"
+                style="
+                  margin-left: 5px;
+                  font-size: 14px;
+                  font-weight: 400;
+                  white-space: pre-line;
+                "
                 >{{ item.rectifyDemand }}</span
               >
             </div>
             <div
-              style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px"
+              style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px;display:flex;"
             >
               隐患说明:
               <span
-                style="margin-left: 5px; font-size: 14px; font-weight: 400"
+                style="margin-left: 5px; font-size: 14px; font-weight: 400;white-space: pre-line;"
                 >{{ item.explains }}</span
               >
             </div>
@@ -313,7 +324,7 @@
           <div v-show="item.isshow && index > 0">
             <h3 style="padding: 20px 0px; margin-left: -16px">再次下发内容</h3>
             <div
-              style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px"
+              style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px;display:flex;"
             >
               下发说明:
               <span
@@ -480,7 +491,9 @@
         "
       >
         <div style="display: flex; padding: 15px 0">
-          <div class="itemstyle"><span style="color:red;">*</span>结案内容：</div>
+          <div class="itemstyle">
+            <span style="color: red">*</span>结案内容：
+          </div>
           <el-input
             type="textarea"
             :rows="5"
@@ -555,7 +568,7 @@ export default {
     this.info = data.shipDocsRectifyVo;
     this.reissueList = data.reissueList;
     this.reissueList.forEach((item) => {
-     this.$set(item,'isshow',true);
+      this.$set(item, "isshow", true);
     });
   },
   computed: {
@@ -614,7 +627,7 @@ export default {
         this.info.rectifyImg = fileList
           .map((item) => item.response.data)
           .join(",");
-          console.log('整改上报',this.info.rectifyImg,fileList);
+        console.log("整改上报", this.info.rectifyImg, fileList);
       } else if (
         this.currentRole &&
         this.currentRole.identityCd == "identity50"
@@ -648,7 +661,7 @@ export default {
           this.info = data1.shipDocsRectifyVo;
           this.reissueList = data1.reissueList;
           this.reissueList.forEach((item) => {
-           this.$set(item,'isshow',true);
+            this.$set(item, "isshow", true);
           });
         } else {
           this.$message.error("再次下发失败");
@@ -690,7 +703,7 @@ export default {
           this.info = data.shipDocsRectifyVo;
           this.reissueList = data.reissueList;
           this.reissueList.forEach((item) => {
-           this.$set(item,'isshow',true);
+            this.$set(item, "isshow", true);
           });
         } else {
           this.$message.error("上报失败");
@@ -704,8 +717,7 @@ export default {
           title: "错误",
           message: "结案内容不能为空",
         });
-      } 
-      else {
+      } else {
         let res = await this.api.handlerectifyClose({
           id: this.id,
           closeReport: this.info.closeReport,
@@ -720,7 +732,7 @@ export default {
           this.info = data.shipDocsRectifyVo;
           this.reissueList = data.reissueList;
           this.reissueList.forEach((item) => {
-            this.$set(item,'isshow',true);
+            this.$set(item, "isshow", true);
           });
         } else {
           this.$message.error("结案失败");
@@ -859,13 +871,14 @@ export default {
         color: #606060;
         padding: 13px 0;
         display: flex;
-        align-items: center;
+        // align-items: center;
       }
       .problempiclist {
         width: 100%;
         display: flex;
         flex-wrap: wrap;
         .dangerpic {
+          object-fit: cover;
           width: 248px;
           height: 177px;
           margin: 10px 0;
