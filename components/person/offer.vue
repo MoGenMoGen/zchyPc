@@ -22,6 +22,7 @@
                 v-model="info.offerAmt"
                 id="long"
                 placeholder="请填写投标报价金额"
+                :disabled="!(!applyInfo.bidDecideTm&&returnDate(2,applyInfo.bidEndTm))"
               ></el-input>
             </el-form-item>
             <el-form-item label="附件上传：" v-if="!applyInfo.bidDecideTm&&returnDate(2,applyInfo.bidEndTm)">
@@ -78,6 +79,28 @@
                 </div>
               </div>
             </el-form-item>
+            <el-form-item label="解密文件:" v-if="applyInfo.offer&&returnDate(1,applyInfo.bidEndTm)&&fileList2.length>0">
+              <div class="detailContent">
+                <div
+                  class="fileS"
+                  v-for="(item, index) in fileList2"
+                  :key="index"
+                >
+                  <span> {{ index + 1 }}、 </span>
+                  <div>
+                    <img
+                      v-if="item.imgUrl"
+                      :src="item.imgUrl"
+                      style="width: 100px; height: 100px; cursor: pointer"
+                      @click="toLink(item.url)"
+                    />
+                    <p style="cursor: pointer" @click="toLink(item.url)">
+                      {{ item.nm }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </el-form-item>
             <div style="color: red;margin-bottom: 10px;">上传文件会自动加密，将无法打开</div>
           </el-form>
         </div>
@@ -115,6 +138,7 @@ export default {
       del,
       defaultImg,
       fileList: [],
+      fileList2: [],
       // list1: [],
       info: {
         orgId: "5024282848367616",
@@ -166,13 +190,19 @@ export default {
     // 已经报价过
     if (this.applyInfo.offer) {
       this.info.offerAmt = this.applyInfo.offer.shipBidOfferVo.offerAmt;
-      let attachments
+      let attachments,attachDecode
       if(this.applyInfo.offer.shipBidOfferVo.attachment) {
         attachments = this.applyInfo.offer.shipBidOfferVo.attachment.split(",");
       } else {
         attachments = []
       }
+      if(this.applyInfo.offer.shipBidOfferVo.attachDecode) {
+        attachDecode = this.applyInfo.offer.shipBidOfferVo.attachDecode.split(",");
+      } else {
+        attachDecode = []
+      }
       this.fileList = this.getInfo(attachments);
+      this.fileList2 = this.getInfo(attachDecode)
     }
   },
   methods: {
