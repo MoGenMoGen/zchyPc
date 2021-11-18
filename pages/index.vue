@@ -36,7 +36,8 @@
           </div> -->
           <div class="down">
             <p v-for="(item,index) in zbggList" :key="index" @click="toDetail2(item.bidId)" :class="{seen:item.isSeen}" @mouseenter="enter3(index)" @mouseleave="leave3(index)">
-              <span>· {{item.title}}</span><span>{{item.releTm}}</span><span>{{item.bidStatus}}</span></p>
+              <span>· {{item.title}}</span><span>{{item.releTm}}</span></p>
+			  <!-- <span>{{item.bidStatus}}</span> -->
           </div>
         </div>
       </div>
@@ -918,7 +919,7 @@ export default {
               overflow: hidden;
               display: block;
               color: #636363;
-              width: 60%;
+              width: 80%;
             }
             span:nth-child(2){
               white-space: nowrap;
@@ -929,14 +930,14 @@ export default {
               width: 20%;
               text-align: center;
             }
-            span:nth-child(3){
-              white-space: nowrap;
-              text-overflow: ellipsis;
-              overflow: hidden;
-              color: #2778BE;
-              width: 20%;
-              text-align: center;
-            }
+            // span:nth-child(3){
+            //   white-space: nowrap;
+            //   text-overflow: ellipsis;
+            //   overflow: hidden;
+            //   color: #2778BE;
+            //   width: 20%;
+            //   text-align: center;
+            // }
           }
           .seen{
             span:nth-child(1){

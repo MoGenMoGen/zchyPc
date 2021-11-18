@@ -8,11 +8,11 @@
     <div class="body">
       <div class="top-menu">
         <div v-for="(item,index) in info" :key="index" class="top-menu-item" @click="selectThis(index)">
-          <img :src="item.selectImgUrl" v-if="selectIndex>=index">
+          <img :src="item.selectImgUrl" v-if="selectIndex==index">
           <img :src="item.imgUrl" v-else>
           <div>
-            <span :style="{color:selectIndex>=index?'#0064B2':''}">{{item.afficheTypeNm}}</span>
-            <span>{{item.releTm}}</span>
+            <span style="color: #0064B2;">{{item.afficheTypeNm}}</span>
+            <span :style="{color:selectIndex==index?'#0064B2':''}">{{item.releTm}}</span>
           </div>
           <img :src="jt1" v-if="selectIndex>=index&&info.length - 1>index">
           <img :src="jt2" v-if="selectIndex<index&&info.length - 1>index">
@@ -30,6 +30,7 @@
     mapState
   } from "vuex";
   import cg1 from '@/assets/img/bidAffiche/采购公告.png'
+  import cg2 from "@/assets/img/bidAffiche/采购公告-灰.png";
   import gz1 from '@/assets/img/bidAffiche/更正公告.png'
   import gz2 from '@/assets/img/bidAffiche/更正公告-灰.png'
   import jg1 from '@/assets/img/bidAffiche/结果公告.png'
@@ -83,7 +84,7 @@
             item.releTm = item.releTm.substring(0,10)
             if (item.afficheTypeCd == "5635882628584448") {
               item.selectImgUrl = cg1;
-              item.imgUrl = "";
+              item.imgUrl = cg2;
             } else if (item.afficheTypeCd == "5635883070706688") {
               item.selectImgUrl = gz1;
               item.imgUrl = gz2;

@@ -252,7 +252,7 @@
           //   arr.push(v.goodsNm)
           // })
           // this.invoiceProNm = arr.join('/')
-          this.$router.push('./myBillApply?id='+item.id)
+          this.$router.push(`./myBillApply?id=${item.id}&orderCd=${item.orderCd}`)
         },
         //开票成功
         invoiceConfirm(){

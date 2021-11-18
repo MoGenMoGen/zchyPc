@@ -43,15 +43,15 @@
           <el-input placeholder="请输入银行账户" v-model="info.account" clearable></el-input>
         </div>
       </div>
-      <div class="submit-item">
+      <!-- <div class="submit-item">
         <span></span>
         <el-checkbox v-model="checked"><span style="color: #606060;">我已阅读并同意<span style="color: #E4393C;">《增票资质确认书》</span></span></el-checkbox>
-      </div>
+      </div> -->
       <div class="submit-item">
         <span></span>
         <div class="submit-btn">
-          <el-button type="primary" style="margin-right: 30px;" @click="submit">提交</el-button>
           <el-button plain @click="cancel">取消</el-button>
+          <el-button type="primary" style="margin-right: 30px;" @click="submit">提交</el-button>
         </div>
       </div>
     </div>
@@ -105,8 +105,8 @@
         <div class="submit-item">
           <span></span>
           <div class="submit-btn">
-            <el-button type="primary" style="margin-right: 30px;" @click="submit2">提交</el-button>
             <el-button plain @click="cancel2">取消</el-button>
+            <el-button type="primary" style="margin-right: 30px;" @click="submit2">提交</el-button>
           </div>
         </div>
       </div>
@@ -157,7 +157,7 @@
         account: '',
         id: '',
         phone2: '',
-        checked: false,
+        // checked: true,
         isPass2: false,
         audit2: 1, //1未填写，2填写中（填写或修改），3填写完成
         currentRole: ''
@@ -217,10 +217,10 @@
           this.$message.error('请输入银行账户');
           return
         }
-        if(!this.checked) {
-          this.$message.error('请阅读并同意《增票资质确认书》');
-          return
-        }
+        // if(!this.checked) {
+        //   this.$message.error('请阅读并同意《增票资质确认书》');
+        //   return
+        // }
         if(!this.isPass) {
           this.api.qualiAdd(this.info).then(res => {
             if(res.msg=='成功') {
