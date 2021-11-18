@@ -27,7 +27,7 @@
         <div>{{ item.runningStatusNm }}</div>
         <div>{{ item.rmks }}</div>
         <div>
-          <img style="width: 94px; height: 57px" :src="item.imgUrl" alt="" />
+          <img style="width: 94px; height: 57px;cursor:pointer;" :src="item.imgUrl" alt="" v-viewer />
         </div>
       </div>
     </div>

@@ -19,8 +19,9 @@
           class="picitem"
           v-for="(item2, index2) in item1.piclist"
           :key="index2"
+          v-viewer
         >
-          <img :src="item2.imgUrl" alt="" />
+          <img :src="item2.imgUrl" alt="" style="cursor:pointer" />
           <p class="desc">{{ item2.name }}</p>
           <p class="date">{{ item2.imgDate }}</p>
         </div>

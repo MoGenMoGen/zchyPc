@@ -10,6 +10,9 @@
       <!-- <div>整改单</div> -->
       <div>检查图片</div>
       <div>检查视频</div>
+      <div v-if="currentRole && currentRole.identityCd == 'identity50'">
+        检验入口
+      </div>
       <div>备注</div>
     </div>
     <!-- 表格 -->
@@ -28,12 +31,42 @@
         <div>{{ item.runTime }}</div>
         <!-- <div>{{ item.zgno }}</div> -->
         <div>
-          <img style="width: 94px; height: 57px" :src="item.imgUrl" alt="" />
+          <img
+            style="width: 94px; height: 57px; cursor: pointer"
+            :src="item.imgUrl"
+            alt=""
+            v-viewer
+          />
         </div>
-        <div style="position: relative" @click="handlePlay(item.vedioUrl)">
+        <div
+          style="position: relative; cursor: pointer"
+          @click="handlePlay(item.vedioUrl)"
+        >
           <img style="width: 94px; height: 57px" :src="item.imgUrl" alt="" />
           <img class="play" src="~@/assets/img/learning/播放.png" alt="" />
         </div>
+        <div style="position:relative;">
+          <div
+            style="
+              background: red;
+              color: #fff;
+              font-size: 15px;
+              margin-bottom: 15px;
+              width: 77px;
+              padding: 5px;
+              cursor: pointer;
+              position:absolute;
+              left:50%;
+              top:50%;
+              transform:translate(-50%,-50%)
+            "
+            v-if="currentRole && currentRole.identityCd == 'identity50'"
+            @click="tofpxpert"
+          >
+            检验入口
+          </div>
+        </div>
+
         <div>{{ item.rmks }}</div>
       </div>
     </div>
@@ -66,6 +99,7 @@ export default {
       currentPage: 1,
       id: "",
       List: [],
+      currentRole: "",
     };
   },
   methods: {
@@ -87,12 +121,26 @@ export default {
     handlePlay(url) {
       window.open(url);
     },
+    tofpxpert() {
+      // let uid = "03939";
+      // let ps = "zchy54321";
+      let uid = "";
+      let ps = "";
+      let server = "www.fpxpert.cn";
+      let url = encodeURI(
+        `esfp://login?uid=${uid}&password=${ps}&server=${server}`
+      );
+      window.location.replace(url);
+    },
   },
   created() {},
   mounted() {
     this.id = this.until.getQueryString("id");
     this.List = [];
     this.getList();
+    this.currentRole = this.until.seGet("currentRole");
+    this.currentRole = JSON.parse(this.currentRole);
+    console.log(2353545, this.currentRole);
   },
 
   watch: {},
@@ -115,7 +163,7 @@ export default {
       text-align: center;
     }
     div:nth-of-type(3) {
-      flex: 3;
+      flex: 2;
       text-align: center;
     }
     div:nth-of-type(4) {
@@ -127,7 +175,7 @@ export default {
       text-align: center;
     }
     div:nth-of-type(6) {
-      flex: 2;
+      flex: 3;
       text-align: center;
     }
     div:nth-of-type(7) {
