@@ -68,7 +68,7 @@
             </div>
           </div>
           <div class="" style="width: 48%;">
-            <div class="listContent" style="align-items: flex-start;">
+          <!--  <div class="listContent" style="align-items: flex-start;">
               <div class="listLeft" style="line-height: 40px;">
                 <span>*</span>
                 隐患说明:
@@ -76,7 +76,7 @@
               <div class="listRight">
                 <textarea rows="" cols="" placeholder="请输入隐患说明" v-model="dangerDescription"></textarea>
               </div>
-            </div>
+            </div> -->
             <div class="listContent" style="align-items: flex-start;">
               <div class="listLeft" style="line-height: 40px;">
                 <span>*</span>
@@ -104,8 +104,8 @@
             <el-form :model="form">
               <el-form-item style="margin-bottom: -20px;">
                 <el-upload ref="upload" action="/general/oss/upload" accept="image/png,image/gif,image/jpg,image/jpeg"
-                  list-type="picture-card" :auto-upload="false" :before-upload="handleBeforeUpload"
-                  :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :on-success="handSuccess">
+                  list-type="picture-card" :auto-upload="true" :before-upload="handleBeforeUpload"
+                  :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :on-success="handSuccess" multiple>
 
                   <i class="el-icon-plus"></i>
                 </el-upload>
@@ -155,7 +155,8 @@
               <div class="listLeft">
                 整改要求：
               </div>
-              <div class="listRight">
+              <div class="listRight" style="  white-space: pre-line;
+            max-width: 300px; overflow: auto;">
                 {{requirement}}
               </div>
             </div>
@@ -208,14 +209,14 @@
                 {{rectificationName}}
               </div>
             </div>
-            <div class="listContent">
+       <!--     <div class="listContent">
               <div class="listLeft">
                 隐患说明：
               </div>
               <div class="listRight">
                 {{dangerDescription}}
               </div>
-            </div>
+            </div> -->
             <div class="listContent">
               <div class="listLeft">
                 责任整改人：
@@ -253,7 +254,7 @@
           </div>
           <div class="listRight" style="width: 80%;">
             <div class="img" style="display: flex;flex-wrap: wrap;" v-viewer>
-              <img :src="item" style="width:  148px;height: 148px;margin-right: 10px;margin-bottom: 10px; "
+              <img :src="item.newImg" style="width:  148px;height: 148px;margin-right: 10px;margin-bottom: 10px; "
                 v-for="(item,index) in imgList" :key="index">
             </div>
           </div>
@@ -407,14 +408,13 @@
         }
       },
       handleRemove(file, fileList) {
-        this.imgList = []
-        this.$refs.upload.submit()
-        console.log(file, fileList);
-        for (let i = 0; i < fileList.length; i++) {
-
-          this.imgList.push(fileList[i].response.data)
-        }
-
+        // this.imgList = []
+        // this.$refs.upload.submit()
+        // console.log(file, fileList);
+        // for (let i = 0; i < fileList.length; i++) {
+        //   this.imgList.push(fileList[i].response.data)
+        // }
+          console.log(this.imgList);
       },
       handlePictureCardPreview(file) {
         this.dialogImageUrl = file.url;
@@ -425,14 +425,14 @@
       //     this.$refs.upload.submit()
       //   },
       handSuccess(response, file, fileList) {
-        this.imgList = []
-
-        for (let i = 0; i < fileList.length; i++) {
-
-          this.imgList.push(fileList[i].response.data)
-        }
-
-        console.log("姚峰是猪", file, fileList, this.imgList);
+      this.imgList=fileList
+      this.imgList.forEach(item=>{
+        item.newImg=item.response.data
+      })
+        // for (let i = 0; i < fileList.length; i++) {
+        //   this.imgList.push(fileList[i].response.data)
+        // }
+        console.log(4444,file, fileList,this.imgList);
       },
       nextTo() {
         if (this.rectificationName == '') {
@@ -455,10 +455,10 @@
           this.$message.error('整改期限未选');
           return false
         }
-        if (this.dangerDescription == '') {
-          this.$message.error('隐患说明未填');
-          return false
-        }
+        // if (this.dangerDescription == '') {
+        //   this.$message.error('隐患说明未填');
+        //   return false
+        // }
         if (this.requirement == '') {
           this.$message.error('整改要求未填');
           return false
@@ -473,7 +473,7 @@
         let date = this.reviewTime.getDate()
         this.reviewTime = year + '-' + month + '-' + date
         console.log("时间", this.reviewTime);
-        this.$refs.upload.submit()
+        // this.$refs.upload.submit()
 
         this.nextShow = true
 
@@ -576,6 +576,7 @@
 
 
           .listRight {
+
             .el-select {
               width: 277px;
               font-size: 12px;

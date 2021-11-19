@@ -77,7 +77,7 @@
         <div v-for="item in list" :key="item.id">
           <p>{{item.cd}}</p>
           <p>{{item.nm}}
-          <img :src="VRImg" style="cursor: pointer;" v-if="item.vrUrl" @click="toVR(item.vrUrl)">
+          <img :src="VRImg" style="cursor: pointer;" v-if="item.vrUrl" @click="toVR(item.id)">
           </p>
           <!--<p>￥{{item.totalPrice}} /艘</p>-->
           <p>{{item.statusNm}}</p>
@@ -250,8 +250,8 @@
             this.form.docsId = item.id
               this.dialogVisible=true
           },
-          toVR(url){
-            window.open(url)
+          toVR(id){
+            window.open('./mframe?typeCd=3&id='+id)
           }
         },
     }
