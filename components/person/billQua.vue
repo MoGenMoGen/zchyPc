@@ -59,8 +59,8 @@
       <div class="submit-title">
         <span>增票资质信息</span>
         <div></div>
-        <span style="color: #2778BE;margin-left: 20px;cursor: pointer;" @click="update">修改</span>
-        <span style="color: #2778BE;margin-left: 20px;cursor: pointer;" @click="del">删除</span>
+        <!-- <span style="color: #2778BE;margin-left: 20px;cursor: pointer;" @click="update">修改</span>
+        <span style="color: #2778BE;margin-left: 20px;cursor: pointer;" @click="del">删除</span> -->
       </div>
       <div class="submit-line">
         <p>单位名称：{{info.nm}}</p>
