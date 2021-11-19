@@ -167,7 +167,19 @@
       this.api.getAdert('billAd').then(res => {
         this.imgUrl=res[1].imgUrl
       })
-      this.currentRole=JSON.parse(this.until.seGet('currentRole'))
+      if(!this.until.seGet('currentRole')) {
+        this.$confirm('您未入驻，请完善信息?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.until.back()
+        }).catch(() => {
+          this.until.back()
+        });
+      } else {
+        this.currentRole=JSON.parse(this.until.seGet('currentRole'))
+      }
       this.getInfo()
       this.$refs.addrChoose.getProvice()
     },
@@ -205,8 +217,12 @@
           this.$message.error('请输入注册地址');
           return
         }
-        if(this.reg.checkPhone(this.info.tel)!='ok') {
-          this.$message.error(this.reg.checkPhone(this.info.tel));
+        // if(this.reg.checkPhone(this.info.tel)!='ok') {
+        //   this.$message.error(this.reg.checkPhone(this.info.tel));
+        //   return
+        // }
+        if(this.info.tel=='') {
+          this.$message.error('请输入注册电话');
           return
         }
         if(this.info.bank=='') {
