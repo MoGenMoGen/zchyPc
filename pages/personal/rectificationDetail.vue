@@ -61,8 +61,8 @@
             <!-- <div class="itemstyle">整改日期： {{ info.rectifyTm }}</div> -->
             <div class="itemstyle">检查区域：{{ info.inspArea }}</div>
             <div class="itemstyle">
-              <span style="width: 97px">整改要求：</span>
-              <span style="white-space: pre-line">{{
+              <div style="width:70px;">整改要求：</div>
+              <span style="white-space: pre-line; flex:1;">{{
                 info.rectifyDemand
               }}</span>
             </div>
@@ -485,7 +485,12 @@
       <!-- 检验检测、船厂已完成开始 -->
       <div class="conwrapper" v-if="info.state == 4">
         <div class="lefttextpart">
-          <div class="itemstyle">结案意见：{{ info.closeReport }}</div>
+          <div class="itemstyle">
+            <div style="width:70px">结案意见：</div> 
+            <span style="white-space: pre-line;flex:1;">{{
+              info.closeReport
+            }}</span>
+          </div>
           <div class="itemstyle">签发人： {{ info.closeUserNm }}</div>
           <div class="itemstyle">
             确认日期：{{ info.closeDate.slice(0, 10) }}

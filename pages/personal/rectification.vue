@@ -48,7 +48,7 @@
     </div>
     <!-- 列表组件 -->
     <div class="container">
-      <!-- 表头 -->
+      <!-- 表头
       <div class="th">
         <div>整改单号</div>
         <div>整改内容</div>
@@ -58,7 +58,7 @@
         <div>当前状态</div>
       </div>
       <!-- 表格 -->
-      <div class="td">
+      <!-- <div class="td">
         <div
           class="th border"
           style="height: 77px; background: #fff"
@@ -72,23 +72,95 @@
           <div>{{ item.orgTestEnterNm }}</div>
           <div>{{ item.issueTm }}</div>
           <!-- 待执行 -->
-          <div
+      <!-- <div
             v-if="item.state == 2"
             style="color: #ff3c00; border: 1px solid #ff3c00"
           >
             待执行
           </div>
           <!-- 待结案 -->
-          <div
+      <!-- <div
             v-else-if="item.state == 3"
             style="color: #2778be; border: 1px solid #2778be"
           >
             待结案
           </div>
           <!-- 已完成 -->
-          <div v-else-if="item.state == 4">已完成</div>
+      <!-- <div v-else-if="item.state == 4">已完成</div>
         </div>
-      </div>
+      </div>  -->
+
+      <el-table
+        :data="List"
+        :cell-style="{
+          'text-align': 'center',
+          color: '#333',
+          'font-weight': '500',
+        }"
+        :header-cell-style="{
+          color: '#606060',
+          background: '#f8f8f8',
+          'text-align': 'center',
+        }"
+        style="width: 100%"
+        @row-click="toRectifydetail"
+      >
+        <el-table-column prop="cd" min-width="150" label="整改单号">
+        </el-table-column>
+        <el-table-column
+          min-width="200"
+          prop="rectifyDemand"
+          align="center"
+          label="整改内容"
+          show-overflow-tooltip="true"
+        >
+        </el-table-column>
+        <el-table-column
+          min-width="150"
+          prop="orgEnterNm"
+          align="center"
+          label="整改单位"
+        >
+        </el-table-column>
+        <el-table-column
+          min-width="150"
+          prop="orgTestEnterNm"
+          align="center"
+          label="检验检测单位"
+        >
+        </el-table-column>
+        <el-table-column
+          min-width="110"
+          prop="issueTm"
+          align="center"
+          label="下发日期"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="status"
+          fixed="right"
+          min-width="110"
+          align="center"
+          label="当前状态"
+        >
+          <template slot-scope="scope">
+            <div
+              v-if="scope.row.state == 2"
+              style="color: #ff3c00; border: 1px solid #ff3c00"
+            >
+              待执行
+            </div>
+            <div
+              v-else-if="scope.row.state == 3"
+              style="color: #2778be; border: 1px solid #2778be"
+            >
+              待结案
+            </div>
+            <div v-else-if="scope.row.state == 4">已完成</div>
+          </template>
+        </el-table-column>
+      </el-table>
+
       <!-- 分页 -->
       <div class="Footer">
         <el-pagination
@@ -200,6 +272,9 @@ export default {
 
     toDetail(id) {
       this.$router.push("./rectificationDetail?id=" + id);
+    },
+    toRectifydetail(row) {
+      this.$router.push(`./rectificationDetail?id=${row.id}`);
     },
     Search() {
       this.currentPage = 1;

@@ -9,8 +9,8 @@
       <div>结束时间</div>
       <div>运行时长</div>
       <div>运行状态</div>
-      <div>备注信息</div>
       <div>运行图片</div>
+      <div>备注信息</div>
     </div>
     <!-- 表格 -->
     <div class="td">
@@ -20,15 +20,20 @@
         v-for="(item, index) in List"
         :key="index"
       >
-        <div>{{ index+1}}</div>
+        <div>{{ index + 1 }}</div>
         <div>{{ item.startTm }}</div>
         <div>{{ item.endTm }}</div>
         <div>{{ item.runTime }}</div>
         <div>{{ item.runningStatusNm }}</div>
-        <div>{{ item.rmks }}</div>
         <div>
-          <img style="width: 94px; height: 57px;cursor:pointer;" :src="item.imgUrl" alt="" v-viewer />
+          <img
+            style="width: 94px; height: 57px; cursor: pointer"
+            :src="item.imgUrl"
+            alt=""
+            v-viewer
+          />
         </div>
+        <div>{{ item.rmks }}</div>
       </div>
     </div>
     <!-- 分页 -->
@@ -57,10 +62,9 @@ export default {
       total: 0,
       // 当前页
       currentPage: 1,
-      id:'',
+      id: "",
       pic,
-      List: [
-      ],
+      List: [],
     };
   },
   created() {
@@ -72,16 +76,14 @@ export default {
 
   methods: {
     getList() {
-      let qry = this.query.new()
-      this.query.toP(qry,this.currentPage3,this.pageSize)
-      this.query.toO(qry,'crtTm','desc')
-      this.query.toW(qry,'docsId',this.id,'EQ')
-      this.api
-        .getRunAdoptList(this.query.toEncode(qry))
-        .then((res) => {
-          this.total = res.page.total;
-          this.List = [...this.List, ...res.data.list];
-        });
+      let qry = this.query.new();
+      this.query.toP(qry, this.currentPage3, this.pageSize);
+      this.query.toO(qry, "crtTm", "desc");
+      this.query.toW(qry, "docsId", this.id, "EQ");
+      this.api.getRunAdoptList(this.query.toEncode(qry)).then((res) => {
+        this.total = res.page.total;
+        this.List = [...this.List, ...res.data.list];
+      });
     },
     handleCurrentChange() {
       // console.log(`当前页: ${val}`);
