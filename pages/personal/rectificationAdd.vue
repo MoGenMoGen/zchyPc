@@ -78,7 +78,7 @@
               </div>
             </div> -->
             <div class="listContent" style="align-items: flex-start;">
-              <div class="listLeft" style="line-height: 40px;">
+              <div class="listLeft" style="line-height: 40px; ">
                 <span>*</span>
                 整改要求:
               </div>
@@ -153,11 +153,11 @@
               </div>
             </div>
             <div class="listContent">
-              <div class="listLeft">
+              <div class="listLeft" style=" white-space: pre-line;">
                 整改要求：
               </div>
               <div class="listRight" style="  white-space: pre-line;
-            max-width: 300px; overflow: auto;">
+            max-width: 250px; overflow: auto;">
                 {{requirement}}
               </div>
             </div>
@@ -429,6 +429,7 @@
       this.imgList=fileList
       this.imgList.forEach(item=>{
         item.newImg=item.response.data
+
       })
         // for (let i = 0; i < fileList.length; i++) {
         //   this.imgList.push(fileList[i].response.data)
@@ -501,7 +502,10 @@
           this.$message.error('复查人未签字');
           return false
         }
-
+        let troubleImg=[]
+        this.imgList.forEach(item=>{
+          troubleImg.push(item.newImg)
+        })
         let info = {
           docsId: 0,
           cd: this.danhao,
@@ -512,7 +516,8 @@
           rectifyer: this.rectifyer,
           explains: this.dangerDescription,
           rectifyDemand: this.requirement,
-          troubleImg: this.imgList.join(","),
+
+          troubleImg: troubleImg.join(','),
           rectifyerSign: this.rectifyerSign,
 
           rectifyTmLimit: this.pickTime,
