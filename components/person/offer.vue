@@ -101,6 +101,7 @@
                 </div>
               </div>
             </el-form-item>
+            <el-form-item label="解密时间:" v-if="applyInfo.offer&&returnDate(1,applyInfo.bidEndTm)&&applyInfo.offer.shipBidOfferVo.attachDecodeTm">{{applyInfo.offer.shipBidOfferVo.attachDecodeTm}}</el-form-item>
             <div style="color: red;margin-bottom: 10px;">上传文件会自动加密，将无法打开</div>
           </el-form>
         </div>
