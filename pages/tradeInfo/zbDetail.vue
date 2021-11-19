@@ -101,6 +101,7 @@ export default {
       IsSignUp: false, //是否已报名
       currentRole: {},
       bidInfo: {},
+      flag: false
     };
   },
   computed: {
@@ -125,6 +126,9 @@ export default {
   mounted() {
     this.infoId = this.$route.query.id;
     this.choose = this.$route.query.cid;
+    if(this.$route.query.flag==1) {
+      this.flag = true
+    }
     this.getAdert();
     this.getData();
     this.canSign();
@@ -157,7 +161,9 @@ export default {
       let qry = this.query.new();
       this.query.toW(qry, "bidId", this.infoId, "EQ");
       this.query.toO(qry, "afficheTypeCd", "esc");
-      this.query.toW(qry, 'audit', '2', 'EQ')
+      if(!this.flag) {
+        this.query.toW(qry, 'audit', '2', 'EQ')
+      }
       this.query.toW(qry, 'releTm', nowTm, 'LT')
       this.api.getBidAfficheList(this.query.toEncode(qry)).then((res) => {
         res.data.list.forEach((item) => {
