@@ -92,6 +92,7 @@
           <div class="listLeft" style="margin-bottom: 73px;">
             <span>*</span>
             隐患图片:
+            <p>(建议上传图片小于500KB)</p>
           </div>
           <div class="listRight" style="width: 80%;">
             <!--  <el-upload action="/general/oss/upload" list-type="picture-card"
