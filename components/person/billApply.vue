@@ -5,9 +5,11 @@
     </div>
     <div class="tableOrder">
       <div class="orderTitle">
-        <p>订单详情</p>
+        <p style="flex: 0.6;">订单详情</p>
         <p style="flex:2">规格型号</p>
-        <p>数量</p>
+        <p style="flex: 0.8;">单价</p>
+        <p style="flex: 0.6;">数量</p>
+        <p>实付款</p>
         <!-- <p>发票类型</p> -->
         <p>状态</p>
         <p>操作</p>
@@ -24,16 +26,17 @@
                 <span style="color: #333333;">{{v.goodsNm}}</span>
                 <span style="color: #999999;">{{v.goodsSkuAttrNm}}</span>
               </p>
-              <p>x {{v.qty}}</p>
+              <p style="color: #E4393C;">￥ {{v.goodsPrice}}</p><p>x {{v.qty}}</p>
             </div>
           </div>
+          <div style="color: #E4393C;">￥ {{item.orderPrice}}</div>
           <!-- <div>增值税发票</div> -->
           <div style="color: #E4393C;" v-if="item.invoiceType==0">未开票</div>
           <div style="color: #E4393C;" v-if="item.invoiceType==1">已提交开票申请</div>
           <div style="color: #E4393C;" v-if="item.invoiceType==2">部分开票</div>
           <div v-if="item.invoiceType==3">已开票</div>
           <div class="btnList">
-            <el-button type="primary" size="small" plain @click="toApply(item.id,item.orderCd)" v-if="item.invoiceType!=3">申请发票</el-button>
+            <el-button type="primary" size="small" plain @click="toApply(item.id,item.orderCd)" v-if="item.invoiceType!=3&&item.payAmt!=0">申请发票</el-button>
             <el-button size="small" @click="toDetail(item.orderCd)" v-if="item.invoiceType!=0&&item.invoiceType!=1">发票详情</el-button>
           </div>
         </div>
@@ -109,7 +112,8 @@
       background-color: #F7F7F7;
       font-size: 16px;
       color: #666666;
-      padding: 22px 0;
+      padding: 22px 30px;
+      box-sizing: border-box;
       display: flex;
       justify-content: space-between;
       >p{
@@ -146,7 +150,7 @@
           padding-top: 0;
           >div{
             display: flex;
-            padding: 20px 0 20px 30px;
+            padding: 20px 0 20px 10px;
             height: 100%;
             border-bottom: 1px solid #E7E7E7;
             img{
@@ -158,6 +162,7 @@
               flex: 1;
               margin-right: 10px;
               text-align: center;
+              height: 90px;
             }
             .nmBox{
               flex: 3;
