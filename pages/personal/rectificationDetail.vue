@@ -25,6 +25,7 @@
           ></el-input>
           <el-upload
             style="margin-top: 20px; margin-left: 10px"
+            multiple="true"
             ref="upload"
             action="/general/oss/upload"
             accept="image/png,image/gif,image/jpg,image/jpeg"
@@ -60,7 +61,8 @@
             <!-- <div class="itemstyle">整改日期： {{ info.rectifyTm }}</div> -->
             <div class="itemstyle">检查区域：{{ info.inspArea }}</div>
             <div class="itemstyle">
-              整改要求：<span style="white-space: pre-line">{{
+              <span style="width: 97px">整改要求：</span>
+              <span style="white-space: pre-line">{{
                 info.rectifyDemand
               }}</span>
             </div>
@@ -138,7 +140,7 @@
         "
       >
         <div style="display: flex; padding: 15px 0">
-          <div class="itemstyle">
+          <div class="itemstyle" style="width: 104px">
             <span style="color: red">*</span>整改上报：
           </div>
           <el-input
@@ -155,6 +157,7 @@
           </div>
           <el-upload
             style="margin-top: 20px"
+            multiple="true"
             ref="upload"
             action="/general/oss/upload"
             accept="image/png,image/gif,image/jpg,image/jpeg"
@@ -179,7 +182,7 @@
           :config="myConfig"
         ></vue-ueditor-wrap> -->
         <div style="display: flex; padding: 15px 0">
-          <div class="itemstyle">备注内容：</div>
+          <div class="itemstyle" style="width: 104px">备注内容：</div>
           <el-input
             type="textarea"
             :rows="5"
@@ -246,9 +249,14 @@
           <div v-show="item.isshow && index == 0">
             <h3 style="padding: 20px 0px; margin-left: -16px">下发内容</h3>
             <div
-              style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px;display:flex;"
+              style="
+                padding-bottom: 2px;
+                font-size: 15px;
+                margin-bottom: 5px;
+                display: flex;
+              "
             >
-            整改要求:
+              整改要求:
               <span
                 style="
                   margin-left: 5px;
@@ -259,7 +267,7 @@
                 >{{ item.rectifyDemand }}</span
               >
             </div>
-            <div
+            <!-- <div
               style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px;display:flex;"
             >
               隐患说明:
@@ -267,7 +275,7 @@
                 style="margin-left: 5px; font-size: 14px; font-weight: 400;white-space: pre-line;"
                 >{{ item.explains }}</span
               >
-            </div>
+            </div> -->
             <div v-viewer class="problempiclist">
               <img
                 :src="item1"
@@ -324,7 +332,12 @@
           <div v-show="item.isshow && index > 0">
             <h3 style="padding: 20px 0px; margin-left: -16px">再次下发内容</h3>
             <div
-              style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px;display:flex;"
+              style="
+                padding-bottom: 2px;
+                font-size: 15px;
+                margin-bottom: 5px;
+                display: flex;
+              "
             >
               下发说明:
               <span
