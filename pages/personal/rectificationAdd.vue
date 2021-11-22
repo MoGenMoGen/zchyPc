@@ -35,15 +35,7 @@
                 </el-select>
               </div>
             </div>
-            <div class="listContent">
-              <div class="listLeft">
-                <span>*</span>
-                检查区域:
-              </div>
-              <div class="listRight">
-                <input type="" name="" id="" value="" placeholder="请输入检查区域" v-model="inspArea" />
-              </div>
-            </div>
+
             <div class="listContent">
               <div class="listLeft">
                 <span>*</span>
@@ -86,13 +78,22 @@
                 <textarea rows="" cols="" placeholder="请输入整改要求" v-model="requirement"></textarea>
               </div>
             </div>
+            <div class="listContent">
+              <div class="listLeft">
+                <span>*</span>
+                检查区域:
+              </div>
+              <div class="listRight">
+                <input type="" name="" id="" value="" placeholder="请输入检查区域" v-model="inspArea" />
+              </div>
+            </div>
           </div>
         </div>
         <div class="listContent">
           <div class="listLeft" style="margin-bottom: 73px;">
             <span>*</span>
             隐患图片:
-            <p>(建议上传图片小于500KB)</p>
+            <p>(建议上传图片尺寸为300*300)</p>
           </div>
           <div class="listRight" style="width: 80%;">
             <!--  <el-upload action="/general/oss/upload" list-type="picture-card"
