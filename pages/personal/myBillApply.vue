@@ -192,32 +192,40 @@
     },
     methods: {
       getDefault() {
-        let param={
-          orgEnterId: JSON.parse(this.until.seGet('currentRole')).id
+        if(this.until.seGet('currentRole')) {
+          let param={
+            orgEnterId: JSON.parse(this.until.seGet('currentRole')).id
+          }
+          this.api.getQualiInfo(param).then(res => {
+            if(res.data) {
+              this.quaName = res.data.nm
+              this.buyerName = res.data.nm
+              this.buyerTel = res.data.tel
+              this.buyerTaxNum = res.data.taxNum
+              this.buyerAddress = res.data.address
+              this.bank = res.data.bank
+              this.account = res.data.account
+            }
+          })
+          this.api.getQualiAddrInfo(param).then(res => {
+            if(res.data.list.length>0) {
+              this.linkman = res.data.list[0].linkman
+              this.phone = res.data.list[0].phone
+              this.address = res.data.list[0].addrDetail
+              this.addrNm = res.data.list[0].addrNm
+              this.$refs.addrChoose.getProvice(res.data.list[0].addrNm)
+              this.email = res.data.list[0].email
+            } else {
+              this.$refs.addrChoose.getProvice()
+            }
+          })
+        } else {
+          this.headUpType = [{
+            value: '2',
+            label: '个人'
+          }]
+          this.headUp = '个人'
         }
-        this.api.getQualiInfo(param).then(res => {
-          if(res.data) {
-            this.quaName = res.data.nm
-            this.buyerName = res.data.nm
-            this.buyerTel = res.data.tel
-            this.buyerTaxNum = res.data.taxNum
-            this.buyerAddress = res.data.address
-            this.bank = res.data.bank
-            this.account = res.data.account
-          }
-        })
-        this.api.getQualiAddrInfo(param).then(res => {
-          if(res.data.list.length>0) {
-            this.linkman = res.data.list[0].linkman
-            this.phone = res.data.list[0].phone
-            this.address = res.data.list[0].addrDetail
-            this.addrNm = res.data.list[0].addrNm
-            this.$refs.addrChoose.getProvice(res.data.list[0].addrNm)
-            this.email = res.data.list[0].email
-          } else {
-            this.$refs.addrChoose.getProvice()
-          }
-        })
         this.api.getInvoiceResult({orderNo:this.orderCd}).then(res => {
           this.openedSum = res.openedSum
           this.canOpenSum = res.canOpenSum

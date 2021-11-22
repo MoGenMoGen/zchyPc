@@ -1,7 +1,7 @@
 <template>
   <!-- 增票资质 -->
   <div>
-    <div class="top-img">
+    <div class="top-img" v-if="imgUrl">
       <img :src="imgUrl">
     </div>
     <div class="tip-box" v-show="audit==1">
@@ -173,15 +173,15 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.until.back()
+          this.until.href('/personal/persInfo')
         }).catch(() => {
-          this.until.back()
+          this.until.href('/personal/persInfo')
         });
       } else {
         this.currentRole=JSON.parse(this.until.seGet('currentRole'))
+        this.getInfo()
+        this.$refs.addrChoose.getProvice()
       }
-      this.getInfo()
-      this.$refs.addrChoose.getProvice()
     },
     computed: {
       ...mapState([

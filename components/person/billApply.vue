@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="top-img">
+    <div class="top-img" v-if="imgUrl">
       <img :src="imgUrl">
     </div>
     <div class="tableOrder">
