@@ -57,7 +57,7 @@
         <div style="display: flex">
           <div class="lefttextpart">
             <div class="itemstyle">整改单号：{{ info.cd }}</div>
-            <div class="itemstyle">整改单位：{{ info.orgEnterId }}</div>
+            <div class="itemstyle">整改单位：{{ info.orgEnterNm }}</div>
             <!-- <div class="itemstyle">整改日期： {{ info.rectifyTm }}</div> -->
             <div class="itemstyle">检查区域：{{ info.inspArea }}</div>
             <div class="itemstyle">
