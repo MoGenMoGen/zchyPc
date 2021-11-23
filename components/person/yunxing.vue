@@ -26,12 +26,20 @@
         <div>{{ item.runTime }}</div>
         <div>{{ item.runningStatusNm }}</div>
         <div>
-          <img
-            style="width: 94px; height: 57px; cursor: pointer"
-            :src="item.imgUrl"
-            alt=""
-            v-viewer
-          />
+          <el-carousel height="77px"  v-viewer>
+            <el-carousel-item
+              v-for="(item1, index1) in item.imgUrl
+                ? item.imgUrl.split(',')
+                : []"
+              :key="index1"
+            >
+              <img
+                style="width: 94px; height: 57px; cursor: pointer;margin:10px 0;"
+                :src="item1"
+                alt=""
+              />
+            </el-carousel-item>
+          </el-carousel>
         </div>
         <div>{{ item.rmks }}</div>
       </div>
@@ -116,7 +124,7 @@ export default {
       text-align: center;
     }
     div:nth-of-type(4) {
-      flex: 3;
+      flex: 2;
       text-align: center;
     }
     div:nth-of-type(5) {
@@ -124,7 +132,7 @@ export default {
       text-align: center;
     }
     div:nth-of-type(6) {
-      flex: 2;
+      flex: 3;
       text-align: center;
     }
     div:nth-of-type(7) {

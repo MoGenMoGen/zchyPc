@@ -3,7 +3,7 @@
 
   <div class="container">
     <!-- 表头 -->
-    <div class="th">
+    <div class="th" >
       <div>序号</div>
       <div>检查起止时间</div>
       <div>检查时长</div>
@@ -19,7 +19,7 @@
     <div class="td">
       <div
         class="th"
-        style="height: 77px"
+        style="height: 77px;background:#fff;border-bottom:1px solid #dfdfdf;"
         v-for="(item, index) in List"
         :key="index"
       >

@@ -17,7 +17,10 @@
       <!-- <div class="title">检验检测证书</div> -->
       <div v-for="(item,index) in list" :key="index">
         <div class="title" @click="item.show=!item.show">
-          <span>{{item.nm}}</span>
+          <div>
+          <span style="margin-right: 30px">{{ item.nm }}</span>
+          <span>证件有效期:{{ item.validUntil }}</span>
+        </div>
           <p>
             <span style="color: #2778BE;font-weight: bold">点击查看内容</span>
             <img :src="arrowDown" v-if="item.show">
@@ -282,7 +285,7 @@
           flex-wrap: wrap;
           >p{
             width: 22.5%;
-            margin-right: 3%;
+            // margin-right: 3%;
             &:nth-of-type(4n){
               margin-right: 0;
             }

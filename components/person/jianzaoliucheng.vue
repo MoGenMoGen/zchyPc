@@ -253,7 +253,7 @@
         white-space: nowrap;
       }
       .clickP{
-        font-size: 16px;
+        font-size: 14px;
         color: #303030;
         font-weight: 600;
         border-bottom: 2px solid #2778BE;
