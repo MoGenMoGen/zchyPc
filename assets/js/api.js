@@ -1578,6 +1578,14 @@ class api {
       });
     });
   }
+  // 个人中心-收付款记录分页列表 有商城和非商城的记录
+  payment3(query,data) {
+    return new Promise((resolve, reject) => {
+      get("/ship/paymentPlan/api/page?query=" + query,data).then(res => {
+        resolve(res)
+      });
+    });
+  }
   //个人中心-提交确认/确认收款
   confirm(data) {
     return new Promise(resolve => {

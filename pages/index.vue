@@ -614,6 +614,7 @@ export default {
     getZbggList() {
       let qry = this.query.new()
       this.query.toP(qry,1,6)
+	  this.query.toO(qry,'releTm','desc')
       // this.query.toW(qry,'afficheTypeNm','采购公告','EQ')
       this.api.getZbggList(this.query.toEncode(qry)).then(res => {
         console.log('招标公告',res)

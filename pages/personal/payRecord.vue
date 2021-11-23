@@ -44,7 +44,7 @@
           label="订单编号"
           width="180">
           <template slot-scope="scope">
-            <p @click="toOrder(scope.row)" class="cursor">{{scope.row.orderCd}}</p>
+            <p @click="toOrder(scope.row)" class="cursor">{{scope.row.orderCd?scope.row.orderCd:scope.row.cd}}</p>
           </template>
         </el-table-column>
         <el-table-column
@@ -120,7 +120,7 @@
           label="订单编号"
           width="180">
           <template slot-scope="scope">
-            <p @click="toOrder(scope.row)" class="cursor">{{scope.row.orderCd}}</p>
+            <p @click="toOrder(scope.row)" class="cursor">{{scope.row.orderCd?scope.row.orderCd:scope.row.cd}}</p>
           </template>
         </el-table-column>
         <el-table-column
@@ -379,12 +379,13 @@
             this.currentRole=JSON.parse(this.until.seGet('currentRole'))
             this.userInfo=JSON.parse(this.until.seGet('userInfo'))
             this.query.toP(qry,this.currentPage,this.pageSize)
-            this.query.toW(qry,"orderCd",this.cd,'LK')
-            let param={
-              orgEnterId:this.currentRole.id
-              // orgEnterId: '4982862803145728'//测试
+            if(this.cd) {
+              this.query.toW(qry,"orderCd",this.cd,'LK')
             }
             let data = null
+            let param={
+              orgEnterId:this.currentRole.id
+            }
             if(this.currentRole.identityCd=='identity70' && this.tabId==2){ //经销商 收款
                data=await this.api.payment2(param)
             }else if(this.currentRole.identityCd=='identity70' && this.tabId==1){  //付款
@@ -392,11 +393,18 @@
               data=await this.api.payment(this.query.toEncode(qry),param)
             }else {
               if(!this.tabId || this.tabId===2){
-                this.query.toW(qry,"isShop",this.tabId2==11 ? 1 : 0,'EQ')
+                if(this.tabId2==22) {
+                  this.query.toW(qry,'payerId',this.currentRole.id+'','EQ')
+                  let param2 = {
+                    type: 1
+                  }
+                  data=await this.api.payment3(this.query.toEncode(qry),param2)
+                } else {
+                  this.query.toW(qry,"isShop", 1 ,'EQ')
+                  data=await this.api.payment(this.query.toEncode(qry),param)
+                }
               }
-              data=await this.api.payment(this.query.toEncode(qry),param)
             }
-
             this.list = data.data.list
             this.total=data.page.total
           },

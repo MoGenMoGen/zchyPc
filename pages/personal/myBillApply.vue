@@ -291,7 +291,7 @@
             return
           }
           param = {
-            orgEnterId: JSON.parse(this.until.seGet('currentRole')).id,
+            // orgEnterId: JSON.parse(this.until.seGet('currentRole')).id,
             orderId: this.id,
             orderCd: this.orderCd,
             type: this.type,
@@ -314,7 +314,7 @@
           }
           this.type = 2
           param = {
-            orgEnterId: JSON.parse(this.until.seGet('currentRole')).id,
+            // orgEnterId: JSON.parse(this.until.seGet('currentRole')).id,
             orderId: this.id,
             orderCd: this.orderCd,
             type: this.type,
