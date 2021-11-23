@@ -21,7 +21,7 @@
           :key="index2"
           v-viewer
         >
-          <img :src="item2.imgUrl" alt="" style="cursor:pointer" />
+          <img :src="item2.imgUrl" alt="" style="cursor: pointer" />
           <p class="desc">{{ item2.name }}</p>
           <p class="date">{{ item2.imgDate }}</p>
         </div>
@@ -58,8 +58,7 @@ export default {
       id: "",
       // 存所有数据放一维数组，用于过渡
       List: [],
-      imglist: [
-      ],
+      imglist: [],
     };
   },
   created() {
@@ -99,14 +98,18 @@ export default {
         .getHisPicAdoptList(encodeURIComponent(JSON.stringify(query)))
         .then((res) => {
           this.total = res.page.total;
+          console.log("res", res.data.list);
           this.List = [...this.List, ...res.data.list];
           console.log("一维全部展示数组", this.List);
           // 先去重再合并
           // 去重相同年月后的数组
-          let uniquList = this.List;
+          let uniquList = JSON.parse(JSON.stringify(this.List));
           for (let i = 0; i < uniquList.length; i++) {
             for (let j = i + 1; j < uniquList.length; j++) {
-              if (uniquList[i] == uniquList[j]) {
+              if (
+                uniquList[i].years == uniquList[j].years &&
+                uniquList[i].months == uniquList[j].months
+              ) {
                 //第一个等同于第二个，splice方法删除第二个
                 uniquList.splice(j, 1);
                 j--;

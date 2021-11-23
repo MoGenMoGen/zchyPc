@@ -2778,7 +2778,7 @@ class api {
   // 历史图片审核通过分页列表
   getHisPicAdoptList(data){
     return new Promise(resolve => {
-      get("/ship/docsImgs/apis/page?query"+data).then(res=>{
+      get("/ship/docsImgs/apis/page?query="+data).then(res=>{
         resolve(res)
       })
     })
@@ -2786,7 +2786,7 @@ class api {
   // 运行记录审核通过分页列表
   getRunAdoptList(data){
     return new Promise(resolve => {
-      get("/ship/docsOprRecord/apis/page?query"+data).then(res=>{
+      get("/ship/docsOprRecord/apis/page?query="+data).then(res=>{
         resolve(res)
       })
     })
@@ -2794,7 +2794,7 @@ class api {
   // 云检验审核通过分页列表
   getCloudTestAdoptList(data){
     return new Promise(resolve => {
-      get("/ship/docsInsp/apis/page?query"+data).then(res=>{
+      get("/ship/docsInsp/apis/page?query="+data).then(res=>{
         resolve(res)
       })
     })
