@@ -14,25 +14,25 @@
           />
         </div>
       </div>
-      <div class="picbox" v-if="item1.isshow">
+         
+      <div class="picbox" v-if="item1.isshow"  v-viewer>
         <div
           class="picitem"
           v-for="(item2, index2) in item1.piclist"
           :key="index2"
-          v-viewer
         >
-          <div
+          <!-- <div
             class="picitem"
             style="display: inline-block"
             v-for="(item3, index3) in item2.imgUrl
               ? item2.imgUrl.split(',')
               : []"
             :key="index3"
-          >
-            <img :src="item3" alt="" style="cursor: pointer" />
+          > -->
+            <img :src="item2.imgUrl" alt="" style="cursor: pointer" />
             <p class="desc">{{ item2.name }}</p>
             <p class="date">{{ item2.imgDate }}</p>
-          </div>
+          <!-- </div> -->
         </div>
       </div>
     </div>
