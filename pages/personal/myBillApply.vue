@@ -57,7 +57,7 @@
         </div>
       </div>
     </div>
-    <div class="submit-box" v-if="headUp=='公司'">
+    <div class="submit-box" v-if="!flag">
       <div class="submit-title">
         <span>资质信息</span>
         <div></div>
@@ -81,7 +81,7 @@
         </div>
       </div>
     </div>
-    <div class="submit-box" v-if="headUp=='公司'">
+    <div class="submit-box" v-if="!flag">
       <div class="submit-title">
         <span>收票信息</span>
         <div></div>
@@ -153,6 +153,7 @@
         email: '',
         type: 1,
         invoiceType: [],
+        invoiceTypeTemp: [],
         headUpType: [{
           value: '1',
           label: '公司'
@@ -163,7 +164,8 @@
         selectIndex: 0,
         quaName: '',
         openedSum: '',
-        canOpenSum: ''
+        canOpenSum: '',
+        flag: false //true为增值税电子普通发票,公司个人下面没有， false为增值税专用发票，公司有下面
       }
     },
     layout: 'person',
@@ -186,7 +188,22 @@
         if(val=='个人') {
           this.buyerName = '个人'
         } else {
+          this.api.dataDictionary('INVOICE_TYPE').then(res => {
+            this.invoiceType = res
+          })
           this.buyerName = this.quaName
+        }
+      },
+      invoice(val) {
+        console.log(val)
+        if(this.headUp=='公司') {
+          if(val == 'INVOICE_TYPE.10') {
+            this.flag = true
+          } else {
+            this.flag = false
+          }
+        } else {
+          this.flag = true
         }
       }
     },
@@ -248,7 +265,7 @@
           this.$message.error('请选择发票类型!')
           return
         }
-        if(this.headUp=='公司') {
+        if(this.headUp=='公司'&&!this.flag) {
           this.type = 1
           if(this.buyerName=='') {
             this.$message.error('请输入单位名称!')
@@ -307,7 +324,34 @@
             rmks: this.rmks,
             invoiceAddr: this.addrNm.replace(/-/g,'') + this.address
           }
-        } else {
+        } else if (this.headUp=='公司'&&this.flag) {
+          if(this.buyerName=='') {
+            this.$message.error('请输入单位名称!')
+            return
+          }
+          if(this.buyerTaxNum=='') {
+            this.$message.error('请输入纳税人识别号!')
+            return
+          }
+          this.type = 1
+          param = {
+            // orgEnterId: JSON.parse(this.until.seGet('currentRole')).id,
+            orderId: this.id,
+            orderCd: this.orderCd,
+            type: this.type,
+            invoiceTypeCd: this.invoice,
+            buyerName: this.buyerName,
+            buyerTaxNum: this.buyerTaxNum,
+            buyerTel: this.buyerTel,
+            buyerAddress: this.buyerAddress,
+            buyerAccount: this.bank + this.account,
+            linkman: this.linkman,
+            phone: this.phone,
+            email: this.email,
+            rmks: this.rmks,
+            invoiceAddr: this.addrNm.replace(/-/g,'') + this.address
+          }
+        } else if(this.headUp=='个人') {
           if(this.email=="") {
             this.$message.error('请输入收票人邮箱!')
             return
