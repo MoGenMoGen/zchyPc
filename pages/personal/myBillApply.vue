@@ -153,7 +153,6 @@
         email: '',
         type: 1,
         invoiceType: [],
-        invoiceTypeTemp: [],
         headUpType: [{
           value: '1',
           label: '公司'
@@ -187,6 +186,7 @@
       headUp(val) {
         if(val=='个人') {
           this.buyerName = '个人'
+          this.invoiceType.splice(0,1)
         } else {
           this.api.dataDictionary('INVOICE_TYPE').then(res => {
             this.invoiceType = res
