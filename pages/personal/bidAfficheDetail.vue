@@ -18,6 +18,7 @@
           <img :src="jt2" v-if="selectIndex<index&&info.length - 1>index">
         </div>
       </div>
+      <div class="title">{{title}}</div>
       <div class="cont-body" v-html="cont">
 
       </div>
@@ -50,7 +51,8 @@
         info:[],
         selectIndex: 0,
         cont: '',
-        infoId: ''
+        infoId: '',
+        title: ''
       }
     },
     computed: {
@@ -97,11 +99,13 @@
           this.info = res.data.list
           this.selectIndex = this.info.length - 1
           this.cont = this.info[this.selectIndex].cont
+          this.title = this.info[this.selectIndex].title
         })
       },
       selectThis(index) {
         this.selectIndex = index
         this.cont = this.info[this.selectIndex].cont
+        this.title = this.info[this.selectIndex].title
       },
     },
   }
@@ -180,6 +184,13 @@
             margin-left: 40px;
           }
         }
+      }
+      .title {
+        width: 100%;
+        text-align: center;
+        color: #333333;
+        font-size: 20px;
+        line-height: 30px;
       }
       .cont-body{
         width: 80%;
