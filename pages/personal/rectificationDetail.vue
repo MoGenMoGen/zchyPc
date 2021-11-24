@@ -192,8 +192,9 @@
           ></el-input>
         </div>
         <div class="btn">
-          <div class="confirm button" @click="handleRectifyReport">确定</div>
-          <div class="cancel button">取消</div>
+          <!-- <div class="cancel button">取消</div> -->
+          <div class="confirm button" @click="handleRectifyReport">确定上报</div>
+
         </div>
       </div>
       <!--  船厂待执行结束  -->
@@ -525,7 +526,7 @@
           <div class="nextIssuebtn button" @click="Issueshow = true">
             再次下发
           </div>
-          <div class="cancelbtn button">取消</div>
+          <!-- <div class="cancelbtn button">取消</div> -->
         </div>
       </div>
       <!-- 检验检测待结案结束 -->
@@ -916,7 +917,7 @@ export default {
           line-height: 35px;
           background: #2778be;
           border-radius: 4px;
-          margin-right: 30px;
+          margin-left: 30px;
           text-align: center;
         }
         .cancel {
