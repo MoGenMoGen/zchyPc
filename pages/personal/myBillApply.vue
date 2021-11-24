@@ -113,8 +113,8 @@
       <div class="submit-item">
         <span></span>
         <div class="submit-btn">
-          <el-button type="primary" style="margin-right: 30px;" @click="submit">提交</el-button>
-          <el-button plain @click="cancel">取消</el-button>
+          <el-button plain style="margin-right: 30px;" @click="cancel">取消</el-button>
+          <el-button type="primary" @click="submit">提交</el-button>
         </div>
       </div>
     </div>
