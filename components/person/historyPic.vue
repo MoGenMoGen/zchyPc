@@ -21,9 +21,18 @@
           :key="index2"
           v-viewer
         >
-          <img :src="item2.imgUrl" alt="" style="cursor: pointer" />
-          <p class="desc">{{ item2.name }}</p>
-          <p class="date">{{ item2.imgDate }}</p>
+          <div
+            class="picitem"
+            style="display:inline-block;"
+            v-for="(item3, index3) in item2.imgUrl
+              ? item2.imgUrl.split(',')
+              : []"
+            :key="index3"
+          >
+            <img :src="item3" alt="" style="cursor: pointer" />
+            <p class="desc">{{ item2.name }}</p>
+            <p class="date">{{ item2.imgDate }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -184,7 +193,8 @@ export default {
         margin-right: 22px;
         img {
           width: 213px;
-          height: 120px;
+          height: 140px;
+          object-fit: cover;
         }
         .desc {
           height: 16px;

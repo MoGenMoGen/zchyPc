@@ -216,7 +216,7 @@
     padding: 20px 15px;
     box-sizing: border-box;
     width: 100%;
-    font-size: 19px;
+    font-size: 16px;
     p {
       width: 33%;
       .red {
