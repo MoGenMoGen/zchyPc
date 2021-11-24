@@ -44,7 +44,7 @@
           label="订单编号"
           width="180">
           <template slot-scope="scope">
-            <p @click="toOrder(scope.row)" class="cursor">{{scope.row.orderCd?scope.row.orderCd:scope.row.cd}}</p>
+            <p @click="toOrder(scope.row)" class="cursor">{{scope.row.orderCd}}</p>
           </template>
         </el-table-column>
         <el-table-column
