@@ -8,7 +8,7 @@
     <div id="Issueshow" v-if="Issueshow">
       <div class="addBox">
         <div class="head">
-          <p>下发说明</p>
+          <p>再次下发说明</p>
           <img
             src="~@/assets/img/close.png"
             @click="Issueshow = false"
@@ -16,34 +16,46 @@
           />
         </div>
         <div class="addBody">
-          <el-input
-            type="textarea"
-            :rows="8"
-            placeholder="请输入二次下发内容"
-            v-model="info.reissueReport"
-            style="width: 386px; margin-top: 30px"
-          ></el-input>
-          <el-upload
-            style="margin-top: 20px; margin-left: 10px"
-            multiple="true"
-            ref="upload"
-            action="/general/oss/upload"
-            accept="image/png,image/gif,image/jpg,image/jpeg"
-            list-type="picture-card"
-            :auto-upload="true"
-            :before-upload="handleBeforeUpload"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-            :on-success="handSuccess"
-          >
-            <i class="el-icon-plus"></i>
-          </el-upload>
-          <el-dialog
-            :visible.sync="dialogVisible"
-            :modal-append-to-body="false"
-          >
-            <img width="100%" :src="dialogImageUrl" alt="" />
-          </el-dialog>
+          <div style="display: flex; margin: 30px 0">
+            <p style="margin-right: 20px">
+              <span style="color: red">*</span>下发说明:
+            </p>
+            <el-input
+              type="textarea"
+              :rows="8"
+              placeholder="请输入二次下发内容"
+              v-model="info.reissueReport"
+              style="width: 327px"
+            ></el-input>
+          </div>
+
+          <div style="display: flex">
+            <p style="margin-right: 20px">
+              <span style="color: red">*</span>下发图片:
+            </p>
+            <el-upload
+              style="max-width: 327px"
+              multiple
+              ref="upload"
+              action="/general/oss/upload"
+              accept="image/png,image/gif,image/jpg,image/jpeg"
+              list-type="picture-card"
+              :auto-upload="true"
+              :before-upload="handleBeforeUpload"
+              :on-preview="handlePictureCardPreview"
+              :on-remove="handleRemove"
+              :on-success="handSuccess"
+            >
+              <i class="el-icon-plus"></i>
+            </el-upload>
+            <!-- <el-dialog
+              :visible.sync="dialogVisible"
+              :modal-append-to-body="false"
+            >
+              <img width="100%" :src="dialogImageUrl" alt="" />
+            </el-dialog> -->
+          </div>
+
           <div class="btn">
             <div class="cancel button" @click="Issueshow = false">取消</div>
             <div class="confirm button" @click="handleconfirmIssue">确认</div>
@@ -61,8 +73,8 @@
             <!-- <div class="itemstyle">整改日期： {{ info.rectifyTm }}</div> -->
             <div class="itemstyle">检查区域：{{ info.inspArea }}</div>
             <div class="itemstyle">
-              <div style="width:70px;">整改要求：</div>
-              <span style="white-space: pre-line; flex:1;">{{
+              <div style="width: 70px">整改要求：</div>
+              <span style="white-space: pre-line; flex: 1">{{
                 info.rectifyDemand
               }}</span>
             </div>
@@ -193,8 +205,9 @@
         </div>
         <div class="btn">
           <!-- <div class="cancel button">取消</div> -->
-          <div class="confirm button" @click="handleRectifyReport">确定上报</div>
-
+          <div class="confirm button" @click="handleRectifyReport">
+            确定上报
+          </div>
         </div>
       </div>
       <!--  船厂待执行结束  -->
@@ -487,8 +500,8 @@
       <div class="conwrapper" v-if="info.state == 4">
         <div class="lefttextpart">
           <div class="itemstyle">
-            <div style="width:70px">结案意见：</div> 
-            <span style="white-space: pre-line;flex:1;">{{
+            <div style="width: 70px">结案意见：</div>
+            <span style="white-space: pre-line; flex: 1">{{
               info.closeReport
             }}</span>
           </div>
@@ -589,6 +602,7 @@ export default {
     this.reissueList.forEach((item) => {
       this.$set(item, "isshow", true);
     });
+    setTimeout(() => {}, 2000);
   },
   computed: {
     ...mapState(["currentRole"]),
@@ -642,6 +656,7 @@ export default {
       this.dialogVisible = true;
     },
     handSuccess(response, file, fileList) {
+      console.log("图片上传", fileList);
       if (this.currentRole && this.currentRole.identityCd == "identity30") {
         this.info.rectifyImg = fileList
           .map((item) => item.response.data)
@@ -659,10 +674,7 @@ export default {
     // 再次下发
     async handleconfirmIssue() {
       if (!this.info.reissueReport || !this.info.reissueImg) {
-        this.$notify.error({
-          title: "错误",
-          message: "请将信息填写完整",
-        });
+        this.$message.error("请将信息填写完整");
       } else {
         let data = await this.api.handleRectifyReturn({
           inspId: this.reissueList[this.reissueList.length - 1].id,
@@ -691,10 +703,7 @@ export default {
     // 整改上报
     async handleRectifyReport() {
       if (!this.info.rectifyReport) {
-        this.$notify.error({
-          title: "错误",
-          message: "整改内容不能为空",
-        });
+        this.$message.error("整改内容不能为空");
       } else {
         let obj = {};
         //再下发说明列表
@@ -732,10 +741,7 @@ export default {
     // 确认结案
     async handleRectifyclose() {
       if (!this.info.closeReport) {
-        this.$notify.error({
-          title: "错误",
-          message: "结案内容不能为空",
-        });
+        this.$message.error("结案内容不能为空");
       } else {
         let res = await this.api.handlerectifyClose({
           id: this.id,
@@ -813,10 +819,11 @@ export default {
         overflow: auto;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        padding: 0 30px;
+        box-sizing: border-box;
+        // align-items: center;
         .btn {
-          margin-top: 40px;
-          margin-bottom: 40px;
+          margin: 40px auto;
           display: flex;
           .cancel {
             width: 139px;

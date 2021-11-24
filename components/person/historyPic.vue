@@ -23,7 +23,7 @@
         >
           <div
             class="picitem"
-            style="display:inline-block;"
+            style="display: inline-block"
             v-for="(item3, index3) in item2.imgUrl
               ? item2.imgUrl.split(',')
               : []"
@@ -138,6 +138,19 @@ export default {
             obj.piclist = likeList;
             this.imglist.push(obj);
           });
+          //为相同年月的一组数据添加一个date属性,值为相同的年月
+          this.imglist.forEach((item1) => {
+            if (item1.piclist.length > 0) {
+              this.$set(item1, "date", item1.piclist[0].imgDate.slice(0, 7));
+            }
+          });
+          //排序
+          this.imglist = this.imglist.sort(function (a, b) {
+            let x = a.date;
+            let y = b.date;
+            return y < x ? -1 : x > y ? 1 : 0; //从小到大排序
+          });
+
           console.log("二维目标数组", this.imglist);
         });
     },
