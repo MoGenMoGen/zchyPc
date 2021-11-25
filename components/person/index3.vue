@@ -260,7 +260,7 @@
         justify-content: space-around;
         flex-direction: column;
         .button3{
-          width: 74px;
+          width: 84px;
           height: 31px;
           background-color: #2778BE;
           color: #FFFFFF;

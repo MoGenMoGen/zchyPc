@@ -297,7 +297,7 @@
   }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   .content1{
     .btnList{
       display: flex;

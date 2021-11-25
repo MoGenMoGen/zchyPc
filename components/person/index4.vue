@@ -434,7 +434,7 @@
   };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   .content1 {
     .btnList {
       display: flex;
@@ -442,7 +442,7 @@
       flex-direction: column;
 
       .button3 {
-        width: 74px;
+        width: 84px;
         height: 31px;
         background-color: #2778be;
         color: #ffffff;
