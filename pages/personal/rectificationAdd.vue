@@ -164,7 +164,7 @@
             </div>
             <div class="listContent">
               <div class="listLeft">
-                整改责任人签字：
+                整改责任人：
               </div>
               <div class="listRight">
                 <input type="" name="" id="" value="" placeholder="请签字" v-model="rectifyerSign" />
@@ -238,7 +238,7 @@
                 </div> -->
             <div class="listContent">
               <div class="listLeft">
-                复查人签字：
+                复查人：
               </div>
 
 
