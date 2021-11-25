@@ -152,8 +152,8 @@
           <el-table-column align="center" width="110" fixed="right" prop="operations" label="操作">
             <div class="btnList" slot-scope="scope">
               <!-- depositStatus：1不需要缴纳，2需缴未缴，3已缴纳，4已退还 -->
-              <button class="button3" v-if="scope.row.depositStatus==2&&returnDate(2,scope.row.bidEndTm)" @click="openBail(scope.row)" style="font-size: 12px;">保证金上传</button>
-              <button class="button3" v-if="scope.row.depositStatus==3" @click="openBail(scope.row)" style="font-size: 12px;">查看保证金</button>
+              <button class="button3" v-if="scope.row.depositStatus==2&&returnDate(2,scope.row.bidEndTm)" @click="openBail(scope.row)">保证金上传</button>
+              <button class="button3" v-if="scope.row.depositStatus==3" @click="openBail(scope.row)">查看保证金</button>
               <!-- bidDecideTm：定标时间 ，returnDate(2,scope.row.bidEndTm)：当前时间是否小于截标时间，scope.row.offer：投标报价内容-->
               <button class="button3" v-if="!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)&&!scope.row.offer" @click="openOffer(scope.row)">资料上传</button>
               <button class="button3" v-if="scope.row.offer" @click="openOffer(scope.row)">查看资料</button>
@@ -730,6 +730,48 @@
       }
     }
   }
-
+  .btnList {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+  
+    .button3 {
+      width: 84px;
+      height: 31px;
+      background-color: #2778BE;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 3px;
+      margin-bottom: 15px;
+      cursor: pointer;
+    }
+  
+    .disable {
+      background-color: #999999;
+    }
+  
+    .button4 {
+      border: none;
+      width: 84px;
+      height: 31px;
+      color: #2778BE;
+      font-size: 15px;
+      background-color: #FFFFFF;
+      margin-top: 5px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+  
+    .button2 {
+      width: 84px;
+      height: 31px;
+      background-color: #FFFFFF;
+      color: #2778BE;
+      border-radius: 3px;
+      border: 1px solid #2778BE;
+      cursor: pointer;
+  
+    }
+  }
 
 </style>
