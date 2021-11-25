@@ -3,8 +3,8 @@
 <div id="home">
   <div class="allDetail">
     <p>总金额：<span class="red">￥{{totalPrice}}元</span></p>
-    <p>已付金额：<span class="red">￥{{paid}}元</span></p>
-    <p>未付金额：<span class="red">￥{{npaid}}元</span></p>
+    <p>已付总金额：<span class="red">￥{{paid}}元</span></p>
+    <p>未付总金额：<span class="red">￥{{npaid}}元</span></p>
   </div>
   <div class="ctDetail" v-for="(item,index) in ctList" :key="index" @click="toDetail(item.id)">
     <div class="ctDetail-left">
