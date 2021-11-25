@@ -12,7 +12,7 @@
         <!-- <img :src="info.imgList? info.imgList[0] : info.imgUrl" > -->
       </div>
       <div class="th2">
-        <p>船舶编号：<span style="color: #2778BE;font-weight: bold ">{{info.cd}}</span></p>
+        <p style="display: flex;align-items: center;">船舶编号：<span style="color: #2778BE;font-weight: bold ">{{info.cd}}</span><img class="img2" :src="VRImg" @click.stop="toVR(info.id)" v-if="info.vrUrl"></p>
         <p>船舶名称：<span>{{info.nm}}</span></p>
         <!--<p>整船金额：<span>￥{{info.totalPrice}}/艘</span></p>-->
         <p>船舶状态：<span style="color: #2778BE;">{{info.statusNm}}</span></p>
@@ -153,6 +153,7 @@
 </template>
 
 <script>
+	import VRImg from '../../assets/img/personal/VR2.png'
     export default {
         name: "fangansheji",
         props:{
@@ -163,6 +164,7 @@
         },
         data(){
             return{
+              VRImg,
               info:{},
               paraList:[],
               qrCode:'',
@@ -183,6 +185,9 @@
 
             // console.log(this.paraList)
           },
+          toVR(id){
+            window.open('./mframe?typeCd=1&id='+id)
+          }
         }
 
     }
@@ -209,6 +214,12 @@
       flex-direction: column;
       justify-content: space-between;
       margin-left: 10px;
+      .img2 {
+        width: 60px;
+        height: 22px;
+        margin-left: 10px;
+        cursor: pointer;
+      }
     }
     .th3{
       p:nth-of-type(2){

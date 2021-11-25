@@ -22,7 +22,7 @@
         </div>
         <div class="cont-2 main" :style="{width:width+'px'}">
           <div class="cont-2-1">
-            <div>{{info ? info.nm : ''}}</div>
+            <div style="display: flex;align-items: center;">{{info ? info.nm : ''}}<img class="img2" :src="VRImg" @click.stop="toVR(info.id)" v-if="info.vrUrl"></div>
             <div>
               <p @click="toCollect"><img :src="info.collected ? collected : noCollect" >收藏</p>
               <share></share>
@@ -54,10 +54,12 @@
   import moreIc from '../../assets/img/shipDisplay/更多.png'
   import collected from '@/assets/img/proDetail/collected.png'
   import noCollect from '@/assets/img/proDetail/noCollect.png'
+  import VRImg from '../../assets/img/personal/VR.png'
     export default {
         name: "shipCat",
         data(){
             return{
+              VRImg,
               collected,
               noCollect,
               moreIc,
@@ -178,6 +180,9 @@
           // 确认弹窗回调
           this.show = false
         },
+        toVR(id){
+          window.open('./mframe?typeCd=1&id='+id)
+        }
       },
 
     }
@@ -276,6 +281,10 @@
               margin-right: 5px;
             }
           }
+        }
+        .img2 {
+          margin-left: 10px;
+          cursor: pointer;
         }
       }
       .cont-2-2{

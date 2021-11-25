@@ -85,6 +85,7 @@
           <p class="dt">{{proType==='ship'?'参考价 : ':'产品价格 :'}}</p>
           <p class="price" v-show="currentInfo.origPrice!=price">￥{{currentInfo.origPrice}}</p>
           <p class="price" v-show="currentInfo.origPrice==price">价格面议</p>
+          <!-- <img class="img2" :src="VRImg" @click.stop="toVR(info.id)" v-if="info.vrUrl"> -->
           <!--<p class="special_item_price" >￥{{currentInfo.mktPrice}}</p>-->
 
           <el-row style="margin-top: 15px" v-if="info.gift === 1">
@@ -194,6 +195,7 @@
   import noCollect from '@/assets/img/proDetail/noCollect.png'
   import shop from '@/assets/img/proDetail/shop.png'
   import start from '@/assets/img/proDetail/start.png'
+  import VRImg from '../../assets/img/personal/VR.png'
   // import Vue from 'vue'
   // import vueQr from 'vue-qr'
   // import test from '@/components/test'
@@ -210,6 +212,7 @@
     },
     data() {
       return {
+		  VRImg,
         id: '',
         showShare:false,
         loginShow:false,
@@ -449,6 +452,7 @@
       async getData() {
         if (this.proType === 'ship') {  //在线交易 船舶详情
           this.info = await this.api.tradeShipDetail(this.id)
+          console.log(11,this.info)
         } else if (this.proType === 'manage') { //船舶管理 船舶详情
           this.info = await this.api.shipDetail(this.id)
         }else { //产品详情
@@ -601,7 +605,10 @@
       },
       toPage(url) {
         this.$router.push(url)
-      }
+      },
+	  toVR(id){
+	    window.open('./mframe?typeCd=1&id='+id)
+	  }
     }
   }
 </script>
