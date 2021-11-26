@@ -38,6 +38,7 @@
            <p><img :src="cart"/><span>{{cartNum>99?'99+':cartNum}}</span> </p>
           <span>购物车</span>
         </div>
+        <img :src="menuService" style="width: 24px;height: 24px;margin-left: 20px;" @click="openService">
       </div>
       <div class="nav" v-show="ifMenu">
          <nav :style="{width:width+'px'}" class="main">
@@ -75,10 +76,12 @@
   import jian from '@/assets/img/箭头.png'
   import logo from '@/assets/img/logo.png'
   import {mapState} from "vuex";
+  import menuService from './img/menuService2.png'
   export default {
     props:[],
     data(){
       return{
+        menuService,
         register,
         user,
         msgI,
@@ -299,6 +302,9 @@
       this.getInfoTab()
     },
     methods:{
+      openService() {
+        ysf('open')
+      },
       //鼠标滑动弹出弹框
       changeLiTrans(index,type) {
         this.navList[index].ifShow = type ? true : false
