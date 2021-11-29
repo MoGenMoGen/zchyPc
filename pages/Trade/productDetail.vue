@@ -3,7 +3,9 @@
   <div id="home">
     <div v-if="showShare" id="pop">
       <div class="pup">
-        <vue-qr :text="url" :size="150" :margin="8"></vue-qr>
+        <div>
+          <vue-qr :text="url" :size="150" :margin="8"></vue-qr>
+        </div>
         <i class="el-icon-close" @click="showShare = false"></i>
       </div>
     </div>
@@ -66,13 +68,16 @@
         </div>
         <!--底部 按钮 二维码-->
         <div class="QRcode">
-          <div class="leftButton">
+          <div class="leftButton"  v-if="info.shopNm">
             <button class="button1" @click="toPage('./storeHome?shopId='+info.shopId+'&tabId=0')"><p><img :src="info.shopImg"/></p>{{info.shopNm}}</button>
             <button class="button2" @click="toShop(info.shopId)"><img :src="shop"/>进店逛逛</button>
             <button class="button3" @click="follow"><img :src="start"/>{{info.isFollow ? '已关注' : '关注店铺'}}</button>
           </div>
           <div class="rightButton">
-            <vue-qr :text="url" :size="150" :margin="8"></vue-qr>
+            <!--在vue-qr外面再加一个div，用以防止生命周期加载两次-->
+            <div>
+              <vue-qr :text="url" :size="150" :margin="8"></vue-qr>
+            </div>
             <p>手机下单</p>
           </div>
         </div>
@@ -85,8 +90,6 @@
           <p class="dt">{{proType==='ship'?'参考价 : ':'产品价格 :'}}</p>
           <p class="price" v-show="currentInfo.origPrice!=price">￥{{currentInfo.origPrice}}</p>
           <p class="price" v-show="currentInfo.origPrice==price">价格面议</p>
-          <!-- <img class="img2" :src="VRImg" @click.stop="toVR(info.id)" v-if="info.vrUrl"> -->
-          <!--<p class="special_item_price" >￥{{currentInfo.mktPrice}}</p>-->
 
           <el-row style="margin-top: 15px" v-if="info.gift === 1">
             <el-col :span="2">
@@ -179,7 +182,7 @@
     </div>
     <!--商品详细信息栏-->
     <div class="detail main" :style="{width:width+'px'}">
-      <pro-detail :info="info" ref="shipDetail" @setType="setType"></pro-detail>
+      <pro-detail :info="info" ref="shipDetail" @setType="setType" v-if="info.id"></pro-detail>
     </div>
 
   </div>
@@ -296,7 +299,6 @@
           this.currentInfo = this.info.skus.find(item => item.skuAttr == this.currentSpecs)
           this.getSkuParts()
           if (this.currentInfo && this.proType == 'ship' && this.currentInfo.shipId) {
-            // console.log('嘻嘻嘻')
             this.$refs.shipDetail.getInfo(this.currentInfo.shipId)
           }
         },
@@ -340,8 +342,6 @@
       // arr.push(await context.app.api.proDetailLook(id))
       // arr.push(await context.app.api.shopIntro(info.shopId))
       // return
-      console.log('asyncData')
-      console.log(info)
       return {
         info:JSON.stringify(info),
         arr:arr,
@@ -349,12 +349,10 @@
       }
     },
     mounted() {
-      // this.id = this.until.getQueryString('id')
-      // console.log('详情=================== =')
+      console.log('详情=================== =')
       this.id = this.$route.query.id
       this.proType = this.$route.query.type
       this.url = window.location.origin+'/mob/views/trading/shipDetail.html?id='+this.id
-      // console.log(this.url)
       this.shareUrl = window.location.origin+'/sinovat2/login/register'
 
 
@@ -362,18 +360,14 @@
     },
     methods: {
       setType(info){
-          console.log("设置类别",info.typesNm)
          this.info.typesNm = info.typesNm
       },
       //提交
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
-          // console.log(valid)
           if (valid) {
-            // console.log('==============')
             this.store.commit('changeLoading',true)
             this.api.login(this.ruleForm).then(res=>{
-              // console.log(res)
               this.store.commit('token',res.token)
               this.store.commit('userInfo',res.userInfo)
               this.until.seSave('token',res.token)
@@ -386,7 +380,6 @@
               this.loginShow=false
             })
           } else {
-            // console.log('error submit!!');
             return false;
           }
         });
@@ -452,13 +445,11 @@
       async getData() {
         if (this.proType === 'ship') {  //在线交易 船舶详情
           this.info = await this.api.tradeShipDetail(this.id)
-          console.log(11,this.info)
         } else if (this.proType === 'manage') { //船舶管理 船舶详情
           this.info = await this.api.shipDetail(this.id)
         }else { //产品详情
           this.info = await this.api.productDetail(this.id)
         }
-        console.log("产品详情",this.info)
         this.imgList = this.info.imgUrl ? this.info.imgUrl.split(',') : []
         this.imgList.forEach((item, index) => {
           if (!item) {
@@ -477,11 +468,8 @@
       },
       //获取对应配件
       async getSkuParts(){
-        console.log('获取配件信息')
-        console.log(this.currentInfo.skuId)
         // this.currentInfo.skuId='5329947234341888'
         let data = await this.api.getPartsList(this.currentInfo.skuId)
-        console.log(data)
         this.pratsList=data
 
         // this.pratWidth = this.$refs.pratthumbImg.offsetWidth
@@ -496,7 +484,6 @@
       //加入购物车
       toAddCart() {
         if (!this.ifLogin) {
-          // console.log('没有登录')
           this.loginShow=true
           // this.$confirm('您未登录，立即登录?', '提示', {
           //   confirmButtonText: '确定',
@@ -519,9 +506,7 @@
           goodsSkuId: this.currentInfo.skuId,
           qty: this.num
         }
-        // console.log(param)
         this.api.addCart(param).then(() => {
-			// console.log('掉接口')
           this.$message({
             message: '加入购物车成功！',
             type: 'success'

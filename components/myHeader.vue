@@ -288,17 +288,18 @@
       ])
     },
    async mounted(){
-     // console.log('消息数量'+this.msgNum)
+      console.log('header')
       this.ifTransIndex = window.location.pathname.indexOf('Trade/onlinetrading')>-1 ? true :false
       let arr = this.until.getQueryString('selectCheck')
       if(!this.arr){
         this.selectCheck =arr
+      }else {
+        this.getKeyWords()
       }
       let logo = await this.api.getAdert('logo')
       this.logoNew = logo[0].imgUrl
       this.getList()
       this.setMenu()
-      this.getKeyWords()
       this.getInfoTab()
     },
     methods:{
@@ -386,7 +387,6 @@
       setMenu(){
         let arr = this.$route.path.split('/')
         this.currentCd = arr[1] ? arr[1] : 'index'
-        console.log(this.currentCd)
         if(arr[1]=='order' || arr[2]=='storeHome' || arr[2]=='productDetail'){
           this.ifMenu = false
         }else {
