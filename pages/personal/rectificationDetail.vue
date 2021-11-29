@@ -64,7 +64,11 @@
       </div>
     </div>
     <div class="content">
-      <div class="contitle">整改单<span class="sontitle"></span></div>
+      <div class="contitle">
+        <span>最新整改情况</span><span class="sontitle"></span>
+      </div>
+      <h3 style="padding: 16px 0px 0px 10px">下发内容</h3>
+
       <div class="conwrapper">
         <div style="display: flex">
           <div class="lefttextpart">
@@ -141,6 +145,65 @@
           </div>
         </div>
       </div>
+      <div v-if="info.rectifyReport" style="padding-bottom: 10px">
+        <h3 style="padding: 0px 0px 20px 10px">整改上报内容</h3>
+        <div
+          class="itemstyle"
+          style="
+            padding-bottom: 2px;
+            font-size: 15px;
+            margin-bottom: 5px;
+            padding-left: 30px;
+          "
+        >
+          整改上报：
+          <span
+            style="
+              margin-left: 5px;
+              font-size: 14px;
+              font-weight: 400;
+              white-space: pre-line;
+            "
+            >{{ info.rectifyReport }}</span
+          >
+        </div>
+        <div
+          style="
+            padding-bottom: 2px;
+            font-size: 15px;
+            margin-bottom: 5px;
+            padding-left: 30px;
+          "
+        >
+          执行图片：
+        </div>
+        <div v-viewer class="problempiclist" style="padding-left: 30px">
+          <img
+            class="dangerpic"
+            :src="item3"
+            v-for="(item3, index3) in (info.rectifyImg ? info.rectifyImg : '')
+              .split(',')
+              .filter((item4) => item4 != '')"
+            :key="index3"
+          />
+        </div>
+        <div
+          style="
+            padding-bottom: 2px;
+            font-size: 15px;
+            margin-bottom: 5px;
+            padding-left: 30px;
+          "
+        >
+          整改日期:
+          <span
+            v-if="info.rectifyTm"
+            style="margin-left: 5px; font-size: 14px; font-weight: 400"
+            >{{ info.rectifyTm.slice(0, 10) }}</span
+          >
+        </div>
+      </div>
+
       <div class="contitle">整改执行情况<span class="sontitle"></span></div>
       <!-- 船厂待执行开始 -->
       <div
@@ -242,7 +305,6 @@
           :key="index"
         >
           <img
-            v-if="reissueList.length > 0"
             style="
               position: absolute;
               top: 16px;
@@ -304,7 +366,7 @@
                 :key="index1"
               />
             </div>
-            <div
+            <!-- <div
               style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px"
             >
               下发日期:
@@ -313,7 +375,7 @@
                 v-if="item.issueTm"
                 >{{ item.issueTm.slice(0, 10) }}</span
               >
-            </div>
+            </div> -->
             <!-- <div
               style="
                 padding-bottom: 2px;
@@ -361,7 +423,7 @@
                   font-weight: 400;
                   white-space: pre-line;
                 "
-                >{{ item.reissueReport }}</span
+                >{{ item.rectifyDemand }}</span
               >
             </div>
             <div v-viewer class="problempiclist">
@@ -458,7 +520,7 @@
             >
               整改日期:
               <span
-                v-if="info.rectifyTm"
+                v-if="item.rectifyTm"
                 style="margin-left: 5px; font-size: 14px; font-weight: 400"
                 >{{ item.rectifyTm.slice(0, 10) }}</span
               >
@@ -505,7 +567,19 @@
               info.closeReport
             }}</span>
           </div>
-          <div class="itemstyle">签发人： {{ info.closeUserNm }}</div>
+          <div
+            class="itemstyle"
+            v-if="info.reviewerSign && info.reviewerSign.includes('http')"
+          >
+            签发人：
+            <img
+              :src="info.reviewerSign"
+              alt=""
+              style="object-fit: fill; width: 60px; height: 40px"
+              v-viewer
+            />
+          </div>
+          <div class="itemstyle" v-else>签发人： {{ info.closeUserNm }}</div>
           <div class="itemstyle">
             确认日期：{{ info.closeDate.slice(0, 10) }}
           </div>
@@ -599,6 +673,7 @@ export default {
     let data = await this.api.getRectifyDetail(this.id);
     this.info = data.shipDocsRectifyVo;
     this.reissueList = data.reissueList;
+    this.reissueList.pop();
     this.reissueList.forEach((item) => {
       this.$set(item, "isshow", true);
     });
@@ -694,16 +769,18 @@ export default {
           this.reissueList.forEach((item) => {
             this.$set(item, "isshow", true);
           });
+          this.Issueshow = false;
         } else {
           this.$message.error("再次下发失败");
         }
-        this.Issueshow = false;
       }
     },
     // 整改上报
     async handleRectifyReport() {
       if (!this.info.rectifyReport) {
         this.$message.error("整改内容不能为空");
+      } else if (!this.info.rectifyImg) {
+        this.$message.error("执行图片不能为空");
       } else {
         let obj = {};
         //再下发说明列表
@@ -730,6 +807,7 @@ export default {
           let data = await this.api.getRectifyDetail(this.id);
           this.info = data.shipDocsRectifyVo;
           this.reissueList = data.reissueList;
+          this.reissueList.pop();
           this.reissueList.forEach((item) => {
             this.$set(item, "isshow", true);
           });
@@ -756,6 +834,7 @@ export default {
           let data = await this.api.getRectifyDetail(this.id);
           this.info = data.shipDocsRectifyVo;
           this.reissueList = data.reissueList;
+          this.reissueList.pop();
           this.reissueList.forEach((item) => {
             this.$set(item, "isshow", true);
           });
@@ -876,7 +955,7 @@ export default {
     .conwrapper {
       width: 100%;
       box-sizing: border-box;
-      padding: 22px 0 22px 34px;
+      padding: 8px 0 7px 34px;
       .item_border {
         position: relative;
         min-height: 35px;

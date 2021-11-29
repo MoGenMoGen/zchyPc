@@ -8,7 +8,8 @@
         <p>船舶状态：<span style="color: #2778BE">{{shipStatus}}</span></p>
       </div>
       <div v-for="(item,index) in info" :key="index" class="comBox">
-        <img :src="item.logo">
+        <img :src="item.logo" v-if="item.logo">
+        <div v-else style="width:100px;height:66px;"></div>
         <p>{{item.unitNum==0?"检验机构：":"检测单位："}}<span>{{item.company}}</span></p>
       </div>
     </div>

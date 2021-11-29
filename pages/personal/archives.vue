@@ -85,7 +85,7 @@
       <jianyanjiance v-if="tab2Id == 23"></jianyanjiance>
       <!-- 合同列表 -->
       <contract v-if="tab2Id == 24"></contract>
-      <!-- 历史图片 -->
+      <!-- 历史资料 -->
       <history-pic v-if="tab2Id == 25"></history-pic>
     </div>
     <div class="line4">
@@ -236,7 +236,7 @@ export default {
         },
         {
           id: 25,
-          nm: "历史图片",
+          nm: "历史资料",
         },
       ],
       tab23: [

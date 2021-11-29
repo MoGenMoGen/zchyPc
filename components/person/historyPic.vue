@@ -14,8 +14,8 @@
           />
         </div>
       </div>
-         
-      <div class="picbox" v-if="item1.isshow"  v-viewer>
+
+      <div class="picbox" v-if="item1.isshow" v-viewer>
         <div
           class="picitem"
           v-for="(item2, index2) in item1.piclist"
@@ -29,9 +29,16 @@
               : []"
             :key="index3"
           > -->
-            <img :src="item2.imgUrl" alt="" style="cursor: pointer" />
-            <p class="desc">{{ item2.name }}</p>
-            <p class="date">{{ item2.imgDate }}</p>
+          <img
+            :src="item2.previewUrl"
+            alt=""
+            style="cursor: pointer"
+            v-if="item2.previewUrl"
+            @click.stop="toOpen(item2.imgUrl)"
+          />
+          <img :src="item2.imgUrl" alt="" style="cursor: pointer" v-else />
+          <p class="desc">{{ item2.name }}</p>
+          <p class="date">{{ item2.imgDate }}</p>
           <!-- </div> -->
         </div>
       </div>
@@ -53,6 +60,10 @@
 
 <script>
 import pic from "@/assets/img/pilotService/玻璃钢休闲渔船.png";
+import excel from "@/assets/img/personal/excel.png";
+import ppt from "@/assets/img/personal/ppt.png";
+import word from "@/assets/img/personal/word.png";
+import pdf from "@/assets/img/personal/pdf.jpg";
 export default {
   name: "historyPic",
   data() {
@@ -68,6 +79,10 @@ export default {
       // 存所有数据放一维数组，用于过渡
       List: [],
       imglist: [],
+      excel,
+      ppt,
+      word,
+      pdf,
     };
   },
   created() {
@@ -109,6 +124,23 @@ export default {
           this.total = res.page.total;
           console.log("res", res.data.list);
           this.List = [...this.List, ...res.data.list];
+          //处理有文件的情况
+          this.List.forEach((item) => {
+            let type =
+              item.imgUrl.split(".")[item.imgUrl.split(".").length - 1];
+            if (type == "pdf") {
+              this.$set(item, "previewUrl", this.pdf);
+            } else if (type == "doc" || type == "docx") {
+              this.$set(item, "previewUrl", this.word);
+            } else if (type == "ppt" || type == "pptx") {
+              this.$set(item, "previewUrl", this.ppt);
+            } else if (type == "xls" || type == "xlsx") {
+              this.$set(item, "previewUrl", this.excel);
+            } else {
+              //图片不做处理
+            }
+          });
+
           console.log("一维全部展示数组", this.List);
           // 先去重再合并
           // 去重相同年月后的数组
@@ -153,6 +185,9 @@ export default {
 
           console.log("二维目标数组", this.imglist);
         });
+    },
+    toOpen(url) {
+      window.open(url);
     },
   },
 };

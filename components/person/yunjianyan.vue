@@ -3,7 +3,7 @@
 
   <div class="container">
     <!-- 表头 -->
-    <div class="th" >
+    <div class="th">
       <div>序号</div>
       <div>检查起止时间</div>
       <div>检查时长</div>
@@ -13,13 +13,14 @@
       <div v-if="currentRole && currentRole.identityCd == 'identity50'">
         检验入口
       </div>
+      <div>整改单</div>
       <div>备注</div>
     </div>
     <!-- 表格 -->
     <div class="td">
       <div
         class="th"
-        style="height: 77px;background:#fff;border-bottom:1px solid #dfdfdf;"
+        style="height: 77px; background: #fff; border-bottom: 1px solid #dfdfdf"
         v-for="(item, index) in List"
         :key="index"
       >
@@ -62,13 +63,30 @@
               left: 50%;
               top: 50%;
               transform: translate(-50%, -50%);
+              border-radius: 5px;
             "
             @click="tofpxpert"
           >
             检验入口
           </div>
         </div>
-
+        <div >
+           <div
+          style="
+          margin:0 auto;
+            padding: 5px;
+            width: 60px;
+            font-size: 15px;
+            color: #fff;
+            background-color: #2778be;
+            border-radius: 5px;
+            cursor: pointer;
+          "
+        >
+          新增
+        </div>
+        </div>
+       
         <div>{{ item.rmks }}</div>
       </div>
     </div>
@@ -129,9 +147,10 @@ export default {
       let uid = "";
       let ps = "";
       let server = "www.fpxpert.cn";
-      let url = encodeURI(
-        `esfp://login?uid=${uid}&password=${ps}&server=${server}`
-      );
+      // let url = encodeURI(
+      //   `esfp://login?uid=${uid}&password=${ps}&server=${server}`
+      // );
+      let url = encodeURI("esfp://");
       window.location.replace(url);
     },
   },
@@ -181,6 +200,10 @@ export default {
       text-align: center;
     }
     div:nth-of-type(7) {
+      flex: 2;
+      text-align: center;
+    }
+    div:nth-of-type(8) {
       flex: 2;
       text-align: center;
     }

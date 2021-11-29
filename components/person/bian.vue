@@ -202,10 +202,11 @@
           margin-top: 5px;
           // width: 120px;
           display: flex;
+          align-items: center;
           cursor: pointer;
           img{
-            width: 14px;
-            height: 14px;
+            width: 50px;
+            height: 50px;
             margin-right: 3px;
             display: block;
             &:hover{

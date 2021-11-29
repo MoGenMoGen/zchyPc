@@ -25,12 +25,12 @@
       <div class="search">
         <p @click="Search">查询</p>
         <!-- 检验检测机构 -->
-        <p
+        <!-- <p
           @click="toAdd"
           v-if="currentRole && currentRole.identityCd == 'identity50'"
         >
           新增整改单
-        </p>
+        </p> -->
       </div>
     </div>
     <div class="line2">
@@ -105,7 +105,7 @@
         style="width: 100%"
         @row-click="toRectifydetail"
       >
-        <el-table-column prop="cd" min-width="150" label="整改单号">
+        <el-table-column prop="nm" min-width="150" label="整改名称" show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           min-width="200"
