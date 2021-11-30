@@ -2,6 +2,8 @@
 <!--首页-->
 <div id="home" :style="{width:bWidth+'px'}">
   <Role  :show="show" :title="title" @hideModal="hideModal" @submit="submit" ></Role>
+  <tips v-if="isShowTips" @hideTips="hideTips"></tips>
+  <p style="text-align: right;margin: 10px auto 0;" :style="{width:width+'px'}">您尚未入驻，点击查看<span style="color: #E4393C;cursor: pointer;text-decoration:underline;" @click="showTips">入驻说明</span>，若有疑问可询问在线客服！</p>
   <div class="container" :style="{width:width+'px'}">
     <div class="personMain">
       <div id="left">
@@ -203,16 +205,18 @@
   import im5 from "../../assets/img/personal/首页/我的预约.png";
   import im6 from "../../assets/img/personal/首页/选型记录.png";
   import Role from "../../components/person/role";
+  import tips from "../../components/person/tips";
   export default {
     name: "shipowner",
     components: {
       Role,
       leftMenu1,leftMenu2,leftMenu3,leftMenu4,leftMenu5,leftMenu6,leftMenu7,leftMenu8,leftMenu9,
       index1,index2,index3,index4,index5,index6,index7,index8,index9,
-      featured
+      featured,tips
     },
     data(){
       return {
+        isShowTips: false,
         coll:0, //收藏总数
         subscrN:0,//我的预约总数
         recordN:0,//选型报价总数
@@ -394,6 +398,12 @@
           type: 'success',
           duration:1500
         });
+      },
+      showTips() {
+        this.isShowTips = true
+      },
+      hideTips() {
+        this.isShowTips = false
       }
     },
   }
