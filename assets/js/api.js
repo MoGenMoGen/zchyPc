@@ -2630,9 +2630,17 @@ class api {
     })
   }
   //获取整改单位
-  getRecitifyList(query) {
+  getRecitifyList(data) {
     return new Promise(resolve => {
-      get('/ship/orgEnter/api/list?query=' + query).then(res => {
+      get('/ship/orgEnter/getOrg?docsId=' + data).then(res => {
+        resolve(res)
+      })
+    })
+  }
+  //获取检验检测机构
+  getRecitifyListTest(data) {
+    return new Promise(resolve => {
+      get('/ship/orgEnter/getOrgTest?docsId=' + data).then(res => {
         resolve(res)
       })
     })
@@ -2803,6 +2811,14 @@ class api {
   getCloudTestAdoptList(data){
     return new Promise(resolve => {
       get("/ship/docsInsp/apis/page?query="+data).then(res=>{
+        resolve(res)
+      })
+    })
+  }
+  //云检验详情
+  getDocsInspDetail(data){
+    return new Promise(resolve => {
+      get("/ship/docsInsp/apis/info/"+data).then(res=>{
         resolve(res)
       })
     })

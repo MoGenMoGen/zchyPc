@@ -107,8 +107,8 @@
               <el-form-item style="margin-bottom: -20px;">
                 <el-upload ref="upload" action="/general/oss/upload" accept="image/png,image/gif,image/jpg,image/jpeg"
                   list-type="picture-card" :auto-upload="true" :before-upload="handleBeforeUpload"
-                  :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :on-success="handSuccess" multiple>
-
+                  :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :on-success="handSuccess" multiple
+                  :file-list="picList">
                   <i class="el-icon-plus"></i>
                 </el-upload>
                 <el-dialog :visible.sync="dialogVisible">
@@ -180,7 +180,7 @@
                 </el-date-picker>
               </div>
             </div>
-            <!--  <div class="listContent">
+             <div class="listContent">
                   <div class="listLeft">
                     检验检测单位：
                   </div>
@@ -190,7 +190,7 @@
                      </el-option>
                    </el-select>
                   </div>
-                </div> -->
+                </div>
             <!--      <div class="listContent" style="align-items: flex-start;">
                   <div class="listLeft" style="line-height: 40px;">
                     复查情况:
@@ -320,7 +320,7 @@
         reviewSituation: "", //复查情况
         mechanism: "", //检验检测机构
         mechanismId: '',
-
+        doscId:'',
         reviewTime: '', //复查日期
         rectifyTime: '', //整改日期
         rectificationName: '', //整改名称
@@ -331,29 +331,41 @@
         people: "", //责任整改人
         imgList: [],
         currentRoleId: '',
-
+        picList:[],
+        id:'',
 
       }
     },
     layout: 'person',
     async mounted() {
+      this.id=this.until.getQueryString('inspId')
       this.api.getCd().then(res => {
         this.danhao = res
       })
+      this.api.getDocsInspDetail(this.id).then(res=>{
+        let urlStr=res.data.imgUrl.split(",")
+        this.doscId=res.data.docsId
+        console.log(1111,this.doscId);
+       urlStr.forEach(item => {
+                  let obj = new Object();
+                  obj.url = item;
+                  this.picList.push(obj);
+                  this.imgList.push(obj)
+                });
+            this.imgList.forEach(item=>{
+              item.newImg=item.url
+            })
+         this.api.getRecitifyList(this.doscId).then(res => {
+           this.options = res.data.list
+           console.log("看一看", this.options);
+         })
+         this.api.getRecitifyListTest(this.doscId).then(res => {
+           this.optionsThree = res.data.list
+         })
+      })
       this.currentRoleId = JSON.parse(this.until.seGet('currentRole')).id
-      let qry1 = this.query.new()
-      let qry3 = this.query.new()
-      this.query.toW(qry1, 'identityCd', 'identity30', 'EQ')
-      this.query.toW(qry1, 'audit', '2', 'EQ')
-      this.query.toW(qry3, 'identityCd', 'identity50', 'EQ')
-      this.query.toW(qry3, 'audit', '2', 'EQ')
-      this.api.getRecitifyList(this.query.toEncode(qry1)).then(res => {
-        this.options = res.data.list
-        console.log("看一看", this.options);
-      })
-      this.api.getRecitifyList(this.query.toEncode(qry3)).then(res => {
-        this.optionsThree = res.data.list
-      })
+
+
 
     },
     computed: {
@@ -384,9 +396,9 @@
       clearAll() {
         this.optionsTwo = []
       },
-      // pick2(id){
-      //   this.mechanismId=id
-      // },
+      pick2(id){
+        this.mechanismId=id
+      },
       pick3(index) {
         this.rectifyer = this.optionsTwo[index].id
         this.people = this.optionsTwo[index].realNm
@@ -416,7 +428,6 @@
         // for (let i = 0; i < fileList.length; i++) {
         //   this.imgList.push(fileList[i].response.data)
         // }
-          console.log(this.imgList);
       },
       handlePictureCardPreview(file) {
         this.dialogImageUrl = file.url;
@@ -429,8 +440,12 @@
       handSuccess(response, file, fileList) {
       this.imgList=fileList
       this.imgList.forEach(item=>{
-        item.newImg=item.response.data
-
+        if(item.response){
+          item.newImg=item.response.data
+        }
+       else{
+         item.newImg=item.url
+       }
       })
         // for (let i = 0; i < fileList.length; i++) {
         //   this.imgList.push(fileList[i].response.data)
@@ -475,9 +490,8 @@
         let month = this.reviewTime.getMonth() + 1
         let date = this.reviewTime.getDate()
         this.reviewTime = year + '-' + month + '-' + date
-        console.log("时间", this.reviewTime);
         // this.$refs.upload.submit()
-
+        console.log(789,this.imgList)
         this.nextShow = true
 
       },
@@ -496,9 +510,10 @@
           this.$message.error('复查日期未选');
           return false
         }
-
-
-
+        if (this.mechanismId == '') {
+          this.$message.error('检验检测机构未选');
+          return false
+        }
         if (this.reviewerSign == '') {
           this.$message.error('复查人未签字');
           return false
@@ -508,22 +523,22 @@
           troubleImg.push(item.newImg)
         })
         let info = {
-          docsId: 0,
+          docsId: this.doscId,
           cd: this.danhao,
           nm: this.rectificationName,
           orgEnterId: this.rectificationCompanyId,
-          orgTestEnterId: this.currentRoleId,
+          // orgTestEnterId: this.currentRoleId,
           inspArea: this.inspArea,
           rectifyer: this.rectifyer,
           explains: this.dangerDescription,
           rectifyDemand: this.requirement,
-
           troubleImg: troubleImg.join(','),
           rectifyerSign: this.rectifyerSign,
-
           rectifyTmLimit: this.pickTime,
           reviewerTm: this.reviewTime,
           reviewerSign: this.reviewerSign,
+          orgTestEnterId:this.mechanismId,
+          docsInspId:this.id,
           rmks: "",
         }
         this.api.rectifyAdd(info).then(res => {
