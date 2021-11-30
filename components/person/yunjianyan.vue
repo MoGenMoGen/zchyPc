@@ -2,6 +2,108 @@
   <!-- 云检验组件 -->
 
   <div class="container">
+    <!-- 整改单子列表 -->
+    <div id="mask" @click="closeMask" v-if="showRectifyList">
+      <div class="table_box" @click.stop="">
+        <div class="top">
+          <p style="font-size: 20px">整改单列表</p>
+          <img
+            @click="closeMask"
+            src="~assets/img/close.png"
+            style="width: 25px; height: 25px"
+            alt=""
+          />
+        </div>
+        <el-table
+          :data="List"
+          :cell-style="{
+            'text-align': 'center',
+            color: '#333',
+            'font-weight': '500',
+          }"
+          :header-cell-style="{
+            color: '#606060',
+            background: '#f8f8f8',
+            'text-align': 'center',
+          }"
+          style="width: 100%"
+          @row-click="toRectifydetail"
+        >
+          <el-table-column
+            prop="nm"
+            min-width="150"
+            label="整改名称"
+            show-overflow-tooltip="true"
+          >
+          </el-table-column>
+          <el-table-column
+            min-width="200"
+            prop="rectifyDemand"
+            align="center"
+            label="整改内容"
+            show-overflow-tooltip="true"
+          >
+          </el-table-column>
+          <el-table-column
+            min-width="150"
+            prop="orgEnterNm"
+            align="center"
+            label="整改单位"
+          >
+          </el-table-column>
+          <el-table-column
+            min-width="150"
+            prop="orgTestEnterNm"
+            align="center"
+            label="检验检测单位"
+          >
+          </el-table-column>
+          <el-table-column
+            min-width="110"
+            prop="issueTm"
+            align="center"
+            label="下发日期"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="status"
+            fixed="right"
+            min-width="110"
+            align="center"
+            label="当前状态"
+          >
+            <template slot-scope="scope">
+              <div
+                v-if="scope.row.state == 2"
+                style="color: #ff3c00; border: 1px solid #ff3c00"
+              >
+                待执行
+              </div>
+              <div
+                v-else-if="scope.row.state == 3"
+                style="color: #2778be; border: 1px solid #2778be"
+              >
+                待结案
+              </div>
+              <div v-else-if="scope.row.state == 4">已完成</div>
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <!-- 分页 -->
+        <div class="Footer">
+          <el-pagination
+            background
+            @current-change="handleCurrentChange2"
+            :current-page.sync="currentPage2"
+            :page-size="pageSize2"
+            layout="prev, pager, next, jumper"
+            :total="total2"
+          >
+          </el-pagination>
+        </div>
+      </div>
+    </div>
     <!-- 表头 -->
     <div class="th">
       <div>序号</div>
@@ -97,13 +199,13 @@
           </div>
         </div>
         <div>
-          <!-- 
-            status:0
-            船厂:空
+          <!-- state：0{
+            船厂:空，
             检测：新增
-            status:1
-            船厂：查看
-            检测：查看
+          },
+          state:1{
+            查看
+          }
            -->
           <div
             style="
@@ -117,7 +219,7 @@
               cursor: pointer;
             "
             v-if="
-              item.status == 0 &&
+              item.state == 0 &&
               currentRole &&
               currentRole.identityCd == 'identity50'
             "
@@ -125,9 +227,18 @@
           >
             新增
           </div>
+
           <div
-            v-else-if="item.status == 1"
-            style="width: 40px; font-size: 15px; color: #2778be;cursor:pointer;"
+            v-else-if="item.state == 1"
+            style="
+              width: 40px;
+              font-size: 15px;
+              color: #2778be;
+              cursor: pointer;
+              text-align: center;
+              margin: 5px auto;
+            "
+            @click="toDetail(item.recitfyId)"
           >
             查看
           </div>
@@ -164,9 +275,15 @@ export default {
       total: 0,
       // 当前页
       currentPage: 1,
+      //弹窗列表
+      pageSize2: 5,
+      total2: 0,
+      // 当前页
+      currentPage2: 1,
       id: "",
       List: [],
       currentRole: "",
+      showRectifyList: false,
     };
   },
   methods: {
@@ -178,10 +295,37 @@ export default {
       this.api.getCloudTestAdoptList(this.query.toEncode(qry)).then((res) => {
         this.total = res.page.total;
         this.List = [...this.List, ...res.data.list];
-        this.List.forEach(item=>{
-          this.$set(item,'status',0)
-        })
       });
+    },
+    //整改单列表
+    async getList2() {
+      let qry = this.query.new();
+      this.query.toP(qry, this.currentPage, this.pageSize);
+      this.query.toW(qry, "status", "0", "EQ");
+      if (this.state !== 1) {
+        this.query.toW(qry, "state", this.state, "EQ");
+      }
+      if (this.currentRole.identityCd == "identity30") {
+        this.query.toW(qry, "orgEnterId", this.currentRole.id.toString(), "EQ");
+      } else if (this.currentRole.identityCd == "identity50") {
+        this.query.toW(
+          qry,
+          "orgTestEnterId",
+          this.currentRole.id.toString(),
+          "EQ"
+        );
+      }
+      let query = this.query.toEncode(qry);
+      if (!this.time) {
+        this.time = "";
+      }
+      let data = await this.api.getrectifyList(
+        query,
+        this.searchText,
+        this.time
+      );
+      this.List = data.data.list;
+      this.total = data.page.total;
     },
     handleCurrentChange(val) {
       // console.log(`当前页: ${val}`);
@@ -203,9 +347,16 @@ export default {
       let url = encodeURI("esfp://");
       window.location.replace(url);
     },
-    newRectify(id){
-     this.$router.push(`./rectificationAdd?inspId=${id}`)
-    }
+    newRectify(id) {
+      this.$router.push(`./rectificationAdd?inspId=${id}`);
+    },
+    toDetail(id){
+      this.$router.push(`./rectificationDetail?id=${id}`);
+
+    },
+    closeMask() {
+      this.showRectifyList = false;
+    },
   },
   created() {},
   mounted() {
@@ -222,6 +373,30 @@ export default {
 </script>
 <style lang="less" scoped>
 .container {
+  #mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .table_box {
+      background: #fff;
+      padding: 20px;
+      width: 960px;
+      .top {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        margin-bottom: 28px;
+      }
+    }
+  }
   .th {
     display: flex;
     align-items: center;

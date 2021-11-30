@@ -51,11 +51,13 @@
                 nm:'全部整改单',
                 cd:'rectification1',
                 href:'./rectification?cdType=1'
-              },{
-                nm:'新增整改单',
-                cd:'rectificationAdd',
-                href:'./rectificationAdd'
-              }],
+              },
+              // {
+              //   nm:'新增整改单',
+              //   cd:'rectificationAdd',
+              //   href:'./rectificationAdd'
+              // }
+              ],
             },{
               nm:'我的合同',
               img:mC,

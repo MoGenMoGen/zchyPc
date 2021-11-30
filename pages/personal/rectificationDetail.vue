@@ -222,7 +222,7 @@
             type="textarea"
             :rows="5"
             placeholder="请输入内容"
-            v-model="info.rectifyReport"
+            v-model="info1.rectifyReport"
             style="width: 277px"
           ></el-input>
         </div>
@@ -638,6 +638,7 @@ export default {
     return {
       // isshow: true,
       id: 1,
+      inspId: "",
       title: "整改单",
       Issueshow: false,
       // 控制图片预览
@@ -665,6 +666,7 @@ export default {
       // 再次下发列表
       reissueList: [],
       info: {},
+      info1: {},
     };
   },
   layout: "person",
@@ -673,6 +675,7 @@ export default {
     let data = await this.api.getRectifyDetail(this.id);
     this.info = data.shipDocsRectifyVo;
     this.reissueList = data.reissueList;
+    this.inspId = this.reissueList[this.reissueList.length - 1].id;
     this.reissueList.pop();
     this.reissueList.forEach((item) => {
       this.$set(item, "isshow", true);
@@ -751,8 +754,12 @@ export default {
       if (!this.info.reissueReport || !this.info.reissueImg) {
         this.$message.error("请将信息填写完整");
       } else {
+        console.log("aaaaaaa");
+        console.log(this.reissueList);
+        console.log("bbbbb");
+        console.log(this.id);
         let data = await this.api.handleRectifyReturn({
-          inspId: this.reissueList[this.reissueList.length - 1].id,
+          inspId: this.inspId,
           id: this.id,
           cd: this.info.cd,
           reissueImg: this.info.reissueImg,
@@ -763,37 +770,38 @@ export default {
             message: "再次下发成功",
             type: "success",
           });
-          let data1 = await this.api.getRectifyDetail(this.id);
-          this.info = data1.shipDocsRectifyVo;
-          this.reissueList = data1.reissueList;
-          this.reissueList.forEach((item) => {
-            this.$set(item, "isshow", true);
-          });
-          this.Issueshow = false;
-        } else {
+        let data1 = await this.api.getRectifyDetail(this.id);
+        this.info = data1.shipDocsRectifyVo;
+        this.reissueList = data1.reissueList;
+        this.reissueList.forEach((item) => {
+          this.$set(item, "isshow", true);
+        });
+        this.Issueshow = false;
+        }
+        else {
           this.$message.error("再次下发失败");
         }
       }
     },
     // 整改上报
     async handleRectifyReport() {
-      if (!this.info.rectifyReport) {
+      if (!this.info1.rectifyReport) {
         this.$message.error("整改内容不能为空");
       } else if (!this.info.rectifyImg) {
         this.$message.error("执行图片不能为空");
       } else {
         let obj = {};
         //再下发说明列表
-        if (this.reissueList.length > 1) {
+        if (this.reissueList.length > 0) {
           obj = {
-            inspId: this.reissueList[this.reissueList.length - 1].id,
+            inspId: this.inspId,
           };
         }
         let res = await this.api.handleRectifyReport({
           ...{
             id: this.id,
             cd: this.info.cd,
-            rectifyReport: this.info.rectifyReport,
+            rectifyReport: this.info1.rectifyReport,
             rmks: this.info.rmks,
             rectifyImg: this.info.rectifyImg,
           },
@@ -807,6 +815,7 @@ export default {
           let data = await this.api.getRectifyDetail(this.id);
           this.info = data.shipDocsRectifyVo;
           this.reissueList = data.reissueList;
+          this.inspId = this.inspId;
           this.reissueList.pop();
           this.reissueList.forEach((item) => {
             this.$set(item, "isshow", true);
@@ -834,6 +843,7 @@ export default {
           let data = await this.api.getRectifyDetail(this.id);
           this.info = data.shipDocsRectifyVo;
           this.reissueList = data.reissueList;
+          this.inspId = this.inspId;
           this.reissueList.pop();
           this.reissueList.forEach((item) => {
             this.$set(item, "isshow", true);
@@ -952,6 +962,18 @@ export default {
       height: 1px;
       background: rgba(0, 0, 0, 0.1);
     }
+    .problempiclist {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      .dangerpic {
+        object-fit: cover;
+        width: 248px;
+        height: 177px;
+        margin: 10px 0;
+        margin-right: 20px;
+      }
+    }
     .conwrapper {
       width: 100%;
       box-sizing: border-box;
@@ -978,18 +1000,7 @@ export default {
         display: flex;
         // align-items: center;
       }
-      .problempiclist {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        .dangerpic {
-          object-fit: cover;
-          width: 248px;
-          height: 177px;
-          margin: 10px 0;
-          margin-right: 20px;
-        }
-      }
+
       .btn {
         display: flex;
         padding-top: 20px;

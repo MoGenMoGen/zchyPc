@@ -105,10 +105,12 @@
         style="width: 100%"
         @row-click="toRectifydetail"
       >
-        <el-table-column prop="nm" min-width="150" label="整改名称" show-overflow-tooltip="true">
+        <el-table-column prop="docsCd" min-width="130" label="船舶编号" show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column prop="nm" min-width="130" label="整改名称" show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
-          min-width="200"
+          min-width="180"
           prop="rectifyDemand"
           align="center"
           label="整改内容"
@@ -116,24 +118,30 @@
         >
         </el-table-column>
         <el-table-column
-          min-width="150"
+          min-width="110"
           prop="orgEnterNm"
           align="center"
           label="整改单位"
-        >
-        </el-table-column>
-        <el-table-column
-          min-width="150"
-          prop="orgTestEnterNm"
-          align="center"
-          label="检验检测单位"
+          show-overflow-tooltip="true"
+
         >
         </el-table-column>
         <el-table-column
           min-width="110"
+          prop="orgTestEnterNm"
+          align="center"
+          label="检验检测单位"
+          show-overflow-tooltip="true"
+
+        >
+        </el-table-column>
+        <el-table-column
+          min-width="90"
           prop="issueTm"
           align="center"
           label="下发日期"
+          show-overflow-tooltip="true"
+
         >
         </el-table-column>
         <el-table-column
