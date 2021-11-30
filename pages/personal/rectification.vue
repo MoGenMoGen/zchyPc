@@ -17,7 +17,7 @@
       </div>
       <div class="slt">
         <el-input
-          placeholder="整改单号、整改内容"
+          placeholder="整改名称、整改单号、整改内容"
           v-model="searchText"
           clearable
         ></el-input>

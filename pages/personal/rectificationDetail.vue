@@ -322,7 +322,7 @@
           />
           <!-- <div v-if="reissueList.length > 1 && item.reissueReport"> -->
           <!-- 第一次下发 -->
-          <div v-show="item.isshow && index == 0">
+          <div v-show="item.isshow">
             <h3 style="padding: 20px 0px; margin-left: -16px">下发内容</h3>
             <div
               style="
@@ -405,7 +405,7 @@
             </div> -->
           </div>
           <!-- 二次下发 -->
-          <div v-show="item.isshow && index > 0">
+          <!-- <div v-show="item.isshow && index > 0">
             <h3 style="padding: 20px 0px; margin-left: -16px">再次下发内容</h3>
             <div
               style="
@@ -439,9 +439,9 @@
                   .filter((item2) => item2 != '')"
                 :key="index1"
               />
-            </div>
+            </div> -->
 
-            <!-- <div
+          <!-- <div
               style="
                 padding-bottom: 2px;
                 font-size: 15px;
@@ -468,7 +468,7 @@
                 >{{ item.issueTm }}</span
               >
             </div> -->
-          </div>
+          <!-- </div> -->
 
           <!-- <div class="conwrapper" v-else>
             <div

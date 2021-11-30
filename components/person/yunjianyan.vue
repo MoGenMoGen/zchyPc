@@ -31,19 +31,45 @@
         </div>
         <div>{{ item.runTime }}</div>
         <!-- <div>{{ item.zgno }}</div> -->
-        <div>
+        <!-- <div>
           <img
             style="width: 94px; height: 57px; cursor: pointer"
             :src="item.imgUrl"
             alt=""
             v-viewer
           />
+        </div> -->
+        <div>
+          <el-carousel height="77px" v-viewer>
+            <el-carousel-item
+              v-for="(item1, index1) in item.imgUrl
+                ? item.imgUrl.split(',')
+                : []"
+              :key="index1"
+            >
+              <img
+                style="
+                  width: 94px;
+                  height: 57px;
+                  cursor: pointer;
+                  margin: 10px 0;
+                "
+                :src="item1"
+                alt=""
+              />
+            </el-carousel-item>
+          </el-carousel>
         </div>
+
         <div
           style="position: relative; cursor: pointer"
           @click="handlePlay(item.vedioUrl)"
         >
-          <img style="width: 94px; height: 57px" :src="item.imgUrl" alt="" />
+          <img
+            style="width: 94px; height: 57px"
+            :src="item.imgUrl.split(',')[0]"
+            alt=""
+          />
           <img class="play" src="~@/assets/img/learning/播放.png" alt="" />
         </div>
         <div
@@ -70,23 +96,44 @@
             检验入口
           </div>
         </div>
-        <div >
-           <div
-          style="
-          margin:0 auto;
-            padding: 5px;
-            width: 60px;
-            font-size: 15px;
-            color: #fff;
-            background-color: #2778be;
-            border-radius: 5px;
-            cursor: pointer;
-          "
-        >
-          新增
+        <div>
+          <!-- 
+            status:0
+            船厂:空
+            检测：新增
+            status:1
+            船厂：查看
+            检测：查看
+           -->
+          <div
+            style="
+              margin: 0 auto;
+              padding: 5px;
+              width: 60px;
+              font-size: 15px;
+              color: #fff;
+              background-color: #2778be;
+              border-radius: 5px;
+              cursor: pointer;
+            "
+            v-if="
+              item.status == 0 &&
+              currentRole &&
+              currentRole.identityCd == 'identity50'
+            "
+            @click="newRectify(item.id)"
+          >
+            新增
+          </div>
+          <div
+            v-else-if="item.status == 1"
+            style="width: 40px; font-size: 15px; color: #2778be;cursor:pointer;"
+          >
+            查看
+          </div>
+          <div v-else></div>
         </div>
-        </div>
-       
+
         <div>{{ item.rmks }}</div>
       </div>
     </div>
@@ -131,6 +178,9 @@ export default {
       this.api.getCloudTestAdoptList(this.query.toEncode(qry)).then((res) => {
         this.total = res.page.total;
         this.List = [...this.List, ...res.data.list];
+        this.List.forEach(item=>{
+          this.$set(item,'status',0)
+        })
       });
     },
     handleCurrentChange(val) {
@@ -153,6 +203,9 @@ export default {
       let url = encodeURI("esfp://");
       window.location.replace(url);
     },
+    newRectify(id){
+     this.$router.push(`./rectificationAdd?inspId=${id}`)
+    }
   },
   created() {},
   mounted() {
