@@ -295,7 +295,7 @@
 
       },
       async orderInfo(id) {
-        let info = await this.api.orderDetail(id);
+        let info = await this.api.orderDetail(id,'');
         this.info = info
         let nmArr = []
         info.itms.forEach(item => {

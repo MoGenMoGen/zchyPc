@@ -1345,9 +1345,9 @@ class api {
   }
 
   //订单详情
-  orderDetail(id) {
+  orderDetail(id,cd) {
     return new Promise((resolve, reject) => {
-      get("/ds/order/orderInfo?id=" + id, '', {
+      get("/ds/order/orderInfo?id=" + id + '&orderCd=' + cd, '', {
         "sinovat-token": window.sessionStorage.getItem("token")
       }).then(res => {
         resolve(res.data)
@@ -1581,7 +1581,7 @@ class api {
   // 个人中心-收付款记录分页列表 有商城和非商城的记录
   payment3(query,data) {
     return new Promise((resolve, reject) => {
-      get("/ship/paymentPlan/api/page?query=" + query,data).then(res => {
+      get("/ship/paymentPlan/apis/page?query=" + query,data).then(res => {
         resolve(res)
       });
     });

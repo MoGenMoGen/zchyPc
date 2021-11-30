@@ -162,6 +162,7 @@ export default {
       nm:'',
       imgUrl:'',
       id:"",
+      cd: '',
       info:{},
       num:0,
       moneySum:0,
@@ -181,12 +182,13 @@ export default {
   },
   mounted(){
     this.form = this.until.getQueryString('form')
-    this.id = this.until.getQueryString('id')
+    this.id = this.until.getQueryString('id')?this.until.getQueryString('id'):''
+    this.cd = this.until.getQueryString('cd')?this.until.getQueryString('cd'):''
     this.getInfo()
   },
   methods:{
    getInfo(){
-      this.api.orderDetail(this.id).then((res) => {
+      this.api.orderDetail(this.id,this.cd).then((res) => {
         this.info = res;
         console.log(11,res)
         if(this.info.payTm){

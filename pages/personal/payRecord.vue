@@ -124,7 +124,6 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="orderAmt"
           label="订单总额"
           width="145">
           <template slot-scope="scope">
@@ -317,7 +316,7 @@
           if(item.isShop){ //非商城跳转合同详情
             window.open('./personal/contractDetail?id='+item.contractId)
           }else { //商城跳转订单详情
-            window.open('./order/orderDetail?id='+item.orderId)
+            window.open('./order/orderDetail?id='+item.orderId+'&cd='+item.orderCd)
           }
         },
           //选择卡
