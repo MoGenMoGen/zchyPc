@@ -350,9 +350,8 @@ export default {
     newRectify(id) {
       this.$router.push(`./rectificationAdd?inspId=${id}`);
     },
-    toDetail(id){
+    toDetail(id) {
       this.$router.push(`./rectificationDetail?id=${id}`);
-
     },
     closeMask() {
       this.showRectifyList = false;

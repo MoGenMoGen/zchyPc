@@ -249,6 +249,7 @@
                   returnDate(2, scope.row.bidEndTm)
                 "
                 @click="openBail(scope.row)"
+                style="font-size: 12px"
               >
                 保证金上传
               </button>
@@ -256,6 +257,7 @@
                 class="button3"
                 v-if="scope.row.depositStatus == 3"
                 @click="openBail(scope.row)"
+                style="font-size: 12px"
               >
                 查看保证金
               </button>
@@ -396,8 +398,10 @@ export default {
       rectifyList: [],
 
       // 云检验列表
-      yunCheckList: [],
-      manageList: [],
+      yunCheckList: [
+      ],
+      manageList: [
+      ],
       bidApplyInfo: {
         orgId: "5024282848367616",
         orgNm: "中创海洋科技股份有限公司",
@@ -597,15 +601,14 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .content1 {
   .btnList {
     display: flex;
     justify-content: space-around;
     flex-direction: column;
-
     .button3 {
-      width: 84px;
+      width: 74px;
       height: 31px;
       background-color: #2778be;
       color: #ffffff;
@@ -621,7 +624,7 @@ export default {
 
     .button4 {
       border: none;
-      width: 84px;
+      width: 74px;
       height: 31px;
       color: #2778be;
       font-size: 15px;
@@ -632,7 +635,7 @@ export default {
     }
 
     .button2 {
-      width: 84px;
+      width: 74px;
       height: 31px;
       background-color: #ffffff;
       color: #2778be;
@@ -641,29 +644,6 @@ export default {
       cursor: pointer;
     }
   }
-
-  .button4 {
-    border: none;
-    width: 74px;
-    height: 31px;
-    color: #2778be;
-    font-size: 15px;
-    background-color: #ffffff;
-    margin-top: 5px;
-    border-radius: 3px;
-    cursor: pointer;
-  }
-
-  .button2 {
-    width: 74px;
-    height: 31px;
-    background-color: #ffffff;
-    color: #2778be;
-    border-radius: 3px;
-    border: 1px solid #2778be;
-    cursor: pointer;
-  }
-
   .btn_yunCheckDetail:hover {
     cursor: pointer;
   }
