@@ -675,7 +675,9 @@ export default {
     let data = await this.api.getRectifyDetail(this.id);
     this.info = data.shipDocsRectifyVo;
     this.reissueList = data.reissueList;
-    this.inspId = this.reissueList[this.reissueList.length - 1].id;
+    if (this.reissueList.length > 0) {
+      this.inspId = this.reissueList[this.reissueList.length - 1].id;
+    }
     this.reissueList.pop();
     this.reissueList.forEach((item) => {
       this.$set(item, "isshow", true);
@@ -754,10 +756,6 @@ export default {
       if (!this.info.reissueReport || !this.info.reissueImg) {
         this.$message.error("请将信息填写完整");
       } else {
-        console.log("aaaaaaa");
-        console.log(this.reissueList);
-        console.log("bbbbb");
-        console.log(this.id);
         let data = await this.api.handleRectifyReturn({
           inspId: this.inspId,
           id: this.id,
@@ -770,15 +768,14 @@ export default {
             message: "再次下发成功",
             type: "success",
           });
-        let data1 = await this.api.getRectifyDetail(this.id);
-        this.info = data1.shipDocsRectifyVo;
-        this.reissueList = data1.reissueList;
-        this.reissueList.forEach((item) => {
-          this.$set(item, "isshow", true);
-        });
-        this.Issueshow = false;
-        }
-        else {
+          let data1 = await this.api.getRectifyDetail(this.id);
+          this.info = data1.shipDocsRectifyVo;
+          this.reissueList = data1.reissueList;
+          this.reissueList.forEach((item) => {
+            this.$set(item, "isshow", true);
+          });
+          this.Issueshow = false;
+        } else {
           this.$message.error("再次下发失败");
         }
       }
@@ -815,7 +812,7 @@ export default {
           let data = await this.api.getRectifyDetail(this.id);
           this.info = data.shipDocsRectifyVo;
           this.reissueList = data.reissueList;
-          this.inspId = this.inspId;
+          this.inspId = this.reissueList[this.reissueList.length - 1].id;
           this.reissueList.pop();
           this.reissueList.forEach((item) => {
             this.$set(item, "isshow", true);
@@ -843,7 +840,7 @@ export default {
           let data = await this.api.getRectifyDetail(this.id);
           this.info = data.shipDocsRectifyVo;
           this.reissueList = data.reissueList;
-          this.inspId = this.inspId;
+          this.inspId = this.reissueList[this.reissueList.length - 1].id;
           this.reissueList.pop();
           this.reissueList.forEach((item) => {
             this.$set(item, "isshow", true);
