@@ -682,7 +682,7 @@ export default {
     this.reissueList.forEach((item) => {
       this.$set(item, "isshow", true);
     });
-    setTimeout(() => {}, 2000);
+    console.log(1111,this.inspId);
   },
   computed: {
     ...mapState(["currentRole"]),

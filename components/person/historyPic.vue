@@ -123,11 +123,7 @@ export default {
         .then((res) => {
           this.total = res.page.total;
           console.log("res", res.data.list);
-<<<<<<< Updated upstream
           this.List = res.data.list;
-=======
-          this.List = [...this.List, ...res.data.list];
->>>>>>> Stashed changes
           //处理有文件的情况
           this.List.forEach((item) => {
             let type =
