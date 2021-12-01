@@ -47,7 +47,9 @@
           this.iframeUrl = res.vrUrl
         })
       } else if(this.typeCd==2) {
-
+        this.api.productGetVr(this.id).then(res => {
+          this.iframeUrl = res.msg
+        })
       }
     },
     methods: {
