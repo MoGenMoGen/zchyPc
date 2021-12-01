@@ -118,9 +118,18 @@
         style="width: 100%">
         <el-table-column
           label="订单编号"
-          width="180">
+          width="180"
+          v-if="tabId2==22">
           <template slot-scope="scope">
-            <p @click="toOrder(scope.row)" class="cursor">{{scope.row.orderCd?scope.row.orderCd:scope.row.cd}}</p>
+            <p @click="toOrder(scope.row)" class="cursor">{{scope.row.orderCd}}</p>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="合同编号"
+          width="180"
+          v-if="tabId2==11">
+          <template slot-scope="scope">
+            <p @click="toOrder(scope.row)" class="cursor">{{scope.row.contractNm}}</p>
           </template>
         </el-table-column>
         <el-table-column
@@ -313,7 +322,7 @@
       methods:{
         //跳转订单详情
         toOrder(item){
-          if(item.isShop){ //非商城跳转合同详情
+          if(!item.orderId){ //非商城跳转合同详情
             window.open('./personal/contractDetail?id='+item.contractId)
           }else { //商城跳转订单详情
             window.open('./order/orderDetail?id='+item.orderId+'&cd='+item.orderCd)
@@ -353,8 +362,6 @@
                 }
               })
             }
-
-
             if(flag==1){
               this.$router.push('../personal/payRecord?myCd2='+id)
             }else if(flag==0){
@@ -399,8 +406,11 @@
                   }
                   data=await this.api.payment3(this.query.toEncode(qry),param2)
                 } else {
-                  this.query.toW(qry,"isShop", 1 ,'EQ')
-                  data=await this.api.payment(this.query.toEncode(qry),param)
+                  this.query.toW(qry,'payerId',this.currentRole.id+'','EQ')
+                  let param2 = {
+                    type: 0
+                  }
+                  data=await this.api.payment3(this.query.toEncode(qry),param2)
                 }
               }
             }

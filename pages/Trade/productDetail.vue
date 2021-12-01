@@ -90,7 +90,7 @@
           <p class="dt">{{proType==='ship'?'参考价 : ':'产品价格 :'}}</p>
           <p class="price" v-show="currentInfo.origPrice!=price">￥{{currentInfo.origPrice}}</p>
           <p class="price" v-show="currentInfo.origPrice==price">价格面议</p>
-
+          <p class="vrImg"><img class="img2" :src="VRImg" @click.stop="toVR(info.id)" v-if="info.vrUrl"></p>
           <el-row style="margin-top: 15px" v-if="info.gift === 1">
             <el-col :span="2">
               <p class="dt2">赠品 :</p>
@@ -182,7 +182,7 @@
     </div>
     <!--商品详细信息栏-->
     <div class="detail main" :style="{width:width+'px'}">
-      <pro-detail :info="info" ref="shipDetail" @setType="setType" v-if="info.id"></pro-detail>
+      <pro-detail :info="info" ref="shipDetail" @setType="setType" v-show="info.id"></pro-detail>
     </div>
 
   </div>
@@ -298,7 +298,7 @@
           this.currentSpecs = this.currentSpecArr.join(',')
           this.currentInfo = this.info.skus.find(item => item.skuAttr == this.currentSpecs)
           this.getSkuParts()
-          if (this.currentInfo && this.proType == 'ship' && this.currentInfo.shipId) {
+          if (this.currentInfo && this.proType == 'ship' && this.currentInfo.shipId &&this.info.id) {
             this.$refs.shipDetail.getInfo(this.currentInfo.shipId)
           }
         },
@@ -591,9 +591,9 @@
       toPage(url) {
         this.$router.push(url)
       },
-	  toVR(id){
-	    window.open('./mframe?typeCd=1&id='+id)
-	  }
+      toVR(id){
+        window.open('./mframe?typeCd=2&id='+id)
+      }
     }
   }
 </script>
@@ -648,6 +648,10 @@
     color: #e4393c;
     font-size: 18px;
     display: inline;
+  }
+  .vrImg {
+    margin-top: 8px;
+    cursor: pointer;
   }
   #home {
     background-color: #F3F3F3;

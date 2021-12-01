@@ -530,6 +530,14 @@ class api {
       });
     });
   }
+  //产品详情
+  productGetVr(id) {
+    return new Promise((resolve, reject) => {
+      get("/ds/open/getVR?id=" + id).then(res => {
+        resolve(res)
+      });
+    });
+  }
   //本店精选
   proDetailChoice(id) {
     return new Promise((resolve, reject) => {
