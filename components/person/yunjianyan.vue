@@ -200,7 +200,7 @@
         </div>
         <div>
           <!-- state：0{
-            船厂:空，
+            船厂:暂无，
             检测：新增
           },
           state:1{
@@ -242,7 +242,7 @@
           >
             查看
           </div>
-          <div v-else></div>
+          <div v-else>暂无</div>
         </div>
 
         <div>{{ item.rmks }}</div>
@@ -294,7 +294,7 @@ export default {
       this.query.toW(qry, "docsId", this.id, "EQ");
       this.api.getCloudTestAdoptList(this.query.toEncode(qry)).then((res) => {
         this.total = res.page.total;
-        this.List = [...this.List, ...res.data.list];
+        this.List = res.data.list;
       });
     },
     //整改单列表

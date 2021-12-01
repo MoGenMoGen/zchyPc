@@ -103,11 +103,20 @@
           'text-align': 'center',
         }"
         style="width: 100%"
-        @row-click="toRectifydetail"
       >
-        <el-table-column prop="docsCd" min-width="130" label="船舶编号" show-overflow-tooltip="true">
+        <el-table-column
+          prop="docsCd"
+          min-width="120"
+          label="船舶编号"
+          show-overflow-tooltip="true"
+        >
         </el-table-column>
-        <el-table-column prop="nm" min-width="130" label="整改名称" show-overflow-tooltip="true">
+        <el-table-column
+          prop="nm"
+          min-width="120"
+          label="整改名称"
+          show-overflow-tooltip="true"
+        >
         </el-table-column>
         <el-table-column
           min-width="180"
@@ -123,7 +132,6 @@
           align="center"
           label="整改单位"
           show-overflow-tooltip="true"
-
         >
         </el-table-column>
         <el-table-column
@@ -132,7 +140,6 @@
           align="center"
           label="检验检测单位"
           show-overflow-tooltip="true"
-
         >
         </el-table-column>
         <el-table-column
@@ -141,13 +148,11 @@
           align="center"
           label="下发日期"
           show-overflow-tooltip="true"
-
         >
         </el-table-column>
         <el-table-column
           prop="status"
-          fixed="right"
-          min-width="110"
+          min-width="80"
           align="center"
           label="当前状态"
         >
@@ -165,6 +170,18 @@
               待结案
             </div>
             <div v-else-if="scope.row.state == 4">已完成</div>
+          </template>
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          min-width="70"
+          align="center"
+          label="操作"
+        >
+          <template slot-scope="scope">
+            <div style="color: #2778be;cursor:pointer;" @click="toRectifydetail(scope.row.id)">
+              查看
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -281,8 +298,8 @@ export default {
     toDetail(id) {
       this.$router.push("./rectificationDetail?id=" + id);
     },
-    toRectifydetail(row) {
-      this.$router.push(`./rectificationDetail?id=${row.id}`);
+    toRectifydetail(id) {
+      this.$router.push(`./rectificationDetail?id=${id}`);
     },
     Search() {
       this.currentPage = 1;

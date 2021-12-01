@@ -97,7 +97,7 @@ export default {
       item.isshow = !item.isshow;
       this.imglist.push();
     },
-    handleCurrentChange() {
+    handleCurrentChange(val) {
       // console.log(`当前页: ${val}`);
       this.currentPage = val;
       this.getList();
@@ -123,7 +123,7 @@ export default {
         .then((res) => {
           this.total = res.page.total;
           console.log("res", res.data.list);
-          this.List = [...this.List, ...res.data.list];
+          this.List = res.data.list;
           //处理有文件的情况
           this.List.forEach((item) => {
             let type =

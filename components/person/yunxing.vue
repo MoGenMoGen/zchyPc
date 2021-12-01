@@ -90,10 +90,10 @@ export default {
       this.query.toW(qry, "docsId", this.id, "EQ");
       this.api.getRunAdoptList(this.query.toEncode(qry)).then((res) => {
         this.total = res.page.total;
-        this.List = [...this.List, ...res.data.list];
+        this.List = res.data.list;
       });
     },
-    handleCurrentChange() {
+    handleCurrentChange(val) {
       // console.log(`当前页: ${val}`);
       this.currentPage = val;
       this.getList();
