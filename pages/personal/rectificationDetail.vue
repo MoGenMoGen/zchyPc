@@ -154,6 +154,7 @@
             font-size: 15px;
             margin-bottom: 5px;
             padding-left: 30px;
+            display:flex;
           "
         >
           整改上报：
@@ -682,7 +683,7 @@ export default {
     this.reissueList.forEach((item) => {
       this.$set(item, "isshow", true);
     });
-    console.log(1111,this.inspId);
+    console.log(1111, this.inspId);
   },
   computed: {
     ...mapState(["currentRole"]),
@@ -771,6 +772,7 @@ export default {
           let data1 = await this.api.getRectifyDetail(this.id);
           this.info = data1.shipDocsRectifyVo;
           this.reissueList = data1.reissueList;
+          this.reissueList.pop();
           this.reissueList.forEach((item) => {
             this.$set(item, "isshow", true);
           });
