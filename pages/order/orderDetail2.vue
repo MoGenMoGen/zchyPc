@@ -50,7 +50,7 @@
                </p>
                 <p>{{info.amt}}</p>
                <p>{{info.qty}}</p>
-               <p>{{info.amt}}</p>
+               <p>{{info.amt.toFixed(2)}}</p>
              </div>
           </div>
 
