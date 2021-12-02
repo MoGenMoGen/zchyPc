@@ -64,7 +64,7 @@
                 <p v-if="item.unitPrice!=price">{{item.unitPrice}}</p>
                <p v-else>价格面议</p>
                <p>{{item.qty}}</p>
-               <p v-if="item.unitPrice!=price">{{item.totalPrice.toFixed(2)}}</p>
+               <p v-if="item.unitPrice!=price">{{Number(item.totalPrice).toFixed(2)}}</p>
                <p v-else>价格面议</p>
              </div>
           </div>

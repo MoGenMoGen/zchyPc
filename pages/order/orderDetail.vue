@@ -94,7 +94,7 @@
                <p v-if="item.goodsPrice!=price"> ￥{{item.goodsPrice}}</p>
                <p v-else>价格面议</p>
                <p>{{item.qty}}</p>
-               <p v-if="item.goodsPrice!=price"> ￥{{item.total.toFixed(2)}}</p>
+               <p v-if="item.goodsPrice!=price"> ￥{{Number(item.total).toFixed(2)}}</p>
                <p v-else>价格面议</p>
              </div>
           </div>
@@ -105,13 +105,13 @@
           <p>
             <span></span>
             <span><span class="red">{{num}}</span>件商品，总商品金额</span>
-            <span v-if="goodList.length && goodList[0].goodsPrice!==price">￥{{moneySum.toFixed(2)}}</span>
+            <span v-if="goodList.length && goodList[0].goodsPrice!==price">￥{{Number(moneySum).toFixed(2)}}</span>
             <span v-if="goodList.length && goodList[0].goodsPrice===price">价格面议</span>
           </p>
           <p>
             <span></span>
             <span>优惠后金额：</span>
-            <span>￥{{info.orderAmt.toFixed(2)}}</span>
+            <span>￥{{Number(info.orderAmt).toFixed(2)}}</span>
           </p>
           <p>
             <span></span>
