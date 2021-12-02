@@ -154,7 +154,7 @@
             font-size: 15px;
             margin-bottom: 5px;
             padding-left: 30px;
-            display:flex;
+            display: flex;
           "
         >
           整改上报：
@@ -290,16 +290,14 @@
       </div>
       <!-- 检验检测待执行结束 -->
       <!-- 除检验检测待执行开始 -->
-      <div
-        class="conwrapper"
-        v-if="
+      <!-- v-if="
           !(
             currentRole &&
             currentRole.identityCd == 'identity50' &&
             info.state == 2
           )
-        "
-      >
+        " -->
+      <div class="conwrapper">
         <div
           class="item_border"
           v-for="(item, index) in reissueList"

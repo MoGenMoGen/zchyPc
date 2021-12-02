@@ -314,6 +314,7 @@ export default {
       let qry = this.query.new();
       this.query.toP(qry, this.currentPage, this.pageSize);
       this.query.toW(qry, "status", "0", "EQ");
+      // this.query.toO(qry, "issueTm", "desc");
       if (this.state !== 1) {
         this.query.toW(qry, "state", this.state, "EQ");
       }
