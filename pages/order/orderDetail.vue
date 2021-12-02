@@ -104,7 +104,7 @@
         <div class="line6">
           <p>
             <span></span>
-            <span><span class="red">{{num}}</span>件商品，总商品金额</span>
+            <span><span class="red">{{Number(num).toFixed(2)}}</span>件商品，总商品金额</span>
             <span v-if="goodList.length && goodList[0].goodsPrice!==price">￥{{Number(moneySum).toFixed(2)}}</span>
             <span v-if="goodList.length && goodList[0].goodsPrice===price">价格面议</span>
           </p>

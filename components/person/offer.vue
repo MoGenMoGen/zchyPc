@@ -16,7 +16,7 @@
             <el-form-item label="项目名称：">
               <p>{{ applyInfo.nm }}</p>
             </el-form-item>
-            <el-form-item label="投标金额(元)：">
+            <!-- <el-form-item label="投标金额(元)：">
               <el-input
                 type="text"
                 v-model="info.offerAmt"
@@ -24,7 +24,7 @@
                 placeholder="请填写投标报价金额"
                 :disabled="!(!applyInfo.bidDecideTm&&returnDate(2,applyInfo.bidEndTm))"
               ></el-input>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="附件上传：" v-if="!applyInfo.bidDecideTm&&returnDate(2,applyInfo.bidEndTm)">
               <div class="imgBox">
                 <div class="img">
@@ -236,15 +236,15 @@ export default {
         });
         return;
       }
-      if (!this.info.offerAmt) {
-        this.$message({
-          message: "请填写投标金额",
-          type: "warning",
-          duration: "1500",
-          offset: "50",
-        });
-        return;
-      }
+      // if (!this.info.offerAmt) {
+      //   this.$message({
+      //     message: "请填写投标金额",
+      //     type: "warning",
+      //     duration: "1500",
+      //     offset: "50",
+      //   });
+      //   return;
+      // }
       if(!this.info.attachment) {
         this.$message({
           message: "请上传报价文件",
