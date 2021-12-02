@@ -543,7 +543,7 @@
         }
         this.api.rectifyAdd(info).then(res => {
           console.log(res);
-          this.until.back()
+          this.$router.push('./rectification?cdType=1')
         })
 
       }
