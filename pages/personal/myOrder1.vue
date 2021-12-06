@@ -295,7 +295,7 @@
             console.log(this.currentInfo)
             this.type = 1
           }else {
-            window.open('../sinovat2/order/toPay?id='+item.id)
+            window.open('../sinovat/order/toPay?id='+item.id)
           }
         },
         //申请售后

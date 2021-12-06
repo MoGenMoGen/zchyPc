@@ -191,11 +191,11 @@
           this.$router.push(url)
         },
         toShop(id){
-          window.open('../sinovat2/Trade/storeHome?shopId='+id)
+          window.open('../sinovat/Trade/storeHome?shopId='+id)
         },
         //跳转产品详情
         toGoods(id) {
-          let url = '../sinovat2/Trade/productDetail?id='+ id + "&type=product"
+          let url = '../sinovat/Trade/productDetail?id='+ id + "&type=product"
           window.open(url)
         },
         //关闭弹出的规格选项

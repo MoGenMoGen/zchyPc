@@ -28,7 +28,7 @@ axiosUrl.forEach(item=>{
 export default {
   mode: 'universal',
   router:{
-    base: '/sinovat2', //正式部署须修改
+    base: '/sinovat', //正式部署须修改
   },
   /*
   ** Headers of the page

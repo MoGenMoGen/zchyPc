@@ -153,140 +153,140 @@
         // console.log("=========== "+window.location.pathname+" ===========" )
         let isPC=this.App.IsPC()
         if(!isPC){
-          if(window.location.pathname==='/sinovat2/personal/'){  //个人中心首页
+          if(window.location.pathname==='/sinovat/personal/'){  //个人中心首页
             window.location.href = window.location.origin+'/mob/views/person/index.html'
           }
           //船东
-          if(window.location.pathname==='/sinovat2/personal/allShipList'){  //全部船舶
+          if(window.location.pathname==='/sinovat/personal/allShipList'){  //全部船舶
             window.location.href = window.location.origin+'/mob/views/person/shipList.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/subscribe'){  //我的预约
+          if(window.location.pathname==='/sinovat/personal/subscribe'){  //我的预约
             window.location.href = window.location.origin+'/mob/views/person/subscribe.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/repair'){  //维保服务
+          if(window.location.pathname==='/sinovat/personal/repair'){  //维保服务
             window.location.href = window.location.origin+'/mob/views/person/repair.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/myContract'){  //合同
+          if(window.location.pathname==='/sinovat/personal/myContract'){  //合同
             //  船舶合同1 产品合同2 设计销售合同31 设计采购合同32 采购合同4 建造合同5 监理监造合同6 检验检测合同7
             // let myCd= this.until.getQueryString('myCd')
             window.location.href = window.location.origin+'/mob/views/person/myContract.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/myOrder1'){  //船舶订单2产品订单1
+          if(window.location.pathname==='/sinovat/personal/myOrder1'){  //船舶订单2产品订单1
           let cdType = this.until.getQueryString('cdType')
             window.location.href = window.location.origin+'/mob/views/person/myOrder.html?orderType='+cdType+'&item={"id":0,"nm":"全部","statusCd":"01"}'
           }
-          if(window.location.pathname==='/sinovat2/personal/payRecord'){  //资金管理
+          if(window.location.pathname==='/sinovat/personal/payRecord'){  //资金管理
             //收款记录1 付款记录2
             window.location.href = window.location.origin+'/mob/views/person/payRecord2.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/persInfo'){  //个人资料
+          if(window.location.pathname==='/sinovat/personal/persInfo'){  //个人资料
             window.location.href = window.location.origin+'/mob/views/person/persInfo.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/message'){  //我的消息
+          if(window.location.pathname==='/sinovat/personal/message'){  //我的消息
             window.location.href = window.location.origin+'/mob/views/person/message.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/addrList'){  //我的地址
+          if(window.location.pathname==='/sinovat/personal/addrList'){  //我的地址
             window.location.href = window.location.origin+'/mob/views/person/addrList.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/pswAlter'){  //修改密码
+          if(window.location.pathname==='/sinovat/personal/pswAlter'){  //修改密码
             window.location.href = window.location.origin+'/mob/views/person/pswAlter.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/quicklyOrder'){  //快速下单
+          if(window.location.pathname==='/sinovat/personal/quicklyOrder'){  //快速下单
             window.location.href = window.location.origin+'/mob/views/person/quickOrder.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/myRecommend'){  //我的推荐
+          if(window.location.pathname==='/sinovat/personal/myRecommend'){  //我的推荐
             window.location.href = window.location.origin+'/mob/views/person/myRecommend.html'
           }
           //设计院
-          if(window.location.pathname==='/sinovat2/personal/bid'){  //投标管理
+          if(window.location.pathname==='/sinovat/personal/bid'){  //投标管理
             window.location.href = window.location.origin+'/mob/views/bid/bidList.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/seleQuo'){  //选型报价
+          if(window.location.pathname==='/sinovat/personal/seleQuo'){  //选型报价
             window.location.href = window.location.origin+'/mob/views/shipDesign/seleQuo.html?type=add'
           }
-          if(window.location.pathname==='/sinovat2/personal/recordDetail'){  //选型报价详情
+          if(window.location.pathname==='/sinovat/personal/recordDetail'){  //选型报价详情
             let id = this.until.getQueryString('id')
             window.location.href = window.location.origin+'/mob/views/shipDesign/seleDtl.html?id='+id
           }
-          if(window.location.pathname==='/sinovat2/personal/shipFile'){  //船舶档案
+          if(window.location.pathname==='/sinovat/personal/shipFile'){  //船舶档案
             window.location.href = window.location.origin+'/mob/views/shipDesign/shipFile.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/shipShow'){  //船舶展示
+          if(window.location.pathname==='/sinovat/personal/shipShow'){  //船舶展示
             window.location.href = window.location.origin+'/mob/views/shipDesign/shipShow.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/myOrder2'){  //我的订单
+          if(window.location.pathname==='/sinovat/personal/myOrder2'){  //我的订单
             //采购订单1 设计销售订单21 设计采购订单22 建造订单3
             let cdType = this.until.getQueryString('cdType')
             window.location.href = window.location.origin+'/mob/views/person/myOrder.html?orderType='+cdType+'&item={"id":0,"nm":"全部","statusCd":"01"}'
           }
-          if(window.location.pathname==='/sinovat2/personal/purchase2'){  //资金管理
+          if(window.location.pathname==='/sinovat/personal/purchase2'){  //资金管理
           //采购付款1 设计收款、建造收款、监理收款、检验检测、销售收款2
             window.location.href = window.location.origin+'/mob/views/person/payRecord2.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/subAccount'){  //子账号维护
+          if(window.location.pathname==='/sinovat/personal/subAccount'){  //子账号维护
             window.location.href = window.location.origin+'/mob/views/person/accountList.html'
           }
           //船厂
-          if(window.location.pathname==='/sinovat2/personal/shipbuild'){  //船舶建造
+          if(window.location.pathname==='/sinovat/personal/shipbuild'){  //船舶建造
             window.location.href = window.location.origin+'/mob/views/person/shipBuild.html'
           }
           //监理监造
-          if(window.location.pathname==='/sinovat2/personal/shipControl'){  //管控船舶
+          if(window.location.pathname==='/sinovat/personal/shipControl'){  //管控船舶
             window.location.href = window.location.origin+'/mob/views/shipControl/controlList.html'
           }
           //检验检测
-          if(window.location.pathname==='/sinovat2/personal/shipDetec'){  //检测船舶
+          if(window.location.pathname==='/sinovat/personal/shipDetec'){  //检测船舶
             window.location.href = window.location.origin+'/mob/views/'
           }
           //供应商
-          if(window.location.pathname==='/sinovat2/personal/myOrder3'){  //销售订单
+          if(window.location.pathname==='/sinovat/personal/myOrder3'){  //销售订单
             window.location.href = window.location.origin+'/mob/views/person/myOrder.html?orderType=6&item={"id":0,"nm":"全部","statusCd":"01"}'
           }
-          if(window.location.pathname==='/sinovat2/personal/withMoney'){  //来往款项
+          if(window.location.pathname==='/sinovat/personal/withMoney'){  //来往款项
             // window.location.href = window.location.origin+'/mob/views/'
           }
           //代理商
-          if(window.location.pathname==='/sinovat2/personal/profile'){  //客户档案
+          if(window.location.pathname==='/sinovat/personal/profile'){  //客户档案
             window.location.href = window.location.origin+'/mob/views/follow/profileList.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/profileDetail'){  //客户档案详情
+          if(window.location.pathname==='/sinovat/personal/profileDetail'){  //客户档案详情
             let id = this.until.getQueryString('id')
             window.location.href = window.location.origin+'/mob/views/follow/profileDtl.html?id='+id
           }
-          if(window.location.pathname==='/sinovat2/personal/opportunity'){  //我的商机
+          if(window.location.pathname==='/sinovat/personal/opportunity'){  //我的商机
             window.location.href = window.location.origin+'/mob/views/follow/opportunity.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/follow'){  //跟进记录
+          if(window.location.pathname==='/sinovat/personal/follow'){  //跟进记录
             window.location.href = window.location.origin+'/mob/views/follow/followList.html'
           }
           //服务商
-          if(window.location.pathname==='/sinovat2/personal/repairService'){  //维保服务
+          if(window.location.pathname==='/sinovat/personal/repairService'){  //维保服务
             window.location.href = window.location.origin+'/mob/views/person/repair.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/contractDetail'){  //合同详情
+          if(window.location.pathname==='/sinovat/personal/contractDetail'){  //合同详情
             let id = this.until.getQueryString('id')
             window.location.href = window.location.origin+'/mob/views/person/contractDetail.html?id='+id
           }
-          if(window.location.pathname==='/sinovat2/order/orderDetail'){  //订单详情
+          if(window.location.pathname==='/sinovat/order/orderDetail'){  //订单详情
             let id = this.until.getQueryString('id')
             window.location.href = window.location.origin+'/mob/views/trading/orderDetail.html?id='+id
           }
-          if(window.location.pathname==='/sinovat2/personal/msgDtl'){  //消息详情
+          if(window.location.pathname==='/sinovat/personal/msgDtl'){  //消息详情
             let id = this.until.getQueryString('id')
             window.location.href = window.location.origin+'/mob/views/person/msgDtl.html?id='+id
           }
-          if(window.location.pathname==='/sinovat2/personal/addAddr'){  //编辑地址
+          if(window.location.pathname==='/sinovat/personal/addAddr'){  //编辑地址
             let type = this.until.getQueryString('type')
             let info = this.until.getQueryString('info')
             window.location.href = window.location.origin+'/mob/views/person/addAddr.html?type='+type+'&info='+info
           }
-          if(window.location.pathname==='/sinovat2/personal/archives'){  //全部船舶——详情
+          if(window.location.pathname==='/sinovat/personal/archives'){  //全部船舶——详情
             let id = this.until.getQueryString('id')
             let shipCd = this.until.getQueryString('shipCd')
             let shipStatus = this.until.getQueryString('shipStatus')
             window.location.href = window.location.origin+'/mob/views/person/archives.html?id='+id+'&shipCd='+shipCd+'&shipStatus='+shipStatus
           }
-          if(window.location.pathname==='/sinovat2/personal/shipFileDetail'){  //船舶档案——详情
+          if(window.location.pathname==='/sinovat/personal/shipFileDetail'){  //船舶档案——详情
             let id = this.until.getQueryString('id')
             let shipCd = this.until.getQueryString('shipCd')
             let shipStatus = this.until.getQueryString('shipStatus')
@@ -302,7 +302,7 @@
               window.location.href = window.location.origin+'/mob/views/person/archives.html?id='+id+'&shipCd='+shipCd+'&shipStatus='+shipStatus
             }
           }
-          if(window.location.pathname==='/sinovat2/personal/addShip'){  //新增或修改船舶展示
+          if(window.location.pathname==='/sinovat/personal/addShip'){  //新增或修改船舶展示
             if(this.until.getQueryString('id')){
               let id=this.until.getQueryString('id')
               window.location.href = window.location.origin+'/mob/views/shipDesign/shipAdd.html?type=2&id='+id
@@ -311,17 +311,17 @@
             }
           }
 
-          if(window.location.pathname==='/sinovat2/personal/collect'){  //我的收藏
+          if(window.location.pathname==='/sinovat/personal/collect'){  //我的收藏
             window.location.href = window.location.origin+'/mob/views/person/collect.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/record'){  //选型记录
+          if(window.location.pathname==='/sinovat/personal/record'){  //选型记录
             window.location.href = window.location.origin+'/mob/views/person/record.html'
           }
-          if(window.location.pathname==='/sinovat2/personal/recordDetail'){  //选型记录详情
+          if(window.location.pathname==='/sinovat/personal/recordDetail'){  //选型记录详情
             let id=this.until.getQueryString('id')
             window.location.href = window.location.origin+'/mob/views/person/recordDtl.html?id='+id
           }
-          if(window.location.pathname==='/sinovat2/commonPage'){  //底部的详情
+          if(window.location.pathname==='/sinovat/commonPage'){  //底部的详情
             let id=this.until.getQueryString('id')
             window.location.href = window.location.origin+'/mob/views/person/ruleDtl.html?id='+id
           }

@@ -926,7 +926,7 @@
       },
       //跳转店铺详情
       toShipDetail(id) {
-        window.open('/sinovat2/Trade/storeHome?shopId='+id)
+        window.open('/sinovat/Trade/storeHome?shopId='+id)
       },
 
       changeActive(index,item) {

@@ -241,7 +241,7 @@
     methods: {
       //跳转产品详情
       toGoods(id) {
-        let url = '../sinovat2/Trade/productDetail?id='+ id + "&type=product"
+        let url = '../sinovat/Trade/productDetail?id='+ id + "&type=product"
         window.open(url)
       },
 

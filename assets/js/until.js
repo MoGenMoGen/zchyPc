@@ -323,7 +323,7 @@ class until {
   //跳转页面
   href(url) {
     // window.location.href = window.location.origin+'/sinovat'+url;
-    window.location.href = window.location.origin+'/sinovat2'+url; //正式部署须修改
+    window.location.href = window.location.origin+'/sinovat'+url; //正式部署须修改
       // window.open(url);
   }
   //后退

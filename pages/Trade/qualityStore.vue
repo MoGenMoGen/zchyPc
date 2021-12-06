@@ -95,12 +95,12 @@
           },
           //跳转产品详情
           toProDetail(item) {
-            let url = '../sinovat2/Trade/productDetail?id='+item.goodsId + "&type=product"
+            let url = '../sinovat/Trade/productDetail?id='+item.goodsId + "&type=product"
             window.open(url)
           },
           //跳转店铺详情
           toShipDetail(id) {
-            window.open('../sinovat2/Trade/storeHome?shopId='+id)
+            window.open('../sinovat/Trade/storeHome?shopId='+id)
           },
         },
         computed:{
