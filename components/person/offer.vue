@@ -291,15 +291,15 @@ export default {
         });
         return;
       }
-      if (!this.info.offerAmt) {
-        this.$message({
-          message: "请填写投标金额",
-          type: "warning",
-          duration: "1500",
-          offset: "50",
-        });
-        return;
-      }
+      // if (!this.info.offerAmt) {
+      //   this.$message({
+      //     message: "请填写投标金额",
+      //     type: "warning",
+      //     duration: "1500",
+      //     offset: "50",
+      //   });
+      //   return;
+      // }
       if(!this.info.attachment) {
         this.$message({
           message: "请上传报价文件",
