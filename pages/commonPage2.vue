@@ -8,6 +8,9 @@
     <div class="main" :style="{width:width + 'px'}">
         <div class="pos" v-if="info"><p @click="toPage('/')">首页</p> > <p @click="toPage(decodeURIComponent(pUrl))">{{info.cnms}}</p> > <p>{{info.nm}}</p></div>
         <div class="info" v-html="info.cont" v-if="info"></div>
+          <!-- <div class="info" v-if="id=='5164396639474688'">
+            <video src=""></video>
+          </div> -->
     </div>
   </div>
 </template>

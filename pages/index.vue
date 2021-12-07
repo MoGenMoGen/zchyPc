@@ -24,21 +24,25 @@
       <div class="right">
         <div class="title1">
           <p><img src="@/assets/img/new.png"/>{{newTitle2}}</p>
-          <p class="more" @click="toPage('../tradeInfo/tradeInfo?cid=1')">更多 >></p>
+          <p class="more" @click="toPage('../tradeInfo/tradeInfo?cid=5032642222281728')">更多 >></p>
         </div>
         <div class="body">
-          <!-- <div class="top">
+          <div class="top">
             <img :src="topImg" v-if="topImg" alt="topImg" class="point" @click="toDetail(topItem)"/>
             <div @click="toPage({path:'../tradeInfo/infoDetail',query:{id:topId,cid:topCid}})">
               <p class="p-title point" @click="toDetail(topItem)">{{topP}}</p>
               <P class="p-msg point" @click="toDetail(topItem)">{{topCont}}</P>
             </div>
-          </div> -->
+          </div>
           <div class="down">
+            <p v-for="(item,index) in zbList" :key="index" @click="toDetail(item)" :class="{seen:item.isSeen}" @mouseenter="enter2(index)" @mouseleave="leave2(index)">
+              <span>· {{item.nm}}</span><span>{{item.releTm}}</span></p>
+          </div>
+          <!-- <div class="down">
             <p v-for="(item,index) in zbggList" :key="index" @click="toDetail2(item.bidId)" :class="{seen:item.isSeen}" @mouseenter="enter3(index)" @mouseleave="leave3(index)">
               <span>· {{item.title}}</span><span>{{item.releTm}}</span></p>
-			  <!-- <span>{{item.bidStatus}}</span> -->
-          </div>
+              <span>{{item.bidStatus}}</span>
+          </div> -->
         </div>
       </div>
     </div>
@@ -402,9 +406,9 @@ export default {
   mounted(){
     this.getData()
     // this.getInfoTab()
-    // this.getZbData()
+    this.getZbData()
     this.getInfoData()
-    this.getZbggList()
+    // this.getZbggList()
   },
   methods:{
     async getData(){
