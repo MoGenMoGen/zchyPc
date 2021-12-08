@@ -49,6 +49,17 @@
             prop="nm"
             width="240"
             label="船舶名称">
+            <template slot-scope="scope">
+              <div style="display: flex;align-items: center;">
+                <span>{{scope.row.nm}}</span>
+                <img
+                  :src="VRImg"
+                  style="cursor: pointer"
+                  v-if="scope.row.vrUrl"
+                  @click="toVR(scope.row.id)"
+                />
+              </div>
+            </template>
           </el-table-column>
           <el-table-column
             width="170"
@@ -100,6 +111,7 @@
     import {mapState} from "vuex";
     import pageInation from "@/components/pageInation.vue"
     import shipNotice from "@/components/person/shipNotice"
+    import VRImg from "../../assets/img/personal/VR.png";
     export default {
       layout:'person',
         name: "shipowner",
@@ -109,6 +121,7 @@
       },
       data(){
           return{
+            VRImg,
             orderNo:'',
             cd:'',
             shipNm:'',
@@ -215,6 +228,9 @@
         },
         back(){//返回
 			this.$router.back()
+        },
+        toVR(id) {
+          window.open("./mframe?typeCd=3&id=" + id);
         },
       },
     }

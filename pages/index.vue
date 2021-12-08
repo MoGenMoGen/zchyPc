@@ -10,7 +10,7 @@
 
         <div class="title1">
           <p><img src="@/assets/img/new.png"/>{{newTitle1}}</p>
-          <p class="more" @click="toPage('../tradeInfo/tradeInfo?cid='+ '5002994673669120')">更多 >></p>
+          <p class="more" @click="toPage('../tradeInfo/tradeInfo?cid='+ '5002994345202688')">更多 >></p>
         </div>
         <div class="body">
           <div class="lf point" @click="toDetail(ifItem)">
@@ -423,7 +423,7 @@ export default {
       let qry = this.query.new()
       let list = await this.api.infoList(this.query.toEncode(qry))
       list.forEach(item=>{
-        if(item.id=='5002994673669120'){
+        if(item.id=='5002994345202688'){
           this.newTitle1 = item.nm
         }
         if(item.id=='5032642222281728'){
@@ -584,7 +584,7 @@ export default {
    // 筛选行业新闻
     async getInfoData(){
       let qry = this.query.new()
-      this.query.toW(qry,'cid','5002994673669120','EQ')
+      this.query.toW(qry,'cid','5002994345202688','EQ')
       // this.query.toO(qry,'releTm','desc')
       let data = await this.api.tradeInfo(this.query.toEncode(qry))
       this.infoList = data.data.list
