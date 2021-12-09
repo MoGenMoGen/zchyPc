@@ -2911,6 +2911,14 @@ class api {
       })
     })
   }
+  //获取状态
+  getListItmTreeNode() {
+    return new Promise(resolve => {
+      get("sys/cat/listItmTreeNode?pid=4988846313624576").then(res => {
+        resolve(res)
+      })
+    })
+  }
 }
 
 export {
