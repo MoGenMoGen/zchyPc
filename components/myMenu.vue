@@ -75,7 +75,7 @@
         },{
           nm:'招投标专家系统',
           img:biao,
-          href:'https://fb.sinovatocean.com/views/home/login.html'
+          href:'https://fb.ship88.cn/views/index/login.html'
         },{
           nm:'返回顶部',
           img:menuReturn,
