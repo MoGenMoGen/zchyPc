@@ -412,22 +412,22 @@
           <div class="title" @click="item.show=!item.show">
 
             <span>{{item.title}}（ 时间 : {{item.actDt}} ）</span>
-            <div class="right" v-if="item.audit == '2'" style="color: #2778be;position: absolute; right: 20%;">
-              检验完成
-            </div>
-            <div class="right" v-if="item.audit == '1'" style="color: red;position: absolute; right: 20%;" >
-              审核中
-            </div>
-            <div class="right" v-if="item.audit == '3'" style="color: red;position: absolute; right: 20%;" >
-              审核不通过
-            </div>
-            <div class="right" v-if="item.audit != '2'" style="color: red;position: absolute; right: 25%;" @click.stop="toModify(item)">
-              修改
-            </div>
-            <div class="right"  style="color: red;position: absolute; right: 28%;" @click.stop="toDelete(item)">
-              删除
-            </div>
             <p>
+              <span class="right" v-if="item.audit != '2'" style="color: red;margin-right: 10px;" @click.stop="toDelete(item)">
+                删除
+              </span>
+              <span class="right" v-if="item.audit == '2'" style="color: #2778be;margin-right: 10px;">
+                检验完成
+              </span>
+              <span class="right" v-if="item.audit == '1'" style="color: red;margin-right: 10px;" >
+                审核中
+              </span>
+              <span class="right" v-if="item.audit == '3'" style="color: red;margin-right: 10px;" >
+                审核不通过
+              </span>
+              <span class="right" v-if="item.audit != '2'" style="color: red;margin-right: 10px;" @click.stop="toModify(item)">
+                修改
+              </span>
               <span style="color: #2778BE;font-weight: bold">点击查看内容</span>
               <img :src="arrowDown" v-if="item.show">
               <img :src="arrowUp" v-else>
