@@ -527,12 +527,12 @@
         formThree: {
           file: "",
         },
-        imgInfo: [],
+        imgInfo: '',
         imgInfo2: [],
         currentIndex: -1,
         disabled: false,
-        fileInfoList: [],
-        fileInfoListTwo: [],
+        fileInfoList: '',
+        fileInfoListTwo: '',
         contentList: [],
         pickerOptions: {
           shortcuts: [{
@@ -714,9 +714,9 @@
        this.describe=""
        this.pickDate=""
        this.rmks=""
-       this.imgInfo=[]
-       this.fileInfoList=[]
-       this.fileInfoListTwo=[]
+       this.imgInfo=''
+       this.fileInfoList=''
+       this.fileInfoListTwo=''
        this.picList=[]
        this.fileInfo=[]
        this.fileInfoTwo=[]
@@ -971,9 +971,9 @@
           this.describe=""
           this.pickDate=""
           this.rmks=""
-          this.imgInfo=[]
-          this.fileInfoList=[]
-          this.fileInfoListTwo=[]
+          this.imgInfo=''
+          this.fileInfoList=''
+          this.fileInfoListTwo=''
           this.picList=[]
           this.fileInfo=[]
           this.fileInfoTwo=[]
@@ -987,9 +987,9 @@
         this.describe=""
         this.pickDate=""
         this.rmks=""
-        this.imgInfo=[]
-        this.fileInfoList=[]
-        this.fileInfoListTwo=[]
+        this.imgInfo=''
+        this.fileInfoList=''
+        this.fileInfoListTwo=''
         this.picList=[]
         this.fileInfo=[]
         this.fileInfoTwo=[]
@@ -1019,9 +1019,9 @@
          this.describe=""
          this.pickDate=""
          this.rmks=""
-         this.imgInfo=[]
-         this.fileInfoList=[]
-         this.fileInfoListTwo=[]
+         this.imgInfo=''
+         this.fileInfoList=''
+         this.fileInfoListTwo=''
          this.picList=[]
          this.fileInfo=[]
          this.fileInfoTwo=[]
