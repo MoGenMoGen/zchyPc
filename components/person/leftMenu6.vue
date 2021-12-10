@@ -268,6 +268,7 @@
           toPage(url){
             if(url){
               if(url.indexOf('http')>-1){
+                this.api.logout()
                window.open(url)
               }else {
                 this.$router.push(url)
