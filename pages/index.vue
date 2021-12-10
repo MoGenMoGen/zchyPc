@@ -127,9 +127,9 @@
       </div>
     </div>
 
-
-
-
+    <div class="whiteBg" style="display: flex;align-items: center;justify-content: center;" :style="{width:bWidth+'px'}">
+      <img :src="ztbrk" style="margin: 40px auto 0;cursor: pointer;" :style="{width:width+'px'}" @click="openUrl">
+    </div>
     <!--热门设备-->
     <div class="whiteBg hotEquip" :style="{width:bWidth+'px'}">
       <div class="title2 main"  :style="{width:width+'px'}" style="margin-top: 30px;">
@@ -263,6 +263,7 @@ import ql3 from '@/assets/img/专家评审.png'
 import ql4 from '@/assets/img/标准规则.png'
 import ql5 from '@/assets/img/船厂总览.png'
 import ql6 from '@/assets/img/船舶设计.png'
+import ztbrk from '@/assets/img/招投标入口.png'
 import bx from '@/assets/img/homeBX.png'
 import bz from '@/assets/img/homeBZ.png'
 import btR from '@/assets/img/personal/rightArrow.png';
@@ -284,6 +285,7 @@ export default {
   // },
   data(){
     return{
+      ztbrk,
       bx,
       bz,
       btR,
@@ -564,6 +566,9 @@ export default {
     //页面跳转
     toPage(url){
         this.$router.push(url)
+    },
+    openUrl() {
+      window.open('https://fb.ship88.cn/views/index/login.html')
     },
     // async getInfoTab(){
     //   // this.infoTabList = []
