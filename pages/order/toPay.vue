@@ -287,7 +287,7 @@
           idArr.push(item.orderCd)
           idArray.push(item.id)
           this.totalPrice += item.orderPrice
-          this.totalPrice += item.payShip
+          // this.totalPrice += item.payShip
         })
         this.proNm = nmArr.join(',')
         this.ids = idArr.join(',')
