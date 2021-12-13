@@ -46,7 +46,9 @@
         </div>
       </div>
     </div>
-
+    <div class="whiteBg" style="display: flex;align-items: center;justify-content: center;" :style="{width:bWidth+'px'}">
+      <img :src="ztbrk" style="margin: 20px auto 0;cursor: pointer;" :style="{width:width+'px'}" @click="openUrl">
+    </div>
     <div class="whiteBg shuzi" :style="{width:bWidth+'px'}">
       <!-- <div class="title main" :style="{width:width+'px'}">
         <h3 style="font-size: 34px">新材料船舶综合服务数字化平台</h3>
@@ -125,10 +127,6 @@
           <!-- </div> -->
         </div>
       </div>
-    </div>
-
-    <div class="whiteBg" style="display: flex;align-items: center;justify-content: center;" :style="{width:bWidth+'px'}">
-      <img :src="ztbrk" style="margin: 40px auto 0;cursor: pointer;" :style="{width:width+'px'}" @click="openUrl">
     </div>
     <!--热门设备-->
     <div class="whiteBg hotEquip" :style="{width:bWidth+'px'}">
