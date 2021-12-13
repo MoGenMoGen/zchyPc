@@ -408,7 +408,7 @@
     </div> -->
     <div class="jianzaoBox">
       <div class="topBox" style="position: relative;">
-        <p v-for="(item,index) in options" :key="index" @click="checkIndex=index" :class="{clickP:checkIndex==index}">
+        <p v-for="(item,index) in options" :key="index" @click="checkIndex=index,checkName=item.nm" :class="{clickP:checkIndex==index}">
           {{item.nm}}
 
         </p>
@@ -466,7 +466,7 @@
               </p>
             </div>
             <p class="desc" v-show="item.imgList">
-              {{item.nm}}报告：
+              {{checkName}}报告：
             </p>
             <div class="report" v-viewer>
               <p v-for="j in item.imgList">
@@ -541,6 +541,7 @@
         dialogVisible: false,
         formLabelWidth: "80px",
         limitNum: 3,
+        checkName:"监理期报及附件",
         form: {},
         formTwo: {
           file: "",
@@ -1262,12 +1263,12 @@
 <style scoped lang="less">
 /deep/ .el-dialog{
       background-color: #FFFFFF !important;
-      width:70% !important;
+      width:50% !important;
       .list {
         display: flex;
         align-items: center;
         margin-bottom: 30px;
-        margin-left: 10%;
+        margin-left: 3%;
         .listTitle {
           width: 160px;
           font-size: 15px;

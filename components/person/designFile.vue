@@ -167,9 +167,11 @@
         this.currentRole=JSON.parse(this.until.seGet('currentRole'))
         this.getDic()
         this.getHeight()
+		console.log(11134,this.statusLV.value);
         if(this.statusLV.value!='0'){
           this.getInfo()
         }
+		console.log(1112,this.form);
       },
       methods: {
         async getInfo(){
@@ -178,7 +180,8 @@
           this.form.designerNm=this.currentRole.company
           this.query.toW(qry,'docsId',this.id,'EQ')
           this.query.toW(qry,'designFlowCd',this.statusLV.value,'EQ')
-          this.list=await this.api.designDeptList(this.query.toEncode(qry))
+          this.list=await this.api.designDeptListAll(this.query.toEncode(qry))
+		  console.log(34,this.list);
           if(this.list.length>0){
             this.flag=1
             this.designId=this.list[0].id
@@ -224,13 +227,16 @@
           //     }
           //     this.fileList=fileList2
           //   })
-          }else{
-            this.form={}
-            // this.imgList=[]
-            // this.fileList=[]
-            this.flag=0
           }
-          console.log(this.form)
+			  else{
+				this.form={}
+				// this.imgList=[]
+				// this.fileList=[]
+				this.form.designerId=this.currentRole.id
+				this.form.designerNm=this.currentRole.company
+				this.flag=0
+			  }
+          console.log('123312',this.form)
         },
         async getDic(){
           let data=await this.api.dataDictionary('DOCS_DESIGN_STATUS')
@@ -304,7 +310,8 @@
 
         },
         choose(item){//选择状态
-          console.log(item)
+          console.log(777,item)
+		  
           this.statusLV.lable=item.label
           this.statusLV.value=item.value
           if(this.statusLV.value!='0'){

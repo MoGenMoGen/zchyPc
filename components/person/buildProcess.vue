@@ -279,7 +279,8 @@
         watch:{
           //  切换tab
           checkIndex(){
-            if(this.checkIndex<this.options.length-1){
+            if(this.checkIndex<=this.options.length-1){
+              console.log(111);
               this.getInfo()
             }
           },
