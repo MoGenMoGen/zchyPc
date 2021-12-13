@@ -190,176 +190,184 @@
           船舶状态:<span style="color: #2778be">{{ shipStatus }}</span>
         </p>
       </div>
-    </div>
-    <div class="postBox">
-      <div class="list">
-        <div class="listTitle">标题：</div>
-        <div class="listContent">
-          <el-input
-            placeholder="请输入标题"
-            style="width: 454px"
-            v-model="title"
-          >
-          </el-input>
-        </div>
-      </div>
-      <div class="list">
-        <div class="listTitle">类别：</div>
-        <div class="listContent">
-          <el-select
-            v-model="value1"
-            clearable
-            placeholder="请选择"
-            class="select"
-          >
-            <el-option
-              v-for="item in options"
-              :key="item.cd"
-              :label="item.nm"
-              :value="item.cd"
-            >
-            </el-option>
-          </el-select>
-        </div>
-      </div>
-      <div class="list">
-        <div class="listTitle">检验状态：</div>
-        <div class="listContent">
-          <el-select
-            v-model="value2"
-            clearable
-            placeholder="请选择"
-            class="select"
-          >
-            <el-option
-              v-for="item in optionsTwo"
-              :key="item.cd"
-              :label="item.nm"
-              :value="item.cd"
-            >
-            </el-option>
-          </el-select>
-        </div>
-      </div>
-      <div class="list">
-        <div class="listTitle">过程说明：</div>
-        <div class="listContent">
-          <textarea
-            rows=""
-            cols=""
-            placeholder="多行输入"
-            v-model="describe"
-          ></textarea>
-        </div>
-      </div>
-      <div class="list">
-        <div class="listTitle">监理时间：</div>
-        <div class="listContent">
-          <el-date-picker
-            class="select"
-            v-model="pickDate"
-            type="datetime"
-            placeholder="选择日期时间"
-            align="right"
-            :picker-options="pickerOptions"
-          >
-          </el-date-picker>
-        </div>
-      </div>
-      <div class="list">
-        <div class="listTitle">上传图片：</div>
-        <div class="listContent">
-          <el-form :model="form">
-            <el-form-item>
-              <el-upload
-                ref="upload"
-                action="/general/oss/upload"
-                accept="image/png,image/gif,image/jpg,image/jpeg"
-                list-type="picture-card"
-                :auto-upload="true"
-                :before-upload="handleBeforeUpload"
-                :on-preview="handlePictureCardPreview"
-                :on-remove="handleRemoveOne"
-                :on-success="imgSuccess"
-                :file-list="picList"
-              >
-                <i class="el-icon-plus"></i>
-              </el-upload>
-              <el-dialog :visible.sync="dialogVisible">
-                <img width="100%" :src="dialogImageUrl" alt="" />
-              </el-dialog>
-            </el-form-item>
-          </el-form>
-        </div>
-      </div>
-      <div class="list" style="align-items: flex-start">
-        <div class="listTitle" style="line-height: 50px">上传文档：</div>
-        <div class="listContent" style="border-bottom: 1px dotted #cccccc">
-          <el-form :model="formTwo">
-            <el-form-item>
-              <el-upload
-                ref="uploadExcel"
-                action="/general/oss/upload"
-                :auto-upload="true"
-                :on-change="fileChange"
-                :on-success="handleSuccess"
-                :on-remove="handleRemoveTwo"
-                :on-error="handleError"
-                :file-list="fileInfo"
-                :on-preview="HandFilePreView"
-              >
-                <el-button size="small" plain style="width: 100px; height: 50px"
-                  >选择文件</el-button
-                >
-              </el-upload>
-            </el-form-item>
-          </el-form>
-        </div>
-      </div>
-      <div class="list" style="align-items: flex-start">
-        <div class="listTitle" style="line-height: 50px">上传附件：</div>
-        <div class="listContent" style="border-bottom: 1px dotted #cccccc">
-          <el-form :model="formThree">
-            <el-form-item>
-              <el-upload
-                ref="uploadExcelTwo"
-                action="/general/oss/upload"
-                :auto-upload="true"
-                :on-change="fileChangeTwo"
-                :on-success="handleSuccessTwo"
-                :on-remove="handleRemoveThree"
-                :on-error="handleErrorTwo"
-                :on-preview="HandFilePreViewTwo"
-                :file-list="fileInfoTwo"
-              >
-                <el-button size="small" plain style="width: 100px; height: 50px"
-                  >选择附件</el-button
-                >
-              </el-upload>
-            </el-form-item>
-          </el-form>
-        </div>
-      </div>
 
-      <div class="list">
-        <div class="listTitle">备注：</div>
-        <div class="listContent">
-          <textarea
-            rows=""
-            cols=""
-            placeholder="多行输入"
-            v-model="rmks"
-            style="height: 100px"
-          ></textarea>
-        </div>
-      </div>
-      <div class="list">
-        <div class="listTitle"></div>
-        <div class="listContent">
-          <button type="button" cover="point" @click="save">保存</button>
-        </div>
-      </div>
     </div>
+     <el-dialog
+      title="新增"
+      :visible.sync="postShow"
+      width="30%"
+      @close="closePost">
+       <div class="postBox">
+         <div class="list">
+           <div class="listTitle">标题：</div>
+           <div class="listContent">
+             <el-input
+               placeholder="请输入标题"
+               style="width: 454px"
+               v-model="title"
+             >
+             </el-input>
+           </div>
+         </div>
+         <div class="list">
+           <div class="listTitle">类别：</div>
+           <div class="listContent">
+             <el-select
+               v-model="value1"
+               clearable
+               placeholder="请选择"
+               class="select"
+             >
+               <el-option
+                 v-for="item in options"
+                 :key="item.cd"
+                 :label="item.nm"
+                 :value="item.cd"
+               >
+               </el-option>
+             </el-select>
+           </div>
+         </div>
+         <div class="list">
+           <div class="listTitle">检验状态：</div>
+           <div class="listContent">
+             <el-select
+               v-model="value2"
+               clearable
+               placeholder="请选择"
+               class="select"
+             >
+               <el-option
+                 v-for="item in optionsTwo"
+                 :key="item.cd"
+                 :label="item.nm"
+                 :value="item.cd"
+               >
+               </el-option>
+             </el-select>
+           </div>
+         </div>
+         <div class="list">
+           <div class="listTitle">过程说明：</div>
+           <div class="listContent">
+             <textarea
+               rows=""
+               cols=""
+               placeholder="多行输入"
+               v-model="describe"
+             ></textarea>
+           </div>
+         </div>
+         <div class="list">
+           <div class="listTitle">监理时间：</div>
+           <div class="listContent">
+             <el-date-picker
+               class="select"
+               v-model="pickDate"
+               type="datetime"
+               placeholder="选择日期时间"
+               align="right"
+               :picker-options="pickerOptions"
+             >
+             </el-date-picker>
+           </div>
+         </div>
+         <div class="list">
+           <div class="listTitle">上传图片：</div>
+           <div class="listContent">
+             <el-form :model="form">
+               <el-form-item>
+                 <el-upload
+                   ref="upload"
+                   action="/general/oss/upload"
+                   accept="image/png,image/gif,image/jpg,image/jpeg"
+                   list-type="picture-card"
+                   :auto-upload="true"
+                   :before-upload="handleBeforeUpload"
+                   :on-preview="handlePictureCardPreview"
+                   :on-remove="handleRemoveOne"
+                   :on-success="imgSuccess"
+                   :file-list="picList"
+                 >
+                   <i class="el-icon-plus"></i>
+                 </el-upload>
+                 <el-dialog :visible.sync="dialogVisible">
+                   <img width="100%" :src="dialogImageUrl" alt="" />
+                 </el-dialog>
+               </el-form-item>
+             </el-form>
+           </div>
+         </div>
+         <div class="list" style="align-items: flex-start">
+           <div class="listTitle" style="line-height: 50px">上传文档：</div>
+           <div class="listContent" style="border-bottom: 1px dotted #cccccc">
+             <el-form :model="formTwo">
+               <el-form-item>
+                 <el-upload
+                   ref="uploadExcel"
+                   action="/general/oss/upload"
+                   :auto-upload="true"
+                   :on-change="fileChange"
+                   :on-success="handleSuccess"
+                   :on-remove="handleRemoveTwo"
+                   :on-error="handleError"
+                   :file-list="fileInfo"
+                   :on-preview="HandFilePreView"
+                 >
+                   <el-button size="small" plain style="width: 100px; height: 50px"
+                     >选择文件</el-button
+                   >
+                 </el-upload>
+               </el-form-item>
+             </el-form>
+           </div>
+         </div>
+         <div class="list" style="align-items: flex-start">
+           <div class="listTitle" style="line-height: 50px">上传附件：</div>
+           <div class="listContent" style="border-bottom: 1px dotted #cccccc">
+             <el-form :model="formThree">
+               <el-form-item>
+                 <el-upload
+                   ref="uploadExcelTwo"
+                   action="/general/oss/upload"
+                   :auto-upload="true"
+                   :on-change="fileChangeTwo"
+                   :on-success="handleSuccessTwo"
+                   :on-remove="handleRemoveThree"
+                   :on-error="handleErrorTwo"
+                   :on-preview="HandFilePreViewTwo"
+                   :file-list="fileInfoTwo"
+                 >
+                   <el-button size="small" plain style="width: 100px; height: 50px"
+                     >选择附件</el-button
+                   >
+                 </el-upload>
+               </el-form-item>
+             </el-form>
+           </div>
+         </div>
+
+         <div class="list">
+           <div class="listTitle">备注：</div>
+           <div class="listContent">
+             <textarea
+               rows=""
+               cols=""
+               placeholder="多行输入"
+               v-model="rmks"
+               style="height: 100px"
+             ></textarea>
+           </div>
+         </div>
+         <div class="list">
+           <div class="listTitle"></div>
+           <div class="listContent">
+             <button type="button" cover="point" @click="save">保存</button>
+           </div>
+         </div>
+       </div>
+       </el-dialog>
+
  <!--  <div class="content" v-for="(item, index) in contentList" :key="index">
       <div class="contentHead">
         <img :src="arrowDown" class="down" :class="item.flag == true ? 'rotate' : ''" />
@@ -399,11 +407,24 @@
       </div>
     </div> -->
     <div class="jianzaoBox">
-      <div class="topBox">
+      <div class="topBox" style="position: relative;">
         <p v-for="(item,index) in options" :key="index" @click="checkIndex=index" :class="{clickP:checkIndex==index}">
           {{item.nm}}
 
         </p>
+        <div class="newAdd" style="margin-left: 50px;width: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        right: 0;
+        height: 30px;
+        background: #2778be;
+        color: #fff;
+        cursor: pointer;" v-if="currentRole.identityCd=='identity40'" @click="postTo">
+        <img src="../img/closexx.png" style="width: 15px; height: 15px; margin-right: 10px;" >
+            新增
+          </div>
       </div>
       <!-- 不是照片 -->
       <div class="bottomBox"
@@ -413,7 +434,7 @@
 
             <span>{{item.title}}（ 时间 : {{item.actDt}} ）</span>
             <p>
-              <span class="right" v-if="item.audit != '2'" style="color: red;margin-right: 10px;" @click.stop="toDelete(item)">
+              <span class="right" v-if="item.audit != '2'&&currentRole.identityCd=='identity40'" style="color: red;margin-right: 10px;" @click.stop="toDelete(item)">
                 删除
               </span>
               <span class="right" v-if="item.audit == '2'" style="color: #2778be;margin-right: 10px;">
@@ -425,7 +446,7 @@
               <span class="right" v-if="item.audit == '3'" style="color: red;margin-right: 10px;" >
                 审核不通过
               </span>
-              <span class="right" v-if="item.audit != '2'" style="color: red;margin-right: 10px;" @click.stop="toModify(item)">
+              <span class="right" v-if="item.audit != '2'&&currentRole.identityCd=='identity40'" style="color: red;margin-right: 10px;" @click.stop="toModify(item)">
                 修改
               </span>
               <span style="color: #2778BE;font-weight: bold">点击查看内容</span>
@@ -608,6 +629,7 @@
         checkIndex: 0,
         ifProDetail: false, //是否商品详情
         currentRole: "",
+        postShow:false,
       };
     },
     watch: {
@@ -721,6 +743,20 @@
        this.fileInfo=[]
        this.fileInfoTwo=[]
       },
+      closePost(){
+        this.title=""
+        this.value1=""
+        this.value2=""
+        this.describe=""
+        this.pickDate=""
+        this.rmks=""
+        this.imgInfo=''
+        this.fileInfoList=''
+        this.fileInfoListTwo=''
+        this.picList=[]
+        this.fileInfo=[]
+        this.fileInfoTwo=[]
+      },
       toDelete(item){
         this.$confirm("确认删除?", "提示", {
         		confirmButtonText: "确定",
@@ -755,6 +791,9 @@
         	});
 
 
+      },
+      postTo(){
+        this.postShow=true
       },
       toModify(item){
         this.itemId=item.id
@@ -964,6 +1003,7 @@
         };
         this.api.quaGuarAdd(obj).then((res) => {
           console.log(res);
+          this.postShow=false
           this.getInfo()
           this.title=""
           this.value1=""
@@ -1039,8 +1079,9 @@
       },
       async getInfo(id) {
         // console.log('品质保障')
-        // this.currentRole=JSON.parse(this.until.seGet('currentRole'))
+        this.currentRole=JSON.parse(this.until.seGet('currentRole'))
         this.list = [];
+        let data=[];
         let qry = this.query.new();
         if (id) {
           this.id = id;
@@ -1050,7 +1091,12 @@
         }
 
         this.query.toW(qry, 'cd', this.options[this.checkIndex].cd, 'EQ')
-        let data = await this.api.qualityListAll(this.query.toEncode(qry));
+        if(this.currentRole.identityCd=='identity40'){
+           data = await this.api.qualityListAll(this.query.toEncode(qry));
+        }
+        else{
+           data = await this.api.qualityList(this.query.toEncode(qry));
+        }
         console.log(787897, data);
         let data1 = [];
         if (data.length > 0) {

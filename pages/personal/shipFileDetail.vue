@@ -65,8 +65,8 @@
        <base-info3 v-if="tab2Id==30 " :title="designTitle"></base-info3> <!-- 控制显示 && formW!='jiance' -->
        <jianzaoliucheng v-if="tab2Id==31 && formW!='build'"></jianzaoliucheng> <!-- 控制显示 && formW!='jiance' -->
        <build-process v-if="tab2Id==31 && formW=='build'"></build-process>
-       <pinzhibaozhang v-if="tab2Id==32 && formW!='jianli'" ></pinzhibaozhang> <!-- 控制显示 && formW!='jiance' -->
-       <qua-guar v-if="tab2Id==32 && formW=='jianli'" ></qua-guar> <!--品质保障编辑-->
+       <pinzhibaozhang v-if="tab2Id==32" ></pinzhibaozhang> <!-- 控制显示 && formW!='jiance' && formW!='jianli'-->
+       <!-- <qua-guar v-if="tab2Id==32 && formW=='jianli'" ></qua-guar> <!--品质保障编辑--> -->
        <testreport v-if="tab2Id==33 && formW!='jiance'"></testreport>
        <testreportedit v-if="tab2Id==33 && formW=='jiance'"></testreportedit>
        <yunjianzao v-if="tab2Id==34"></yunjianzao>
