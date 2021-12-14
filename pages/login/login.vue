@@ -101,7 +101,16 @@
               //获取上次登录最后的角色
               this.api.toGet('currentInfo').then(data=>{
                 if(data){
-                  this.store.dispatch('save',data)
+                  let list = JSON.parse(this,until.seGet('currentRoleList'))
+                  let flag = list.forEach(item => {
+                    if(item.id==data.id) {
+                      return true
+                    }
+                  })
+                  if(flag) {
+                    this.until.seGet('currentRoleList')
+                    this.store.dispatch('save',data)
+                  }
                 }
               })
 

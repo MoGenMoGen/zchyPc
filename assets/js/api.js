@@ -696,6 +696,7 @@ class api {
       get("/ship/memberOrgEnterLink/apis/listIdentities", '', {
         "sinovat-token": window.sessionStorage.getItem("token")
       }).then(res => {
+        window.sessionStorage.setItem("currentRoleList", JSON.stringify(res.data.list))
         // console.log('diaoyong',window.sessionStorage.getItem('currentRole'))
         if (res.data.list.length > 0 && !window.sessionStorage.getItem('currentRole')) {
           store.commit('currentRole', res.data.list[0])
