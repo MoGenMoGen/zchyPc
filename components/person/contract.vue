@@ -10,13 +10,13 @@
     <div class="ctDetail-left">
       <div class="ctDetail-item" style="margin-bottom: 10px;">
         <p>合同编号：<span>{{item.contractNo}}</span></p>
-        <p>船舶名称：<span>{{item.nm}}</span></p>
-        <p>签约日期：<span>{{item.signTm}}</span></p>
+        <p style="width: 45%;">合同名称：<span>{{item.nm}}</span></p>
+        <p style="width: 25%;">签约日期：<span>{{item.signTm}}</span></p>
       </div>
       <div class="ctDetail-item">
         <p>合同金额：<span>￥{{item.totalPrice}}元</span></p>
-        <p>已付金额：<span>￥{{item.paid}}元</span></p>
-        <p>未付金额：<span class="red">￥{{item.nPaid}}元</span></p>
+        <p style="width: 45%;">已付金额：<span>￥{{item.paid}}元</span></p>
+        <p style="width: 25%;">未付金额：<span class="red">￥{{item.nPaid}}元</span></p>
       </div>
     </div>
     <!-- <p>交付日期：<span>{{item.deliveryTm}}</span></p> -->
@@ -254,7 +254,16 @@
         display: flex;
         align-items: center;
         p {
-          width: 33%;
+          display: flex;
+          align-items: center;
+          width: 30%;
+          span {
+            max-width: 65%;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
         }
       }
     }
