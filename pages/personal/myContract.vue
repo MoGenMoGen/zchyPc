@@ -214,9 +214,13 @@
           this.total=data.page.total
           this.ctList=data.data.list
           this.ctList.forEach((item,index)=>{
-            item.totalPrice=item.totalPrice.toFixed(2)
+            item.signTm = item.signTm.substring(0,10)
+            item.totalPrice= item.totalPrice.toFixed(2)
             item.paid=item.paid.toFixed(2)
             item.nPaid=(item.totalPrice-item.paid).toFixed(2)
+            item.totalPrice = this.formatNumberRgx(item.totalPrice)
+            item.paid = this.formatNumberRgx(item.paid)
+            item.nPaid = this.formatNumberRgx(item.nPaid)
             this.$set(this.ctList,index,this.ctList[index])
           })
           console.log(this.ctList)
@@ -239,6 +243,11 @@
         back(){
           this.$router.go(-1)
         },
+        formatNumberRgx(num) {
+            let parts = num.toString().split(".")
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            return parts.join(".")
+        }
       },
     }
 </script>
@@ -351,7 +360,13 @@
         display: flex;
         align-items: center;
         p {
+          display: flex;
+          align-items: center;
           width: 33%;
+          span {
+            display: inline-block;
+            max-width: 60%;
+          }
         }
       }
     }

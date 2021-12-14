@@ -38,7 +38,7 @@
            <p><img :src="cart"/><span>{{cartNum>99?'99+':cartNum}}</span> </p>
           <span>购物车</span>
         </div>
-        <img :src="menuService" style="width: 24px;height: 24px;margin-left: 20px;" @click="openService">
+        <img :src="menuService" style="width: 24px;height: 24px;margin-left: 20px;margin-right: 0;" @click="openService">
       </div>
       <div class="nav" v-show="ifMenu">
          <nav :style="{width:width+'px'}" class="main">
