@@ -247,7 +247,7 @@
       color: #333333;
     }
     .ctDetail-left {
-      width: 90%;
+      width: 95%;
       display: flex;
       flex-direction: column;
       .ctDetail-item {
