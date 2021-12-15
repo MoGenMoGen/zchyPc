@@ -297,6 +297,7 @@
         handler: function () {
           this.currentSpecs = this.currentSpecArr.join(',')
           this.currentInfo = this.info.skus.find(item => item.skuAttr == this.currentSpecs)
+          this.currentInfo.origPrice = this.until.formatNumberRgx(this.currentInfo.origPrice)
           this.getSkuParts()
           if (this.currentInfo && this.proType == 'ship' && this.currentInfo.shipId &&this.info.id) {
             this.$refs.shipDetail.getInfo(this.currentInfo.shipId)

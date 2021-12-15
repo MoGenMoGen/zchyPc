@@ -22,8 +22,8 @@
                     <p class="child1">{{item.nm}}</p>
                   </el-tooltip>
                     <div class="space">
-                        <p class="child2" v-if="item.goodsMinPrice!=price && item.goodsMinPrice !== item.goodsMaxPrice">￥<span class="child3">{{item.goodsMinPrice}}-{{item.goodsMaxPrice}}</span></p>
-                        <p class="child2" v-if="item.goodsMinPrice!=price && item.goodsMinPrice === item.goodsMaxPrice">￥<span class="child3">{{item.goodsMinPrice}}</span></p>
+                        <p class="child2" v-if="item.goodsMinPrice!=price && item.goodsMinPrice !== item.goodsMaxPrice">￥<span class="child3">{{fmoney(item.goodsMinPrice)}}-{{fmoney(item.goodsMaxPrice)}}</span></p>
+                        <p class="child2" v-if="item.goodsMinPrice!=price && item.goodsMinPrice === item.goodsMaxPrice">￥<span class="child3">{{fmoney(item.goodsMinPrice)}}</span></p>
                         <p class="child2" v-if="item.goodsMinPrice==price">价格面议</p>
                         <button v-if="item.isCoupon0 === 1">满减</button>
                         <button v-if="item.isCoupon1 === 1">折扣</button>
@@ -75,6 +75,16 @@
           // this.getData()
         },
         methods: {
+            fmoney(s, n) {
+                n = n > 0 && n <= 20 ? n : 2;
+                s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+                var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+                var t = "";
+                for (let i = 0; i < l.length; i++) {
+                    t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+                }
+                return t.split("").reverse().join("") + "." + r;
+            },
             enter(index) {
                 this.productList[index].isSeen = true
                 this.$set(this.productList, index, this.productList[index])

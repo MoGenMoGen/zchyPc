@@ -23,23 +23,23 @@
       <el-table-column property="payerNm" label="付款单位" width="180"></el-table-column>
       <el-table-column  label="款项金额" width="120">
         <template slot-scope="scope">
-          ￥{{scope.row.payment}}
+          ￥{{fmoney(scope.row.payment)}}
         </template>
       </el-table-column>
       <el-table-column property="payDt" label="付款时间" width="120"></el-table-column>
       <el-table-column label="订单总额" width="120">
         <template slot-scope="scope">
-          ￥{{scope.row.amt}}
+          ￥{{fmoney(scope.row.amt)}}
         </template>
       </el-table-column>
       <el-table-column  label="已收" width="120">
         <template slot-scope="scope">
-          ￥{{scope.row.paid}}
+          ￥{{fmoney(scope.row.paid)}}
         </template>
       </el-table-column>
       <el-table-column label="未收" width="120">
         <template slot-scope="scope">
-          ￥{{scope.row.amt-scope.row.paid}}
+          ￥{{fmoney(scope.row.amt-scope.row.paid)}}
         </template>
       </el-table-column>
       <el-table-column label="操作" width="150" fixed="right">
@@ -108,7 +108,7 @@
                   <span style="color: #333333;">{{v.goodsNm }}</span>
                   <span style="color: #999999;">{{v.goodsSkuAttrNm}}</span>
                 </p>
-                <p style="color: #E4393C;">￥ {{v.goodsPrice}}</p><p>{{v.qty}}</p><p>{{v.goodsUnit}}</p>
+                <p style="color: #E4393C;">￥{{fmoney(v.goodsPrice)}}</p><p>{{v.qty}}</p><p>{{v.goodsUnit}}</p>
              </div>
 
            </div>
@@ -116,11 +116,11 @@
              <div>
                <p class="nmBox" style="flex: 4;">
                  <span style="color: #333333;">{{item.goodsNms}}</span>
-                 <span style="color: #333333;">实收款：￥ {{item.paid}}</span>
+                 <span style="color: #333333;">实收款：￥{{fmoney(item.paid)}}</span>
                </p>
              </div>
            </div>
-           <div style="color: #E4393C;">￥ {{tabId==1 ? item.orderPrice : item.amt}}</div>
+           <div style="color: #E4393C;">￥{{tabId==1 ? fmoney(item.orderPrice) : fmoney(item.amt)}}</div>
            <div>{{item.statusNm}}</div>
            <div class="btnList" v-show="tabId==1">
              <el-button @click="toDetail(item.id)" type="text" size="small" :style="item.statusCd==3?'color:#666;':''" v-if="item.statusCd!=1&&item.statusCd!=5" class="blueBorder">查看详情</el-button>
@@ -268,6 +268,16 @@
         }
       },
       methods: {
+        fmoney(s, n) {
+            n = n > 0 && n <= 20 ? n : 2;
+            s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+            var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+            var t = "";
+            for (let i = 0; i < l.length; i++) {
+                t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+            }
+            return t.split("").reverse().join("") + "." + r;
+        },
         setOptions(){
           this.options2 = this.options.filter(item=>{
             let index = item.type.split(',').findIndex(v=>{

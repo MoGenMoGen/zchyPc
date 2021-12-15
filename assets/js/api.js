@@ -662,7 +662,7 @@ class api {
     });
   }
   //个人信息查看
-  personInfo() {
+  personInfo() { 
     return new Promise(resolve => {
       get("/ship/member/apis/detail", '', {
         "sinovat-token": window.sessionStorage.getItem("token")
@@ -2916,6 +2916,14 @@ class api {
   getListItmTreeNode() {
     return new Promise(resolve => {
       get("sys/cat/listItmTreeNode?pid=4988846313624576").then(res => {
+        resolve(res)
+      })
+    })
+  }
+  //获取个人中心数量
+  getNum() {
+    return new Promise(resolve => {
+      get("/ds/order/orderNum").then(res => {
         resolve(res)
       })
     })

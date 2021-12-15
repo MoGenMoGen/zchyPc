@@ -74,11 +74,11 @@
                   <span style="color: #333333;">{{v.goodsNm }}</span>
                   <span style="color: #999999;">{{v.goodsSkuAttrNm}}</span>
                 </p>
-                <p style="color: #E4393C;">￥ {{v.unitPrice}}</p><p>{{v.qty}}</p>
+                <p style="color: #E4393C;">￥ {{fmoney(v.unitPrice)}}</p><p>{{v.qty}}</p>
              </div>
 
            </div>
-           <div style="color: #E4393C;">￥ {{item.orderPrice}}</div>
+           <div style="color: #E4393C;">￥{{fmoney(item.orderPrice)}}</div>
            <div>{{item.statusNm}}</div>
            <div class="btnList">
              <el-button @click="toDetail(item.id)" type="text" size="small" :style="item.statusCd==3?'color:#666;':''" v-if="item.statusCd!=5" class="detail">查看详情</el-button>
@@ -175,6 +175,16 @@
       watch:{
       },
       methods: {
+        fmoney(s, n) {
+            n = n > 0 && n <= 20 ? n : 2;
+            s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+            var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+            var t = "";
+            for (let i = 0; i < l.length; i++) {
+                t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+            }
+            return t.split("").reverse().join("") + "." + r;
+        },
         async getlogiList(){
           this.logiList=await this.api.logiList()
           console.log('物流公司列表')

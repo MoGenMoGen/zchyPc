@@ -26,7 +26,7 @@
             <p>收款记录<span v-if="list.length>4" @click="dialogTableVisible=true">查看更多 ></span></p>
             <ul>
               <li v-for="item in listCurrent" :key="item.id">
-                <p>款项金额：￥{{item.payment}}</p>
+                <p>款项金额：￥{{fmoney(item.payment)}}</p>
                 <p>付款时间：{{item.payDt}}</p>
               </li>
             </ul>
@@ -48,9 +48,9 @@
                <p @click="toProDetail()">
                  <span>{{info.goodsNms}}</span>
                </p>
-                <p>{{info.amt}}</p>
+                <p>{{fmoney(info.amt)}}</p>
                <p>{{info.qty}}</p>
-               <p>{{Number(info.amt).toFixed(2)}}</p>
+               <p>{{fmoney(info.amt)}}</p>
              </div>
           </div>
 
@@ -100,7 +100,16 @@ export default {
     this.getInfo()
   },
   methods:{
-
+  fmoney(s, n) {
+      n = n > 0 && n <= 20 ? n : 2;
+      s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+      var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+      var t = "";
+      for (let i = 0; i < l.length; i++) {
+          t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+      }
+      return t.split("").reverse().join("") + "." + r;
+  },
    async getInfo(){
       this.api.shipOrderDetail(this.id).then((res) => {
         this.info = res;

@@ -33,7 +33,7 @@
           <div>
             <p>配送信息</p>
             <p><span>配送方式：</span><span>{{info.logiEntpNm}}</span></p>
-            <p><span>运费：</span><span>￥{{info.payShip}}</span></p>
+            <p><span>运费：</span><span>￥{{fmoney(info.payShip)}}</span></p>
           </div>
           <!-- <div>
             <p>付款信息</p>
@@ -61,10 +61,10 @@
                <p>
                   {{item.goodsSkuAttrNm}}
                </p>
-                <p v-if="item.unitPrice!=price">{{item.unitPrice}}</p>
+                <p v-if="item.unitPrice!=price">{{fmoney(item.unitPrice)}}</p>
                <p v-else>价格面议</p>
                <p>{{item.qty}}</p>
-               <p v-if="item.unitPrice!=price">{{Number(item.totalPrice).toFixed(2)}}</p>
+               <p v-if="item.unitPrice!=price">{{fmoney(item.totalPrice)}}</p>
                <p v-else>价格面议</p>
              </div>
           </div>
@@ -75,7 +75,7 @@
           <p>
             <span></span>
             <span><span class="red">{{Number(num).toFixed(2)}}</span>件商品，总商品金额</span>
-            <span v-if="goodList.length && goodList[0].unitPrice!=price">￥{{moneySum}}</span>
+            <span v-if="goodList.length && goodList[0].unitPrice!=price">￥{{fmoney(moneySum)}}</span>
             <span v-if="goodList.length && goodList[0].unitPrice===price">价格面议</span>
           </p>
           <!-- <p>
@@ -86,7 +86,7 @@
           <p>
             <span></span>
             <span>应付总额：</span>
-            <span class="red totalAmout"  v-if="goodList.length && goodList[0].unitPrice!=price">￥{{moneySum+info.payShip}}</span>
+            <span class="red totalAmout"  v-if="goodList.length && goodList[0].unitPrice!=price">￥{{fmoney(moneySum+info.payShip)}}</span>
             <span  class="red totalAmout" v-if="goodList.length && goodList[0].unitPrice===price">价格面议</span>
           </p>
         </div>
@@ -144,6 +144,16 @@ export default {
 
   },
   methods:{
+    fmoney(s, n) {
+        n = n > 0 && n <= 20 ? n : 2;
+        s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+        var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+        var t = "";
+        for (let i = 0; i < l.length; i++) {
+            t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+        }
+        return t.split("").reverse().join("") + "." + r;
+    },
    async getInfo(){
      this.info=await this.api.shopBasicDetail(this.id)
         // if(this.info.payTm){

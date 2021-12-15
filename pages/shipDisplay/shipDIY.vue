@@ -400,6 +400,7 @@
               confirmButtonText: '确定',
             });
             this.money = res;
+            this.money = this.until.formatNumberRgx(this.money)
             console.log(res)
           })
         },

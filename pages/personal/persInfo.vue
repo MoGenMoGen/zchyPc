@@ -22,7 +22,8 @@
       <div class="line4" v-if="tabId==1">
         <div><span>头像:</span>
             <p style="justify-content: flex-start;align-items: center">
-              <img :src="info.imgUrl">
+              <img :src="info.imgUrl" v-if="info.imgUrl">
+              <span style="width: 100px;height: 100px;border: 1px solid #F0F0F0;" v-else></span>
               <span  class="dianji"><input type="file" @change="upImg($event)"/>点击上传头像</span>
             </p>
 

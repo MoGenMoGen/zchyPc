@@ -8,8 +8,8 @@
             <img :src="item.fmImgUrl"/>
           </div>
           <p  @click="toProDetail(item.id)">{{item.nm}}</p>
-          <p class="red"  @click="toProDetail(item.id)" v-if="item.goodsMinPrice!=price && item.goodsMinPrice!==item.goodsMaxPrice">￥{{item.goodsMinPrice}}-{{item.goodsMaxPrice}}</p>
-          <p class="red"  @click="toProDetail(item.id)" v-if="item.goodsMinPrice!=price && item.goodsMinPrice===item.goodsMaxPrice">￥{{item.goodsMinPrice}}</p>
+          <p class="red"  @click="toProDetail(item.id)" v-if="item.goodsMinPrice!=price && item.goodsMinPrice!==item.goodsMaxPrice">￥{{fmoney(item.goodsMinPrice)}}-{{fmoney(item.goodsMaxPrice)}}</p>
+          <p class="red"  @click="toProDetail(item.id)" v-if="item.goodsMinPrice!=price && item.goodsMinPrice===item.goodsMaxPrice">￥{{fmoney(item.goodsMinPrice)}}</p>
           <p class="red"  @click="toProDetail(item.id)" v-if="item.goodsMinPrice==price">价格面议</p>
         </swiper-slide>
         <div class="swiper-button-next" slot="button-next"><i class="el-icon-arrow-down"></i> </div>
@@ -68,6 +68,16 @@
 
       },
       methods:{
+        fmoney(s, n) {
+            n = n > 0 && n <= 20 ? n : 2;
+            s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+            var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+            var t = "";
+            for (let i = 0; i < l.length; i++) {
+                t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+            }
+            return t.split("").reverse().join("") + "." + r;
+        },
         //跳转产品详情
         toProDetail(id){
           // this.until.href('../Trade/productDetail?id='+id+'&type='+this.type)

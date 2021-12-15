@@ -26,8 +26,8 @@
             <div class="up">
 <!--              会员角标，暂时注释-->
 <!--              <img class="yellow" src="@/assets/img/personal/首页/角标.png"/>-->
-              <div class="img">
-                <img :src="info.imgUrl" alt="" :style="{height:(width-20)*4.9/5.9*0.255*0.36 + 'px'}" />
+              <div class="img" :style="{height:(width-20)*4.9/5.9*0.255*0.36 + 'px'}">
+                <img v-if="info.imgUrl" :src="info.imgUrl" alt="" :style="{height:(width-20)*4.9/5.9*0.255*0.36 + 'px'}" />
               </div>
               <p>{{info.realNm}}<span>({{info.mob}})</span></p>
               <p>{{currentRole ? currentRole.company : info.company}}&nbsp;<span v-if="currentRole">[{{currentRole.identityNm}}]</span></p>
@@ -299,7 +299,6 @@
     },
     methods:{
       async getData(){
-
         this.info = await this.api.personInfo()
         //收藏总数
         this.coll = await this.api.favoriteTotal()

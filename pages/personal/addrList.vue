@@ -169,6 +169,7 @@
       }
       p:nth-of-type(2){
         flex:2;
+        margin-right: 10px;
       }
       p:nth-of-type(3){
         flex:1;
@@ -199,6 +200,7 @@
         }
         p:nth-of-type(2){
           flex:2;
+          margin-right: 10px;
         }
         p:nth-of-type(3){
           flex:1;

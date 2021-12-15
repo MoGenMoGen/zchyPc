@@ -53,6 +53,10 @@
        <certificate v-if="tab2Id==22"></certificate>
        <jianyanjiance v-if="tab2Id==23 && formW!='jiance'"></jianyanjiance>
        <inspection v-if="tab2Id==23 && formW=='jiance'"></inspection>
+       <!-- 合同列表 -->
+       <contract v-if="tab2Id == 24"></contract>
+       <!-- 历史资料 -->
+       <history-pic v-if="tab2Id == 25"></history-pic>
      </div>
 
      <design-file v-if="tabId==2 && formW=='design'"></design-file>
@@ -70,6 +74,7 @@
        <testreport v-if="tab2Id==33 && formW!='jiance'"></testreport>
        <testreportedit v-if="tab2Id==33 && formW=='jiance'"></testreportedit>
        <yunjianzao v-if="tab2Id==34"></yunjianzao>
+       <yunjianyan v-if="tab2Id == 35"></yunjianyan>
      </div>
      <bian v-if="tabId==4"></bian>
      <weibao v-if="tabId==5"></weibao>
@@ -98,6 +103,9 @@
     const testreportedit = resolve => require(['@/components/person/testreportedit'],resolve); //检测报告(编辑)
     const pageInation = resolve => require(['@/components/pageInation'],resolve); //
     const designFile = resolve => require(['@/components/person/designFile'],resolve); //设计流程 新增（修改）
+    import yunjianyan from "../../components/person/yunjianyan";
+    import contract from "../../components/person/contract";
+    import historyPic from "../../components/person/historyPic";
     import excel from '@/assets/img/personal/excel.png'
     import ppt from '@/assets/img/personal/ppt.png'
     import word from '@/assets/img/personal/word.png'
@@ -115,7 +123,7 @@
         baseInfo1,
         baseInfo2,quaGuar,
         baseInfo3,yunjianzao,pinzhibaozhang,
-        shipEquip,certificate,testreport,testreportedit
+        shipEquip,certificate,testreport,testreportedit,yunjianyan,contract,historyPic
       },
       data(){
           return{
@@ -150,10 +158,19 @@
               {
                 id:22,
                 nm:'船舶检验证书',
-              },{
+              },
+              {
                 id:23,
                 nm:'设备及其他证书',
-              }
+              },
+              {
+                id: 24,
+                nm: "合同列表",
+              },
+              {
+                id: 25,
+                nm: "历史资料",
+              },
             ],
             tab22:[
                 {
@@ -192,6 +209,10 @@
                 id:34,
                 nm:'云监造',
               },
+              {
+                id: 35,
+                nm: "云检验",
+              },
             ]
 
           }
@@ -226,6 +247,8 @@
             console.log('===============')
             if(this.formW=='jiance'){
               this.tab2Id = '33'
+            }else if(this.tab2Id){
+              
             }else{
               this.tab2Id = '30'
             }

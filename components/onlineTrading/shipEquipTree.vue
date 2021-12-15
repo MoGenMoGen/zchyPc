@@ -62,9 +62,11 @@
                width="100">
              </el-table-column>
              <el-table-column
-               prop="price"
                label="价格(￥)"
                width="100">
+               <template  slot-scope="scope">
+                 {{fmoney(scope.row.price)}}
+               </template>
              </el-table-column>
              <el-table-column
                label="金额(￥)"
@@ -73,7 +75,7 @@
                width="100">
                <template slot-scope="scope">
 
-                 {{scope.row.price ? scope.row.price*scope.row.num : ''}}
+                 {{scope.row.price ? fmoney(scope.row.price*scope.row.num) : ''}}
                </template>
              </el-table-column>
              <el-table-column
@@ -186,6 +188,16 @@
       // this.getClassify()
     },
     methods:{
+      fmoney(s, n) {
+          n = n > 0 && n <= 20 ? n : 2;
+          s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+          var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+          var t = "";
+          for (let i = 0; i < l.length; i++) {
+              t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+          }
+          return t.split("").reverse().join("") + "." + r;
+      },
       // async getClassifyAll(){
       //   console.log('获取')
       //   let qry = this.query.new()

@@ -72,7 +72,8 @@
             prop="operations"
             label="操作">
             <template slot-scope="scope">
-              <el-button @click="toDetail(scope.row)" type="text" size="small" class="fileBtn">船舶档案</el-button>
+              <el-button @click="toDetail(scope.row,'1')" type="text" size="small" class="addBtn">新增</el-button>
+              <el-button @click="toDetail(scope.row,'2')" type="text" size="small" class="fileBtn">船舶档案</el-button>
             </template>
           </el-table-column>
        </el-table>
@@ -193,9 +194,13 @@
           this.tableData=[]
           this.getInfo()
         },
-        toDetail(item){
+        toDetail(item,type){
           console.log(item.id)
-          this.$router.push('./shipFileDetail?id='+item.id+"&cdType=3&formW=build&shipCd="+item.cd+"&shipStatus="+item.statusNm)
+          if(type==1) {
+            this.$router.push('./shipFileDetail?id='+item.id+"&cdType=3&cdType2=31&formW=build&shipCd="+item.cd+"&shipStatus="+item.statusNm)
+          } else {
+            this.$router.push('./shipFileDetail?id='+item.id+"&cdType=3&formW=build&shipCd="+item.cd+"&shipStatus="+item.statusNm)
+          }
         },
         back(){//返回
 			this.$router.back()
@@ -241,6 +246,14 @@
     }
     .el-table__fixed-right{
       height: 100%!important;
+    }
+    .addBtn{
+      background:rgba(39,120,190,1);
+      padding: 10px 17px;
+      border:none;
+      border-radius:3px;
+      font-size:15px;
+      color:#FFFFFF;
     }
     .fileBtn{
       padding: 10px 17px;

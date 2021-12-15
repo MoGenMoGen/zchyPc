@@ -68,9 +68,11 @@
             label="数量">
           </el-table-column>
           <el-table-column
-            prop="realPayment"
             width="120"
             label="实付款">
+            <template slot-scope="scope">
+              {{fmoney(scope.row.realPayment)}}
+            </template>
           </el-table-column>
           <el-table-column
             prop="status"
@@ -183,6 +185,16 @@
         }
       },
       methods: {
+        fmoney(s, n) {
+            n = n > 0 && n <= 20 ? n : 2;
+            s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+            var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+            var t = "";
+            for (let i = 0; i < l.length; i++) {
+                t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+            }
+            return t.split("").reverse().join("") + "." + r;
+        },
         getInfo(){
           this.tableData=[]
           this.list.forEach((item,index)=>{

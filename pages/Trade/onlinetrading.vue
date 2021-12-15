@@ -103,8 +103,8 @@
               <img :src="recomdPro[0].img" alt=""/>
             </div>
             <p>{{recomdPro[0].nm}}</p>
-            <p class="textRed" v-if="recomdPro[0].goodsMinPrice!=price && recomdPro[0].goodsMinPrice !== recomdPro[0].goodsMaxPrice">￥{{recomdPro[0].goodsMinPrice}}-{{recomdPro[0].goodsMaxPrice}}</p>
-            <p class="textRed" v-if="recomdPro[0].goodsMinPrice!=price && recomdPro[0].goodsMinPrice === recomdPro[0].goodsMaxPrice">￥{{recomdPro[0].goodsMinPrice}}</p>
+            <p class="textRed" v-if="recomdPro[0].goodsMinPrice!=price && recomdPro[0].goodsMinPrice !== recomdPro[0].goodsMaxPrice">￥{{fmoney(recomdPro[0].goodsMinPrice)}}-{{fmoney(recomdPro[0].goodsMaxPrice)}}</p>
+            <p class="textRed" v-if="recomdPro[0].goodsMinPrice!=price && recomdPro[0].goodsMinPrice === recomdPro[0].goodsMaxPrice">￥{{fmoney(recomdPro[0].goodsMinPrice)}}</p>
             <p class="textRed" v-if="recomdPro[0].goodsMinPrice==price">价格面议</p>
           </div>
         </div>
@@ -121,8 +121,8 @@
 
 
                 <div class="productMiniSwiper">
-                  <p v-if="item.goodsMinPrice!=price && item.goodsMinPrice!==item.goodsMaxPrice">￥{{item.goodsMinPrice}}-{{item.goodsMaxPrice}}</p>
-                  <p v-if="item.goodsMinPrice!=price && item.goodsMinPrice===item.goodsMaxPrice">￥{{item.goodsMinPrice}}</p>
+                  <p v-if="item.goodsMinPrice!=price && item.goodsMinPrice!==item.goodsMaxPrice">￥{{fmoney(item.goodsMinPrice)}}-{{fmoney(item.goodsMaxPrice)}}</p>
+                  <p v-if="item.goodsMinPrice!=price && item.goodsMinPrice===item.goodsMaxPrice">￥{{fmoney(item.goodsMinPrice)}}</p>
                   <p v-if="item.goodsMinPrice==price">价格面议</p>
                   <img src="../../assets/img/onlineTrade/价格.png"/>
                   <p class="childA"><span><img :src="car"/></span></p>
@@ -295,8 +295,8 @@
               <img :src="newPro[0].img" :alt="newPro[0].nm"/>
             </div>
             <p>{{newPro[0].nm}}</p>
-            <p class="textRed" v-if="newPro[0].goodsMinPrice!=price && newPro[0].goodsMinPrice!==newPro[0].goodsMaxPrice">￥{{newPro[0].goodsMinPrice}}-{{newPro[0].goodsMaxPrice}}</p>
-            <p class="textRed" v-if="newPro[0].goodsMinPrice!=price && newPro[0].goodsMinPrice===newPro[0].goodsMaxPrice">￥{{newPro[0].goodsMinPrice}}</p>
+            <p class="textRed" v-if="newPro[0].goodsMinPrice!=price && newPro[0].goodsMinPrice!==newPro[0].goodsMaxPrice">￥{{fmoney(newPro[0].goodsMinPrice)}}-{{fmoney(newPro[0].goodsMaxPrice)}}</p>
+            <p class="textRed" v-if="newPro[0].goodsMinPrice!=price && newPro[0].goodsMinPrice===newPro[0].goodsMaxPrice">￥{{fmoney(newPro[0].goodsMinPrice)}}</p>
             <p class="textRed" v-if="newPro[0].goodsMinPrice==price">价格面议</p>
           </div>
         </div>

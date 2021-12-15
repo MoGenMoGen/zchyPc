@@ -55,7 +55,7 @@
           <div v-if="info.status>20&&info.status<100">
             <p>配送信息</p>
             <p><span>配送方式：</span><span>{{info.logiEntpNm}}</span></p>
-            <p><span>运费：</span><span>￥{{info.payShip}}</span></p>
+            <p><span>运费：</span><span>￥{{fmoney(info.payShip)}}</span></p>
           </div>
           <div>
             <p>付款信息</p>
@@ -63,7 +63,7 @@
             <p><span>付款时间：</span><span>{{info.payTm}}</span></p>
             <p>
               <span>商品总额：</span>
-              <span v-if="info.orderPrice!=price">￥{{info.orderPrice}}</span>
+              <span v-if="info.orderPrice!=price">￥{{fmoney(info.orderPrice)}}</span>
               <span v-if="info.orderPrice==price">价格面议</span>
             </p>
           </div>
@@ -91,10 +91,10 @@
                <p v-else>
                  {{item.goodsSkuAttrNm}}
                </p>
-               <p v-if="item.goodsPrice!=price"> ￥{{item.goodsPrice}}</p>
+               <p v-if="item.goodsPrice!=price"> ￥{{fmoney(item.goodsPrice)}}</p>
                <p v-else>价格面议</p>
                <p>{{item.qty}}</p>
-               <p v-if="item.goodsPrice!=price"> ￥{{Number(item.total).toFixed(2)}}</p>
+               <p v-if="item.goodsPrice!=price"> ￥{{fmoney(item.total)}}</p>
                <p v-else>价格面议</p>
              </div>
           </div>
@@ -105,28 +105,28 @@
           <p>
             <span></span>
             <span><span class="red">{{Number(num).toFixed(2)}}</span>件商品，总商品金额</span>
-            <span v-if="goodList.length && goodList[0].goodsPrice!==price">￥{{Number(moneySum).toFixed(2)}}</span>
+            <span v-if="goodList.length && goodList[0].goodsPrice!==price">￥{{fmoney(moneySum)}}</span>
             <span v-if="goodList.length && goodList[0].goodsPrice===price">价格面议</span>
           </p>
           <p>
             <span></span>
             <span>优惠后金额：</span>
-            <span>￥{{Number(info.orderAmt).toFixed(2)}}</span>
+            <span>￥{{fmoney(info.orderAmt)}}</span>
           </p>
           <p>
             <span></span>
             <span>运费：</span>
-            <span>￥{{info.payShip}}</span>
+            <span>￥{{fmoney(info.payShip)}}</span>
           </p>
           <p>
             <span></span>
             <span>其他费用：</span>
-            <span>￥{{info.otherPrice}}</span>
+            <span>￥{{fmoney(info.otherPrice)}}</span>
           </p>
           <p>
             <span></span>
             <span>应付总额：</span>
-            <span class="red totalAmout"  v-if="goodList.length && goodList[0].goodsPrice!==price">￥{{info.orderAmt+info.payShip+info.otherPrice}}</span>
+            <span class="red totalAmout"  v-if="goodList.length && goodList[0].goodsPrice!==price">￥{{fmoney(info.orderAmt+info.payShip+info.otherPrice)}}</span>
             <span class="red totalAmout"  v-if="goodList.length && goodList[0].goodsPrice===price">价格面议</span>
           </p>
         </div>
@@ -187,6 +187,16 @@ export default {
     this.getInfo()
   },
   methods:{
+    fmoney(s, n) {
+        n = n > 0 && n <= 20 ? n : 2;
+        s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+        var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+        var t = "";
+        for (let i = 0; i < l.length; i++) {
+            t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+        }
+        return t.split("").reverse().join("") + "." + r;
+    },
    getInfo(){
       this.api.orderDetail(this.id,this.cd).then((res) => {
         this.info = res;

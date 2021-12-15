@@ -77,6 +77,9 @@
           this.totalPrice = res.data.totalPrice.toFixed(2)
           this.paid = res.data.paid.toFixed(2)
           this.npaid = (res.data.totalPrice - res.data.paid).toFixed(2)
+          this.totalPrice = this.until.formatNumberRgx(this.totalPrice)
+          this.paid = this.until.formatNumberRgx(this.paid)
+          this.npaid = this.until.formatNumberRgx(this.npaid)
         })
         this.getInfo()
       },

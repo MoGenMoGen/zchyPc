@@ -9,12 +9,12 @@
     <p>合同编号：<span>{{ctList.contractNo}}</span></p>
     <p>分期付款：<span>{{ctList.installment}}</span></p>
     <p>船舶名称：<span>{{ctList.nm}}</span></p>
-    <p>已付金额：<span>{{ctList.paid}}</span></p>
+    <p>已付金额：<span>{{fmoney(ctList.paid)}}</span></p>
     <p>签约日期：<span>{{ctList.signTm}}</span></p>
-    <p>未付金额：<span>{{ctList.totalPrice-ctList.paid}}</span></p>
+    <p>未付金额：<span>{{fmoney(ctList.totalPrice-ctList.paid)}}</span></p>
     <p>交付日期：<span>{{ctList.deliveryTm}}</span></p>
     <p>乙方公司：<span>{{ctList.partybNm}}</span></p>
-    <p>合同总额：<span class="textRed">￥{{ctList.totalPrice}}</span></p>
+    <p>合同总额：<span class="textRed">￥{{fmoney(ctList.totalPrice)}}</span></p>
   </div>
   <div class="ctDetail" v-for="(item,index) in list" :key="index">
     <div class="ct1">
@@ -71,6 +71,16 @@
        this.getInfo()
       },
       methods:{
+        fmoney(s, n) {
+            n = n > 0 && n <= 20 ? n : 2;
+            s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+            var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+            var t = "";
+            for (let i = 0; i < l.length; i++) {
+                t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+            }
+            return t.split("").reverse().join("") + "." + r;
+        },
         async getInfo(){
           this.ctList=await this.api.contractDetail(this.id)
           this.list=this.ctList.attachment.split(',')

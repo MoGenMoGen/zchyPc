@@ -220,7 +220,7 @@
       },
     }
 </script>
-<style lang="less">
+<style lang="less" scope>
   .endTm {  //时间选择
     .el-date-editor.el-input{
       border-radius: 5px;
@@ -266,6 +266,8 @@
       border-radius:3px;
       font-size:15px;
       color:rgba(39,120,190,1);
+      margin-left: 0;
+      margin-bottom: 10px;
     }
   }
 </style>

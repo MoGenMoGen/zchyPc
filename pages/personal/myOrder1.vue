@@ -50,13 +50,13 @@
                   <span style="color: #333333;">{{v.goodsNm}}</span>
                   <span style="color: #999999;">{{v.goodsSkuAttrNm}}</span>
                 </p>
-                <p style="color: #E4393C;" v-if="v.goodsPrice!=price">￥ {{v.goodsPrice}}</p>
+                <p style="color: #E4393C;" v-if="v.goodsPrice!=price">￥{{fmoney(v.goodsPrice)}}</p>
                <p style="color: #E4393C;" v-else>价格面议</p>
                <p>x{{v.qty}}</p>
                <p>{{v.goodsUnit}}</p>
              </div>
            </div>
-           <div style="color: #E4393C;"  v-if="item.itms[0].goodsPrice!=price">￥ {{item.orderPrice}}</div>
+           <div style="color: #E4393C;"  v-if="item.itms[0].goodsPrice!=price">￥{{fmoney(item.orderPrice)}}</div>
            <div style="color: #E4393C;"  v-else>价格面议</div>
            <div>{{item.statusNm}}</div>
            <div class="btnList">
@@ -188,6 +188,16 @@
          this.getInfo()
       },
       methods: {
+        fmoney(s, n) {
+            n = n > 0 && n <= 20 ? n : 2;
+            s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+            var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+            var t = "";
+            for (let i = 0; i < l.length; i++) {
+                t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+            }
+            return t.split("").reverse().join("") + "." + r;
+        },
         async toMyOrder(id){
           if(this.userInfo.pid){
             let flag=0

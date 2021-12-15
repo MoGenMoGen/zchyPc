@@ -52,14 +52,14 @@
           label="订单总额"
           width="145">
           <template slot-scope="scope">
-            ￥{{scope.row.orderAmt}}
+            ￥{{fmoney(scope.row.orderAmt)}}
           </template>
         </el-table-column>
         <el-table-column
           width="145"
           label="计划完成金额">
           <template slot-scope="scope">
-            ￥{{scope.row.fees}}
+            ￥{{fmoney(scope.row.fees)}}
           </template>
         </el-table-column>
         <el-table-column
@@ -73,7 +73,7 @@
           width="145"
           label="实际完成金额">
           <template slot-scope="scope">
-            ￥{{scope.row.alFees}}
+            ￥{{fmoney(scope.row.alFees)}}
           </template>
         </el-table-column>
         <el-table-column
@@ -129,21 +129,21 @@
           width="180"
           v-if="tabId2==11">
           <template slot-scope="scope">
-            <p @click="toOrder(scope.row)" class="cursor">{{scope.row.contractNm}}</p>
+            <p @click="toOrder(scope.row)" class="cursor">{{scope.row.contractNo}}</p>
           </template>
         </el-table-column>
         <el-table-column
           label="订单总额"
           width="145">
           <template slot-scope="scope">
-            ￥{{scope.row.orderAmt}}
+            ￥{{fmoney(scope.row.orderAmt)}}
           </template>
         </el-table-column>
         <el-table-column
           width="145"
           label="计划完成金额">
           <template slot-scope="scope">
-            ￥{{scope.row.fees}}
+            ￥{{fmoney(scope.row.fees)}}
           </template>
         </el-table-column>
         <el-table-column
@@ -157,7 +157,7 @@
           width="145"
           label="实际完成金额">
           <template slot-scope="scope">
-            ￥{{scope.row.alFees}}
+            ￥{{fmoney(scope.row.alFees)}}
           </template>
         </el-table-column>
         <el-table-column
@@ -320,6 +320,16 @@
         },
       },
       methods:{
+        fmoney(s, n) {
+            n = n > 0 && n <= 20 ? n : 2;
+            s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+            var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+            var t = "";
+            for (let i = 0; i < l.length; i++) {
+                t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+            }
+            return t.split("").reverse().join("") + "." + r;
+        },
         //跳转订单详情
         toOrder(item){
           if(!item.orderId){ //非商城跳转合同详情

@@ -44,14 +44,14 @@
           label="订单总额"
           width="145">
           <template slot-scope="scope">
-            ￥{{scope.row.orderAmt}}
+            ￥{{fmoney(scope.row.orderAmt)}}
           </template>
         </el-table-column>
         <el-table-column
           width="145"
           label="计划完成金额">
           <template slot-scope="scope">
-            ￥{{scope.row.fees}}
+            ￥{{fmoney(scope.row.fees)}}
           </template>
         </el-table-column>
         <el-table-column
@@ -65,7 +65,7 @@
           width="145"
           label="实际完成金额">
           <template slot-scope="scope">
-            ￥{{scope.row.alFees}}
+            ￥{{fmoney(scope.row.alFees)}}
           </template>
         </el-table-column>
         <el-table-column
@@ -144,14 +144,14 @@
           label="订单总额"
           width="145">
           <template slot-scope="scope">
-            ￥{{scope.row.orderAmt}}
+            ￥{{fmoney(scope.row.orderAmt)}}
           </template>
         </el-table-column>
         <el-table-column
           width="145"
           label="计划完成金额">
           <template slot-scope="scope">
-            ￥{{scope.row.fees}}
+            ￥{{fmoney(scope.row.fees)}}
           </template>
         </el-table-column>
         <el-table-column
@@ -165,7 +165,7 @@
           width="145"
           label="实际完成金额">
           <template slot-scope="scope">
-            ￥{{scope.row.alFees}}
+            ￥{{fmoney(scope.row.alFees)}}
           </template>
         </el-table-column>
         <el-table-column
@@ -493,6 +493,16 @@
         },
         },
         methods:{
+          fmoney(s, n) {
+              n = n > 0 && n <= 20 ? n : 2;
+              s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+              var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+              var t = "";
+              for (let i = 0; i < l.length; i++) {
+                  t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+              }
+              return t.split("").reverse().join("") + "." + r;
+          },
           toOrder(item){
             if(item.isShop){ //非商城跳转合同详情
               if(item.contractId){ //有合同单号
@@ -501,7 +511,7 @@
                 window.open('./order/orderDetail2?id='+item.orderId)
               }
             }else { //商城跳转订单详情
-              window.open('./order/orderDetail?id='+item.orderId)
+              window.open('./order/orderDetail?id='+item.orderId+'&cd='+item.orderCd)
             }
           },
           submit(item){

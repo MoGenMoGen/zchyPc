@@ -8,8 +8,8 @@
           <img :src="list[0].img" :alt="list[0].shopNm"/>
         </div>
         <p style="font-size: 12px">{{list[0].nm}}</p>
-        <p class="textRed" v-if="list[0].goodsMinPrice!=price && list[0].goodsMinPrice !== list[0].goodsMaxPrice">￥{{list[0].goodsMinPrice}}-{{list[0].goodsMaxPrice}}</p>
-        <p class="textRed" v-if="list[0].goodsMinPrice!=price && list[0].goodsMinPrice === list[0].goodsMaxPrice">￥{{list[0].goodsMinPrice}}</p>
+        <p class="textRed" v-if="list[0].goodsMinPrice!=price && list[0].goodsMinPrice !== list[0].goodsMaxPrice">￥{{fmoney(list[0].goodsMinPrice)}}-{{fmoney(list[0].goodsMaxPrice)}}</p>
+        <p class="textRed" v-if="list[0].goodsMinPrice!=price && list[0].goodsMinPrice === list[0].goodsMaxPrice">￥{{fmoney(list[0].goodsMinPrice)}}</p>
         <p class="textRed" v-if="list[0].goodsMinPrice==price">价格面议</p>
 
       </div>
@@ -21,8 +21,8 @@
           </div>
           <div class="rightPart">
             <p style="font-size: 12px ;margin-right: 3px">{{item.nm}}</p>
-            <p class="textRed" v-if="item.goodsMinPrice!=price && item.goodsMinPrice!==item.goodsMaxPrice">￥{{item.goodsMinPrice}}-{{item.goodsMaxPrice}}</p>
-            <p class="textRed" v-if="item.goodsMinPrice!=price && item.goodsMinPrice===item.goodsMaxPrice">￥{{item.goodsMinPrice}}</p>
+            <p class="textRed" v-if="item.goodsMinPrice!=price && item.goodsMinPrice!==item.goodsMaxPrice">￥{{fmoney(item.goodsMinPrice)}}-{{fmoney(item.goodsMaxPrice)}}</p>
+            <p class="textRed" v-if="item.goodsMinPrice!=price && item.goodsMinPrice===item.goodsMaxPrice">￥{{fmoney(item.goodsMinPrice)}}</p>
             <p class="textRed" v-if="item.goodsMinPrice==price">价格面议</p>
             <p>热销中</p>
           </div>
@@ -53,6 +53,16 @@
         this.width = this.$refs.tradePrice.offsetWidth
       },
       methods:{
+        fmoney(s, n) {
+            n = n > 0 && n <= 20 ? n : 2;
+            s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+            var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+            var t = "";
+            for (let i = 0; i < l.length; i++) {
+                t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+            }
+            return t.split("").reverse().join("") + "." + r;
+        },
         toProDetail(item){
           // this.$router.push({
           //   path:'../Trade/productDetail',
@@ -165,6 +175,10 @@
             .textRed{
               font-size: 16px;
               color: #FF3E3E;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              display: block;
             }
           }
         }
