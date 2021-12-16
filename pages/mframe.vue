@@ -39,16 +39,19 @@
           this.api.shipInfoBasic(this.id, {
             orgEnterId: orgEnterId
           }).then(res => {
-            this.iframeUrl = res.vrUrl
+            this.iframeUrl = res.vrUrl.split(',')[0]
+            console.log(this.iframeUrl)
           })
         }
       } else if(this.typeCd==1) {
         this.api.designFileDetail(this.id).then(res => {
-          this.iframeUrl = res.vrUrl
+          this.iframeUrl = res.vrUrl.split(',')[0]
+          console.log(this.iframeUrl)
         })
       } else if(this.typeCd==2) {
         this.api.productGetVr(this.id).then(res => {
-          this.iframeUrl = res.msg
+          this.iframeUrl = res.msg.split(',')[0]
+          console.log(this.iframeUrl)
         })
       }
     },

@@ -21,7 +21,6 @@
       this.getWidth()
       window.onresize = () => {
         this.getWidth()
-        this.changeDevice()
       }
     },
     methods: {

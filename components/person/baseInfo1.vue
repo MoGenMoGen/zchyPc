@@ -48,17 +48,17 @@
           <span>船舶类型:</span>{{info.typesNm}}
         </p>
         <p>
-          <span>船舶户籍:</span>{{info.registry}}
+          <span>户籍:</span>{{info.registry}}
         </p>
 
       </div>
 <!--     2 -->
       <div>
         <p>
-          <span>航区:</span>{{info.sailingAreaNm}}
+          <span>船舶航区:</span>{{info.sailingAreaNm}}
         </p>
         <p>
-          <span>船舶总长(m):</span>{{info.totalLen}}
+          <span>船舶总长(M):</span>{{info.totalLen}}
         </p>
         <p>
           <span>船体材质:</span>{{info.hullMaterialNm}}
@@ -73,71 +73,74 @@
           <span>公约长度:</span>{{info.lengthNm}}
         </p>
         <p>
-          <span>公约船长(m):</span>{{info.pactLen}}
+          <span>公约船长(M):</span>{{info.pactLen}}
         </p>
         <p>
-          <span>主机:</span>{{info.hostBrand}}
+          <span>主机品牌:</span>{{info.hostBrand}}
         </p>
         <p>
-          <span>主机功率(kW):</span>{{info.hostPower}}
+          <span>主机功率(KW):</span>{{info.hostPower}}
         </p>
       </div>
 <!--     4 -->
       <div>
         <p>
-          <span>齿轮箱:</span>{{info.gearBrand}}
+          <span>主机型号:</span>{{info.hostBrandModel}}
+        </p>
+        <p>
+          <span>齿轮箱品牌:</span>{{info.gearBrand}}
         </p>
         <p>
           <span>齿轮箱型号:</span>{{info.gearModel}}
         </p>
         <p>
-          <span>发电机:</span>{{info.generatorSetBrand}}
-        </p>
-        <p>
-          <span>发电机功率(kW):</span>{{info.generatorSetPower}}
+          <span>发电机组品牌:</span>{{info.generatorSetBrand}}
         </p>
       </div>
 <!--     5 -->
       <div>
         <p>
+          <span>发电机组功率(kW):</span>{{info.generatorSetPower}}
+        </p>
+        <p>
+          <span>发电机组型号:</span>{{info.generatorSetBrandModel}}
+        </p>
+        <p>
           <span>制冷机组品牌:</span>{{info.refrigeratorBrand}}
         </p>
         <p>
-          <span>制冷机功率(kW):</span>{{info.refrigeratorPower}}
+          <span>制冷机组功率(KW):</span>{{info.refrigeratorPower}}
         </p>
-        <p>
-          <span>船舶型宽(m):</span>{{info.width}}
-        </p>
-        <p>
-          <span>船舶型深(m):</span>{{info.deep}}
-        </p>
-
       </div>
 <!--     6 -->
       <div>
         <p>
-          <span>满载排水量(t):</span>{{info.loadDisplacement}}
+          <span>船舶型宽(M):</span>{{info.width}}
         </p>
         <p>
-          <span>满载吃水(m):</span>{{info.loadDraught}}
+          <span>船舶型深(M):</span>{{info.deep}}
         </p>
         <p>
-          <span>定员(P):</span>{{info.complement}}
+          <span>满载排水(L):</span>{{info.loadDisplacement}}
         </p>
         <p>
-          <span>航速(kn):</span>{{info.speed}}
+          <span>满载吃水(L):</span>{{info.loadDraught}}
         </p>
       </div>
 <!--     7 -->
       <div>
         <p>
-          <span>总吨位:</span>{{info.totalTon}}
+          <span>船舶定员:</span>{{info.complement}}
         </p>
         <p>
-          <span>净吨位:</span>{{info.netTon}}
+          <span>船舶航速(M/S):</span>{{info.speed}}
         </p>
-        <p></p>
-        <p></p>
+        <p>
+          <span>总吨位(吨):</span>{{info.totalTon}}
+        </p>
+        <p>
+          <span>净吨位(吨):</span>{{info.netTon}}
+        </p>
       </div>
 
       <div class="entireLine" v-for="item in paraList">

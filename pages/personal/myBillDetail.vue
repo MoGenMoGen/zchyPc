@@ -5,8 +5,8 @@
     </div>
     <p style="border-bottom: 1px solid rgba(0,0,0,0.1);"></p>
     <div class="sum-line">
-      <p>已开金额：{{openedSum}}</p>
-      <p style="color: red;">未开金额：{{canOpenSum - openedSum}}</p>
+      <p>已开金额：{{fmoney(openedSum)}}</p>
+      <p style="color: red;">未开金额：{{fmoney(canOpenSum - openedSum)}}</p>
     </div>
     <!-- <div class="steps-box">
       <div class="steps-img">
@@ -132,6 +132,16 @@
     watch: {
     },
     methods: {
+      fmoney(s, n) {
+          n = n > 0 && n <= 20 ? n : 2;
+          s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+          var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+          var t = "";
+          for (let i = 0; i < l.length; i++) {
+              t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+          }
+          return t.split("").reverse().join("") + "." + r;
+      },
       downLoadImg(url) {
         window.open(url)
       }
