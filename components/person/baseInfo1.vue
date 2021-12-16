@@ -100,7 +100,7 @@
 <!--     5 -->
       <div>
         <p>
-          <span>发电机组功率(kW):</span>{{info.generatorSetPower}}
+          <span>发电机组功率(KW):</span>{{info.generatorSetPower}}
         </p>
         <p>
           <span>发电机组型号:</span>{{info.generatorSetBrandModel}}
