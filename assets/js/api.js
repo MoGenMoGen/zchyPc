@@ -2301,7 +2301,7 @@ class api {
   designGoodsList(query) {
     return new Promise(resolve => {
       get("/ship/soluDevice/api/list?query=" + query).then(res => {
-        resolve(res.data.list)
+        resolve(res)
       })
     })
   }

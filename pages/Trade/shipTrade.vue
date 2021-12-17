@@ -333,29 +333,29 @@
           console.log("id列表")
           console.log(this.id)
         let qry = this.query.new()
-        if(!this.typesCd){
-          // if(this.id.length==1){ //只有一个id，是上级id
-          //   this.query.toW(qry,'tid',this.id[0],'EQ')
-          // }
-          // if(this.id.length==2){
-          //   this.threeList.forEach(item=>{
-          //     if(this.id[1]==item.id){
-          //       this.changeSelected(2,item.cd)
-          //     }
-          //
-          //   })
-          //   // this.query.toW(qry,'tid',this.id[0],'EQ')
-          //   this.query.toW(qry,'sid',this.id[1],'EQ')
-          // }
-          // if(this.id.length==3){
-          //   // this.query.toW(qry,'tid',this.id[0],'EQ')
-          //   this.query.toW(qry,'sid',this.id[1],'EQ')
-          //   this.query.toW(qry,'catId',this.id[2],'EQ')
-          // }
-        }else {
-          this.query.toW(qry,'typesCd',this.typesCd,'EQ')
-        }
-
+        // if(!this.typesCd){
+          if(this.id.length==1){ //只有一个id，是上级id
+            this.query.toW(qry,'tid',this.id[0],'EQ')
+          }
+          if(this.id.length==2){
+            this.threeList.forEach(item=>{
+              if(this.id[1]==item.id){
+                this.changeSelected(2,item.cd)
+              }
+          
+            })
+            // this.query.toW(qry,'tid',this.id[0],'EQ')
+            this.query.toW(qry,'sid',this.id[1],'EQ')
+          }
+          if(this.id.length==3){
+            // this.query.toW(qry,'tid',this.id[0],'EQ')
+            this.query.toW(qry,'sid',this.id[1],'EQ')
+            this.query.toW(qry,'catId',this.id[2],'EQ')
+          }
+        // }else {
+        //   this.query.toW(qry,'typesCd',this.typesCd,'EQ')
+        // }
+        // this.query.toW(qry,'cids',JSON.parse(this.$route.query.id).join(","),'LK')
         // this.query.toW(qry,'brandId',this.brandId,'EQ')
         if(this.isActive===1){
           this.query.toO(qry,'seq','desc')
@@ -384,9 +384,9 @@
         if(this.hullMaterialCd){
           this.query.toW(qry,'hullMaterialCd',this.hullMaterialCd,'EQ')
         }
-        // if(this.typesCd){
-        //   this.query.toW(qry,'typesCd',this.typesCd)
-        // }
+        if(this.typesCd){
+          this.query.toW(qry,'typesCd',this.typesCd)
+        }
         if(this.lengthCd){
           this.query.toW(qry,'lengthCd',this.lengthCd,'EQ')
         }

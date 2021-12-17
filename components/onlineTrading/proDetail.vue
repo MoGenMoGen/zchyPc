@@ -18,19 +18,21 @@
              </div>
              <p v-if="param">船舶主要参数</p>
             <ul v-if="param">
-              <li>船籍：{{param.registry}}</li><li>船舶类型：{{param.typesNm}}</li>
-              <li>航区：{{param.sailingAreaNm}}</li><li>船体材质：{{param.hullMaterialNm}}</li>
-              <li>船舶总长(m)：{{param.totalLen}}</li><li>公约船长(m)：{{param.pactLen}}</li>
-              <li>型宽(m)：{{param.width}}</li><li>型深(m)：{{param.deep}}</li>
-              <li>满载吃水(m)：{{param.loadDraught}}</li><li>满载排水量(t)：{{param.loadDisplacement}}</li>
-              <li>航速(kn)：{{param.speed}}</li><li>定员(P)：{{param.complement}}</li>
-              <li>主机：{{param.hostBrand}}</li><li>主机功率(kW)：{{param.hostPower}}</li>
-              <li>齿轮箱：{{param.gearBrand}}</li><li>齿轮箱型号：{{param.gearModel}}</li>
-              <li>发电机：{{param.generatorSetBrand}}</li><li>发电机功率(kW)：{{param.generatorSetPower}}</li>
-              <li>制冷机组：{{param.refrigeratorBrand}}</li><li>制冷机组功率(kW)：{{param.refrigeratorPower}}</li>
-              <li>总吨：{{param.totalTon}}</li><li>净吨：{{param.netTon}}</li>
-              <li>完工日期：{{param.completeDate}}</li>
-              <li v-for="item in paramList">
+              <li>船舶状态：{{param.statusNm}}</li><li>船舶证签发日期：{{param.signDate}}</li>
+              <li>船舶类型：{{param.typesNm}}</li><li>户籍：{{param.registry}}</li>
+              <li>船舶航区：{{param.sailingAreaNm}}</li><li>船舶总长(M)：{{param.totalLen}}</li>
+              <li>船体材质：{{param.hullMaterialNm}}</li><li>完工日期：{{param.completeDate}}</li>
+              <li>公约长度：{{param.lengthNm}}</li><li>公约船长(M)：{{param.pactLen}}</li>
+              <li>主机品牌：{{param.hostBrand}}</li><li>主机功率(KW)：{{param.hostPower}}</li>
+              <li>主机型号：{{param.hostBrandModel}}</li><li>齿轮箱品牌：{{param.gearBrand}}</li>
+              <li>齿轮箱型号：{{param.gearModel}}</li><li>发电机组品牌：{{param.generatorSetBrand}}</li>
+              <li>发电机组功率(KW)：{{param.generatorSetPower}}</li><li>发电机组型号：{{param.generatorSetBrandModel}}</li>
+              <li>制冷机组品牌：{{param.refrigeratorBrand}}</li><li>制冷机组功率(KW)：{{param.refrigeratorPower}}</li>
+              <li>船舶型宽(M)：{{param.width}}</li><li>船舶型深(M)：{{param.deep}}</li>
+              <li>满载排水(L)：{{param.loadDisplacement}}</li><li>满载吃水(L)：{{param.loadDraught}}</li>
+              <li>船舶定员：{{param.complement}}</li><li>船舶航速(M/S)：{{param.speed}}</li>
+              <li>总吨位(吨)：{{param.totalTon}}</li><li>净吨位(吨)：{{param.netTon}}</li>
+              <li v-for="item in paramList" v-if="paramList.length>0">
                 {{item.colNm}}：{{item.value}}
               </li>
             </ul>
@@ -65,7 +67,7 @@
   import service from './service'
   import featured from './featured'
   import shipEquip from './shipEquipTree'
-  import shipEquipDesign from './shipEquip'
+  import shipEquipDesign from './shipEquipTree'
   import jianlijianzao from '../person/pinzhibaozhang' //监理建造
   import jianyanjiance from '../person/jianyanjiance' //检验检测
     export default {

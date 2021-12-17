@@ -181,6 +181,7 @@
 
     },
     mounted(){
+      console.log(this.id)
       // console.log('mounted-----------------')
       if(this.ifAddShip){   //如果是从新增设计方案进入，调取所有设备列表
         // this.getClassifyAll()
@@ -269,7 +270,7 @@
         for(let i=0;i<this.list.length;i++){
             let qry = this.query.new()
             // this.query.toW(qry,'cids',this.list[i].id,'LK')
-            this.query.toP(qry,this.list[i].pageNo,this.pageSize)
+            // this.query.toP(qry,this.list[i].pageNo,this.pageSize)
             let data = null
             if(this.type==1){ //个人中心
               console.log('个人中心进')
@@ -280,7 +281,7 @@
             }
             // else if(this.type==2){ //船舶方案
             //   this.query.toW(qry,'cids',this.list[i].id,'LK')
-            //   data = await this.api.designGoodsPage(this.query.toEncode(qry))
+            //   data = await this.api.designGoodsList(this.query.toEncode(qry))
             // }else if(this.type==3){ //船舶详情
             //   // this.query.toW(qry,'cids',this.list[i].id,'LK')
             //   data = await this.api.shipDetailEqupList({id:this.id,cid:this.list[i].id},this.query.toEncode(qry))
@@ -311,11 +312,11 @@
         let data = null
         if(this.type==1){ //个人中心
           // this.query.toW(qry,'cids')
-          this.query.toW(qry,'cids',this.list[i].id,'LK')
+          this.query.toW(qry,'cids',this.list[index].id,'LK')
           data = await this.api.fileDeviceList2(this.query.toEncode(qry),{docsId:this.id})
         }else if(this.type==2){ //船舶方案
           this.query.toW(qry,'cids',this.list[index].id,'LK')
-          data = await this.api.designGoodsPage(this.query.toEncode(qry))
+          data = await this.api.designGoodsList(this.query.toEncode(qry))
         }else if(this.type==3){ //船舶详情
           // this.query.toW(qry,'cids',this.list[i].id,'LK')
           data = await this.api.shipDetailEqupList({id:this.id,cid:this.list[index].id},this.query.toEncode(qry))
@@ -347,7 +348,7 @@
         this.list[m].pageNo = 1
         let qry = this.query.new()
         // this.query.toW(qry,'cids',this.list[m].equipList[n].id,'LK')
-        this.query.toP(qry,this.list[m].pageNo,this.pageSize)
+        // this.query.toP(qry,this.list[m].pageNo,this.pageSize)
 
         let data = null
         // let data = await this.api.fileDeviceList2(this.query.toEncode(qry),{docsId:this.id,cId:this.list[m].equipList[n].id})
@@ -364,7 +365,7 @@
           data = await this.api.fileDeviceList2(this.query.toEncode(qry),{docsId:this.id})
         }else if(this.type==2){ //船舶方案
           this.query.toW(qry,'cids',this.list[m].equipList[n].id,'LK')
-          data = await this.api.designGoodsPage(this.query.toEncode(qry))
+          data = await this.api.designGoodsList(this.query.toEncode(qry))
         }else if(this.type==3){ //船舶详情
           // this.query.toW(qry,'cids',this.list[i].id,'LK')
           data = await this.api.shipDetailEqupList({id:this.id,cid:this.list[m].equipList[n].id},this.query.toEncode(qry))
