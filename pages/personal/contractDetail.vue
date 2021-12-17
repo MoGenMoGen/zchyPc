@@ -97,7 +97,7 @@
                 nm+=v
               }
             })
-            nmList=nm.split('-')        //分割随机字符后的内容
+            nmList=nm.split('_')        //分割随机字符后的内容
             nm=""
             nmList.forEach((v,k)=>{   //防止文件名中有 - 所以循环
               if(k!=0){
