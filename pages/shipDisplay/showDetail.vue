@@ -30,7 +30,7 @@
           </div>
           <div class="cont-2-2">
             <div>
-              <p>整船价格:<span style="margin-left: 5px">￥</span><span class="big">{{info.origMinPrice}}</span><span>~</span><span class="big">{{info.origMaxPrice}}万</span></p>
+              <p>整船价格:<span style="margin-left: 5px">￥</span><span class="big">{{fmoney(info.origMinPrice)}}</span><span>~</span><span class="big">{{fmoney(info.origMaxPrice)}}万</span></p>
               <p>设计院:<span @click="toDesign(info)" class="cursor">{{info.designNm}}</span></p>
             </div>
             <div>
@@ -105,6 +105,16 @@
         }
       },
       methods:{
+        fmoney(s, n) {
+            n = n > 0 && n <= 20 ? n : 2;
+            s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+            var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+            var t = "";
+            for (let i = 0; i < l.length; i++) {
+                t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+            }
+            return t.split("").reverse().join("") + "." + r;
+        },
         //收藏
         toCollect(){
           if (this.info.collected === 1) {
