@@ -1041,6 +1041,7 @@
          docsId: this.id,
          title: this.title,
          cd: this.value1,
+         statusCd:this.value2,
          description: this.describe,
          actDt: this.pickDate,
          imgUrl: this.imgInfo,
