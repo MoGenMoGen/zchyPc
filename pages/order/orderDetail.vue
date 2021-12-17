@@ -82,7 +82,7 @@
           <div class="item">
              <div   v-for="(item,index) in goodList" :key="index">
                <p @click="toProDetail(item)">
-                 <img :src="item.goodsImgUrl.split(',')[0]" >
+                 <img :src="item.goodsImgUrl.split(',')[0]"  v-if="item.goodsImgUrl">
                  <span>{{item.goodsNm}}</span>
                </p>
                <p v-if="item.leadTime">

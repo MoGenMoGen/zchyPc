@@ -88,7 +88,7 @@
         <div style="height: 120px">
           <p class="sku-name">{{info.nm}}</p>
           <p class="dt">{{proType==='ship'?'参考价 : ':'产品价格 :'}}</p>
-          <p class="price" v-show="currentInfo.origPrice!=price">￥{{currentInfo.origPrice}}</p>
+          <p class="price" v-show="currentInfo.origPrice!=price">￥{{fmoney(currentInfo.origPrice)}}</p>
           <p class="price" v-show="currentInfo.origPrice==price">价格面议</p>
           <p class="vrImg"><img class="img2" :src="VRImg" @click.stop="toVR(info.id)" v-if="info.vrUrl"></p>
           <el-row style="margin-top: 15px" v-if="info.gift === 1">
@@ -297,7 +297,6 @@
         handler: function () {
           this.currentSpecs = this.currentSpecArr.join(',')
           this.currentInfo = this.info.skus.find(item => item.skuAttr == this.currentSpecs)
-          this.currentInfo.origPrice = this.until.formatNumberRgx(this.currentInfo.origPrice)
           this.getSkuParts()
           if (this.currentInfo && this.proType == 'ship' && this.currentInfo.shipId &&this.info.id) {
             this.$refs.shipDetail.getInfo(this.currentInfo.shipId)
@@ -360,6 +359,16 @@
       this.getData()
     },
     methods: {
+      fmoney(s, n) {
+          n = n > 0 && n <= 20 ? n : 2;
+          s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+          var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+          var t = "";
+          for (let i = 0; i < l.length; i++) {
+              t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+          }
+          return t.split("").reverse().join("") + "." + r;
+      },
       setType(info){
          this.info.typesNm = info.typesNm
       },
