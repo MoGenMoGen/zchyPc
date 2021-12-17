@@ -33,7 +33,7 @@
         <div>
           <div>
             <p>订单提交成功，请尽快付款！订单号：{{ids}}</p>
-            <p v-if="totalPrice!=price">应付金额 <span style="color: #E64347;font-size: 24px">{{totalPrice}}</span>元</p>
+            <p v-if="totalPrice!=price">应付金额 <span style="color: #E64347;font-size: 24px">{{fmoney(totalPrice)}}</span>元</p>
             <p v-else>应付金额 <span style="color: #E64347;font-size: 24px">价格面议</span></p>
           </div>
           <div>
@@ -77,7 +77,7 @@
               </div>
             </div>
             <div v-if="item.id==selectId" class="money">
-              支付<span>{{totalPrice}}</span>元
+              支付<span>{{fmoney(totalPrice)}}</span>元
             </div>
           </div>
           <!--<div class="bankList" v-show="item.id==1 && selectId==item.id ">-->
@@ -269,6 +269,16 @@
 
     },
     methods: {
+      fmoney(s, n) {
+          n = n > 0 && n <= 20 ? n : 2;
+          s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+          var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+          var t = "";
+          for (let i = 0; i < l.length; i++) {
+              t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+          }
+          return t.split("").reverse().join("") + "." + r;
+      },
       getInfo() {
         this.proList = JSON.parse(this.until.seGet('orderPayList'))
         console.log(this.proList)

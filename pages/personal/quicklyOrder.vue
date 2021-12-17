@@ -56,7 +56,7 @@
       <p class="goodSelect">{{item.goodsNm}}</p>
       <p class="skuSelect">{{item.skuNm}}</p>
       <p style="flex: 1.2;">{{item.supplier}}</p>
-      <p v-if="item.origPrice!=price" style="flex: 1.2;">￥{{item.origPrice?item.origPrice:0}}</p>
+      <p v-if="item.origPrice!=price" style="flex: 1.2;">￥{{item.origPrice?fmoney(item.origPrice):0.00}}</p>
       <p v-else style="flex: 1.2;">价格面议</p>
       <p class="numP">
         <el-input-number v-model="item.num" @change="handleChange(index)" style="flex: 1.3;" :min="0.01" :max="item.stock" :precision="2" :step="1"></el-input-number>
@@ -64,7 +64,7 @@
       </p>
       <p style="flex: 1.3;">{{item.unitNm}}</p>
       <p style="flex: 1.2;">{{item.leadTime}}个工作日</p>
-      <p style="flex: 1.4;" v-if="item.origPrice!=price">￥{{item.origPrice?item.origPrice*item.num:0}}</p>
+      <p style="flex: 1.4;" v-if="item.origPrice!=price">￥{{item.origPrice?fmoney(item.origPrice*item.num):0.00}}</p>
       <p style="flex: 1.4;" v-else>价格面议</p>
     </div>
   </div>
@@ -135,6 +135,16 @@
         this.getGoodsList()
       },
       methods:{
+        fmoney(s, n) {
+            n = n > 0 && n <= 20 ? n : 2;
+            s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+            var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+            var t = "";
+            for (let i = 0; i < l.length; i++) {
+                t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+            }
+            return t.split("").reverse().join("") + "." + r;
+        },
         //确认新增设备
         confirmAdd(){
           console.log(this.addSkuList)

@@ -26,10 +26,10 @@
                 <span style="color: #333333;">{{v.goodsNm}}</span>
                 <span style="color: #999999;">{{v.goodsSkuAttrNm}}</span>
               </p>
-              <p style="color: #E4393C;">￥ {{fmoney(v.goodsPrice)}}</p><p>x {{v.qty}}</p>
+              <p style="color: #E4393C;">￥{{fmoney(v.goodsPrice)}}</p><p>x {{v.qty}}</p>
             </div>
           </div>
-          <div style="color: #E4393C;">￥ {{fmoney(item.orderPrice)}}</div>
+          <div style="color: #E4393C;">￥{{fmoney(item.orderPrice)}}</div>
           <!-- <div>增值税发票</div> -->
           <div style="color: #E4393C;" v-if="item.invoiceType==0">未开票</div>
           <div style="color: #E4393C;" v-if="item.invoiceType==1">已提交开票申请</div>

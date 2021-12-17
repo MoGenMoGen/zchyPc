@@ -71,11 +71,11 @@
                     </p>
                     <p v-if="j.leadTime">{{j.attrDesc}}<br/>交货期：{{j.leadTime}}天</p>
                     <p v-else>{{j.attrDesc}}</p>
-                    <p v-if="j.origPrice!=price">￥{{j.origPrice}}</p>
+                    <p v-if="j.origPrice!=price">￥{{fmoney(j.origPrice)}}</p>
                     <p v-else>价格面议</p>
                     <p>{{j.qty}}</p>
                     <p>{{j.skuUnitNm}}</p>
-                    <p v-if="j.origPrice!=price">￥{{(j.qty *j.origPrice).toFixed(2)}}</p>
+                    <p v-if="j.origPrice!=price">￥{{fmoney(j.qty *j.origPrice)}}</p>
                     <p v-else>价格面议</p>
                   </div>
                   <div class="d2" v-if="j.gift === 1 && type === 'cart'">
@@ -92,7 +92,7 @@
                 </div>
                 <div>
                   <el-divider></el-divider>
-                  <span>运费：￥ {{item.fare}}</span>
+                  <span>运费：￥ {{fmoney(item.fare)}}</span>
                 </div>
 
               </div>
@@ -129,7 +129,7 @@
           <div>
             <p><span class="red">{{totalNum}}</span> 件商品，总商品金额：</p>
             <p v-if="totalPrice=='价格面议'">价格面议</p>
-            <p v-else>￥{{totalPrice.toFixed(2)}}</p>
+            <p v-else>￥{{fmoney(totalPrice)}}</p>
           </div>
         </div>
 <!--        <div class="block7">-->
@@ -142,14 +142,14 @@
         <div class="block7">
           <div>
             <p>运费：</p>
-            <p>￥{{shipPrice}}</p>
+            <p>￥{{fmoney(shipPrice)}}</p>
           </div>
         </div>
 
         <div class="block7">
           <div style="background: #F3F3F3;padding-top: 16px;padding-bottom: 16px">
             <p>应付总额：</p>
-            <p style="color: #E64347;font-size: 24px">{{payPrice}}</p>
+            <p style="color: #E64347;font-size: 24px">{{fmoney(payPrice)}}</p>
           </div>
         </div>
         <div class="block8">
@@ -239,6 +239,16 @@
       }
     },
     methods: {
+      fmoney(s, n) {
+          n = n > 0 && n <= 20 ? n : 2;
+          s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+          var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+          var t = "";
+          for (let i = 0; i < l.length; i++) {
+              t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+          }
+          return t.split("").reverse().join("") + "." + r;
+      },
       //跳转产品详情
       toGoods(id) {
         let url = '../sinovat/Trade/productDetail?id='+ id + "&type=product"

@@ -247,8 +247,8 @@
             console.log('===============')
             if(this.formW=='jiance'){
               this.tab2Id = '33'
-            }else if(this.tab2Id){
-              
+            }else if(this.tab2Id=='31'){
+              this.tab2Id = '31'
             }else{
               this.tab2Id = '30'
             }

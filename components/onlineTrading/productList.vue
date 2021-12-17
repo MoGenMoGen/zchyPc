@@ -55,7 +55,7 @@
                     this.productList = JSON.parse(JSON.stringify(this.list))
                     this.productList.forEach((item, index) => {
                       this.objectFitImages(this.$refs['img'+index])
-                        item.origPrice = item.origPrice.toString()
+                        item.origPrice = item.origPrice+''
                         if (item.origPrice) {
                             item.price1 = item.origPrice.split('.')[0]
                             item.price2 = item.origPrice.split('.')[1] ? '.' + item.origPrice.split('.')[1] : ''
