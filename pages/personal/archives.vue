@@ -131,7 +131,7 @@
           <span>{{ item.nm }}</span>
         </p>
         <span class="btm" :style="{ left: tabIndex * 129 + 'px' }"></span>
-        <p v-if="tab2Id == 10 ||tab2Id == 11 || tab2Id == 12 || tab2Id == 13" style="position: absolute;right:30%;color: red;"@click="postShow=true">新增</p>
+        <!-- <p v-if="tab2Id == 10 ||tab2Id == 11 || tab2Id == 12 || tab2Id == 13" style="position: absolute;right:30%;color: red;"@click="postShow=true">新增</p> -->
       </div>
     </div>
     <!--      变更记录-->

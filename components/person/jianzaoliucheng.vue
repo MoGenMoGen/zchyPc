@@ -153,7 +153,7 @@
         <p v-for="(item,index) in options" :key="index" @click="checkIndex=index" :class="{clickP:checkIndex==index}">
           {{item.nm}}
         </p>
-        <p style="position: absolute; right: 15%; color: red;" @click="postShow=true">新增</p>
+        <!-- <p style="position: absolute; right: 15%; color: red;" @click="postShow=true">新增</p> -->
       </div>
       <!-- 不是照片 -->
       <div class="bottomBox" v-if="checkIndex!=2">
