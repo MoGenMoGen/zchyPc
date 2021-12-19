@@ -1,13 +1,159 @@
 <template>
 <!--  建造流程-->
   <div style="margin-top: -30px;">
-
+    <el-dialog
+     title="新增"
+     :visible.sync="postShow"
+     width="30%"
+     @close="closePost">
+      <div class="postBox">
+        <div class="list">
+          <div class="listTitle">分类：</div>
+          <div class="listContent">
+            <el-select
+              v-model="value1"
+              clearable
+              placeholder="请选择"
+              class="select"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.cd"
+                :label="item.nm"
+                :value="item.cd"
+              >
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="list">
+          <div class="listTitle">建造过程：</div>
+          <div class="listContent" >
+            <el-select
+              v-model="value2"
+              clearable
+              multiple
+              placeholder="请选择建造过程"
+              class="select"
+            >
+              <el-option
+                v-for="item in optionsTwo"
+                :key="item.cd"
+                :label="item.nm"
+                :value="item.cd"
+              >
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="list">
+          <div class="listTitle">标题：</div>
+          <div class="listContent">
+            <el-input
+              placeholder="请输入标题"
+              style="width: 454px"
+              v-model="title"
+            >
+            </el-input>
+          </div>
+        </div>
+        <div class="list">
+          <div class="listTitle">建造单位：</div>
+          <div class="listContent" >
+            <el-select
+              v-model="value3"
+              clearable
+              placeholder="请选择建造单位"
+              class="select"
+            >
+              <el-option
+                v-for="item in optionsThree"
+                :key="item.cd"
+                :label="item.nm"
+                :value="item.cd"
+              >
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="list">
+          <div class="listTitle">监理时间：</div>
+          <div class="listContent">
+            <el-date-picker
+              class="select"
+              v-model="pickDate"
+              type="datetime"
+              placeholder="选择日期时间"
+              align="right"
+            >
+            </el-date-picker>
+          </div>
+        </div>
+        <div class="list">
+          <div class="listTitle">图片：</div>
+          <div class="listContent">
+            <el-form :model="form">
+              <el-form-item>
+                <el-upload
+                  ref="upload"
+                  action="/general/oss/upload"
+                  accept="image/png,image/gif,image/jpg,image/jpeg"
+                  list-type="picture-card"
+                  :auto-upload="true"
+                  :before-upload="handleBeforeUpload"
+                  :on-preview="handlePictureCardPreview"
+                  :on-remove="handleRemoveOne"
+                  :on-success="imgSuccess"
+                >
+                  <i class="el-icon-plus"></i>
+                </el-upload>
+                <el-dialog :visible.sync="dialogVisible">
+                  <img width="100%" :src="dialogImageUrl" alt="" />
+                </el-dialog>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+        <div class="list" style="align-items: flex-start">
+          <div class="listTitle" style="line-height: 50px">上传文档：</div>
+          <div class="listContent" style="border-bottom: 1px dotted #cccccc">
+            <el-form :model="formTwo">
+              <el-form-item>
+                <el-upload
+                  ref="uploadExcel"
+                  action="/general/oss/upload"
+                  :auto-upload="true"
+                  :on-change="fileChange"
+                  :on-success="handleSuccess"
+                  :on-remove="handleRemoveTwo"
+                  :on-error="handleError"
+                  :on-preview="HandFilePreView"
+                >
+                  <el-button size="small" plain style="width: 100px; height: 50px"
+                    >选择文件</el-button
+                  >
+                </el-upload>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+        <div class="list" style="justify-content: center;">
+          <button type="button" cover="point" @click="save" style=" cursor: pointer;
+          width: 200px;
+          height: 52px;
+          background: #2778be;
+          font-size: 16px;
+          color: #ffffff;
+          border: 0;">保存</button>
+        </div>
+      </div>
+      </el-dialog>
     <div class="liuchengBox">
       <div class="topBox">
         <p v-for="(item,index) in options" :key="index" @click="checkIndex=index" :class="{clickP:checkIndex==index}">
           {{item.nm}}
-
         </p>
+        <p style="position: absolute; right: 15%; color: red;" @click="postShow=true">新增</p>
       </div>
       <!-- 不是照片 -->
       <div class="bottomBox" v-if="checkIndex!=2">
@@ -98,9 +244,26 @@
                 arrowDown,
                 arrowUp,
                 currentRole:{},
+                dialogImageUrl: "",
+                dialogVisible: false,
                 list:[],
                 checkIndex:0,
-                options:[]
+                options:[],
+                postShow:false,
+                value1:'',
+                value2:'',
+                optionsTwo:[],
+                title:'',
+                value3:'',
+                optionsThree:[],
+                pickDate:'',
+                form:{},
+                imgInfo:[],
+                formTwo:{
+                  file:'',
+                },
+                fileInfoList:[],
+
             }
         },
         watch:{
@@ -114,8 +277,105 @@
 
         },
         methods:{
+          save(){
+
+          },
+          HandFilePreView(file) {},
+          handleError(err, file, fileList) {
+            this.$notify.error({
+              title: "错误",
+              message: `文件上传失败`,
+            });
+          },
+          handleRemoveTwo(file, fileList) {
+            this.fileInfoList=fileList
+            this.fileInfoList.forEach(item=>{
+              if(item.response){
+                item.newFile=item.response.data
+              }
+             else{
+               item.newFile=item.url
+             }
+            })
+            this.fileInfoList =this.fileInfoList.map((item) => item.newFile).join(",");
+          },
+          fileChange(file, fileList) {
+            this.formTwo.file = file.raw;
+          },
+          handleSuccess(res, file, fileList) {
+            console.log(111,fileList);
+            // this.fileInfoList = fileList.map((item) => item.response.data).join(",");
+            this.fileInfoList=fileList
+            this.fileInfoList.forEach(item=>{
+              if(item.response){
+                item.newFile=item.response.data
+              }
+             else{
+               item.newFile=item.url
+             }
+            })
+            this.fileInfoList =this.fileInfoList.map((item) => item.newFile).join(",");
+          },
+          imgSuccess(res, file, fileList) {
+            // this.imgInfo = fileList.map((item) => item.response.data).join(",");
+            this.imgInfo=fileList
+            this.imgInfo.forEach(item=>{
+              if(item.response){
+                item.newImg=item.response.data
+              }
+             else{
+               item.newImg=item.url
+             }
+            })
+            this.imgInfo =this.imgInfo.map((item) => item.newImg).join(",");
+            console.log(123, this.imgInfo);
+          },
+         handleRemoveOne(file, fileList) {
+          this.imgInfo=fileList
+          this.imgInfo.forEach(item=>{
+            if(item.response){
+              item.newImg=item.response.data
+            }
+           else{
+             item.newImg=item.url
+           }
+          })
+          this.imgInfo =this.imgInfo.map((item) => item.newImg).join(",");
+         },
+         handlePictureCardPreview(file) {
+           this.dialogImageUrl = file.url;
+           this.dialogVisible = true;
+         },
+          handleBeforeUpload(file) {
+            console.log("before");
+            if (
+              !(
+                file.type === "image/png" ||
+                file.type === "image/gif" ||
+                file.type === "image/jpg" ||
+                file.type === "image/jpeg"
+              )
+            ) {
+              this.$notify.warning({
+                title: "警告",
+                message: "请上传格式为image/png, image/gif, image/jpg, image/jpeg的图片",
+              });
+            }
+            let size = file.size / 1024 / 1024 / 2;
+            if (size > 2) {
+              this.$notify.warning({
+                title: "警告",
+                message: "图片大小必须小于2M",
+              });
+            }
+          },
+          closePost(){
+
+          },
           async getDic(){
             this.options=await this.api.dataDictionary('DOCS_BUILD_SHIP_CAT')
+            this.optionsTwo=this.options
+            this.optionsThree=this.options
             // console.log('获取数据字典')
             // console.log(this.options)
             this.getInfo()
@@ -209,7 +469,105 @@
 </script>
 
 <style scoped lang="less">
+  /deep/ .el-dialog{
+        background-color: #FFFFFF !important;
+        width:50% !important;
+        .list {
+          display: flex;
+          align-items: center;
+          margin-bottom: 30px;
+          margin-left: 3%;
+          .listTitle {
+            width: 160px;
+            font-size: 15px;
+            color: #666666;
 
+          }
+
+          .listContent {
+            margin-left: 20px;
+            position: relative;
+            width: 500px !important;
+            .el-input{
+              width: 100% !important;
+            }
+            .select {
+              width: 100% !important;
+            }
+
+            textarea {
+              width:  100% !important;
+              height: 152px;
+              border: 1px solid #dddddd;
+              padding: 20px;
+              resize: none;
+            }
+
+            textarea::placeholder {
+              font-size: 14px;
+              color: rgb(192, 196, 204);
+            }
+
+            button {
+              cursor: pointer;
+              width: 291px;
+              height: 52px;
+              background: #2778be;
+              font-size: 16px;
+              color: #ffffff;
+              border: 0;
+            }
+          }
+        }
+
+      }
+ .postBox {
+    padding: 30px 0;
+
+    .list {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+
+      .listTitle {
+        width: 100px;
+        font-size: 15px;
+        color: #666666;
+      }
+
+      .listContent {
+        margin-left: 20px;
+        position: relative;
+        width: 900px;
+
+        .select {
+          width: 454px;
+        }
+
+        textarea {
+          width: 454px;
+          height: 152px;
+          border: 1px solid #dddddd;
+          padding: 20px;
+          resize: none;
+        }
+
+        textarea::placeholder {
+          font-size: 14px;
+          color: rgb(192, 196, 204);
+        }
+        button {
+          cursor: pointer;
+          width: 291px;
+          height: 52px;
+          background: #2778be;
+          font-size: 16px;
+          color: #ffffff;
+          border: 0;
+        }
+      }
+    }
+  }
   .title{
     margin-bottom: 10px;
     width: 100%;

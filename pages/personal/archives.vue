@@ -1,6 +1,83 @@
 <template>
   <!--船舶档案-->
   <div class="main">
+    <el-dialog
+     title="新增"
+     :visible.sync="postShow"
+     width="30%"
+     @close="closePost">
+      <div class="postBox">
+        <div class="list">
+          <div class="listTitle">设计机构：</div>
+          <div class="listContent">
+            <el-select
+              v-model="value1"
+              clearable
+              placeholder="请选择"
+              class="select"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.cd"
+                :label="item.nm"
+                :value="item.cd"
+              >
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="list">
+          <div class="listTitle">设计流程：</div>
+          <div class="listContent" >
+            <el-select
+              v-model="value2"
+              clearable
+              placeholder="请选择建造过程"
+              class="select"
+            >
+              <el-option
+                v-for="item in optionsTwo"
+                :key="item.cd"
+                :label="item.nm"
+                :value="item.cd"
+              >
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="list">
+          <div class="listTitle">权重排序：</div>
+          <div class="listContent">
+             <el-input-number v-model="value3" @change="handleChange" label="描述文字"></el-input-number>
+          </div>
+        </div>
+
+        <div class="list">
+          <div class="listTitle">完成时间：</div>
+          <div class="listContent">
+            <el-date-picker
+              class="select"
+              v-model="pickDate"
+              type="datetime"
+              placeholder="选择日期时间"
+              align="right"
+            >
+            </el-date-picker>
+          </div>
+        </div>
+
+
+        <div class="list" style="justify-content: center;">
+          <button type="button" cover="point" @click="save" style=" cursor: pointer;
+          width: 200px;
+          height: 52px;
+          background: #2778be;
+          font-size: 16px;
+          color: #ffffff;
+          border: 0;">保存</button>
+        </div>
+      </div>
+      </el-dialog>
     <!--    查看视频预览弹出框-->
     <el-dialog
       :visible.sync="show"
@@ -54,6 +131,7 @@
           <span>{{ item.nm }}</span>
         </p>
         <span class="btm" :style="{ left: tabIndex * 129 + 'px' }"></span>
+        <p v-if="tab2Id == 10 ||tab2Id == 11 || tab2Id == 12 || tab2Id == 13" style="position: absolute;right:30%;color: red;"@click="postShow=true">新增</p>
       </div>
     </div>
     <!--      变更记录-->
@@ -157,6 +235,32 @@ export default {
   },
   data() {
     return {
+      dialogImageUrl: "",
+      dialogVisible: false,
+      postShow:false,
+      options:[{
+        nm:'哈哈哈',
+        cd:1
+      }],
+      value1:'',
+      value2:'',
+      optionsTwo:[{
+        nm:'哈哈哈',
+        cd:1
+      }],
+      title:'',
+      value3:'',
+      optionsThree:[{
+        nm:'哈哈哈',
+        cd:1
+      }],
+      pickDate:'',
+      form:{},
+      imgInfo:[],
+      formTwo:{
+        file:'',
+      },
+      fileInfoList:[],
       closeShow: false,
       show: false,
       code: "121b6f4e237c4a889df93a060d428fa0", //视频编号
@@ -291,6 +395,105 @@ export default {
   },
 
   methods: {
+    closePost(){
+      
+    },
+    handleChange(val){
+      this.value3=val
+      console.log(this.value3);
+    },
+    save(){
+
+     },
+     HandFilePreView(file) {},
+     handleError(err, file, fileList) {
+       this.$notify.error({
+         title: "错误",
+         message: `文件上传失败`,
+       });
+     },
+     handleRemoveTwo(file, fileList) {
+       this.fileInfoList=fileList
+       this.fileInfoList.forEach(item=>{
+         if(item.response){
+           item.newFile=item.response.data
+         }
+        else{
+          item.newFile=item.url
+        }
+       })
+       this.fileInfoList =this.fileInfoList.map((item) => item.newFile).join(",");
+     },
+     fileChange(file, fileList) {
+       this.formTwo.file = file.raw;
+     },
+     handleSuccess(res, file, fileList) {
+       console.log(111,fileList);
+       // this.fileInfoList = fileList.map((item) => item.response.data).join(",");
+       this.fileInfoList=fileList
+       this.fileInfoList.forEach(item=>{
+         if(item.response){
+           item.newFile=item.response.data
+         }
+        else{
+          item.newFile=item.url
+        }
+       })
+       this.fileInfoList =this.fileInfoList.map((item) => item.newFile).join(",");
+     },
+     imgSuccess(res, file, fileList) {
+       // this.imgInfo = fileList.map((item) => item.response.data).join(",");
+       this.imgInfo=fileList
+       this.imgInfo.forEach(item=>{
+         if(item.response){
+           item.newImg=item.response.data
+         }
+        else{
+          item.newImg=item.url
+        }
+       })
+       this.imgInfo =this.imgInfo.map((item) => item.newImg).join(",");
+       console.log(123, this.imgInfo);
+     },
+    handleRemoveOne(file, fileList) {
+     this.imgInfo=fileList
+     this.imgInfo.forEach(item=>{
+       if(item.response){
+         item.newImg=item.response.data
+       }
+      else{
+        item.newImg=item.url
+      }
+     })
+     this.imgInfo =this.imgInfo.map((item) => item.newImg).join(",");
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+     handleBeforeUpload(file) {
+       console.log("before");
+       if (
+         !(
+           file.type === "image/png" ||
+           file.type === "image/gif" ||
+           file.type === "image/jpg" ||
+           file.type === "image/jpeg"
+         )
+       ) {
+         this.$notify.warning({
+           title: "警告",
+           message: "请上传格式为image/png, image/gif, image/jpg, image/jpeg的图片",
+         });
+       }
+       let size = file.size / 1024 / 1024 / 2;
+       if (size > 2) {
+         this.$notify.warning({
+           title: "警告",
+           message: "图片大小必须小于2M",
+         });
+       }
+     },
     test() {
       console.log("关闭了");
       this.$refs.videoPlayer.off();
@@ -367,8 +570,109 @@ export default {
 </script>
 
 <style scoped lang="less">
+
 .main {
+
   width: 100%;
+  /deep/ .el-dialog{
+        background-color: #FFFFFF !important;
+        width:50% !important;
+        .list {
+          display: flex;
+          align-items: center;
+          margin-bottom: 30px;
+          margin-left: 3%;
+          .listTitle {
+            width: 160px;
+            font-size: 15px;
+            color: #666666;
+
+          }
+
+          .listContent {
+            margin-left: 20px;
+            position: relative;
+            width: 500px !important;
+            .el-input{
+              width: 100% !important;
+            }
+            .select {
+              width: 100% !important;
+            }
+
+            textarea {
+              width:  100% !important;
+              height: 152px;
+              border: 1px solid #dddddd;
+              padding: 20px;
+              resize: none;
+            }
+
+            textarea::placeholder {
+              font-size: 14px;
+              color: rgb(192, 196, 204);
+            }
+
+            button {
+              cursor: pointer;
+              width: 291px;
+              height: 52px;
+              background: #2778be;
+              font-size: 16px;
+              color: #ffffff;
+              border: 0;
+            }
+          }
+        }
+
+      }
+  .postBox {
+     padding: 30px 0;
+
+     .list {
+       display: flex;
+       align-items: center;
+       margin-bottom: 30px;
+
+       .listTitle {
+         width: 100px;
+         font-size: 15px;
+         color: #666666;
+       }
+
+       .listContent {
+         margin-left: 20px;
+         position: relative;
+         width: 900px;
+
+         .select {
+           width: 454px;
+         }
+
+         textarea {
+           width: 454px;
+           height: 152px;
+           border: 1px solid #dddddd;
+           padding: 20px;
+           resize: none;
+         }
+
+         textarea::placeholder {
+           font-size: 14px;
+           color: rgb(192, 196, 204);
+         }
+         button {
+           cursor: pointer;
+           width: 291px;
+           height: 52px;
+           background: #2778be;
+           font-size: 16px;
+           color: #ffffff;
+           border: 0;
+         }
+       }
+     }
+   }
   /deep/.el-dialog {
     box-shadow: none;
   }
