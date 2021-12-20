@@ -27,7 +27,7 @@
             </div>
             <div>
               <p>{{item.nm}}</p>
-              <p v-if="item.origPrice!=price">￥<span>{{item.origPrice}}</span></p>
+              <p v-if="item.origPrice!=price">￥<span>{{fmoney(item.origPrice)}}</span></p>
               <p v-else><span>价格面议</span></p>
             </div>
           </li>
@@ -47,7 +47,7 @@
             </div>
             <div>
               <p>{{item.nm}}</p>
-              <p>￥<span>{{item.origPrice}}</span></p>
+              <p>￥<span>{{fmoney(item.origPrice)}}</span></p>
             </div>
           </li>
 
@@ -84,7 +84,16 @@
           this.getList()
         },
         methods:{
-
+          fmoney(s, n) {
+              n = n > 0 && n <= 20 ? n : 2;
+              s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+              var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+              var t = "";
+              for (let i = 0; i < l.length; i++) {
+                  t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+              }
+              return t.split("").reverse().join("") + "." + r;
+          },
           //跳转产品详情
           toProDetail(item) {
             let url = '../sinovat/Trade/productDetail?id='+item.goodsId + "&type=product"

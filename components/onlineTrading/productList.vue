@@ -182,7 +182,7 @@
                     //小数点前数字
                     .child3 {
                         color: #FF3E3E;
-                        font-size: 20px;
+                        font-size: 16px;
                     }
 
                     //小数点后
