@@ -45,7 +45,7 @@
          <div class="boxBodyer">
            <div class="infoBox">
              <div v-for="v in item.itms">
-                <p v-show="v.goodsImgUrl"><img :src="v.goodsImgUrl.split(',')[0]"  @click="toProDetail(v.goodsId)"></p>
+                <p v-if="v.goodsImgUrl"><img :src="v.goodsImgUrl.split(',')[0]"  @click="toProDetail(v.goodsId)"></p>
                 <p class="nmBox" :style="v.goodsImgUrl?'flex: 3;':'flex: 4;'">
                   <span style="color: #333333;">{{v.goodsNm}}</span>
                   <span style="color: #999999;">{{v.goodsSkuAttrNm}}</span>
