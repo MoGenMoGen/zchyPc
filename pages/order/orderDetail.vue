@@ -209,7 +209,7 @@ export default {
           this.orderStatus = 3
         }
         if(this.info.status==50||this.info.status==60||this.info.status==70) {
-          this.orderStatus = 4
+          this.orderStatus = 5
         }
         if(this.info.status==90){
           this.orderStatus = 5
