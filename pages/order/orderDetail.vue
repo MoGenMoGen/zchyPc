@@ -18,8 +18,8 @@
             <el-steps :active="orderStatus">
               <el-step title="提交订单" icon="el-icon-document-checked" :description="info.crtTm"></el-step>
               <el-step title="付款成功" icon="el-icon-bank-card" :description="info.payTm"></el-step>
-              <el-step title="待收货" icon="el-icon-truck" :description="info.logiTm" v-if="!info.logiTm"></el-step>
-              <el-step title="确认收货" icon="el-icon-truck" :description="info.logiTm" v-if="info.logiTm"></el-step>
+              <el-step title="待收货" icon="el-icon-truck" :description="info.logiTm" v-show="info.status==30||info.status==40"></el-step>
+              <el-step title="确认收货" icon="el-icon-truck" :description="info.signTm" v-show="info.status==50||info.status==60||info.status==70"></el-step>
               <el-step title="交易完成" icon="el-icon-shopping-bag-2" :description="info.signTm"></el-step>
             </el-steps>
 <!--            <steps :info="this.info"></steps>-->
@@ -202,15 +202,19 @@ export default {
       this.api.orderDetail(this.id,this.cd).then((res) => {
         this.info = res;
         console.log(11,res)
-        if(this.info.payTm){
+        if(this.info.status==20){
           this.orderStatus = 2
         }
-        if(this.info.logiTm){
+        if(this.info.status==30||this.info.status==40){
           this.orderStatus = 3
         }
-        if(this.info.signTm){
+        if(this.info.status==50||this.info.status==60||this.info.status==70) {
           this.orderStatus = 4
         }
+        if(this.info.status==90){
+          this.orderStatus = 5
+        }
+        console.log(this.orderStatus)
         this.goodList=this.info.itms
         this.dataShow=true
         this.goodList.forEach(item=>{

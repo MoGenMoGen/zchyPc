@@ -26,7 +26,7 @@
       <!--右一价格-->
       <div class="right1">
         <p v-if="item.origPrice==price">参考价：<span class="textRed">价格面议</span></p>
-        <p v-else>参考价：<span class="textRed">￥</span><span class="textRed">{{item.origPrice}}</span>/艘</p>
+        <p v-else>参考价：<span class="textRed">￥</span><span class="textRed">{{fmoney(item.origPrice)}}</span>/艘</p>
       </div>
       <!--右二立即下单-->
       <div class="right2">
@@ -74,6 +74,16 @@
           }
       },
       methods:{
+        fmoney(s, n) {
+            n = n > 0 && n <= 20 ? n : 2;
+            s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+            var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
+            var t = "";
+            for (let i = 0; i < l.length; i++) {
+                t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+            }
+            return t.split("").reverse().join("") + "." + r;
+        },
         toDetail(id){
           window.open('./Trade/productDetail?type=ship&id='+id)
           // this.$router.push('/Trade/productDetail?type=ship&id='+id)

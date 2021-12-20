@@ -149,7 +149,7 @@
         <div class="block7">
           <div style="background: #F3F3F3;padding-top: 16px;padding-bottom: 16px">
             <p>应付总额：</p>
-            <p style="color: #E64347;font-size: 24px">{{fmoney(payPrice)}}</p>
+            <p style="color: #E64347;font-size: 24px">{{payPrice}}</p>
           </div>
         </div>
         <div class="block8">
@@ -234,7 +234,7 @@
         }else {
           console.log(this.totalPrice)
           console.log(this.shipPrice)
-          return '￥'+ (Number(this.totalPrice+this.shipPrice).toFixed(2))
+          return '￥'+ (this.fmoney(this.totalPrice+this.shipPrice))
         }
       }
     },
