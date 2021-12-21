@@ -4,13 +4,13 @@
       <div style="padding:0 30px">
         <tobbar :title="title" :showAll="false"></tobbar>
       </div>
-      <p style="border-bottom: 1px solid rgba(0,0,0,0.1);"></p>
+      <p style="border-bottom: 1px solid rgba(0,0,0,0.1);"></p >
 
       <div class="line4">
-        <p>{{info.nm}}</p>
-        <p>{{info.sendTm}}</p>
+        <p>{{info.nm}}</p >
+        <p>{{info.sendTm}}</p >
         <div>
-          <p v-html="info.cont"></p>
+          <p v-html="info.cont"></p >
           <span @click="toDetail" v-if="info.targetUrl">查看详情</span>
         </div>
       </div>
@@ -87,15 +87,3 @@
         margin-bottom: 20px;
         text-align: center;
         color: #999999;
-      }
-      div{
-        padding:0 40px;
-      }
-
-    }
-  }
-
-
-
-
-</style>

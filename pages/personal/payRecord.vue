@@ -305,8 +305,11 @@
         },
         layout:'person',
         mounted(){
+
           this.tabId = this.until.getQueryString('myCd') ? this.until.getQueryString('myCd') : ''
           this.tabId2 = this.until.getQueryString('myCd2') ? this.until.getQueryString('myCd2') : ''
+           console.log(11111,this.tabId, this.tabId2);
+           console.log(this.tabId===2);
           let info = this.tabList.find(item=>item.id==this.tabId)
           if(info){
             this.title = info.nm
@@ -340,6 +343,7 @@
         },
           //选择卡
           chooseTab(item,index){
+            console.log(111,item.id);
             this.$router.push('./payRecord?myCd='+item.id)
           },
         //选择卡
@@ -347,6 +351,7 @@
           // this.tabId2 = item.id
           // this.currentPage1=1
           // this.getData()
+          console.log(id);
          if(this.tabId2 == id){
            return
          }
