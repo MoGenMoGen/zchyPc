@@ -169,7 +169,11 @@
     methods: {
       async getInfo() {
         this.info = await this.api.shopIntro(this.id)
-        this.bannerList = this.info.bannerImg.split(",")
+        console.log(this.info)
+        this.bannerList = []
+        if(this.info.bannerImg) {
+          this.bannerList = this.info.bannerImg.split(",")
+        }
         let myImg = new Image()
         myImg.src = this.bannerList[0]
         myImg.onload = () =>{
