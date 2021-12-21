@@ -40,7 +40,7 @@
     },
     methods: {
       toDetail() {
-        if (this.info.targetUrl.indexOf('/personal/bid') != -1) {
+        if (this.info.targetUrl.indexOf('/personal/bid') != -1||this.info.targetUrl.indexOf('/personal/payRecord') != -1) {
           this.$message.error('该消息已撤销');
         } else {
           window.location.href = this.info.targetUrl
