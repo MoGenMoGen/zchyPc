@@ -197,7 +197,7 @@
         // console.log(this.paraList)
       },
       toVR(id) {
-        window.open('./mframe?typeCd=1&id=' + id)
+        window.open('./mframe?typeCd=3&id=' + id)
       }
     }
 
