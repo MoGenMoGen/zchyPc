@@ -70,7 +70,7 @@
                 </div>
               </div>
             </div>
-            <div v-if="form.catCd!='DOCS_BUILD_SHIP_CAT.30'">
+            <div>
               <p class="left-title">上传附件：</p>
               <div class="fileBox">
                 <div class="file">
@@ -121,9 +121,9 @@
           <div class="rich" v-if="item.show">
             <p v-if="item.options">审核意见：{{item.options}}</p>
 
-            <!-- <p class="desc" v-show="item.imgList">
-              {{item.nm}}报告：
-            </p> -->
+            <p class="desc" v-show="item.imgList">
+              报告：{{item.nm}}
+            </p>
             <div class="report" v-viewer>
               <p v-for="j in item.imgList">
                 <img :src="j.img">
@@ -165,9 +165,9 @@
           </div>
 
           <div class="rich" v-if="item.show">
-            <!-- <p class="desc" v-show="item.imgList">
-              {{item.nm}}报告：
-            </p> -->
+            <p class="desc" v-show="item.imgList">
+              报告：{{item.nm}}
+            </p>
             <div class="report" v-viewer>
               <p v-for="j in item.imgList">
                 <img :src="j.img">
@@ -205,8 +205,11 @@
           </div>
 
           <div class="rich" v-if="item.show">
-            <p class="desc" v-show="item.imgList1">
+            <!-- <p class="desc" v-show="item.imgList1">
               时间 : {{item.actDt}}
+            </p> -->
+            <p class="desc" v-show="item.imgList1">
+              报告：{{item.nm}}
             </p>
             <div class="report" v-viewer>
               <p v-for="j in item.imgList1">
