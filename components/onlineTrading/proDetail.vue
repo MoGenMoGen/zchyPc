@@ -36,7 +36,7 @@
               <li>发电机组品牌：{{param.generatorSetBrand}}</li>
               <li>制冷机组品牌：{{param.refrigeratorBrand}}</li> -->
               <li v-for="item in paramList" v-if="paramList.length>0">
-                {{item.colNm}}：{{item.value}}
+                <span v-show="item.colNm">{{item.colNm}}：</span>{{item.value}}
               </li>
             </ul>
           </div>

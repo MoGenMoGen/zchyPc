@@ -241,7 +241,7 @@
       // },
       //跳转设备详情
       toProDetail(info){
-        let url = '/Trade/productDetail?id='+info.goodsId
+        let url = './Trade/productDetail?id='+info.goodsId
         // this.toPage(url)
         window.open(url)
       },

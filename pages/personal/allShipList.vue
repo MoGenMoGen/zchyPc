@@ -90,12 +90,12 @@
         <p>{{ item.cd }}</p>
         <p>
           {{ item.nm }}
-          <img
+          <!-- <img
             :src="VRImg"
             style="cursor: pointer"
             v-if="item.vrUrl"
             @click="toVR(item.id)"
-          />
+          /> -->
         </p>
         <!--<p>￥{{item.totalPrice}} /艘</p>-->
         <p>{{ item.statusNm }}</p>

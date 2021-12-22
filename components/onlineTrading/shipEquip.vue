@@ -204,8 +204,8 @@
       //   console.log(this.list)
       // },
       toPage(url){
-        // this.$router.push(url)
-        window.open(url)
+        this.$router.push(url)
+        // window.open(url)
       },
       //获取分类
       async getClassify(){
@@ -346,8 +346,9 @@
       },
       //跳转设备详情
       toProDetail(info){
-        let url = '/Trade/productDetail?id='+info.id
-        this.toPage(url)
+        let url = './Trade/productDetail?id='+info.id
+        // this.toPage(url)
+        window.open(url)
       }
     }
   }
