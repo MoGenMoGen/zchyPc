@@ -204,7 +204,8 @@
       //   console.log(this.list)
       // },
       toPage(url){
-        this.$router.push(url)
+        // this.$router.push(url)
+        window.open(url)
       },
       //获取分类
       async getClassify(){
