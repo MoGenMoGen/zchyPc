@@ -13,8 +13,8 @@
       </div>
       <div class="th2">
         <p style="display: flex;align-items: center;">船舶编号：<span
-            style="color: #2778BE;font-weight: bold ">{{info.cd}}</span><img class="img2" :src="VRImg"
-            @click.stop="toVR(info.id)" v-if="info.vrUrl"></p>
+            style="color: #2778BE;font-weight: bold ">{{info.cd}}</span>
+        </p>
         <p>船舶名称：<span>{{info.nm}}</span></p>
         <!--<p>整船金额：<span>￥{{info.totalPrice}}/艘</span></p>-->
         <p>船舶状态：<span style="color: #2778BE;">{{info.statusNm}}</span></p>
@@ -25,6 +25,7 @@
         <!--        <p>订单编号：<span>{{info.orderNo}}</span></p>-->
       </div>
       <div class="th4">
+        <img style="cursor: pointer;" :src="VRImg" @click.stop="toVR(info.id)" v-if="info.vrUrl">
         <img :src="'/ship/docs/apis/qrcode/'+id">
       </div>
 
@@ -161,7 +162,7 @@
 </template>
 
 <script>
-  import VRImg from '../../assets/img/personal/VR2.png'
+  import VRImg from '../../assets/img/personal/VR3.png'
   export default {
     name: "fangansheji",
     props: {
@@ -243,8 +244,15 @@
     }
 
     .th4 {
-      width: 105px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 230px;
       height: 105px;
+      img {
+        width: 105px;
+        height: 105px;
+      }
     }
   }
 

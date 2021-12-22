@@ -172,7 +172,7 @@
 
           <div class="rich" v-if="item.show">
             <p class="desc" v-show="item.imgList">
-              {{item.nm}}报告：
+              报告：{{item.nm}}
             </p>
             <div class="report" v-viewer>
               <p v-for="j in item.imgList">
@@ -207,7 +207,7 @@
 
           <div class="rich" v-if="item.show">
             <p class="desc" v-show="item.imgList1">
-              时间 : {{item.actDt}}
+              报告：{{item.nm}}
             </p>
             <div class="report" v-viewer>
               <p v-for="j in item.imgList1">
