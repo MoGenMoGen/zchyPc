@@ -492,7 +492,7 @@
         <div v-for="(item,index) in list" :key="index">
           <div class="title" @click="item.show=!item.show">
 
-            <span>{{item.title}}</span>
+            <span>{{item.title}}（ 时间 : {{item.actDt}} ）</span>
             <p>
               <span style="color: #2778BE;font-weight: bold">点击查看内容</span>
               <img :src="arrowDown" v-if="item.show">
@@ -502,9 +502,9 @@
 
           <div class="rich" v-if="item.show">
             <p v-if="item.description" style="margin-bottom: 30px;">详细描述:{{item.description}}</p>
-            <p class="desc" v-show="item.imgList1">
+            <!-- <p class="desc" v-show="item.imgList1">
               时间 : {{item.actDt}}
-            </p>
+            </p> -->
             <div class="report" v-viewer>
               <p v-for="j in item.imgList1">
                 <img :src="j">

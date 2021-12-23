@@ -160,7 +160,7 @@
         <div v-for="(item,index) in list" :key="index">
           <div class="title" @click="item.show=!item.show">
 
-            <span>{{item.nm}}</span>
+            <span>{{item.nm}}(时间：{{item.actDt}})</span>
             <p>
               <span style="color: #2778BE;font-weight: bold">点击查看内容</span>
               <img :src="arrowDown" v-if="item.show">
@@ -171,6 +171,9 @@
 
 
           <div class="rich" v-if="item.show">
+           <!-- <p class="desc" v-show="item.imgList">
+              时间 : {{item.actDt}}
+            </p> -->
             <p class="desc" v-show="item.imgList">
               报告：{{item.nm}}
             </p>
@@ -195,7 +198,7 @@
       <div class="bottomBox" v-if="checkIndex==2">
         <div v-for="(item,index) in list" :key="index">
           <div class="title" @click="item.show=!item.show">
-            <span>{{item.nm}}</span>
+            <span>{{item.nm}}(时间：{{item.actDt}})</span>
             <p>
               <span style="color: #2778BE;font-weight: bold">点击查看内容</span>
               <img :src="arrowDown" v-if="item.show">
@@ -206,6 +209,9 @@
 
 
           <div class="rich" v-if="item.show">
+            <!-- <p class="desc" v-show="item.imgList1">
+              时间 : {{item.actDt}}
+            </p> -->
             <p class="desc" v-show="item.imgList1">
               报告：{{item.nm}}
             </p>
@@ -385,6 +391,7 @@
             this.currentRole=JSON.parse(this.until.seGet('currentRole'))
             let qry = this.query.new()
             this.query.toW(qry,'docsId',this.id,'EQ')
+            this.query.toW(qry,'audit','2','EQ')
             this.query.toW(qry,'catCd',this.options[this.checkIndex].cd,'EQ')
             let data=await this.api.buildStep(this.query.toEncode(qry))
             let data1=[]

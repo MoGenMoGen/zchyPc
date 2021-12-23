@@ -158,9 +158,10 @@
         :width="width * 0.81 - 60"
       ></ship-equip>
       <!--船舶检验证书-->
-      <certificate v-if="tab2Id == 22"></certificate>
+      <geleizhengshu v-if="tab2Id == 22"></geleizhengshu>
+      <!-- <certificate v-if="tab2Id == 22"></certificate> -->
       <!-- 设备及其他证书 -->
-      <jianyanjiance v-if="tab2Id == 23"></jianyanjiance>
+      <!-- <jianyanjiance v-if="tab2Id == 23"></jianyanjiance> -->
       <!-- 合同列表 -->
       <contract v-if="tab2Id == 24"></contract>
       <!-- 历史资料 -->
@@ -207,6 +208,7 @@ import jianyanjiance from "../../components/person/jianyanjiance";
 import yunjianyan from "../../components/person/yunjianyan";
 import contract from "../../components/person/contract";
 import historyPic from "../../components/person/historyPic";
+import geleizhengshu from "../../components/onlineTrading/geleizhengshu";
 export default {
   name: "archives",
   layout: "person",
@@ -229,6 +231,7 @@ export default {
     contract,
     yunjianyan,
     historyPic,
+    geleizhengshu
   },
   computed: {
     ...mapState(["bWidth", "width"]),
@@ -328,12 +331,12 @@ export default {
         },
         {
           id: 22,
-          nm: "船舶检验证书",
+          nm: "各类证书",
         },
-        {
-          id: 23,
-          nm: "设备及其他证书",
-        },
+        // {
+        //   id: 23,
+        //   nm: "设备及其他证书",
+        // },
         {
           id: 24,
           nm: "合同列表",
@@ -396,7 +399,7 @@ export default {
 
   methods: {
     closePost(){
-      
+
     },
     handleChange(val){
       this.value3=val

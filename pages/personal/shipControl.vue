@@ -52,12 +52,12 @@
             <template slot-scope="scope">
               <div style="display: flex;align-items: center;">
                 <span>{{scope.row.nm}}</span>
-                <img
+                <!-- <img
                   :src="VRImg"
                   style="cursor: pointer"
                   v-if="scope.row.vrUrl"
                   @click="toVR(scope.row.id)"
-                />
+                /> -->
               </div>
             </template>
           </el-table-column>

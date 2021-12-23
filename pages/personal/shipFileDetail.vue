@@ -50,9 +50,10 @@
      <div class="line4" v-if="tabId==1">
        <base-info1 v-if="tab2Id==20 " :title="designTitle"></base-info1>
        <ship-equip v-if="tab2Id==21"  :id="id" :width="shipEquipWidth" type="1"></ship-equip>
-       <certificate v-if="tab2Id==22"></certificate>
+       <geleizhengshu v-if="tab2Id==22" :formW='formW'></geleizhengshu>
+       <!-- <certificate v-if="tab2Id==22"></certificate>
        <jianyanjiance v-if="tab2Id==23 && formW!='jiance'"></jianyanjiance>
-       <inspection v-if="tab2Id==23 && formW=='jiance'"></inspection>
+       <inspection v-if="tab2Id==23 && formW=='jiance'"></inspection> -->
        <!-- 合同列表 -->
        <contract v-if="tab2Id == 24"></contract>
        <!-- 历史资料 -->
@@ -103,6 +104,7 @@
     const testreportedit = resolve => require(['@/components/person/testreportedit'],resolve); //检测报告(编辑)
     const pageInation = resolve => require(['@/components/pageInation'],resolve); //
     const designFile = resolve => require(['@/components/person/designFile'],resolve); //设计流程 新增（修改）
+    import geleizhengshu from "../../components/onlineTrading/geleizhengshu";
     import yunjianyan from "../../components/person/yunjianyan";
     import contract from "../../components/person/contract";
     import historyPic from "../../components/person/historyPic";
@@ -123,7 +125,7 @@
         baseInfo1,
         baseInfo2,quaGuar,
         baseInfo3,yunjianzao,pinzhibaozhang,
-        shipEquip,certificate,testreport,testreportedit,yunjianyan,contract,historyPic
+        shipEquip,certificate,testreport,testreportedit,yunjianyan,contract,historyPic,geleizhengshu
       },
       data(){
           return{
@@ -157,12 +159,12 @@
               },
               {
                 id:22,
-                nm:'船舶检验证书',
+                nm:'各类证书',
               },
-              {
-                id:23,
-                nm:'设备及其他证书',
-              },
+              // {
+              //   id:23,
+              //   nm:'设备及其他证书',
+              // },
               {
                 id: 24,
                 nm: "合同列表",

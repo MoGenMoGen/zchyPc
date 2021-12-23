@@ -512,6 +512,13 @@ class until {
     return year + "-" + this.formatTen(month) + "-" + this.formatTen(day) + " " + this.formatTen(hour) + ":" + this.formatTen(minute) +
       ":" + this.formatTen(second);
   }
+  formatDate(date) {
+    let myDate = new Date(date)
+    let year = myDate.getFullYear();
+    let month = myDate.getMonth() + 1;
+    let day = myDate.getDate();
+    return year + "-" + this.formatTen(month) + "-" + this.formatTen(day);
+  }
   // 给金额加千分符
   formatNumberRgx(num) {
       let parts = num.toString().split(".")

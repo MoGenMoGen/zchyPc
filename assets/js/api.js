@@ -1750,6 +1750,23 @@ class api {
       })
     })
   }
+  //个人中心-检验检测列表
+  jianyanList2(data) {
+    return new Promise(resolve => {
+      get("/ship/docsCertificate/apis/page?query=" + data).then(res => {
+        resolve(res)
+      })
+    })
+  }
+  
+  //个人中心-检验检测列表-全状态
+  jianyanListAll2(data) {
+    return new Promise(resolve => {
+      get("/ship/docsCertificate/apis/pageAll?query=" + data).then(res => {
+        resolve(res)
+      })
+    })
+  }
   //个人中心-船舶资料 设备及其他证书 未通过（这个接口接口文档上写的是建造档案检验证书 但是事实上是设备及其他证书的）
   jianyanListNo(data) {
     return new Promise(resolve => {

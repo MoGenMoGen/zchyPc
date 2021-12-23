@@ -22,7 +22,7 @@
                 </el-select>
               </p>
             </div>
-            <div>
+            <!-- <div>
               <p class="left-title">建造过程：</p>
               <p class="left-msg">
                 <el-select v-model="form.cd"
@@ -35,7 +35,7 @@
                   </el-option>
                 </el-select>
               </p>
-            </div>
+            </div> -->
             <div>
               <p class="left-title">标题：</p>
               <p class="left-msg">
@@ -106,7 +106,7 @@
       <div class="bottomBox" v-if="checkIndex==options.length-1">
         <div v-for="(item,index) in listNo" :key="index">
           <div class="title" @click="item.show=!item.show">
-            <span>[{{item.catNm}}]{{item.nm}}</span>
+            <span>{{item.nm}}(时间：{{item.actDt}})</span>
             <p>
               <span style="color: #2778BE;font-weight: bold">点击查看内容</span>
               <img :src="arrowDown" v-if="item.show">
@@ -120,7 +120,9 @@
 
           <div class="rich" v-if="item.show">
             <p v-if="item.options">审核意见：{{item.options}}</p>
-
+            <!-- <p class="desc" v-show="item.imgList">
+              时间 : {{item.actDt}}
+            </p> -->
             <p class="desc" v-show="item.imgList">
               报告：{{item.nm}}
             </p>
@@ -146,7 +148,7 @@
         <div v-for="(item,index) in list" :key="index">
           <div class="title">
 
-            <span>{{item.nm}}</span>
+            <span>{{item.nm}}(时间：{{item.actDt}})</span>
 
             <p class="cont1">
 
@@ -165,6 +167,9 @@
           </div>
 
           <div class="rich" v-if="item.show">
+            <!-- <p class="desc" v-show="item.imgList">
+              时间 : {{item.actDt}}
+            </p> -->
             <p class="desc" v-show="item.imgList">
               报告：{{item.nm}}
             </p>
@@ -189,7 +194,7 @@
       <div class="bottomBox" v-if="options[checkIndex] && options[checkIndex].cd=='DOCS_BUILD_SHIP_CAT.30'">
         <div v-for="(item,index) in list" :key="index">
           <div class="title" @click="item.show=!item.show">
-            <span>{{item.nm}}</span>
+            <span>{{item.nm}}(时间：{{item.actDt}})</span>
             <p>
               <sapn style="margin-right: 10px" v-if="item.audit==2">审核已通过</sapn>
               <sapn style="margin-right: 10px" v-else-if="item.audit==1">待审核</sapn>
@@ -494,14 +499,14 @@
               });
               return
             }
-            if(!this.form.cd){
-              this.$message({
-                message: '请选择建造过程',
-                type: 'warning',
-                duration:'1500'
-              });
-              return
-            }
+            // if(!this.form.cd){
+            //   this.$message({
+            //     message: '请选择建造过程',
+            //     type: 'warning',
+            //     duration:'1500'
+            //   });
+            //   return
+            // }
             // if(!this.form.attachment){
             //   this.$message({
             //     message: '请输入详细说明',
@@ -585,6 +590,7 @@
                 console.log("99898999999")
                 console.log(data)
             }
+            console.log(this.options[this.checkIndex].cd)
             let data1=[]
             if(data.length>0){
               data.forEach((item,index)=>{
@@ -638,11 +644,11 @@
                   if(data1.length==0){
                     data1[0]=item
                   }else{
-                    if(item.actDt==data1[data1.length-1].actDt){
-                      data1[data1.length-1].imgList1.push(...item.imgList1)
-                    }else{
+                    // if(item.actDt==data1[data1.length-1].actDt){
+                    //   data1[data1.length-1].imgList1.push(...item.imgList1)
+                    // }else{
                       data1.push(item)
-                    }
+                    // }
                   }
                 }
               })
