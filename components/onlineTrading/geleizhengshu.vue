@@ -14,7 +14,7 @@
       <div class="title" @click="toOpen(index)">
         <div>
           <span style="margin-right: 30px">{{ item.nm }}</span>
-          <span>证件有效期:{{ item.validUntil?item.validUntil.substring(0,10):'' }}</span>
+          <span>(证件有效期:{{ item.validUntil?item.validUntil.substring(0,10):'' }})</span>
         </div>
         <p>
           <img :src="arrowDown" v-if="item.show" />
@@ -63,7 +63,7 @@
       <div class="title" @click="toOpen2(index)">
         <div>
           <span style="margin-right: 30px">{{ item.nm }}</span>
-          <span>证件有效期:{{ item.validUntil?item.validUntil.substring(0,10):'' }}</span>
+          <span>(证件有效期:{{ item.validUntil?item.validUntil.substring(0,10):'' }})</span>
         </div>
         <p>
           <span v-if="formW=='jiance'&&item.audit!=2" style="color: red;margin-right: 10px;" @click.stop="del(item)">删除</span>
@@ -99,7 +99,7 @@
         :total="total2">
       </el-pagination>
     </div>
-    
+
     <div class="main-title" style="margin-top: 40px;">
       <div>
         <div></div>
@@ -111,10 +111,10 @@
       <img style="width: 100%;" :src="borderImg">
     </div>
     <div v-for="(item, index) in list3" :key="index">
-      <div class="title" @click="toOpen(index)">
+      <div class="title" @click="toOpen3(index)">
         <div>
           <span style="margin-right: 30px">{{ item.nm }}</span>
-          <span>证件有效期:{{ item.validUntil?item.validUntil.substring(0,10):'' }}</span>
+          <span>(证件有效期:{{ item.validUntil?item.validUntil.substring(0,10):'' }})</span>
         </div>
         <p>
           <img :src="arrowDown" v-if="item.show" />
@@ -145,7 +145,7 @@
         :total="total3">
       </el-pagination>
     </div>
-    
+
     <el-dialog :title="title" :visible.sync="submitShow" @close="closePost">
       <div class="postBox">
         <div class="list">
@@ -304,6 +304,10 @@
       toOpen2(index) {
         this.list2[index].show = !this.list2[index].show;
         this.$set(this.list2, index, this.list2[index]);
+      },
+      toOpen3(index) {
+        this.list3[index].show = !this.list3[index].show;
+        this.$set(this.list3, index, this.list3[index]);
       },
       async getInfo() {
         this.certificateList = [];
@@ -526,7 +530,7 @@
         this.list3 = []
         let qry = this.query.new();
         this.query.toW(qry, "docsId", this.id, "EQ");
-        this.query.toW(qry, "types", "2", "EQ");
+        this.query.toW(qry, "types", "3", "EQ");
         this.query.toP(qry, this.pageNum, this.pageSize);
         let data = await this.api.jianyanList2(
           this.query.toEncode(qry)
@@ -1068,7 +1072,9 @@
           display: flex;
           flex-direction: column;
           align-items: center;
-
+          &:nth-of-type(6n) {
+            margin-right: 0;
+          }
           img {
             width: 62px;
             height: 69px;
