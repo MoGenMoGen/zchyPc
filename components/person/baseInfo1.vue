@@ -25,7 +25,7 @@
         <!--        <p>订单编号：<span>{{info.orderNo}}</span></p>-->
       </div>
       <div class="th4">
-        <img style="cursor: pointer;" :src="VRImg" @click.stop="toVR(info.id)" v-if="info.vrUrl">
+        <img style="cursor: pointer;margin-right: 24px;width: 100px;height: 100px;" :src="VRImg" @click.stop="toVR(info.id)" v-if="info.vrUrl">
         <img :src="'/ship/docs/apis/qrcode/'+id">
       </div>
 
