@@ -22,11 +22,11 @@
         </p>
       </div>
       <div class="rich" v-show="item.show">
-        <div class="imgBox" v-viewer>
+        <!-- <div class="imgBox" v-viewer>
           <p v-for="j in item.imgList">
             <img :src="j" />
           </p>
-        </div>
+        </div> -->
         <div class="doc">
           <p v-for="j in item.fileList">
             <img :src="j.img" @click="toLink(j.url)" />
@@ -76,11 +76,11 @@
         </p>
       </div>
       <div class="rich" v-show="item.show">
-        <div class="imgBox" v-viewer>
+        <!-- <div class="imgBox" v-viewer>
           <p v-for="j in item.imgList">
             <img :src="j" />
           </p>
-        </div>
+        </div> -->
         <div class="doc">
           <p v-for="j in item.fileList">
             <img :src="j.img" @click="toLink(j.url)" />
@@ -122,11 +122,11 @@
         </p>
       </div>
       <div class="rich" v-show="item.show">
-        <div class="imgBox" v-viewer>
+        <!-- <div class="imgBox" v-viewer>
           <p v-for="j in item.imgList">
             <img :src="j" />
           </p>
-        </div>
+        </div> -->
         <div class="doc">
           <p v-for="j in item.fileList">
             <img :src="j.img" @click="toLink(j.url)" />
@@ -162,7 +162,7 @@
             </el-date-picker>
           </div>
         </div>
-        <div class="list">
+        <!-- <div class="list">
           <div class="listTitle">上传图片：</div>
           <div class="listContent">
             <el-form :model="formOne">
@@ -178,7 +178,7 @@
               </el-form-item>
             </el-form>
           </div>
-        </div>
+        </div> -->
         <div class="list" style="align-items: flex-start">
           <div class="listTitle" style="line-height: 50px">上传附件：</div>
           <div class="listContent" style="border-bottom: 1px dotted #cccccc">

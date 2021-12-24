@@ -56,7 +56,7 @@
         <div style="display: flex">
           <div class="lefttextpart">
             <div class="itemstyle">整改单号：{{ info.cd }}</div>
-            <div class="itemstyle" style="height: 66px;">整改单位：{{ info.orgEnterNm }}</div>
+            <div class="itemstyle" :style="{height: info.rectifyerSign&& info.rectifyerSign.includes('http')?'60px':'auto'}">整改单位：{{ info.orgEnterNm }}</div>
             <!-- <div class="itemstyle">整改日期： {{ info.rectifyTm }}</div> -->
             <div class="itemstyle">检查区域：{{ info.inspArea }}</div>
             <div class="itemstyle">
@@ -88,7 +88,7 @@
             </div> -->
           </div>
         </div>
-        <div class="itemstyle">隐患图片</div>
+        <div class="itemstyle">隐患图片：</div>
         <div class="problempiclist" v-viewer>
           <img :src="item" class="dangerpic" alt="" v-for="(item, index) in hiddenPics" :key="index" />
         </div>
@@ -220,7 +220,7 @@
       <div class="conwrapper">
         <div class="item_border" v-for="(item, index) in reissueList" :key="index">
           <div
-            style="background:#F7F7F7;height:35px;display: flex;align-items: center;justify-content: space-between;padding:0 27px 0 29px;box-sizing: border-box;"
+            style="margin-bottom: 4px;background:#F7F7F7;height:35px;display: flex;align-items: center;justify-content: space-between;padding:0 27px 0 29px;box-sizing: border-box;"
             @click="item.isshow = !item.isshow">
             <div>
               <div style="margin-right:40px;display: inline-block;">{{index+1}}次整改</div>
@@ -245,7 +245,7 @@
           <!-- <div v-if="reissueList.length > 1 && item.reissueReport"> -->
           <!-- 第一次下发 -->
           <div v-show="item.isshow">
-            <h3 style="padding: 20px 0px;font-size: 15px;border-bottom: 1px solid rgba(0,0,0,0.1);">下发内容</h3>
+            <h3 style="padding: 20px 0px 10px;font-size: 15px;border-bottom: 1px solid rgba(0,0,0,0.1);">下发内容</h3>
             <div style="
                 padding-bottom: 2px;
                 font-size: 15px;
@@ -393,7 +393,7 @@
               </div> -->
 
           <div v-show="item.isshow && item.rectifyReport">
-            <h3 style="padding: 20px 0px;">整改上报内容</h3>
+            <h3 style="padding: 20px 0px 10px;font-size: 15px;border-bottom: 1px solid rgba(0,0,0,0.1);">整改上报内容</h3>
             <div class="itemstyle" style="padding-bottom: 2px; font-size: 15px; margin-bottom: 5px">
               整改上报：
               <span style="
@@ -878,7 +878,7 @@
         .item_border {
           position: relative;
           min-height: 35px;
-          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+          // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .item_border:last-child {
@@ -896,7 +896,7 @@
           font-size: 14px;
           font-weight: 400;
           color: #606060;
-          padding: 13px 0;
+          padding: 10px 0;
           display: flex;
           // align-items: center;
         }

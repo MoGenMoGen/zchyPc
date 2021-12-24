@@ -75,7 +75,7 @@
                width="100">
                <template slot-scope="scope">
 
-                 {{scope.row.price ? fmoney(scope.row.price*scope.row.num) : ''}}
+                 {{scope.row.price ? fmoney(scope.row.price*scope.row.num) : '0.00'}}
                </template>
              </el-table-column>
              <el-table-column

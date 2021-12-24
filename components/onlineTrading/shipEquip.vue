@@ -53,7 +53,7 @@
                label="价格(￥)"
                width="100">
 			   <template  slot-scope="scope">
-			     {{scope.row.price?fmoney(scope.row.price):0.00}}
+			     {{scope.row.price?fmoney(scope.row.price):'0.00'}}
 			   </template>
              </el-table-column>
              <el-table-column
