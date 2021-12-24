@@ -38,7 +38,7 @@
       <div>
         <img style="cursor: pointer;" :src="left" @click="lastPageNum2">
         <span>设备证书</span>
-        <img style="cursor: pointer;" :src="right" @click="lastPageNum2">
+        <img style="cursor: pointer;" :src="right" @click="nextPageNum2">
       </div>
       <img style="width: 100%;" :src="borderImg">
     </div>

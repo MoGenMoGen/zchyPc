@@ -155,8 +155,8 @@
         </p>
         <!-- <p style="position: absolute; right: 15%; color: red;" @click="postShow=true">新增</p> -->
       </div>
-      <!-- 不是照片 -->
-      <div class="bottomBox" v-if="checkIndex!=2">
+      <!-- 不是照片  v-if="checkIndex!=2"-->
+      <div class="bottomBox">
         <div v-for="(item,index) in list" :key="index">
           <div class="title" @click="item.show=!item.show">
 
@@ -195,7 +195,7 @@
         </div>
       </div>
       <!-- 照片 -->
-      <div class="bottomBox" v-if="checkIndex==2">
+      <!-- <div class="bottomBox" v-if="checkIndex==2">
         <div v-for="(item,index) in list" :key="index">
           <div class="title" @click="item.show=!item.show">
             <span>{{item.nm}}(时间：{{item.actDt}})</span>
@@ -209,9 +209,9 @@
 
 
           <div class="rich" v-if="item.show">
-            <!-- <p class="desc" v-show="item.imgList1">
+            <p class="desc" v-show="item.imgList1">
               时间 : {{item.actDt}}
-            </p> -->
+            </p>
             <p class="desc" v-show="item.imgList1">
               报告：{{item.nm}}
             </p>
@@ -223,7 +223,7 @@
           </div>
 
         </div>
-      </div>
+      </div> -->
     </div>
 
   </div>
@@ -402,7 +402,7 @@
                 }else{
                   item.show=false
                 }
-                if(this.options[this.checkIndex].cd!='DOCS_BUILD_SHIP_CAT.30'){
+                // if(this.options[this.checkIndex].cd!='DOCS_BUILD_SHIP_CAT.30'){
                   let imgList1=item.imgUrl ? item.imgUrl.split(',') : []
                   let imgList2=[]
                   imgList1.forEach(v=>{
@@ -442,26 +442,26 @@
                     }
                     item.fileList=fileList2
                   })
-                }else{
-                  item.imgList1=item.imgUrl ? item.imgUrl.split(',') : []
-                  if(data1.length==0){
-                    console.log(item)
-                    data1[0]=item
-                  }else{
-                    if(item.actDt==data1[data1.length-1].actDt){
-                      data1[data1.length-1].imgList1.push(...item.imgList1)
-                    }else{
-                      data1.push(item)
-                    }
-                  }
-                }
+                // }else{
+                //   item.imgList1=item.imgUrl ? item.imgUrl.split(',') : []
+                //   if(data1.length==0){
+                //     console.log(item)
+                //     data1[0]=item
+                //   }else{
+                //     if(item.actDt==data1[data1.length-1].actDt){
+                //       data1[data1.length-1].imgList1.push(...item.imgList1)
+                //     }else{
+                //       data1.push(item)
+                //     }
+                //   }
+                // }
               })
             }
-            if(this.options[this.checkIndex].cd!='DOCS_BUILD_SHIP_CAT.30'){
+            // if(this.options[this.checkIndex].cd!='DOCS_BUILD_SHIP_CAT.30'){
               this.list=data
-            }else{
-              this.list=data1
-            }
+            // }else{
+            //   this.list=data1
+            // }
 
             console.log(this.list)
           },

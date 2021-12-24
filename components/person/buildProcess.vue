@@ -213,12 +213,19 @@
             <!-- <p class="desc" v-show="item.imgList1">
               时间 : {{item.actDt}}
             </p> -->
-            <p class="desc" v-show="item.imgList1">
+            <p class="desc" v-show="item.imgList">
               报告：{{item.nm}}
             </p>
             <div class="report" v-viewer>
-              <p v-for="j in item.imgList1">
-                <img :src="j">
+              <p v-for="j in item.imgList">
+                <img :src="j.img">
+              </p>
+            </div>
+            <p style="margin-top: 20px" v-show="item.fileList">附件：</p>
+            <div class="doc">
+              <p v-for="j in item.fileList" @click="toLink(j.url)">
+                <img :src="j.img">
+                <span>{{j.fileNm}}</span>
               </p>
             </div>
           </div>
@@ -599,7 +606,7 @@
                 }else{
                   item.show=false
                 }
-                if(this.options[this.checkIndex].cd!='DOCS_BUILD_SHIP_CAT.30'){
+                // if(this.options[this.checkIndex].cd!='DOCS_BUILD_SHIP_CAT.30'){
                   let imgList1=item.imgUrl ? item.imgUrl.split(',') : []
                   let imgList2=[]
                   imgList1.forEach(v=>{
@@ -639,25 +646,25 @@
                     }
                     item.fileList=fileList2
                   })
-                }else{
-                  item.imgList1=item.imgUrl ? item.imgUrl.split(',') : []
-                  if(data1.length==0){
-                    data1[0]=item
-                  }else{
-                    // if(item.actDt==data1[data1.length-1].actDt){
-                    //   data1[data1.length-1].imgList1.push(...item.imgList1)
-                    // }else{
-                      data1.push(item)
-                    // }
-                  }
-                }
+                // }else{
+                //   item.imgList1=item.imgUrl ? item.imgUrl.split(',') : []
+                //   if(data1.length==0){
+                //     data1[0]=item
+                //   }else{
+                //     // if(item.actDt==data1[data1.length-1].actDt){
+                //     //   data1[data1.length-1].imgList1.push(...item.imgList1)
+                //     // }else{
+                //       data1.push(item)
+                //     // }
+                //   }
+                // }
               })
             }
-            if(this.options[this.checkIndex].cd!='DOCS_BUILD_SHIP_CAT.30'){
+            // if(this.options[this.checkIndex].cd!='DOCS_BUILD_SHIP_CAT.30'){
               this.list=data
-            }else{
-              this.list=data1
-            }
+            // }else{
+            //   this.list=data1
+            // }
           },
 
           //  审核未通过
