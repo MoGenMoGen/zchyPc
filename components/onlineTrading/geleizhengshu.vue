@@ -616,7 +616,7 @@
           });
           return
         }
-        this.form.validUntil = this.until.formatDate(new Date(this.time).getTime())
+        this.form.validUntil = this.until.formatDate2(new Date(this.time).getTime())
         this.form.imgUrl = this.imgList
         this.form.attachment = this.fileList
         if(this.form.id) {
