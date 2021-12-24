@@ -272,13 +272,16 @@
           color: #333333;
           font-size: 18px;
           padding:0 19px;
-          max-width:724px ;
+          // max-width:724px;
+          flex: 1;
         }
         div:nth-of-type(2){
           display: flex;
+          align-items: center;
           flex-shrink: 0;
           p{
-            height: 12px;
+            // height: 12px;
+            font-size: 14px;
             display: flex;
             align-items: center;
             margin-right: 30px;

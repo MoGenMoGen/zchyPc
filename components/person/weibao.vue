@@ -101,7 +101,7 @@
     height: 60px;
     padding: 0 31px;
     background:#F7F7F7;
-    font-size: 16px;
+    font-size: 14px;
     color: #666666;
     p{
       padding: 0 5px;

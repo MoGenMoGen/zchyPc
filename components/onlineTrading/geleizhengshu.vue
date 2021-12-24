@@ -2,9 +2,11 @@
   <div class="certificate">
     <div class="main-title">
       <div>
-        <img style="cursor: pointer;" :src="left" @click="lastPageNum">
+        <div></div>
+        <!-- <img style="cursor: pointer;" :src="left" @click="lastPageNum"> -->
         <span>船舶证书</span>
-        <img style="cursor: pointer;" :src="right" @click="nextPageNum">
+        <div></div>
+        <!-- <img style="cursor: pointer;" :src="right" @click="nextPageNum"> -->
       </div>
       <img style="width: 100%;" :src="borderImg">
     </div>
@@ -33,12 +35,27 @@
         </div>
       </div>
     </div>
+    <div class="pagination">
+      <el-pagination
+        small
+        @current-change="handleCurrentChange1"
+        :current-page.sync="pageNum"
+        :page-size="pageSize"
+        layout="prev, pager, next"
+        :total="total">
+      </el-pagination>
+    </div>
 
     <div class="main-title" style="margin-top: 40px;">
       <div>
-        <img style="cursor: pointer;" :src="left" @click="lastPageNum2">
+        <!-- <img style="cursor: pointer;" :src="left" @click="lastPageNum2"> -->
+        <div></div>
         <span>设备证书</span>
-        <img style="cursor: pointer;" :src="right" @click="nextPageNum2">
+        <div class="addNew" @click="addOpen" v-if="formW=='jiance'">
+          <img :src="addLogo">新增
+        </div>
+        <div v-else></div>
+        <!-- <img style="cursor: pointer;" :src="right" @click="nextPageNum2"> -->
       </div>
       <img style="width: 100%;" :src="borderImg">
     </div>
@@ -72,10 +89,63 @@
         </div>
       </div>
     </div>
-    <div class="addNew" @click="addOpen" v-if="formW=='jiance'">
-      <img :src="addLogo">新增
+    <div class="pagination">
+      <el-pagination
+        small
+        @current-change="handleCurrentChange2"
+        :current-page.sync="pageNum2"
+        :page-size="pageSize"
+        layout="prev, pager, next"
+        :total="total2">
+      </el-pagination>
     </div>
-
+    
+    <div class="main-title" style="margin-top: 40px;">
+      <div>
+        <div></div>
+        <!-- <img style="cursor: pointer;" :src="left" @click="lastPageNum"> -->
+        <span>产品说明书</span>
+        <div></div>
+        <!-- <img style="cursor: pointer;" :src="right" @click="nextPageNum"> -->
+      </div>
+      <img style="width: 100%;" :src="borderImg">
+    </div>
+    <div v-for="(item, index) in list3" :key="index">
+      <div class="title" @click="toOpen(index)">
+        <div>
+          <span style="margin-right: 30px">{{ item.nm }}</span>
+          <span>证件有效期:{{ item.validUntil?item.validUntil.substring(0,10):'' }}</span>
+        </div>
+        <p>
+          <img :src="arrowDown" v-if="item.show" />
+          <img :src="arrowUp" v-else />
+        </p>
+      </div>
+      <div class="rich" v-show="item.show">
+        <div class="imgBox" v-viewer>
+          <p v-for="j in item.imgList">
+            <img :src="j" />
+          </p>
+        </div>
+        <div class="doc">
+          <p v-for="j in item.fileList">
+            <img :src="j.img" @click="toLink(j.url)" />
+            <span @click="toLink(j.url)">{{ j.fileNm }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="pagination">
+      <el-pagination
+        small
+        @current-change="handleCurrentChange3"
+        :current-page.sync="pageNum3"
+        :page-size="pageSize"
+        layout="prev, pager, next"
+        :total="total3">
+      </el-pagination>
+    </div>
+    
     <el-dialog :title="title" :visible.sync="submitShow" @close="closePost">
       <div class="postBox">
         <div class="list">
@@ -171,8 +241,10 @@
         title: '',
         list1: [],
         list2: [],
+        list3: [],
         certificateList: [],
         certificateList2: [],
+        certificateList3: [],
         imgList: '', //用于上传时的图片字符串
         fileList: '', //用于上传时的文件字符串
         submitShow: false,
@@ -190,9 +262,11 @@
         currentRole: {},
         pageNum: 1,
         pageNum2: 1,
+        pageNum3: 1,
         pageSize: 10,
         total: 0,
         total2: 0,
+        total3: 0,
         dialogVisible: false,
         dialogImageUrl: '',
         formOne: {},
@@ -217,6 +291,7 @@
       } else {
         this.getInfo3()
       }
+      this.getInfo4()
     },
     methods: {
       toLink(url) {
@@ -444,6 +519,78 @@
           });
           item.show = false;
           this.list2.push(item);
+        });
+      },
+      async getInfo4() {
+        this.certificateList3 = [];
+        this.list3 = []
+        let qry = this.query.new();
+        this.query.toW(qry, "docsId", this.id, "EQ");
+        this.query.toW(qry, "types", "2", "EQ");
+        this.query.toP(qry, this.pageNum, this.pageSize);
+        let data = await this.api.jianyanList2(
+          this.query.toEncode(qry)
+        );
+        this.certificateList3 = data.data.list
+        this.total3 = data.page.total
+        this.certificateList3.forEach((item) => {
+          item.imgList = item.imgUrl ? item.imgUrl.split(",") : [];
+          let fileList1 = item.attachment ? item.attachment.split(",") : [];
+          let fileList2 = [];
+          fileList1.forEach((v) => {
+            let type = v.split(".")[v.split(".").length - 1];
+            let nmList = v.split(".com/"); //分割出url后的内容
+            let nm = "";
+            nmList.forEach((j, z) => {
+              //防止文件名中有 .com/ 所以循环加入
+              if (z != 0) {
+                nm += j;
+              }
+            });
+            nmList = nm.split("_"); //分割随机字符后的内容
+            nm = "";
+            nmList.forEach((j, z) => {
+              //防止文件名中有 _ 所以循环
+              if (z != 0) {
+                nm += j;
+              }
+            });
+            nm = nm.split("." + type)[0];
+            if (type == "pdf") {
+              fileList2.push({
+                url: v,
+                img: this.pdf,
+                fileNm: nm
+              });
+            } else if (type == "doc" || type == "docx") {
+              fileList2.push({
+                url: v,
+                img: this.word,
+                fileNm: nm
+              });
+            } else if (type == "ppt" || type == "pptx") {
+              fileList2.push({
+                url: v,
+                img: this.ppt,
+                fileNm: nm
+              });
+            } else if (type == "xls" || type == "xlsx") {
+              fileList2.push({
+                url: v,
+                img: this.excel,
+                fileNm: nm
+              });
+            } else {
+              fileList2.push({
+                url: v,
+                img: v,
+                fileNm: nm
+              });
+            }
+            item.fileList = fileList2;
+          });
+          item.show = false;
+          this.list3.push(item);
         });
       },
       addOpen() {
@@ -765,6 +912,22 @@
         }).catch(() => {
 
         });
+      },
+      handleCurrentChange1(val) {
+        this.pageNum = val
+        this.getInfo()
+      },
+      handleCurrentChange2(val) {
+        this.pageNum2 = val
+        if (this.formW == 'jiance') {
+          this.getInfo2()
+        } else {
+          this.getInfo3()
+        }
+      },
+      handleCurrentChange3(val) {
+        this.pageNum3 = val
+        this.getInfo4()
       }
     },
   };
@@ -828,11 +991,29 @@
         font-weight: bold;
         padding: 0 15px;
         box-sizing: border-box;
+        .addNew {
+          width: 90px;
+          height: 30px;
+          background-color: #2778BE;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 16px;
+          color: #fff;
+          // margin: 20px auto;
+          cursor: pointer;
 
+          img {
+            width: 15px;
+            height: 15px;
+            margin-right: 10px;
+          }
+        }
         span {
           margin-left: 10px;
         }
       }
+
     }
 
     .title {
@@ -867,9 +1048,9 @@
         flex-wrap: wrap;
 
         >p {
-          width: calc((100% - 40px)/5);
+          width: calc((100% - 50px)/6);
           margin-right: 10px;
-          &:nth-of-type(5n) {
+          &:nth-of-type(6n) {
             margin-right: 0;
           }
         }
@@ -882,7 +1063,7 @@
 
         p {
           margin-top: 10px;
-          width: calc((100% - 40px)/5);
+          width: calc((100% - 50px)/6);
           margin-right: 10px;
           display: flex;
           flex-direction: column;
@@ -905,25 +1086,6 @@
             word-break: break-word;
           }
         }
-      }
-    }
-
-    .addNew {
-      width: 90px;
-      height: 30px;
-      background-color: #2778BE;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      color: #fff;
-      margin: 20px auto;
-      cursor: pointer;
-
-      img {
-        width: 15px;
-        height: 15px;
-        margin-right: 10px;
       }
     }
 
@@ -961,6 +1123,11 @@
           }
         }
       }
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: flex-end;
     }
   }
 </style>

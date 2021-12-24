@@ -72,8 +72,9 @@
       align-items: center;
       padding-right: 25px;
       cursor: pointer;
+      font-size: 14px;
       img{
-        width: 20px;
+        width: 16px;
         margin-right: 8px;
       }
     }
@@ -107,4 +108,3 @@
     }
   }
 </style>
-

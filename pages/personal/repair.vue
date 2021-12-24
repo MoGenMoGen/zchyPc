@@ -20,7 +20,10 @@
       <div class="tableRepair">
         <el-table
          :data="list"
-         style="width: 100%">
+         style="width: 100%;"
+         :header-cell-style="{
+           'font-size': '14px'
+         }">
            <el-table-column
              type="index"
              align="center"
