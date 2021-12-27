@@ -79,8 +79,8 @@
     </div>
     <div class="line3">
       <p>船舶编号</p>
+	  <p>船号</p>
       <p>船舶名称</p>
-      <!--<p>整船金额</p>-->
       <p>船舶状态</p>
       <p>交付时间</p>
       <p>操作</p>
@@ -88,6 +88,7 @@
     <div class="line4">
       <div v-for="item in list" :key="item.id">
         <p>{{ item.cd }}</p>
+        <p>{{ item.number }}</p>
         <p>
           {{ item.nm }}
           <!-- <img
@@ -440,19 +441,22 @@ export default {
       flex: 1.2;
     }
     p:nth-of-type(2) {
+      flex: 1;
+    }
+    p:nth-of-type(3) {
       flex: 1.5;
       padding-right: 10px;
     }
     /*p:nth-of-type(3){*/
     /*flex:1;*/
     /*}*/
-    p:nth-of-type(3) {
+    p:nth-of-type(4) {
       flex: 0.8;
     }
-    p:nth-of-type(4) {
+    p:nth-of-type(5) {
       flex: 1;
     }
-    p:nth-of-type(5) {
+    p:nth-of-type(6) {
       flex: 1;
       text-align: center;
     }
@@ -473,6 +477,9 @@ export default {
         flex: 1.2;
       }
       p:nth-of-type(2) {
+        flex: 1;
+      }
+      p:nth-of-type(3) {
         // flex: 2;
         flex: 1.5;
         display: flex;
@@ -490,10 +497,10 @@ export default {
       /*flex:1;*/
       /*color: #E4393C;*/
       /*}*/
-      p:nth-of-type(3) {
+      p:nth-of-type(4) {
         flex: 0.8;
       }
-      p:nth-of-type(4) {
+      p:nth-of-type(5) {
         flex: 1;
       }
       p:last-of-type {

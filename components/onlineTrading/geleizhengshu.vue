@@ -321,7 +321,7 @@
         );
         this.certificateList = data.data.list
         this.total = data.page.total
-        this.certificateList.forEach((item) => {
+        this.certificateList.forEach((item,index) => {
           item.imgList = item.imgUrl ? item.imgUrl.split(",") : [];
           let fileList1 = item.attachment ? item.attachment.split(",") : [];
           let fileList2 = [];
@@ -377,7 +377,11 @@
             }
             item.fileList = fileList2;
           });
-          item.show = false;
+          if(index==0) {
+            item.show = true
+          } else {
+            item.show = false
+          }
           this.list1.push(item);
         });
       },
@@ -393,7 +397,7 @@
         );
         this.certificateList2 = data.data.list
         this.total2 = data.page.total
-        this.certificateList2.forEach((item) => {
+        this.certificateList2.forEach((item,index) => {
           item.imgList = item.imgUrl ? item.imgUrl.split(",") : [];
           let fileList1 = item.attachment ? item.attachment.split(",") : [];
           let fileList2 = [];
@@ -449,7 +453,11 @@
             }
             item.fileList = fileList2;
           });
-          item.show = false;
+          if(index==0) {
+            item.show = true
+          } else {
+            item.show = false
+          }
           this.list2.push(item);
         });
       },
@@ -465,7 +473,7 @@
         );
         this.certificateList2 = data.data.list
         this.total2 = data.page.total
-        this.certificateList2.forEach((item) => {
+        this.certificateList2.forEach((item,index) => {
           item.imgList = item.imgUrl ? item.imgUrl.split(",") : [];
           let fileList1 = item.attachment ? item.attachment.split(",") : [];
           let fileList2 = [];
@@ -521,7 +529,11 @@
             }
             item.fileList = fileList2;
           });
-          item.show = false;
+          if(index==0) {
+            item.show = true
+          } else {
+            item.show = false
+          }
           this.list2.push(item);
         });
       },
@@ -537,7 +549,7 @@
         );
         this.certificateList3 = data.data.list
         this.total3 = data.page.total
-        this.certificateList3.forEach((item) => {
+        this.certificateList3.forEach((item,index) => {
           item.imgList = item.imgUrl ? item.imgUrl.split(",") : [];
           let fileList1 = item.attachment ? item.attachment.split(",") : [];
           let fileList2 = [];
@@ -593,7 +605,11 @@
             }
             item.fileList = fileList2;
           });
-          item.show = false;
+          if(index==0) {
+            item.show = true
+          } else {
+            item.show = false
+          }
           this.list3.push(item);
         });
       },
@@ -1089,7 +1105,7 @@
             color: #0066cc;
             font-size: 13px;
             cursor: pointer;
-            word-break: break-word;
+            word-break: break-all;
           }
         }
       }

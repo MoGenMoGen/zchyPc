@@ -52,6 +52,12 @@
             label="船舶编号">
           </el-table-column>
           <el-table-column
+            prop="number"
+            align="center"
+            width="130"
+            label="船号">
+          </el-table-column>
+          <el-table-column
             prop="nm"
             width="240"
             label="船舶名称">

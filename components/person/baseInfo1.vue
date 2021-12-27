@@ -16,14 +16,14 @@
             style="color: #2778BE;font-weight: bold ">{{info.cd}}</span>
         </p>
         <p>船舶名称：<span>{{info.nm}}</span></p>
-        <!--<p>整船金额：<span>￥{{info.totalPrice}}/艘</span></p>-->
+        <p>船号：<span>{{info.number}}</span></p>
         <p>船舶状态：<span style="color: #2778BE;">{{info.statusNm}}</span></p>
         <p>交付时间：<span>{{info.deliveryTm}}</span></p>
       </div>
-      <div class="th3">
+      <!-- <div class="th3"> -->
         <!--        <p>合同编号：<span >{{info.contractNo}}</span></p>-->
         <!--        <p>订单编号：<span>{{info.orderNo}}</span></p>-->
-      </div>
+      <!-- </div> -->
       <div class="th4">
         <img style="cursor: pointer;margin-right: 24px;width: 100px;height: 100px;" :src="VRImg" @click.stop="toVR(info.id)" v-if="info.vrUrl">
         <img :src="'/ship/docs/apis/qrcode/'+id">
@@ -224,6 +224,7 @@
     }
 
     .th2 {
+      flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: space-between;

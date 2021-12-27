@@ -44,8 +44,14 @@
           <el-table-column
             prop="cd"
             align="center"
-            width="210"
+            width="150"
             label="船舶编号">
+          </el-table-column>
+          <el-table-column
+            prop="number"
+            align="center"
+            width="130"
+            label="船号">
           </el-table-column>
           <el-table-column
             prop="nm"
@@ -58,13 +64,13 @@
             <!--label="客户名称">-->
           <!--</el-table-column>-->
           <el-table-column
-            width="140"
+            width="100"
             prop="statusNm"
             label="船舶状态">
           </el-table-column>
           <el-table-column
             prop="deliveryTm"
-            width="140"
+            width="110"
             align="center"
             label="交付时间">
           </el-table-column>
