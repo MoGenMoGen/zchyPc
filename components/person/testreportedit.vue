@@ -17,13 +17,13 @@
           <div>
             <p class="left-title">报告出具时间：</p>
             <p class="left-msg">
-              <el-date-picker v-model="form.validUntil" type="datetime" placeholder="选择日期时间">
+              <el-date-picker v-model="form.validUntil" type="date" placeholder="选择日期时间">
               </el-date-picker>
             </p>
           </div>
           <div>
-            <p class="left-title">上传图片：</p>
-            <div class="imgBox">
+            <p class="left-title">上传附件：</p>
+            <!-- <div class="imgBox">
               <div class="img">
                 <div class="uploadImg">
                   <div>
@@ -34,6 +34,20 @@
                 <div v-for="(item,index) in imgList" :key="index">
                   <img :src="del" class="delImg" @click="deleteImg(index)" />
                   <img :src="item.imgUrl" v-viewer />
+                </div>
+              </div>
+            </div> -->
+            <div class="fileBox">
+              <div class="file">
+                <div class="uploadFile">
+                  <div>
+                  	<button>选择文件</button>
+                    <input ref="upload" type="file" name="file"   multiple="multiple" @change="upFile($event)"/>
+                  </div>
+                </div>
+                <div v-for="(item,index) in fileList" :key="index" class="fileP">
+                  <p @click="toLink(item.url)">{{item.url}}</p>
+                  <img :src="del" class="delImg" @click="deleteFile(index)"/>
                 </div>
               </div>
             </div>
@@ -70,13 +84,13 @@
           <div>
             <p class="left-title">报告出具时间：</p>
             <p class="left-msg">
-              <el-date-picker v-model="form.validUntil" type="datetime" placeholder="选择日期时间">
+              <el-date-picker v-model="form.validUntil" type="date" placeholder="选择日期时间">
               </el-date-picker>
             </p>
           </div>
           <div>
-            <p class="left-title">上传图片：</p>
-            <div class="imgBox">
+            <p class="left-title">上传附件：</p>
+            <!-- <div class="imgBox">
               <div class="img">
                 <div class="uploadImg">
                   <div>
@@ -87,6 +101,20 @@
                 <div v-for="(item,index) in imgList" :key="index">
                   <img :src="del" class="delImg" @click="deleteImg(index)" />
                   <img :src="item.imgUrl" @click="toLink(item)" />
+                </div>
+              </div>
+            </div> -->
+            <div class="fileBox">
+              <div class="file">
+                <div class="uploadFile">
+                  <div>
+                  	<button>选择文件</button>
+                    <input ref="upload" type="file" name="file"   multiple="multiple" @change="upFile($event)"/>
+                  </div>
+                </div>
+                <div v-for="(item,index) in fileList" :key="index" class="fileP">
+                  <p @click="toLink(item.url)">{{item.url}}</p>
+                  <img :src="del" class="delImg" @click="deleteFile(index)"/>
                 </div>
               </div>
             </div>
@@ -106,11 +134,17 @@
       <ul v-show="currentType">
         <li v-for="(item,index) in list" :key="index" :style="{width:width*0.16+'px'}">
 
-          <div class="img" :style="{height:width*0.16*size+'px'}">
+          <!-- <div class="img" :style="{height:width*0.16*size+'px'}">
             <img :src="item.imgList[0]">
             <viewer :images="item.imgList" class="viewer" :style="{height:width*0.16*size+'px',width:width*0.16+'px'}">
               <img v-for="(src,k) in item.imgList" :src="src" :key="k">
             </viewer>
+          </div> -->
+          <div class="doc">
+            <p v-for="j in item.fileList" @click="toLink(j.url)">
+              <img :src="j.img">
+              <span>{{j.fileNm}}</span>
+            </p>
           </div>
           <p>{{item.nm}}</p>
           <p>证书有效期：{{item.validUntil}}</p>
@@ -126,11 +160,16 @@
       <!--未通过审核-->
       <ul v-show="!currentType">
         <li v-for="(item,index) in listNo" :key="index" :style="{width:width*0.16+'px'}">
-          <div class="img" :style="{height:width*0.16*size+'px'}">
-            <!--            <img :src="item.imgList[0]">-->
+          <!-- <div class="img" :style="{height:width*0.16*size+'px'}">
             <viewer :images="item.imgList" class="viewer" :style="{height:width*0.16*size+'px',width:width*0.16+'px'}">
               <img v-for="(src,k) in item.imgList" :src="src" :key="k">
             </viewer>
+          </div> -->
+          <div class="doc">
+            <p v-for="j in item.fileList" @click="toLink(j.url)">
+              <img :src="j.img">
+              <span>{{j.fileNm}}</span>
+            </p>
           </div>
           <p>{{item.nm}}</p>
           <p>证书有效期：{{item.validUntil}}</p>
@@ -192,12 +231,14 @@
         listNo: [],
         info: {},
         imgList: [],
+        fileList: [],
         currentRole: {},
         form: {
           nm: "",
           docsId: "",
           validUntil: "",
           imgUrl: "",
+          attachment: '',
           issuerId: "",
           issuerNm: "",
           types: "2", //0 船舶检验证书（后台上传） 1设备及其他证书 2检测报告
@@ -225,7 +266,7 @@
       },
       //修改
       change(index) {
-        this.form = JSON.parse(JSON.stringify(this.listNo[index]))
+        this.form = JSON.parse(JSON.stringify(this.list[index]))
         this.imgList = []
         if (this.form.imgList) {
           this.form.imgList.forEach(item => {
@@ -236,8 +277,6 @@
             })
           })
         }
-
-        console.log(this.imgList)
         this.fileList = []
         if (this.form.fileList) {
           this.form.fileList.forEach(item => {
@@ -247,7 +286,7 @@
             })
           })
         }
-
+        console.log(this.fileList)
         this.submitShow = true
       },
 
@@ -299,7 +338,12 @@
         this.imgList.forEach(item => {
           imgList.push(item.url)
         })
-        this.form.imgUrl = imgList.join(",")
+        let fileList = []
+        this.fileList.forEach(item => {
+          fileList.push(item.url)
+        })
+        this.form.imgUrl = ''
+        this.form.attachment = fileList.join(",")
         if (!this.form.validUntil) {
           this.$message({
             message: '请选择有效日期',
@@ -309,8 +353,7 @@
           return
         }
         let timeC = this.until.formatDate(this.form.validUntil)
-        this.form.validUntil = timeC.year + '-' + timeC.month + '-' + timeC.day + ' ' + timeC.hour + ':' + timeC
-          .minite + ':' + timeC.second
+        this.form.validUntil = timeC.year + '-' + timeC.month + '-' + timeC.day
         console.log(this.form)
         if (!this.form.nm) {
           this.$message({
@@ -341,7 +384,7 @@
                 }
                 this.imgList = []
                 this.listNo = []
-                this.getInfoNo()
+                this.getInfo()
               }, 1000)
             } else {
               this.$message({
@@ -400,6 +443,38 @@
           data.forEach((item, index) => {
             item.validUntil = item.validUntil ? item.validUntil.split(' ')[0] : ''
             item.imgList = item.imgUrl ? item.imgUrl.split(',') : []
+            let fileList1=item.attachment?item.attachment.split(','):[]
+            let fileList2=[]
+            fileList1.forEach(v=>{
+              let type=v.split('.')[v.split('.').length - 1]
+              let nmList=v.split('.com/')  //分割出url后的内容
+              let nm=""
+              nmList.forEach((j,z)=>{       //防止文件名中有 .com/ 所以循环加入
+                if(z!=0){
+                  nm+=j
+                }
+              })
+              nmList=nm.split('_')        //分割随机字符后的内容
+              nm=""
+              nmList.forEach((j,z)=>{   //防止文件名中有 _ 所以循环
+                if(z!=0){
+                  nm+=j
+                }
+              })
+              nm=nm.split('.'+type)[0]
+              if(type=='pdf'){
+              	fileList2.push({url:v,img:this.pdf,'fileNm':nm})
+              }else if(type=='doc'||type=='docx'){
+              	fileList2.push({url:v,img:this.word,'fileNm':nm})
+              }else if(type=='ppt'||type=='pptx'){
+              	fileList2.push({url:v,img:this.ppt,'fileNm':nm})
+              }else if(type=='xls'||type=='xlsx'){
+              	fileList2.push({url:v,img:this.excel,'fileNm':nm})
+              }else{
+              	fileList2.push({url:v,img:v,'fileNm':nm})
+              }
+              item.fileList=fileList2
+            })
             this.list.push(item)
           })
         }
@@ -416,7 +491,7 @@
         if (data.length > 0) {
           data.forEach((item, index) => {
             item.validUntil = item.validUntil ? item.validUntil.split(' ')[0] : ''
-            item.imgList = item.imgUrl ? item.imgUrl.split(',') : []
+            item.imgList = item.imgUrl ? item.imgUrl.split(',') : [],
             this.listNo.push(item)
           })
         }
@@ -439,8 +514,33 @@
           imgUrl: img,
           type: '2'
         })
-        // console.log('照片列表')
-        // console.log(this.imgList)
+      },
+      //删除文件
+      deleteFile(index){
+         this.fileList.splice(index,1)
+       },
+       //上传文件
+      async upFile(e){
+        console.log(e)
+        if(e.target.files.length===0){
+          return
+        }
+        let img = await this.api.uploadImg(e)
+        let type=img.split('.')[img.split('.').length - 1]
+        console.log(type)
+        if(type=='pdf'){
+        	this.fileList.push({url:img,imgUrl:this.pdf,type:'1'})
+        }else if(type=='doc'||type=='docx'){
+        	this.fileList.push({url:img,imgUrl:this.word,type:'1'})
+        }else if(type=='ppt'||type=='pptx'){
+        	this.fileList.push({url:img,imgUrl:this.ppt,type:'1'})
+        }else if(type=='xls'||type=='xlsx'){
+        	this.fileList.push({url:img,imgUrl:this.excel,type:'1'})
+        }else{
+        	this.fileList.push({url:img,imgUrl:img,type:'2'})
+        }
+        console.log('文件列表')
+        console.log(this.fileList)
       },
       toLink(url) {
         console.log(url)
@@ -634,7 +734,50 @@
               clear: both;
             }
           }
-
+          .fileBox{
+            flex: 1;
+            .file{
+              .uploadFile{
+                position: relative;
+                >div{
+                  display: flex;
+                  display: -webkit-flex;
+                  color: #C6C6C6;
+                  width: 100%;
+                  height: 100%;
+                  input{
+                    // width: 100%;
+                    // height: 100%;
+                    opacity: 0;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                  }
+                }
+              }
+              .fileP{
+                position: relative;
+                >p{
+                  cursor: pointer;
+                  width: 100%;
+                  max-width: 400px;
+                  margin: 10px 0;
+                  overflow: hidden;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                }
+                .delImg{
+                  cursor: pointer;
+                  position: absolute;
+                  top: -7.5px;
+                  right: -7.5px;
+                  z-index: 2;
+                  width: 15px;
+                  height: 15px;
+                }
+              }
+            }
+          }
         }
 
         >button {
@@ -952,6 +1095,36 @@
 
             i {
               margin-right: 5px;
+            }
+          }
+
+        }
+        .doc{
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          p{
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            img{
+              width: 62px;
+              height: 69px;
+              margin-right: 3px;
+              display: block;
+              cursor: pointer;
+              &:hover{
+              }
+            }
+            span{
+              // display: block;
+              // width: 100%;
+              // text-align: center;
+              color: #0066cc;
+              font-size: 13px;
+              cursor: pointer;
+              // margin-top: 5px;
             }
           }
 
