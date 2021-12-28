@@ -392,15 +392,15 @@
         }else {
           this.ifMenu = true
         }
-        if(arr[2]=='infoSearch'){ //资讯
+        if(arr[2]=='infoSearch2'){ //资讯
           this.selectCheck = '4'
         }else if(arr[2]=='storeSearch'){ //店铺
           this.selectCheck = '7'
-        }else if(arr[2]=='productSearch'){ //产品
+        }else if(arr[2]=='productSearch2'){ //产品
           this.selectCheck = '2'
-        }else if(arr[2]=='shipSearch'){ //船舶
+        }else if(arr[2]=='shipSearch2'){ //船舶
           this.selectCheck = '1'
-        }else if(arr[2]=='programSearch'){
+        }else if(arr[2]=='programSearch2'){
           this.selectCheck = '5'
         }else if(arr[2]=='brandSearch'){
           this.selectCheck = '8'

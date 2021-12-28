@@ -42,7 +42,7 @@
           <el-table-column
             prop="cd"
             align="center"
-            width="100"
+            width="150"
             label="船舶编号">
           </el-table-column>
 		  <el-table-column

@@ -27,7 +27,7 @@
 <!--              会员角标，暂时注释-->
 <!--              <img class="yellow" src="@/assets/img/personal/首页/角标.png"/>-->
               <div class="img" :style="{height:(width-20)*4.9/5.9*0.255*0.36 + 'px'}">
-                <img v-if="info.imgUrl" :src="info.imgUrl" alt="" :style="{height:(width-20)*4.9/5.9*0.255*0.36 + 'px'}" />
+                <img :src="info.imgUrl?info.imgUrl:avatar" alt="" :style="{height:(width-20)*4.9/5.9*0.255*0.36 + 'px'}" />
               </div>
               <p>{{info.realNm}}<span>({{info.mob}})</span></p>
               <p>{{currentRole ? currentRole.company : info.company}}&nbsp;<span v-if="currentRole">[{{currentRole.identityNm}}]</span></p>
@@ -206,6 +206,7 @@
   import im6 from "../../assets/img/personal/首页/选型记录.png";
   import Role from "../../components/person/role";
   import tips from "../../components/person/tips";
+  import avatar from "../../assets/img/personal/首页/头像.png";
   export default {
     name: "shipowner",
     components: {
@@ -216,6 +217,7 @@
     },
     data(){
       return {
+        avatar,
         isShowTips: false,
         coll:0, //收藏总数
         subscrN:0,//我的预约总数

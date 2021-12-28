@@ -71,6 +71,7 @@
       },
       //去列表
       toList(type,item){
+        console.log(item)
         let idArr=[]
         if(type==1){
           idArr[0]=item.id

@@ -22,8 +22,8 @@
       <div class="line4" v-if="tabId==1">
         <div><span>头像:</span>
             <p style="justify-content: flex-start;align-items: center">
-              <img :src="info.imgUrl" v-if="info.imgUrl">
-              <span style="width: 100px;height: 100px;border: 1px solid #F0F0F0;" v-else></span>
+              <img :src="info.imgUrl?info.imgUrl:avatar">
+              <!-- <span style="width: 100px;height: 100px;border: 1px solid #F0F0F0;" v-else></span> -->
               <span  class="dianji"><input type="file" @change="upImg($event)"/>点击上传头像</span>
             </p>
 
@@ -129,6 +129,7 @@
     import shenhezhong from "../../assets/img/personal/审核中.png"
     import weitongguo from "../../assets/img/personal/未通过.png"
     import tongguo from "../../assets/img/personal/通过.png"
+    import avatar from "../../assets/img/personal/首页/头像.png";
     import {mapState} from "vuex";
     export default {
         name: "allShip",
@@ -140,6 +141,7 @@
         data(){
             return{
                 title:'个人资料',
+                avatar,
                 tongguo,
                 searchIc,
                 deleteIc,
