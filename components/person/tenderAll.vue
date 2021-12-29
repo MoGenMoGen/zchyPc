@@ -18,12 +18,12 @@
           </el-table-column>
           <el-table-column width="150" align="center" label="采购金额(元)">
             <template slot-scope="scope">
-              {{fmoney(scope.row.budget)}}
+              {{scope.row.budget?fmoney(scope.row.budget):''}}
             </template>
           </el-table-column>
           <el-table-column width="150" align="center" label="保证金(元)">
             <template slot-scope="scope">
-              {{fmoney(scope.row.depositMoney)}}
+              {{scope.row.depositMoney?fmoney(scope.row.depositMoney):''}}
             </template>
           </el-table-column>
           <el-table-column width="170" prop="bidOpenTm" align="center" label="开标时间">

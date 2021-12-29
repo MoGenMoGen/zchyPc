@@ -75,7 +75,7 @@
             <el-date-picker
               class="select"
               v-model="pickDate"
-              type="datetime"
+              type="date"
               placeholder="选择日期时间"
               align="right"
               :picker-options="pickerOptions"
@@ -264,7 +264,7 @@
              <el-date-picker
                class="select"
                v-model="pickDate"
-               type="datetime"
+               type="date"
                placeholder="选择日期时间"
                align="right"
                :picker-options="pickerOptions"
@@ -458,7 +458,7 @@
 
 
           <div class="rich" v-if="item.show">
-            <p style="margin-bottom: 30px;" v-show="item.fileList">期报：</p>
+            <p style="margin-bottom: 30px;" v-show="item.fileList.length>0">期报：</p>
             <div class="doc">
               <p v-for="j in item.fileList" @click="toLink(j.url)">
                 <img :src="j.img">
@@ -474,7 +474,7 @@
               </p>
             </div>
 
-            <p style="margin-top: 20px" v-show="item.attachmentList">附件：</p>
+            <p style="margin-top: 20px" >附件：</p>
             <div class="doc">
               <p v-for="j in item.attachmentList" @click="toLink(j.url)">
                 <img :src="j.img">
@@ -987,7 +987,18 @@
         console.log("kan", cd);
       },
       async save() {
-        console.log(this.currentRole);
+        let val=this.pickDate
+        let year = val.getFullYear()
+        let month = val.getMonth() + 1
+        let day = val.getDate()
+        if (month >= 1 && month <= 9) {
+        	month = `0${month}`
+        }
+        if (day >= 1 && day <= 9) {
+        	day = `0${day}`
+        }
+        this.pickDate = `${year}-${month}-${day}`
+        console.log(this.pickDate);
         let obj = {
           docsId: this.id,
           title: this.title,

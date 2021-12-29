@@ -167,7 +167,13 @@
               <img :src="arrowUp" v-else>
             </p>
           </div>
-
+          <div class="" v-for="(item1,index1) in listText" :key="index1">
+               <el-image
+                 style="width: 100px; height: 100px"
+                 :src="item1.img"
+                 :preview-src-list="item1.img.split(',')">
+               </el-image>
+           </div>
 
 
           <div class="rich" v-if="item.show">
@@ -269,6 +275,16 @@
                   file:'',
                 },
                 fileInfoList:[],
+                 listText:[
+                   {
+                     id:1,
+                     img:'https://sinovat.oss-cn-shanghai.aliyuncs.com/651d36e73fe448c7bdf403a3f0b8ec3b_1.6.webp',
+                   },
+                   {
+                     id:2,
+                     img:'https://sinovat.oss-cn-shanghai.aliyuncs.com/c8e2a27e6e024bbca764498866c1ae90_产品船壳脱模.jpg',
+                   }
+                 ],
 
             }
         },
