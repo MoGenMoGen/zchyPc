@@ -434,6 +434,7 @@ export default {
     height: 60px;
     padding: 0 31px;
     background: #f7f7f7;
+    font-weight: bold;
     p {
       text-align: center;
     }

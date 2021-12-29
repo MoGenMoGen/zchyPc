@@ -39,7 +39,8 @@
         :data="tableData"
         style="width: 100%"
         :header-cell-style="{
-          'font-size': '14px'
+          'font-size': '14px',
+          'font-weight': 'bold'
         }">
           <el-table-column
             prop="cd"
