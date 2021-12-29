@@ -83,7 +83,7 @@
             </el-date-picker>
           </div>
         </div>
-        <div class="list">
+        <div class="list" v-if="value1=='DOCS_SURVEY_CYCLE.70'||value1==''">
           <div class="listTitle">上传图片：</div>
           <div class="listContent">
             <el-form :model="form">
@@ -109,8 +109,8 @@
             </el-form>
           </div>
         </div>
-        <div class="list" style="align-items: flex-start">
-          <div class="listTitle" style="line-height: 50px">上传文档：</div>
+        <div class="list" style="align-items: flex-start" v-if="value1=='DOCS_SURVEY_CYCLE.10'||value1=='DOCS_SURVEY_CYCLE.60'||value1==''">
+          <div class="listTitle" style="line-height: 50px">上传文件：</div>
           <div class="listContent" style="border-bottom: 1px dotted #cccccc">
             <el-form :model="formTwo">
               <el-form-item>
@@ -133,7 +133,7 @@
             </el-form>
           </div>
         </div>
-        <div class="list" style="align-items: flex-start">
+        <div class="list" style="align-items: flex-start" v-if="value1!='DOCS_SURVEY_CYCLE.70'">
           <div class="listTitle" style="line-height: 50px">上传附件：</div>
           <div class="listContent" style="border-bottom: 1px dotted #cccccc">
             <el-form :model="formThree">
@@ -272,7 +272,7 @@
              </el-date-picker>
            </div>
          </div>
-         <div class="list">
+         <div class="list" v-if="value1=='DOCS_SURVEY_CYCLE.70'||value1==''">
            <div class="listTitle">上传图片：</div>
            <div class="listContent">
              <el-form :model="form">
@@ -298,8 +298,8 @@
              </el-form>
            </div>
          </div>
-         <div class="list" style="align-items: flex-start">
-           <div class="listTitle" style="line-height: 50px">上传文档：</div>
+         <div class="list" style="align-items: flex-start" v-if="value1=='DOCS_SURVEY_CYCLE.10'||value1=='DOCS_SURVEY_CYCLE.60'||value1==''">
+           <div class="listTitle" style="line-height: 50px">上传文件：</div>
            <div class="listContent" style="border-bottom: 1px dotted #cccccc">
              <el-form :model="formTwo">
                <el-form-item>
@@ -322,7 +322,7 @@
              </el-form>
            </div>
          </div>
-         <div class="list" style="align-items: flex-start">
+         <div class="list" style="align-items: flex-start" v-if="value1!='DOCS_SURVEY_CYCLE.70'">
            <div class="listTitle" style="line-height: 50px">上传附件：</div>
            <div class="listContent" style="border-bottom: 1px dotted #cccccc">
              <el-form :model="formThree">
@@ -458,28 +458,28 @@
 
 
           <div class="rich" v-if="item.show">
-            <p style="margin-bottom: 30px;" v-show="item.fileList.length>0">期报：</p>
-            <div class="doc">
-              <p v-for="j in item.fileList" @click="toLink(j.url)">
-                <img :src="j.img">
-                <span>{{j.fileNm}}</span>
-              </p>
-            </div>
-            <p class="desc" v-show="item.imgList">
-              {{checkName}}报告：
+            <p   class="desc" v-if="item.imgList.length>0">
+              图片：
             </p>
-            <div class="report" v-viewer>
+            <div class="report" v-viewer v-if="item.imgList.length>0" style="margin-bottom: 20px">
               <p v-for="j in item.imgList">
                 <img :src="j.img">
               </p>
             </div>
+            <p   v-if="item.fileList.length>0">{{checkIndex==3?'监理总结报告':'期报'}}：</p>
+            <div class="doc" style="margin-bottom: 20px"  v-if="item.fileList.length>0">
+              <p v-for="j in item.fileList" @click="toLink(j.url)">
+                <img :src="j.img">
+                <span>{{j.fileNm}}</span>
+              </p>
+            </div >
 
-            <p style="margin-top: 20px" >附件：</p>
-            <div class="doc">
+
+            <p style="margin-bottom: 20px" v-if="item.attachmentList.length>0">附件：</p>
+            <div class="doc" v-if="item.attachmentList.length>0">
               <p v-for="j in item.attachmentList" @click="toLink(j.url)">
                 <img :src="j.img">
                 <span>{{j.fileNm}}</span>
-
               </p>
             </div>
           </div>
@@ -1110,7 +1110,6 @@
         else{
            data = await this.api.qualityList(this.query.toEncode(qry));
         }
-        console.log(787897, data);
         let data1 = [];
         if (data.length > 0) {
           data.forEach((item, index) => {
@@ -1130,11 +1129,13 @@
               });
             });
             item.imgList = imgList2;
-
+             item.fileList=[]
+             item.attachmentList=[]
             let fileList1 = item.fileUrl ? item.fileUrl.split(",") : [];
             let fileList2 = [];
             let fileList11 = item.attachment ? item.attachment.split(",") : [];
             let fileList22 = [];
+            console.log(7878,fileList1);
             fileList1.forEach((v) => {
               let type = v.split(".")[v.split(".").length - 1];
               let nmList = v.split(".com/"); //分割出url后的内容
@@ -1185,6 +1186,7 @@
                   fileNm: nm,
                 });
               }
+              console.log(111,  fileList2);
               item.fileList = fileList2;
             });
             fileList11.forEach((v) => {
