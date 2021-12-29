@@ -103,12 +103,12 @@
         <p>{{ item.deliveryTm }}</p>
         <p>
           <span class="detail" @click="toDetail(item)">查看详情</span>
-          <span
+          <!-- <span
             v-if="item.statusCd == 'DOCS_STATUS.03'"
             class="sail"
             @click="showPop(item)"
             >我要出售</span
-          >
+          > -->
           <!--船厂、设计院、监理监造、检验检测-->
           <span
             v-if="
