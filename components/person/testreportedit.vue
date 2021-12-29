@@ -378,6 +378,7 @@
                   docsId: "",
                   validUntil: "",
                   imgUrl: "",
+                  attachment: '',
                   issuerId: "",
                   issuerNm: "",
                   types: "2", //0 船舶检验证书（后台上传） 1设备及其他证书 2检测报告
@@ -409,6 +410,7 @@
                   docsId: "",
                   validUntil: "",
                   imgUrl: "",
+                  attachment: '',
                   issuerId: "",
                   issuerNm: "",
                   types: "2", //0 船舶检验证书（后台上传） 1设备及其他证书 2检测报告
