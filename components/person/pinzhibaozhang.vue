@@ -458,7 +458,7 @@
 
 
           <div class="rich" v-if="item.show">
-            <p   class="desc" v-if="item.imgList.length>0">
+            <p class="desc" v-if="item.imgList.length>0">
               图片：
             </p>
             <div class="report" v-viewer v-if="item.imgList.length>0" style="margin-bottom: 20px">
@@ -501,7 +501,10 @@
           </div>
 
           <div class="rich" v-if="item.show">
-            <p v-if="item.description" style="margin-bottom: 30px;">详细描述:{{item.description}}</p>
+            <!-- <p v-if="item.description" style="margin-bottom: 30px;">详细描述:{{item.description}}</p> -->
+            <p class="desc" v-if="item.imgList1.length>0">
+              图片：
+            </p>
             <!-- <p class="desc" v-show="item.imgList1">
               时间 : {{item.actDt}}
             </p> -->
