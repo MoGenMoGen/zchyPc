@@ -58,7 +58,7 @@
             </el-select>
           </div>
         </div>
-        <div class="list">
+    <!--    <div class="list">
           <div class="listTitle">过程说明：</div>
           <div class="listContent">
             <textarea
@@ -68,7 +68,7 @@
               v-model="describe"
             ></textarea>
           </div>
-        </div>
+        </div> -->
         <div class="list">
           <div class="listTitle">监理时间：</div>
           <div class="listContent">
