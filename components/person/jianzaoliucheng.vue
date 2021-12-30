@@ -167,13 +167,13 @@
               <img :src="arrowUp" v-else>
             </p>
           </div>
-          <div class="" v-for="(item1,index1) in listText" :key="index1">
-               <el-image
-                 style="width: 100px; height: 100px"
+          <!-- <div class="">
+               <el-image v-for="(item1,index1) in listText" :key="index1"
+                 style="width: 100px; height: 100px;margin-right: 10px;"
                  :src="item1.img"
                  :preview-src-list="item1.img.split(',')">
                </el-image>
-           </div>
+           </div> -->
 
 
           <div class="rich" v-if="item.show">
@@ -647,7 +647,7 @@
   }
   .rich{
 
-      padding: 24px 28px;
+      padding: 24px 0;
       .desc{
         color: #666666;
 

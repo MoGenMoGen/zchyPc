@@ -466,7 +466,7 @@
                 <img :src="j.img">
               </p>
             </div>
-            <p   v-if="item.fileList.length>0">{{checkIndex==3?'监理总结报告':'期报'}}：</p>
+            <p   v-if="item.fileList.length>0">{{checkIndex==3?'总结':checkIndex==1?'日志':checkIndex==2?'记录表':'期报'}}：</p>
             <div class="doc" style="margin-bottom: 20px"  v-if="item.fileList.length>0">
               <p v-for="j in item.fileList" @click="toLink(j.url)">
                 <img :src="j.img">
@@ -475,7 +475,7 @@
             </div >
 
 
-            <p style="margin-bottom: 20px" v-if="item.attachmentList.length>0">附件：</p>
+            <p v-if="item.attachmentList.length>0">{{checkIndex==1?'日志':checkIndex==2?'记录表':'附件'}}：</p>
             <div class="doc" v-if="item.attachmentList.length>0">
               <p v-for="j in item.attachmentList" @click="toLink(j.url)">
                 <img :src="j.img">
