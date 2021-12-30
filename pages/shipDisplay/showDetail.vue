@@ -22,7 +22,7 @@
         </div>
         <div class="cont-2 main" :style="{width:width+'px'}">
           <div class="cont-2-1">
-            <div style="display: flex;align-items: center;">{{info ? info.nm : ''}}<img class="img2" :src="VRImg" @click.stop="toVR(info.id)" v-if="info.vrUrl"></div>
+            <div style="display: flex;align-items: center;">{{info ? info.nm : ''}}<img class="img2" :src="VRImg" @click.stop="toVR(info.id)" v-if="info.vrUrl&&info.vrUrl.split(',')[0]"></div>
             <div>
               <p @click="toCollect"><img :src="info.collected ? collected : noCollect" >收藏</p>
               <share></share>

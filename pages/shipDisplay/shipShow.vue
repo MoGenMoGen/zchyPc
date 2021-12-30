@@ -22,7 +22,7 @@
           <div class="line2">
 <!--            <div class="line2-item" v-for="item in list" :key="item.id" @click="toDetail(item)" :style="{marginRight:width/24+'px',width:(width-width*4/24)/5+'px'}">-->
             <div class="line2-item" v-for="item in list" :key="item.id" @click="toDetail(item)" >
-               <div class="img" :style="{height: width*0.185*9/16 + 'px'}" style="width: 100%;" ><img class="img1" :src="item.imgUrl" ><img class="img2" :src="VRImg" @click.stop="toVR(item.id)" v-if="item.vrUrl"></div>
+               <div class="img" :style="{height: width*0.185*9/16 + 'px'}" style="width: 100%;" ><img class="img1" :src="item.imgUrl" ><img class="img2" :src="VRImg" @click.stop="toVR(item.id)" v-if="item.vrUrl&&item.vrUrl.split(',')[0]"></div>
                <p>{{item.nm}}</p>
                <p>船型：{{item.totalLen}}m</p>
             </div>

@@ -14,7 +14,7 @@
       <div class="left2">
         <p>{{item.nm}}</p>
         <img :src="item.used==1 ? tp1 : tp2" alt=""/>
-         <img :src="VRImg" style="margin-top: 10px;cursor: pointer;" v-if="item.vrUrl" @click.stop="toVR(item.goodsId)">
+         <img :src="VRImg" style="margin-top: 10px;cursor: pointer;" v-if="item.vrUrl&&item.vrUrl.split(',')[0]" @click.stop="toVR(item.goodsId)">
       </div>
       <!--中部船舶属性-->
       <div class="mid">

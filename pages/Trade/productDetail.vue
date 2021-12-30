@@ -90,7 +90,7 @@
           <p class="dt">{{proType==='ship'?'参考价 : ':'产品价格 :'}}</p>
           <p class="price" v-show="currentInfo.origPrice!=price">￥{{fmoney(currentInfo.origPrice)}}</p>
           <p class="price" v-show="currentInfo.origPrice==price">价格面议</p>
-          <p class="vrImg"><img class="img2" :src="VRImg" @click.stop="toVR(info.id)" v-if="info.vrUrl"></p>
+          <p class="vrImg"><img class="img2" :src="VRImg" @click.stop="toVR(info.id)" v-if="info.vrUrl&&info.vrUrl.split(',')[0]"></p>
           <el-row style="margin-top: 15px" v-if="info.gift === 1">
             <el-col :span="2">
               <p class="dt2">赠品 :</p>
