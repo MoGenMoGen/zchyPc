@@ -494,6 +494,21 @@
 
             <span>{{item.title}}（ 时间 : {{item.actDt}} ）</span>
             <p>
+              <span class="right" v-if="item.audit != '2'&&currentRole.identityCd=='identity40'" style="color: red;margin-right: 10px;" @click.stop="toDelete(item)">
+                删除
+              </span>
+              <span class="right" v-if="item.audit == '2'" style="color: #2778be;margin-right: 10px;">
+                检验完成
+              </span>
+              <span class="right" v-if="item.audit == '1'" style="color: red;margin-right: 10px;" >
+                审核中
+              </span>
+              <span class="right" v-if="item.audit == '3'" style="color: red;margin-right: 10px;" >
+                审核不通过
+              </span>
+              <span class="right" v-if="item.audit != '2'&&currentRole.identityCd=='identity40'" style="color: red;margin-right: 10px;" @click.stop="toModify(item)">
+                修改
+              </span>
               <span style="color: #2778BE;font-weight: bold">点击查看内容</span>
               <img :src="arrowDown" v-if="item.show">
               <img :src="arrowUp" v-else>
