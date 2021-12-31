@@ -10,7 +10,8 @@
         <div class="form">
           <el-form :label-position="labelPosition" label-width="120px" :model="info">
             <el-form-item label="保证金金额(元)：" style="margin-top: 10px;">
-              <el-input type="text" v-model="info.depositAmt" id="long" placeholder="请填写投标保证金金额" :disabled="!((applyInfo.despoit&&applyInfo.despoit.shipBidDepositVo.audit!=2)||!applyInfo.despoit)"></el-input>
+              <!-- :disabled="!((applyInfo.despoit&&applyInfo.despoit.shipBidDepositVo.audit!=2)||!applyInfo.despoit)" -->
+              <el-input type="text" v-model="info.depositAmt" id="long" placeholder="请填写投标保证金金额" disabled></el-input>
             </el-form-item>
             <el-form-item label="保证金凭证：">
               <div class="imgBox">
@@ -95,8 +96,8 @@
     },
     mounted() {
       console.log(this.applyInfo)
+      this.info.depositAmt = this.applyInfo.depositAmount;
       if (this.applyInfo.despoit) {
-        this.info.depositAmt = this.applyInfo.depositMoney;
         let attachments
         if (this.applyInfo.despoit.shipBidDepositVo.depositImgUrl) {
           attachments = this.applyInfo.despoit.shipBidDepositVo.depositImgUrl.split(",");
@@ -125,15 +126,15 @@
           this.info.depositImgUrl += item.url+','
         })
         this.info.depositImgUrl = this.info.depositImgUrl.substring(0, this.info.depositImgUrl.length - 1)
-        if (!this.info.depositAmt) {
-          this.$message({
-            message: '请填写保证金金额',
-            type: 'warning',
-            duration: '1500',
-            offset: '50'
-          });
-          return
-        }
+        // if (!this.info.depositAmt) {
+        //   this.$message({
+        //     message: '请填写保证金金额',
+        //     type: 'warning',
+        //     duration: '1500',
+        //     offset: '50'
+        //   });
+        //   return
+        // }
         if(!this.info.depositImgUrl) {
           this.$message({
             message: '请上传保证金凭证',

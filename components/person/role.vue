@@ -67,7 +67,11 @@
           submit() {
             this.$emit('submit')
             console.log(this.choose)
-            this.store.dispatch('save',this.choose)
+            if(!this.choose) {
+              return
+            } else {
+              this.store.dispatch('save',this.choose)
+            }
             // this.store.commit("currentRole",this.choose)
 
           },

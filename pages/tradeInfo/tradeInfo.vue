@@ -59,7 +59,7 @@
         		</template>
         	</el-table-column>
         	<el-table-column prop="nm" label="项目名称" min-width="250"></el-table-column>
-          <el-table-column prop="publishTm" label="发布日期" min-width="150"></el-table-column>
+          <el-table-column prop="publishTm" label="公告发布时间" min-width="150"></el-table-column>
           <el-table-column prop="completeTm" label="报名截止日期" min-width="150"></el-table-column>
           <el-table-column label="项目状态" min-width="150">
             <template slot-scope="scope">
