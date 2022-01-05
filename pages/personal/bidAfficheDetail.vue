@@ -18,7 +18,7 @@
           <img :src="jt2" v-if="selectIndex<index&&info.length - 1>index">
         </div>
       </div>
-      <div class="title">{{title}}</div>
+      <!-- <div class="title">{{title}}</div> -->
       <div class="cont-body" v-html="cont">
 
       </div>
