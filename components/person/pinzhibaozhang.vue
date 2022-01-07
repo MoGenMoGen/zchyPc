@@ -421,7 +421,7 @@
         height: 30px;
         background: #2778be;
         color: #fff;
-        cursor: pointer;" v-if="currentRole.identityCd=='identity40'" @click="postTo">
+        cursor: pointer;" v-if="currentRole.identityCd=='identity40'&&shipStatus!='已交船'" @click="postTo">
         <img src="../img/closexx.png" style="width: 15px; height: 15px; margin-right: 10px;" >
             新增
           </div>

@@ -230,7 +230,8 @@
           if(type=='1'){
             this.$router.push('./shipFileDetail?id='+item.id+"&cdType=3&formW=jiance&cdType2=3&shipCd="+item.cd+"&shipStatus="+item.statusNm+"&fileNm="+item.nm)
           }else if(type=='2'){
-            this.$router.push('./archives?id='+item.id+"&formW=jiance&shipCd="+item.cd+"&shipStatus="+item.statusNm)
+            // this.$router.push('./archives?id='+item.id+"&formW=jiance&shipCd="+item.cd+"&shipStatus="+item.statusNm)
+            this.$router.push('./shipFileDetail?id='+item.id+"&cdType=3&formW=jiance&cdType2=3&shipCd="+item.cd+"&shipStatus="+item.statusNm+"&fileNm="+item.nm)
           }
           console.log(item.id)
 

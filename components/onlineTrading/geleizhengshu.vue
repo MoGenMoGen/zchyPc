@@ -51,7 +51,7 @@
         <!-- <img style="cursor: pointer;" :src="left" @click="lastPageNum2"> -->
         <div></div>
         <span>设备证书</span>
-        <div class="addNew" @click="addOpen" v-if="formW=='jiance'">
+        <div class="addNew" @click="addOpen" v-if="formW=='jiance'&&shipStatus!='已交船'">
           <img :src="addLogo">新增
         </div>
         <div v-else></div>
@@ -239,6 +239,7 @@
         addLogo,
         close,
         title: '',
+        shipStatus: '',
         list1: [],
         list2: [],
         list3: [],
@@ -285,6 +286,7 @@
     mounted() {
       this.id = this.until.getQueryString("id");
       this.currentRole = JSON.parse(this.until.seGet('currentRole'))
+      this.shipStatus = this.until.getQueryString('shipStatus')
       this.getInfo()
       if (this.formW == 'jiance') {
         this.getInfo2()

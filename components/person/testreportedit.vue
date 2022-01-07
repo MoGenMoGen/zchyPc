@@ -64,7 +64,7 @@
         <p>船舶档案名称:<span>{{fileNm}}</span></p>
         <p style="width: 100%;display: flex;align-items: center;justify-content: space-between;">
           <span>船舶状态:<span style="color: #2778BE">{{shipStatus}}</span></span>
-          <span class="addNew" @click="addNew"><img src="../img/closexx.png">新增</span>
+          <span class="addNew" @click="addNew" v-if="shipStatus!='已交船'"><img src="../img/closexx.png">新增</span>
          </p>
       </div>
     </div>
