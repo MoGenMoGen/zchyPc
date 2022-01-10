@@ -42,7 +42,8 @@
           <div style="color: #E4393C;" v-if="item.invoiceType==2">部分开票</div>
           <div v-if="item.invoiceType==3">已开票</div>
           <div class="btnList">
-            <el-button type="primary" size="small" plain @click="toApply(item.id,item.orderCd)" v-if="item.invoiceType!=3&&item.payAmt!=0">申请发票</el-button>
+            <el-button type="primary" size="small" plain @click="toApply(item.id,item.orderCd)" v-if="item.invoiceType!=3&&item.payAmt!=0&&item.invoiceType!=1">申请发票</el-button>
+            <el-button type="info" size="small" v-if="item.invoiceType==1">申请发票</el-button>
             <el-button size="small" @click="toDetail(item.orderCd)" v-if="item.invoiceType!=0&&item.invoiceType!=1">发票详情</el-button>
           </div>
         </div>
