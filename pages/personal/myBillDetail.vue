@@ -5,8 +5,8 @@
     </div>
     <p style="border-bottom: 1px solid rgba(0,0,0,0.1);"></p>
     <div class="sum-line">
-      <p>已开金额：{{fmoney(openedSum)}}</p>
-      <p style="color: red;">未开金额：{{fmoney(canOpenSum - openedSum)}}</p>
+      <p>已开金额：{{fmoney(openedSum)}}元</p>
+      <p style="color: red;">未开金额：{{fmoney(canOpenSum)}}元</p>
     </div>
     <!-- <div class="steps-box">
       <div class="steps-img">

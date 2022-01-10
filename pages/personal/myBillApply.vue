@@ -5,7 +5,7 @@
     </div>
     <p style="border-bottom: 1px solid rgba(0,0,0,0.1);"></p>
     <div class="sum-line">
-      <p>未开金额：{{fmoney(canOpenSum - openedSum)}}</p>
+      <p>未开金额：{{fmoney(canOpenSum)}}元</p>
     </div>
     <div class="submit-box">
       <div class="submit-title">

@@ -16,7 +16,13 @@
       </div>
       <div class="orderBox" v-for="item in list">
         <div class="boxHead">
-          <span>{{item.crtTm}}</span><span>订单号：{{item.orderCd}}</span><span>{{item.shopNm}}</span>
+          <div>
+            <span>{{item.crtTm}}</span><span>订单号：{{item.orderCd}}</span><span>{{item.shopNm}}</span>
+          </div>
+          <div>
+            <p style="color: #2778BE;font-size: 14px;">已开金额：{{fmoney(item.openedSum)}}元</p>
+            <p style="color: #E4393C;font-size: 14px;">未开金额：{{fmoney(item.canOpenSum)}}元</p>
+          </div>
         </div>
         <div class="boxBodyer">
           <div class="infoBox">
@@ -134,12 +140,15 @@
     .orderBox{
       margin: 30px;
       .boxHead{
-        padding: 14px 0 14px 30px;
+        padding: 14px 10px;
         background:rgba(247,247,247,1);
         font-size:14px;
         color: #666666;
-        >span{
-          margin-right: 6.4%;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        span{
+          margin-right: 10px;
         }
       }
       .boxBodyer{
