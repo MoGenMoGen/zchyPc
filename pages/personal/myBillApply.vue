@@ -48,11 +48,11 @@
           <el-input v-model="buyerName" clearable></el-input>
         </div>
         <div class="submit-item">
-          <span><span style="color: #E4393C;">*</span>收票人邮箱：</span>
+          <span><span style="color: #E4393C;"></span>收票人邮箱：</span>
           <el-input placeholder="请输入收票人邮箱" v-model="email" clearable></el-input>
         </div>
         <div class="submit-item">
-          <span><span style="color: #E4393C;">*</span>收票人手机号：</span>
+          <span><span style="color: #E4393C;"></span>收票人手机号：</span>
           <el-input placeholder="请输入收票人手机号" v-model="phone" clearable></el-input>
         </div>
         <div class="submit-item">
@@ -284,14 +284,14 @@
           this.$message.error('请选择发票类型!')
           return
         }
-        if(this.phone=="") {
-          this.$message.error('请输入收票人手机号!')
-          return
-        }
-        if(this.email=="") {
-          this.$message.error('请输入收票人邮箱!')
-          return
-        }
+        // if(this.phone=="") {
+        //   this.$message.error('请输入收票人手机号!')
+        //   return
+        // }
+        // if(this.email=="") {
+        //   this.$message.error('请输入收票人邮箱!')
+        //   return
+        // }
         if(this.headUp=='公司'&&!this.flag) {
           this.type = 1
           if(this.buyerName=='') {
