@@ -134,8 +134,8 @@
              <el-link v-if="item.offlineStatus==1" :underline="false" style="color:#E4393C;font-size:12px"  >线下付款申请中</el-link>
              <el-link v-if="item.offlineStatus==3" :underline="false" style="color:#E4393C;font-size:12px"  >线下付款申请未通过</el-link>
              <!--<el-button @click="toPay(item)" type="danger" size="small" plain v-if="item.status==10 || (item.stageStatus==2 && item.orderPrice!==item.payAmt)" class="pay">去支付</el-button>-->
-             <p class="blueBg" :underline="false" @click="toInvoice(item)" v-if="item.status>10 && item.status < 100 && !item.invoiceType && item.orderPrice===item.payAmt">申请开票</p>
-             <el-link style="font-size:12px" :underline="false"  v-if="item.invoiceType==1">已申请开票</el-link>
+             <!-- <p class="blueBg" :underline="false" @click="toInvoice(item)" v-if="item.status>10 && item.status < 100 && !item.invoiceType && item.orderPrice===item.payAmt">申请开票</p> -->
+             <!-- <el-link style="font-size:12px" :underline="false"  v-if="item.invoiceType==1">已申请开票</el-link> -->
              <p @click="cancelOrder(item.id)" v-if="item.statusCd==1" class="grayBorder">取消订单</p>
              <!--<el-button type="text" size="small" v-if="item.statusCd==2||item.statusCd==3||item.statusCd==4" class="blueBg">查看合同</el-button>-->
              <el-button type="text"  size="small" v-if="item.statusCd==3||item.statusCd==4" class="blueWord" @click="trace(item)">查看物流</el-button>

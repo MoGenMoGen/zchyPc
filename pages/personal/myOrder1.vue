@@ -68,8 +68,8 @@
              <el-link v-if="item.stageStatus==3" :underline="false" style="color:#E4393C;font-size:12px"  >分期申请未通过</el-link>
              <el-link v-if="item.offlineStatus==1" :underline="false" style="color:#E4393C;font-size:12px"  >线下付款申请中</el-link>
              <el-link v-if="item.offlineStatus==3" :underline="false" style="color:#E4393C;font-size:12px"  >线下付款申请未通过</el-link>
-             <p class="blueBg" :underline="false" @click="toInvoice(item)" v-if="item.status>10 && item.status < 100  && !item.invoiceType && item.orderPrice===item.payAmt">申请开票</p>
-             <el-link style="font-size:12px" :underline="false"  v-if="item.invoiceType==1">已申请开票</el-link>
+             <!-- <p class="blueBg" :underline="false" @click="toInvoice(item)" v-if="item.status>10 && item.status < 100  && !item.invoiceType && item.orderPrice===item.payAmt">申请开票</p> -->
+             <!-- <el-link style="font-size:12px" :underline="false"  v-if="item.invoiceType==1">已申请开票</el-link> -->
              <p class="grayBorder" @click="cancelOrder(item.id)"  v-if="item.statusCd==1||item.statusCd==2" :underline="false" style="font-size:12px"  >取消订单</p>
              <p class="blueWord" v-if="item.statusCd==3||item.statusCd==4" :underline="false" style="font-size:12px" @click="trace(item)"  >查看物流</p>
              <p class="blueBg" v-if="item.statusCd==3" @click="confirmGoods(item.id)" :underline="false" style="font-size:12px">确认收货</p>
