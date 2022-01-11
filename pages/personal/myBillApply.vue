@@ -47,9 +47,13 @@
           <span>发票抬头：</span>
           <el-input v-model="buyerName" clearable></el-input>
         </div>
-        <div class="submit-item" v-if="headUp=='个人'">
+        <div class="submit-item">
           <span><span style="color: #E4393C;">*</span>收票人邮箱：</span>
           <el-input placeholder="请输入收票人邮箱" v-model="email" clearable></el-input>
+        </div>
+        <div class="submit-item">
+          <span><span style="color: #E4393C;">*</span>收票人手机号：</span>
+          <el-input placeholder="请输入收票人手机号" v-model="phone" clearable></el-input>
         </div>
         <div class="submit-item">
           <span>备注：</span>
@@ -92,10 +96,6 @@
           <el-input placeholder="请输入收票人姓名" v-model="linkman" clearable></el-input>
         </div>
         <div class="submit-item">
-          <span>收票人手机号：</span>
-          <el-input placeholder="请输入收票人手机号" v-model="phone" clearable></el-input>
-        </div>
-        <div class="submit-item">
           <span>收票人地区：</span>
           <addr @changeAddr="changeAddr" ref="addrChoose" style="width: 300px;"></addr>
         </div>
@@ -103,13 +103,21 @@
           <span>收票人地址：</span>
           <el-input placeholder="请输入收票人地址" v-model="address" clearable></el-input>
         </div>
-        <div class="submit-item">
-          <span><span style="color: #E4393C;">*</span>收票人邮箱：</span>
-          <el-input placeholder="请输入收票人邮箱" v-model="email" clearable></el-input>
-        </div>
+
       </div>
     </div>
     <div class="submit-box">
+      <div class="submit-item" style="width: 100%;margin-bottom: 20px;">
+        <span>推送方式：</span>
+        <div class="submit-btn">
+          <el-radio-group v-model="pushMode">
+              <el-radio :label="-1">不推送</el-radio>
+              <el-radio :label="0">邮箱</el-radio>
+              <el-radio :label="1">手机</el-radio>
+              <el-radio :label="2">邮箱、手机</el-radio>
+            </el-radio-group>
+        </div>
+      </div>
       <div class="submit-item">
         <span></span>
         <div class="submit-btn">
@@ -164,7 +172,8 @@
         quaName: '',
         openedSum: '',
         canOpenSum: '',
-        flag: false //true为增值税电子普通发票,公司个人下面没有， false为增值税专用发票，公司有下面
+        flag: false ,//true为增值税电子普通发票,公司个人下面没有， false为增值税专用发票，公司有下面,
+        pushMode: -1
       }
     },
     layout: 'person',
@@ -275,6 +284,14 @@
           this.$message.error('请选择发票类型!')
           return
         }
+        if(this.phone=="") {
+          this.$message.error('请输入收票人手机号!')
+          return
+        }
+        if(this.email=="") {
+          this.$message.error('请输入收票人邮箱!')
+          return
+        }
         if(this.headUp=='公司'&&!this.flag) {
           this.type = 1
           if(this.buyerName=='') {
@@ -305,18 +322,10 @@
           //   this.$message.error('请输入收票人姓名!')
           //   return
           // }
-          // if(this.phone=="") {
-          //   this.$message.error('请输入收票人手机号!')
-          //   return
-          // }
           // if(this.address=="") {
           //   this.$message.error('请输入收票人地址!')
           //   return
           // }
-          if(this.email=="") {
-            this.$message.error('请输入收票人邮箱!')
-            return
-          }
           param = {
             // orgEnterId: JSON.parse(this.until.seGet('currentRole')).id,
             orderId: this.id,
@@ -362,10 +371,6 @@
             invoiceAddr: this.addrNm.replace(/-/g,'') + this.address
           }
         } else if(this.headUp=='个人') {
-          if(this.email=="") {
-            this.$message.error('请输入收票人邮箱!')
-            return
-          }
           this.type = 2
           param = {
             // orgEnterId: JSON.parse(this.until.seGet('currentRole')).id,
@@ -376,6 +381,7 @@
             buyerName: this.buyerName,
           }
         }
+        param.pushMode = this.pushMode
         this.$confirm('是否确认开票?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
