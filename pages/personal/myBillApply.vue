@@ -60,6 +60,17 @@
           <el-input type="textarea" :rows="2" placeholder="请输入备注" v-model="rmks" resize='none'></el-input>
         </div>
       </div>
+      <div class="submit-item" style="width: 100%;margin-bottom: 20px;">
+        <span>推送方式：</span>
+        <div class="submit-btn">
+          <el-radio-group v-model="pushMode">
+              <el-radio :label="-1">不推送</el-radio>
+              <el-radio :label="0">邮箱</el-radio>
+              <el-radio :label="1">手机</el-radio>
+              <el-radio :label="2">邮箱、手机</el-radio>
+            </el-radio-group>
+        </div>
+      </div>
     </div>
     <div class="submit-box" v-if="!flag">
       <div class="submit-title">
@@ -107,17 +118,6 @@
       </div>
     </div>
     <div class="submit-box">
-      <div class="submit-item" style="width: 100%;margin-bottom: 20px;">
-        <span>推送方式：</span>
-        <div class="submit-btn">
-          <el-radio-group v-model="pushMode">
-              <el-radio :label="-1">不推送</el-radio>
-              <el-radio :label="0">邮箱</el-radio>
-              <el-radio :label="1">手机</el-radio>
-              <el-radio :label="2">邮箱、手机</el-radio>
-            </el-radio-group>
-        </div>
-      </div>
       <div class="submit-item">
         <span></span>
         <div class="submit-btn">
