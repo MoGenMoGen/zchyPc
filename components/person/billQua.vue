@@ -88,18 +88,18 @@
           <span>收票人手机号：</span>
           <el-input placeholder="请输入收票人手机号" v-model="recInfo.phone" clearable></el-input>
         </div>
-        <div class="submit-item">
+        <!-- <div class="submit-item">
           <span>收票人地区：</span>
           <addr @changeAddr="changeAddr" ref="addrChoose" style="width: 300px;"></addr>
-        </div>
+        </div> -->
         <div class="submit-item">
           <span>收票人地址：</span>
           <el-input placeholder="请输入收票人地址" v-model="recInfo.addrDetail" clearable></el-input>
         </div>
-        <div class="submit-item">
+        <!-- <div class="submit-item">
           <span>收票人邮箱：</span>
           <el-input placeholder="请输入收票人邮箱" v-model="recInfo.email" clearable></el-input>
-        </div>
+        </div> -->
       </div>
       <div v-show="audit2==2" class="submit-line">
         <div class="submit-item">
@@ -113,9 +113,9 @@
       <div v-if="audit2==3&&isPass2" class="submit-line">
         <p>收票人姓名： {{recInfo.linkman}}</p>
         <p>收票人手机号：{{phone2}}</p>
-        <p>收票人地区：{{recInfo.addrNm}}</p>
+        <!-- <p>收票人地区：{{recInfo.addrNm}}</p> -->
         <p>收票人地址：{{recInfo.addrDetail}}</p>
-        <p>收票人邮箱：{{recInfo.email}}</p>
+        <!-- <p>收票人邮箱：{{recInfo.email}}</p> -->
       </div>
     </div>
   </div>
@@ -149,9 +149,9 @@
           orgEnterId: '', //机构id
           linkman: "", //联系人
           phone: "", //联系电话
-          addrNm: "", //地址名称
+          // addrNm: "", //地址名称
           addrDetail: "", //发票寄送地址
-          email: "", //电子邮箱，比如 example@qq.com
+          // email: "", //电子邮箱，比如 example@qq.com
         },
         phone: '',
         account: '',
@@ -180,7 +180,7 @@
       } else {
         this.currentRole=JSON.parse(this.until.seGet('currentRole'))
         this.getInfo()
-        this.$refs.addrChoose.getProvice()
+        // this.$refs.addrChoose.getProvice()
       }
     },
     computed: {
@@ -331,18 +331,18 @@
           this.$message.error(this.reg.checkPhone(this.recInfo.phone));
           return
         }
-        if(this.recInfo.addrNm=='') {
-          this.$message.error('请选择收票人地区');
-          return
-        }
+        // if(this.recInfo.addrNm=='') {
+        //   this.$message.error('请选择收票人地区');
+        //   return
+        // }
         if(this.recInfo.addrDetail=='') {
           this.$message.error('请输入收票人地址');
           return
         }
-        if(this.reg.checkMail(this.recInfo.email)!='ok') {
-          this.$message.error(this.reg.checkMail(this.recInfo.email));
-          return
-        }
+        // if(this.reg.checkMail(this.recInfo.email)!='ok') {
+        //   this.$message.error(this.reg.checkMail(this.recInfo.email));
+        //   return
+        // }
         if(!this.isPass2) {
           this.api.qualiAddrAdd(this.recInfo).then(res => {
             if(res.msg=='成功') {
@@ -405,7 +405,7 @@
             this.recInfo = res.data.list[0]
             // this.phone2 = this.recInfo.phone.replace(/.(?=.{4})/g, '*')
             this.phone2 = this.recInfo.phone
-            this.$refs.addrChoose.getProvice(this.recInfo.addrNm)
+            // this.$refs.addrChoose.getProvice(this.recInfo.addrNm)
           } else {
             this.audit2 = 1
           }

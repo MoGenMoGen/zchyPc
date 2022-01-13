@@ -51,9 +51,9 @@
           <span><span style="color: #E4393C;"></span>推送发票邮箱：</span>
           <el-input placeholder="请输入推送发票邮箱" v-model="email" clearable></el-input>
         </div>
-        <div class="submit-item" v-if="invoice=='INVOICE_TYPE.10'||headUp=='个人'">
+        <div class="submit-item">
           <span><span style="color: #E4393C;"></span>推送发票手机号：</span>
-          <el-input placeholder="请输入推送发票手机号" v-model="phone" clearable></el-input>
+          <el-input placeholder="请输入推送发票手机号" v-model="mobileNumber" clearable></el-input>
         </div>
         <div class="submit-item">
           <span>备注：</span>
@@ -106,10 +106,10 @@
           <span><span style="color: #E4393C;">*</span>收票人姓名：</span>
           <el-input placeholder="请输入收票人姓名" v-model="linkman" clearable></el-input>
         </div>
-        <div class="submit-item">
+        <!-- <div class="submit-item">
           <span><span style="color: #E4393C;">*</span>收票人地区：</span>
           <addr @changeAddr="changeAddr" ref="addrChoose" style="width: 300px;"></addr>
-        </div>
+        </div> -->
         <div class="submit-item">
           <span><span style="color: #E4393C;">*</span>收票人地址：</span>
           <el-input placeholder="请输入收票人地址" v-model="address" clearable></el-input>
@@ -159,6 +159,7 @@
         buyerAddress: '',
         linkman: '',
         phone: '',
+        mobileNumber: '',
         address: '',
         addrNm:"",
         email: '',
@@ -252,11 +253,11 @@
               this.linkman = res.data.list[0].linkman
               this.phone = res.data.list[0].phone
               this.address = res.data.list[0].addrDetail
-              this.addrNm = res.data.list[0].addrNm
-              this.$refs.addrChoose.getProvice(res.data.list[0].addrNm)
-              this.email = res.data.list[0].email
+              // this.addrNm = res.data.list[0].addrNm
+              // this.$refs.addrChoose.getProvice(res.data.list[0].addrNm)
+              // this.email = res.data.list[0].email
             } else {
-              this.$refs.addrChoose.getProvice()
+              // this.$refs.addrChoose.getProvice()
             }
           })
         } else {
@@ -330,10 +331,10 @@
             this.$message.error('请输入收票人地址!')
             return
           }
-          if(this.addrNm=="") {
-            this.$message.error('请选择收票人地区!')
-            return
-          }
+          // if(this.addrNm=="") {
+          //   this.$message.error('请选择收票人地区!')
+          //   return
+          // }
           param = {
             // orgEnterId: JSON.parse(this.until.seGet('currentRole')).id,
             orderId: this.id,
@@ -347,9 +348,10 @@
             buyerAccount: this.bank + this.account,
             linkman: this.linkman,
             phone: this.phone,
+            mobileNumber: this.mobileNumber,
             email: this.email,
             rmks: this.rmks,
-            invoiceAddr: this.addrNm.replace(/-/g,'') + this.address
+            invoiceAddr: this.address
           }
         } else if (this.headUp=='公司'&&this.flag) {
           if(this.buyerName=='') {
@@ -374,9 +376,10 @@
             buyerAccount: this.bank + this.account,
             linkman: this.linkman,
             phone: this.phone,
+            mobileNumber: this.mobileNumber,
             email: this.email,
             rmks: this.rmks,
-            invoiceAddr: this.addrNm.replace(/-/g,'') + this.address
+            invoiceAddr: this.address
           }
         } else if(this.headUp=='个人') {
           this.type = 2
@@ -387,6 +390,9 @@
             type: this.type,
             invoiceTypeCd: this.invoice,
             buyerName: this.buyerName,
+            mobileNumber: this.mobileNumber,
+            email: this.email,
+            rmks: this.rmks,
           }
         }
         param.pushMode = this.pushMode
