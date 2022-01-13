@@ -48,12 +48,12 @@
           <el-input v-model="buyerName" clearable></el-input>
         </div>
         <div class="submit-item">
-          <span><span style="color: #E4393C;"></span>收票人邮箱：</span>
-          <el-input placeholder="请输入收票人邮箱" v-model="email" clearable></el-input>
+          <span><span style="color: #E4393C;"></span>推送发票邮箱：</span>
+          <el-input placeholder="请输入推送发票邮箱" v-model="email" clearable></el-input>
         </div>
         <div class="submit-item" v-if="invoice=='INVOICE_TYPE.10'||headUp=='个人'">
-          <span><span style="color: #E4393C;"></span>收票人手机号：</span>
-          <el-input placeholder="请输入收票人手机号" v-model="phone" clearable></el-input>
+          <span><span style="color: #E4393C;"></span>推送发票手机号：</span>
+          <el-input placeholder="请输入推送发票手机号" v-model="phone" clearable></el-input>
         </div>
         <div class="submit-item">
           <span>备注：</span>
