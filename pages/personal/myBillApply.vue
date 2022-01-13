@@ -51,7 +51,7 @@
           <span><span style="color: #E4393C;"></span>收票人邮箱：</span>
           <el-input placeholder="请输入收票人邮箱" v-model="email" clearable></el-input>
         </div>
-        <div class="submit-item">
+        <div class="submit-item" v-if="invoice=='INVOICE_TYPE.10'||headUp=='个人'">
           <span><span style="color: #E4393C;"></span>收票人手机号：</span>
           <el-input placeholder="请输入收票人手机号" v-model="phone" clearable></el-input>
         </div>
@@ -103,18 +103,21 @@
       </div>
       <div class="submit-line">
         <div class="submit-item">
-          <span>收票人姓名：</span>
+          <span><span style="color: #E4393C;">*</span>收票人姓名：</span>
           <el-input placeholder="请输入收票人姓名" v-model="linkman" clearable></el-input>
         </div>
         <div class="submit-item">
-          <span>收票人地区：</span>
+          <span><span style="color: #E4393C;">*</span>收票人地区：</span>
           <addr @changeAddr="changeAddr" ref="addrChoose" style="width: 300px;"></addr>
         </div>
         <div class="submit-item">
-          <span>收票人地址：</span>
+          <span><span style="color: #E4393C;">*</span>收票人地址：</span>
           <el-input placeholder="请输入收票人地址" v-model="address" clearable></el-input>
         </div>
-
+        <div class="submit-item" v-if="">
+          <span><span style="color: #E4393C;">*</span>收票人手机号：</span>
+          <el-input placeholder="请输入收票人手机号" v-model="phone" clearable></el-input>
+        </div>
       </div>
     </div>
     <div class="submit-box">
@@ -196,6 +199,7 @@
         if(val=='个人') {
           this.buyerName = '个人'
           this.invoiceType.splice(0,1)
+          this.invoice = ''
         } else {
           this.api.dataDictionary('INVOICE_TYPE').then(res => {
             this.invoiceType = res
@@ -284,10 +288,6 @@
           this.$message.error('请选择发票类型!')
           return
         }
-        // if(this.phone=="") {
-        //   this.$message.error('请输入收票人手机号!')
-        //   return
-        // }
         // if(this.email=="") {
         //   this.$message.error('请输入收票人邮箱!')
         //   return
@@ -318,14 +318,22 @@
             this.$message.error('请输入银行账户!')
             return
           }
-          // if(this.linkman=="") {
-          //   this.$message.error('请输入收票人姓名!')
-          //   return
-          // }
-          // if(this.address=="") {
-          //   this.$message.error('请输入收票人地址!')
-          //   return
-          // }
+          if(this.phone=="") {
+            this.$message.error('请输入收票人手机号!')
+            return
+          }
+          if(this.linkman=="") {
+            this.$message.error('请输入收票人姓名!')
+            return
+          }
+          if(this.address=="") {
+            this.$message.error('请输入收票人地址!')
+            return
+          }
+          if(this.addrNm=="") {
+            this.$message.error('请选择收票人地区!')
+            return
+          }
           param = {
             // orgEnterId: JSON.parse(this.until.seGet('currentRole')).id,
             orderId: this.id,

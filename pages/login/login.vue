@@ -64,7 +64,8 @@
           password: [
             { required: true, message: '请输入密码', trigger: 'blur' },
           ],
-        }
+        },
+        isDisabled: false
       }
     },
     computed: {
@@ -87,47 +88,62 @@
 
       //提交
       submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          console.log(valid)
-          if (valid) {
-            console.log('==============')
-            this.store.commit('changeLoading',true)
-            this.api.login(this.ruleForm).then(res=>{
-              console.log(res)
-              this.store.commit('token',res.token)
-              this.store.commit('userInfo',res.userInfo)
-              this.until.seSave('token',res.token)
-              this.until.seSave('userInfo',JSON.stringify(res.userInfo))
-              //获取上次登录最后的角色
-              this.api.toGet('currentInfo').then(data=>{
-                if(data){
-                  let list = JSON.parse(this,until.seGet('currentRoleList'))
-                  let flag = list.forEach(item => {
-                    if(item.id==data.id) {
-                      return true
+        if(!this.isDisabled) {
+          this.isDisabled = true
+          this.$refs[formName].validate((valid) => {
+            console.log(valid)
+            if (valid) {
+              console.log('==============')
+              this.store.commit('changeLoading',true)
+              this.api.login(this.ruleForm).then(res=>{
+                console.log(res)
+                this.store.commit('token',res.token)
+                this.store.commit('userInfo',res.userInfo)
+                this.until.seSave('token',res.token)
+                this.until.seSave('userInfo',JSON.stringify(res.userInfo))
+                //获取上次登录最后的角色
+                this.api.toGet('currentInfo').then(data=>{
+                  if(data){
+                    let list = JSON.parse(this,until.seGet('currentRoleList'))
+                    let flag = list.forEach(item => {
+                      if(item.id==data.id) {
+                        return true
+                      }
+                    })
+                    if(flag) {
+                      this.until.seGet('currentRoleList')
+                      this.store.dispatch('save',data)
                     }
-                  })
-                  if(flag) {
-                    this.until.seGet('currentRoleList')
-                    this.store.dispatch('save',data)
                   }
-                }
-              })
+                })
 
-              this.$message({
-                message: '登录成功',
-                type: 'success',
-                duration:'1500'
-              });
-              this.toPage('../')
-              // setTimeout(()=>{
-              // },1500)
-            })
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+                this.$message({
+                  message: '登录成功',
+                  type: 'success',
+                  duration:'1500'
+                });
+                this.toPage('../')
+                // setTimeout(()=>{
+                // },1500)
+              })
+              setTimeout(()=>{
+                this.isDisabled = false
+              },3000)
+            } else {
+              setTimeout(()=>{
+                this.isDisabled = false
+              },3000)
+              console.log('error submit!!');
+              return false;
+            }
+          });
+        } else {
+          this.$message({
+            message: '请3秒后再次尝试',
+            type: 'error',
+            duration:'1500'
+          });
+        }
       },
       //页面跳转
       toPage(url){
