@@ -7,8 +7,8 @@
     <div class="sum-line">
       <p>已开金额：{{fmoney(openedSum)}}元</p>
       <p style="color: red;">未开金额：{{fmoney(canOpenSum)}}元</p>
-      <!-- <p>专用发票已开金额：{{fmoney(zhuanyongsum)}}元</p> -->
     </div>
+    <p class="zhuanyong">增值税电子专用发票已开金额：{{fmoney(zhuanyongsum)}}元</p>
     <!-- <div class="steps-box">
       <div class="steps-img">
         <img :src="im1">
@@ -186,7 +186,7 @@
     }
     .table-box {
       width: calc(100% - 60px);
-      margin: 30px auto;
+      margin: 20px auto;
       border: 1px solid #E5E5E5;
       display: flex;
       flex-direction: column;
@@ -208,7 +208,7 @@
           justify-content: center;
           align-items: center;
           border-right: 1px solid #E5E5E5;
-          padding: 18px 0;
+          padding: 14px 0;
         }
         span:last-child {
           width: 87%;
@@ -224,7 +224,7 @@
     }
     .table-box2 {
       width: calc(100% - 60px);
-      margin: 30px auto;
+      margin: 20px auto;
       border: 1px solid #E5E5E5;
       display: flex;
       flex-direction: column;
@@ -287,6 +287,16 @@
         margin-right: 100px;
         font-size: 20px;
       }
+    }
+    .zhuanyong {
+      width: calc(100% - 60px);
+      margin: 10px auto;
+      background-color: rgba(39,120,190,0.15);
+      height: 40px;
+      line-height: 40px;
+      font-size: 16px;
+      padding-left: 10px;
+      box-sizing: border-box;
     }
   }
 </style>
