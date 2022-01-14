@@ -7,6 +7,7 @@
     <div class="sum-line">
       <p>已开金额：{{fmoney(openedSum)}}元</p>
       <p style="color: red;">未开金额：{{fmoney(canOpenSum)}}元</p>
+      <!-- <p>专用发票已开金额：{{fmoney(zhuanyongsum)}}元</p> -->
     </div>
     <!-- <div class="steps-box">
       <div class="steps-img">
@@ -111,7 +112,8 @@
         isOver: true,
         list: [],
         openedSum: '',
-        canOpenSum: ''
+        canOpenSum: '',
+        zhuanyongsum: ''
       }
     },
     layout: 'person',
@@ -121,6 +123,7 @@
         console.log(res)
         this.openedSum = res.openedSum
         this.canOpenSum = res.canOpenSum
+        this.zhuanyongsum = res.zhuanyongsum
         this.list = res.data.list
       })
     },
@@ -279,6 +282,7 @@
       margin: 20px auto;
       display: flex;
       align-items: center;
+      // justify-content: space-around;
       p {
         margin-right: 100px;
         font-size: 20px;
