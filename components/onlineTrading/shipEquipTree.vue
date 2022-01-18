@@ -278,15 +278,15 @@
               this.query.toW(qry,'cids',this.list[i].id)
               // this.query.toW(qry,'cid','5052238965953536')
               data = await this.api.fileDeviceList2(this.query.toEncode(qry),{docsId:this.id})
-              console.log(data)
             }
-            // else if(this.type==2){ //船舶方案
-            //   this.query.toW(qry,'cids',this.list[i].id,'LK')
-            //   data = await this.api.designGoodsList(this.query.toEncode(qry))
-            // }else if(this.type==3){ //船舶详情
-            //   // this.query.toW(qry,'cids',this.list[i].id,'LK')
-            //   data = await this.api.shipDetailEqupList({id:this.id,cid:this.list[i].id},this.query.toEncode(qry))
-            // }
+            else if(this.type==2){ //船舶方案
+              this.query.toW(qry,'solutionId',this.id,'EQ')
+              this.query.toW(qry,'cids',this.list[i].id+'','LK')
+              data = await this.api.designGoodsList(this.query.toEncode(qry))
+            }else if(this.type==3){ //船舶详情
+              // this.query.toW(qry,'cids',this.list[i].id,'LK')
+              data = await this.api.shipDetailEqupList({id:this.id,cid:this.list[i].id},this.query.toEncode(qry))
+            }
             data.data.list.forEach((item,index)=>{
               item.index=index+1
               item.imgUrl = item.imgUrl?item.imgUrl.split(',')[0] : ''
@@ -316,7 +316,8 @@
           this.query.toW(qry,'cids',this.list[index].id,'LK')
           data = await this.api.fileDeviceList2(this.query.toEncode(qry),{docsId:this.id})
         }else if(this.type==2){ //船舶方案
-          this.query.toW(qry,'cids',this.list[index].id,'LK')
+          this.query.toW(qry,'solutionId',this.id,'EQ')
+          this.query.toW(qry,'cids',this.list[index].id+'','LK')
           data = await this.api.designGoodsList(this.query.toEncode(qry))
         }else if(this.type==3){ //船舶详情
           // this.query.toW(qry,'cids',this.list[i].id,'LK')
@@ -365,11 +366,15 @@
 
           data = await this.api.fileDeviceList2(this.query.toEncode(qry),{docsId:this.id})
         }else if(this.type==2){ //船舶方案
-          this.query.toW(qry,'cids',this.list[m].equipList[n].id,'LK')
+          this.query.toW(qry,'solutionId',this.id,'EQ')
+          if(this.list[m].equipList[n].check){
+              this.query.toW(qry,'cids',this.list[m].equipList[n].id+'','LK')
+          }else{
+              this.query.toW(qry,'cids',this.list[m].id+'','LK')
+          }
           data = await this.api.designGoodsList(this.query.toEncode(qry))
         }else if(this.type==3){ //船舶详情
-          // this.query.toW(qry,'cids',this.list[i].id,'LK')
-          data = await this.api.shipDetailEqupList({id:this.id,cid:this.list[m].equipList[n].id},this.query.toEncode(qry))
+          data = await this.api.shipDetailEqupList({id:this.id,cid:this.list[m].equipList[n].check?this.list[m].equipList[n].id:this.list[m].id},this.query.toEncode(qry))
         }
         data.data.list.forEach(item=>{
           item.imgUrl = item.imgUrl?item.imgUrl.split(',')[0] : ''
