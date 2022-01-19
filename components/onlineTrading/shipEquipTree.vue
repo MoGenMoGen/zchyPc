@@ -63,7 +63,8 @@
              </el-table-column>
              <el-table-column
                label="价格(￥)"
-               width="100">
+               width="100"
+               v-if="type==1">
                <template  slot-scope="scope">
                  {{scope.row.price?fmoney(scope.row.price):'0.00'}}
                </template>
@@ -71,8 +72,8 @@
              <el-table-column
                label="金额(￥)"
                align="center"
-
-               width="100">
+               width="100"
+               v-if="type==1">
                <template slot-scope="scope">
 
                  {{scope.row.price ? fmoney(scope.row.price*scope.row.num) : '0.00'}}
