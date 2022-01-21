@@ -111,8 +111,9 @@
                       }
                     })
                     if(flag) {
-                      this.until.seGet('currentRoleList')
                       this.store.dispatch('save',data)
+                    }else {
+                      this.store.commit('currentRole',list[0])
                     }
                   }
                 })

@@ -662,7 +662,7 @@ class api {
     });
   }
   //个人信息查看
-  personInfo() { 
+  personInfo() {
     return new Promise(resolve => {
       get("/ship/member/apis/detail", '', {
         "sinovat-token": window.sessionStorage.getItem("token")
@@ -698,7 +698,7 @@ class api {
       }).then(res => {
         window.sessionStorage.setItem("currentRoleList", JSON.stringify(res.data.list))
         // console.log('diaoyong',window.sessionStorage.getItem('currentRole'))
-        if (res.data.list.length > 0 && !window.sessionStorage.getItem('currentRole')) {
+        if (res.data.list.length > 0) {
           store.commit('currentRole', res.data.list[0])
         }
         resolve(res.data.list)
@@ -1758,7 +1758,7 @@ class api {
       })
     })
   }
-  
+
   //个人中心-检验检测列表-全状态
   jianyanListAll2(data) {
     return new Promise(resolve => {
