@@ -68,6 +68,7 @@
                   addrNm:this.info.addrNm,
                   addrDtl:'',
                   hasDef:0,
+                  addrCd: this.info.addrCd
               }
             },
             //保存地址
@@ -121,6 +122,7 @@
             changeAddr(info){
                 let data = JSON.parse(info)
                 this.info.addrNm = data.province+'-'+data.city+'-'+data.region
+                this.info.addrCd = data.provinceId+'-'+data.cityId+'-'+data.regionId
             },
         },
         mounted(){
