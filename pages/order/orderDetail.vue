@@ -50,7 +50,7 @@
           <div>
             <p>收件人信息</p>
             <p><span>收货人：</span><span>{{info.receNm}}</span></p>
-            <p><span>收货地址：</span><span>{{info.addrNm}}</span></p>
+            <p><span>收货地址：</span><span>{{info.addrNm}}{{info.addrDtl}}</span></p>
             <p><span>手机号码：</span><span>{{info.receMob}}</span></p>
           </div>
           <div v-if="info.status>20&&info.status<100">

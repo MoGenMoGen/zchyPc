@@ -26,7 +26,7 @@
         <swiper class="swiper" :options="swiperOptionThumbs">
           <!-- <div style="width: 90%;overflow: hidden;"> -->
           <swiper-slide v-for="(item,index) in imgList" :key="index">
-                <img :src="item" @click="currentImg=item"/>
+                <img :src="item" @click="currentImg=item" :class="{active:currentImg ? currentImg==item : item==imgList[0]}"/>
           </swiper-slide>
 
 
@@ -192,5 +192,8 @@
       display: -webkit-flex;
       align-items: center;
     }
+  }
+  .active{
+    border: 1px solid #2778BE !important;
   }
 </style>
