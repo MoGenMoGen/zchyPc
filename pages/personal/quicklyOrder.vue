@@ -45,6 +45,7 @@
   <div class="quicklyOrder">
     <div class="order-title">
       <i class="iconfont" :class="allCheck?'icon-xuanzhong':'icon-fangkuang'" @click="checkAll()"></i>
+      <p style="flex: 1;">序号</p>
       <p style="flex: 1.8;padding-left: 10px;">产品名称</p>
       <p style="flex: 1.4;padding-left: 10px;">规格型号</p>
       <p style="flex: 1.2;padding-left: 10px;">供应商</p>
@@ -53,6 +54,7 @@
     </div>
     <div class="order-cont" v-for="(item,index) in orderList" :key="index">
       <i class="iconfont" :class="item.check?'icon-xuanzhong':'icon-fangkuang'" @click="toCheck(index)"></i>
+      <p style="flex: 1;padding-left: 10px;">{{index+1}}</p>
       <p class="goodSelect">{{item.goodsNm}}</p>
       <p class="skuSelect">{{item.skuNm}}</p>
       <p style="flex: 1.2;">{{item.supplier}}</p>
