@@ -174,9 +174,11 @@
           });
           console.log(res.data.list)
           this.info = res.data.list;
-          this.selectIndex = this.info.length - 1
-          this.cont = this.info[this.selectIndex].cont;
-          this.title = this.info[this.selectIndex].title
+          this.selectIndex = this.info.length>0?this.info.length - 1:0
+          if(this.info[this.selectIndex]) {
+            this.cont = this.info[this.selectIndex].cont;
+            this.title = this.info[this.selectIndex].title
+          }
         });
       },
       selectThis(index) {
@@ -194,8 +196,7 @@
             console.log(this.bidInfo)
             if (this.bidInfo.applyNum > 0) this.IsSignUp = true;
             let nowDate = new Date().getTime();
-            if (new Date(res.data.completeTm + " 23:59:59").getTime() > nowDate && this.until.seGet(
-              "currentRole")) {
+            if (new Date(res.data.completeTm + " 23:59:59").getTime() > nowDate && this.until.seGet("currentRole")) {
               if (role.identityCd == this.bidInfo.viewRangeCd || this.bidInfo.orgEnterIds.indexOf(role.id) > -1) {
                 this.signFlag = true;
               } else {
@@ -204,6 +205,7 @@
             } else {
               this.signFlag = false;
             }
+            console.log(this.selectIndex)
           });
         } else {
           this.signFlag = false
