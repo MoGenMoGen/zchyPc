@@ -592,13 +592,13 @@
             message: "请上传格式为image/png, image/gif, image/jpg, image/jpeg的图片",
           });
         }
-        let size = file.size / 1024 / 1024 / 2;
-        if (size > 2) {
-          this.$notify.warning({
-            title: "警告",
-            message: "图片大小必须小于2M",
-          });
-        }
+        // let size = file.size / 1024 / 1024 / 2;
+        // if (size > 2) {
+        //   this.$notify.warning({
+        //     title: "警告",
+        //     message: "图片大小必须小于2M",
+        //   });
+        // }
       },
       handleRemove(file, fileList) {
         if (this.currentRole && this.currentRole.identityCd == "identity30") {
