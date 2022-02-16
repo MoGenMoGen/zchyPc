@@ -45,7 +45,7 @@
               <button class="button3" v-if="!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)&&!scope.row.offer" @click="openOffer(scope.row)">资料上传</button>
               <button class="button3" v-if="scope.row.offer" @click="openOffer(scope.row)">查看资料</button>
               <!-- signin.shipBidSigninVo.signinStatus：签到状态 ，returnDate(1,scope.row.bidOpenTm)：当前时间是否大于开标时间-->
-              <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&scope.row.signin.shipBidSigninVo.signinStatus==0&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)" @click="sign(scope.row)">签到</button>
+              <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&scope.row.signin.shipBidSigninVo.signinStatus==0&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)&&scope.row.despoit&&scope.row.despoit.shipBidDepositVo.audit==2" @click="sign(scope.row)">签到</button>
               <p v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&scope.row.signin.shipBidSigninVo.signinStatus==1&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)">已签到</p>
               <button class="button4" @click="toDetail(scope.row)">查看详情</button>
             </div>
