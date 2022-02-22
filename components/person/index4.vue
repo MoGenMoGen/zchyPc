@@ -288,12 +288,13 @@
                     scope.row.depositStatus == 3) &&
                   scope.row.signin.shipBidSigninVo.signinStatus == 0 &&
                   !scope.row.bidDecideTm &&
-                  returnDate(1, scope.row.bidOpenTm)
+                  returnDate(1, scope.row.bidOpenTm)&&scope.row.despoit&&scope.row.despoit.shipBidDepositVo.audit==2
                 "
                 @click="sign(scope.row)"
               >
                 签到
               </button>
+                <button class="button5" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&scope.row.signin.shipBidSigninVo.signinStatus==0&&!scope.row.bidDecideTm&&scope.row.despoit&&scope.row.despoit.shipBidDepositVo.audit==2&&scope.row.leftTime">签到倒计时{{scope.row.leftTime}}</button>
               <p
                 v-if="
                   (scope.row.depositStatus == 1 ||
@@ -576,6 +577,14 @@ export default {
       this.bail = false;
       this.getBidData();
     },
+    toHHmmss (data) {
+       var time;
+       var hours = parseInt(data  / (1000 * 60 * 60));
+       var minutes = parseInt((data % (1000 * 60 * 60)) / (1000 * 60));
+       var seconds =((data % (1000 * 60)) / 1000).toFixed(0)
+       time = (hours < 10 ? ('0' + hours) : hours) + ':' + (minutes < 10 ? ('0' + minutes) : minutes) + ':' + (seconds < 10 ? ('0' + seconds) : seconds);
+       return time;
+    },
     getBidData() {
       let qry = this.query.new();
       this.query.toO(qry, "publishTm", "desc");
@@ -585,6 +594,20 @@ export default {
         .getMyBidList(this.query.toEncode(qry), this.currentRoleId)
         .then((res) => {
           this.bidList = res.data.list;
+          this.bidList.forEach(item=>{
+            if((new Date(item.bidOpenTm)).getTime()>this.nowDate)
+            {
+              this.timer=setInterval(()=>{
+               this.nowDate= (new Date()).getTime()
+               if((new Date(item.bidOpenTm)).getTime()-this.nowDate<=0){
+                 clearInterval(this.timer)
+               }
+               let leftTm=this.toHHmmss((new Date(item.bidOpenTm)).getTime()-this.nowDate)
+               this.$set(item,'leftTime',leftTm)
+              },1000)
+            }
+
+          })
           this.total = res.page.total;
         });
     },
@@ -621,7 +644,16 @@ export default {
     .disable {
       background-color: #999999;
     }
-
+ .button5{
+        width: 84px;
+        height: 43px;
+        border: 1px solid #2778BE;
+        color: #2778BE;
+        font-size: 15px;
+        background-color: #ffffff;
+        border-radius: 3px;
+        text-align: center;
+      }
     .button4 {
       border: none;
       width: 74px;

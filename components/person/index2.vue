@@ -158,7 +158,9 @@
               <button class="button3" v-if="!scope.row.bidDecideTm&&returnDate(2,scope.row.bidEndTm)&&!scope.row.offer" @click="openOffer(scope.row)">资料上传</button>
               <button class="button3" v-if="scope.row.offer" @click="openOffer(scope.row)">查看资料</button>
               <!-- signin.shipBidSigninVo.signinStatus：签到状态 ，returnDate(1,scope.row.bidOpenTm)：当前时间是否大于开标时间-->
-              <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&scope.row.signin.shipBidSigninVo.signinStatus==0&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)" @click="sign(scope.row)">签到</button>
+              <button class="button3" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&scope.row.signin.shipBidSigninVo.signinStatus==0&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)&&scope.row.despoit&&scope.row.despoit.shipBidDepositVo.audit==2" @click="sign(scope.row)">签到</button>
+              <!-- <button class="button5" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&scope.row.signin.shipBidSigninVo.signinStatus==0&&!scope.row.bidDecideTm&&scope.row.despoit&&scope.row.despoit.shipBidDepositVo.audit==2">倒计时</button> -->
+              <button class="button5" v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&scope.row.signin.shipBidSigninVo.signinStatus==0&&!scope.row.bidDecideTm&&scope.row.despoit&&scope.row.despoit.shipBidDepositVo.audit==2&&scope.row.leftTime">签到倒计时{{scope.row.leftTime}}</button>
               <p v-if="(scope.row.depositStatus==1||scope.row.depositStatus==3)&&scope.row.signin.shipBidSigninVo.signinStatus==1&&!scope.row.bidDecideTm&&returnDate(1,scope.row.bidOpenTm)">已签到</p>
               <button class="button4" @click="toDetail(scope.row)">查看详情</button>
             </div>
@@ -282,6 +284,14 @@
         this.bail = false;
         this.getBidData()
       },
+      toHHmmss (data) {
+         var time;
+         var hours = parseInt(data  / (1000 * 60 * 60));
+         var minutes = parseInt((data % (1000 * 60 * 60)) / (1000 * 60));
+         var seconds =((data % (1000 * 60)) / 1000).toFixed(0)
+         time = (hours < 10 ? ('0' + hours) : hours) + ':' + (minutes < 10 ? ('0' + minutes) : minutes) + ':' + (seconds < 10 ? ('0' + seconds) : seconds);
+         return time;
+      },
       getBidData() {
         let qry = this.query.new()
         this.query.toO(qry, 'publishTm', 'desc')
@@ -289,6 +299,20 @@
         // this.query.toW(qry, 'viewRangeCd', this.identityCd+'', 'LK')
         this.api.getMyBidList(this.query.toEncode(qry),this.currentRoleId).then(res => {
           this.bidList = res.data.list
+    this.bidList.forEach(item=>{
+            if((new Date(item.bidOpenTm)).getTime()>this.nowDate)
+            {
+              this.timer=setInterval(()=>{
+               this.nowDate= (new Date()).getTime()
+               if((new Date(item.bidOpenTm)).getTime()-this.nowDate<=0){
+                 clearInterval(this.timer)
+               }
+               let leftTm=this.toHHmmss((new Date(item.bidOpenTm)).getTime()-this.nowDate)
+               this.$set(item,'leftTime',leftTm)
+              },1000)
+            }
+
+          })
           this.total = res.page.total
         })
       },
@@ -734,7 +758,7 @@
     display: flex;
     justify-content: space-around;
     flex-direction: column;
-  
+
     .button3 {
       width: 84px;
       height: 31px;
@@ -745,11 +769,20 @@
       margin-bottom: 15px;
       cursor: pointer;
     }
-  
+
     .disable {
       background-color: #999999;
     }
-  
+  .button5{
+    width: 84px;
+    height: 43px;
+    border: 1px solid #2778BE;
+    color: #2778BE;
+    font-size: 15px;
+    background-color: #ffffff;
+    border-radius: 3px;
+    text-align: center;
+  }
     .button4 {
       border: none;
       width: 84px;
@@ -761,7 +794,7 @@
       border-radius: 3px;
       cursor: pointer;
     }
-  
+
     .button2 {
       width: 84px;
       height: 31px;
@@ -770,7 +803,7 @@
       border-radius: 3px;
       border: 1px solid #2778BE;
       cursor: pointer;
-  
+
     }
   }
 
