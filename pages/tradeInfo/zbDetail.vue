@@ -31,8 +31,8 @@
             <img :src="jt2" v-if="selectIndex < index && info.length - 1 > index" />
           </div>
         </div>
-        <div style="font-size: 16px; display: flex;">
-          招标文件:<p style="cursor: pointer;margin-left:10px;color: #2778BE;;" @click="toShow">{{attachment}}</p>
+        <div style="font-size: 16px; display: flex;font-weight: bold; ">
+          招标文件:<p style="cursor: pointer;margin-left:10px;color: #2778BE;margin-bottom: 20px;font-weight: normal;" @click="toShow">{{attachment}}</p>
         </div>
         <!-- <div class="title">{{title}}</div> -->
         <div class="body" v-html="cont"></div>
