@@ -31,6 +31,9 @@
             <img :src="jt2" v-if="selectIndex < index && info.length - 1 > index" />
           </div>
         </div>
+        <div style="font-size: 16px; display: flex;">
+          招标文件:<p style="cursor: pointer;margin-left:10px;color: #2778BE;;" @click="toShow">{{attachment}}</p>
+        </div>
         <!-- <div class="title">{{title}}</div> -->
         <div class="body" v-html="cont"></div>
         <div class="bottom-btn" v-if="signFlag && !IsSignUp &&selectIndex==0" @click="sign">
@@ -78,6 +81,7 @@
     },
     data() {
       return {
+        attachment:'',
         jt1,
         jt2,
         bannerHeight: 346,
@@ -126,6 +130,9 @@
       this.canSign();
     },
     methods: {
+      toShow(){
+        window.open(this.bidInfo.attachment)
+      },
       toUrl(url) {
         if (url) {
           window.location.href = url;
@@ -180,6 +187,7 @@
             this.title = this.info[this.selectIndex].title
           }
         });
+
       },
       selectThis(index) {
         this.selectIndex = index;
@@ -193,6 +201,7 @@
           let id = role.id;
           this.api.getBidInfo(this.infoId, id).then((res) => {
             this.bidInfo = res.data;
+            this.attachment=this.bidInfo.attachment.split("_")[1]
             console.log(this.bidInfo)
             if (this.bidInfo.applyNum > 0) this.IsSignUp = true;
             let nowDate = new Date().getTime();
