@@ -219,14 +219,14 @@ class api {
       store.commit('changeLoading', false)
       return
     }
-    if (blob.size > maxSize) {
-      MessageBox({
-        message: '最大不能超过10M！',
-        type: 'warning'
-      });
-      store.commit('changeLoading', false)
-      return
-    }
+    // if (blob.size > maxSize) {
+    //   MessageBox({
+    //     message: '最大不能超过10M！',
+    //     type: 'warning'
+    //   });
+    //   store.commit('changeLoading', false)
+    //   return
+    // }
     store.commit('changeLoading', true)
     let param = new FormData();
     param.append('file', blob);
@@ -245,14 +245,14 @@ class api {
       store.commit('changeLoading', false)
       return
     }
-    if (blob.size > maxSize) {
-      MessageBox({
-        message: '最大不能超过10M！',
-        type: 'warning'
-      });
-      store.commit('changeLoading', false)
-      return
-    }
+    // if (blob.size > maxSize) {
+    //   MessageBox({
+    //     message: '最大不能超过10M！',
+    //     type: 'warning'
+    //   });
+    //   store.commit('changeLoading', false)
+    //   return
+    // }
     store.commit('changeLoading', true)
     let param = new FormData();
     param.append('file', blob);
@@ -271,14 +271,14 @@ class api {
       store.commit('changeLoading', false)
       return
     }
-    if (blob.size > maxSize) {
-      MessageBox({
-        message: '最大不能超过10M！',
-        type: 'warning'
-      });
-      store.commit('changeLoading', false)
-      return
-    }
+    // if (blob.size > maxSize) {
+    //   MessageBox({
+    //     message: '最大不能超过10M！',
+    //     type: 'warning'
+    //   });
+    //   store.commit('changeLoading', false)
+    //   return
+    // }
     store.commit('changeLoading', true)
     let param = new FormData();
     param.append('file', blob);
@@ -291,14 +291,14 @@ class api {
   //上传图片
   uploadImg2(blob) {
     let maxSize = 1024 * 1024 * 10
-    if (blob.size > maxSize) {
-      MessageBox({
-        message: '最大不能超过10M！',
-        type: 'warning'
-      });
-      store.commit('changeLoading', false)
-      return
-    }
+    // if (blob.size > maxSize) {
+    //   MessageBox({
+    //     message: '最大不能超过10M！',
+    //     type: 'warning'
+    //   });
+    //   store.commit('changeLoading', false)
+    //   return
+    // }
     store.commit('changeLoading', true)
     let param = new FormData();
     param.append('file', blob);
