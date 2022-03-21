@@ -25,6 +25,25 @@
                 :disabled="!(!applyInfo.bidDecideTm&&returnDate(2,applyInfo.bidEndTm))"
               ></el-input>
             </el-form-item> -->
+            <el-form-item label="联系人：">
+              <el-input
+                type="text"
+                v-model="info.linkman"
+                id="long"
+                placeholder="请输入联系人"
+                :disabled="!(!applyInfo.bidDecideTm&&returnDate(2,applyInfo.bidEndTm))"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="联系电话：">
+              <el-input
+                type="text"
+                v-model="info.mob"
+                id="long"
+                placeholder="请输入联系电话"
+                maxlength="11"
+                :disabled="!(!applyInfo.bidDecideTm&&returnDate(2,applyInfo.bidEndTm))"
+              ></el-input>
+            </el-form-item>
             <el-form-item label="附件上传：" v-if="!applyInfo.bidDecideTm&&returnDate(2,applyInfo.bidEndTm)">
               <div class="imgBox">
                 <div class="img">
@@ -245,6 +264,24 @@ export default {
       //   });
       //   return;
       // }
+      if (!this.info.linkman) {
+        this.$message({
+          message: "请输入联系人",
+          type: "warning",
+          duration: "1500",
+          offset: "50",
+        });
+        return;
+      }
+      if (this.reg.checkPhone(this.info.mob)!='ok') {
+        this.$message({
+          message: this.reg.checkPhone(this.info.mob),
+          type: "warning",
+          duration: "1500",
+          offset: "50",
+        });
+        return;
+      }
       if(!this.info.attachment) {
         this.$message({
           message: "请上传报价文件",
