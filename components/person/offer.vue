@@ -37,7 +37,7 @@
             <el-form-item label="联系电话：">
               <el-input
                 type="text"
-                v-model="info.mob"
+                v-model="info.phone"
                 id="long"
                 placeholder="请输入联系电话"
                 maxlength="11"
@@ -210,6 +210,8 @@ export default {
     // 已经报价过
     if (this.applyInfo.offer) {
       this.info.offerAmt = this.applyInfo.offer.shipBidOfferVo.offerAmt;
+      this.info.linkman = this.applyInfo.offer.shipBidOfferVo.linkman;
+      this.info.phone = this.applyInfo.offer.shipBidOfferVo.phone;
       let attachments,attachDecode
       if(this.applyInfo.offer.shipBidOfferVo.attachment) {
         attachments = this.applyInfo.offer.shipBidOfferVo.attachment.split(",");
@@ -273,9 +275,9 @@ export default {
         });
         return;
       }
-      if (this.reg.checkPhone(this.info.mob)!='ok') {
+      if (this.reg.checkPhone(this.info.phone)!='ok') {
         this.$message({
-          message: this.reg.checkPhone(this.info.mob),
+          message: this.reg.checkPhone(this.info.phone),
           type: "warning",
           duration: "1500",
           offset: "50",
