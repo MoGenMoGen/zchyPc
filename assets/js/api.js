@@ -789,6 +789,16 @@ class api {
       })
     })
   }
+  //删除系统消息
+  delMsg(ids) {
+    return new Promise(resolve => {
+      get("/ship/msgSend/del" ,ids, {
+        "sinovat-token": window.sessionStorage.getItem("token")
+      }).then(res => {
+        resolve(res)
+      })
+    })
+  }
   //签到接口
   signIn() {
     return new Promise(resolve => {
@@ -1354,7 +1364,7 @@ class api {
   }
 
   //订单详情
-  orderDetail(id,cd) {
+  orderDetail(id, cd) {
     return new Promise((resolve, reject) => {
       get("/ds/order/orderInfo?id=" + id + '&orderCd=' + cd, '', {
         "sinovat-token": window.sessionStorage.getItem("token")
@@ -1588,9 +1598,9 @@ class api {
     });
   }
   // 个人中心-收付款记录分页列表 有商城和非商城的记录
-  payment3(query,data) {
+  payment3(query, data) {
     return new Promise((resolve, reject) => {
-      get("/ship/paymentPlan/apis/page?query=" + query,data).then(res => {
+      get("/ship/paymentPlan/apis/page?query=" + query, data).then(res => {
         resolve(res)
       });
     });
@@ -2779,112 +2789,112 @@ class api {
 
   // 整改单列表
   getrectifyList(condition, msg, issueTm) {
-		return new Promise(resolve => {
-			get("/ship/docsRectify/apis/page?query=" + condition + "&msg=" + msg + "&issueTm=" + issueTm).then(res => {
-				resolve(res)
-			})
-		})
-	}
-  // 整改详情
-  getRectifyDetail(id){
     return new Promise(resolve => {
-      get("/ship/docsRectify/apis/info/"+id).then(res=>{
+      get("/ship/docsRectify/apis/page?query=" + condition + "&msg=" + msg + "&issueTm=" + issueTm).then(res => {
+        resolve(res)
+      })
+    })
+  }
+  // 整改详情
+  getRectifyDetail(id) {
+    return new Promise(resolve => {
+      get("/ship/docsRectify/apis/info/" + id).then(res => {
         resolve(res.data)
       })
     })
   }
   // 整改上报
-  handleRectifyReport(body){
+  handleRectifyReport(body) {
     return new Promise(resolve => {
-      post("/ship/docsRectify/apis/rectifyReport",body).then(res=>{
+      post("/ship/docsRectify/apis/rectifyReport", body).then(res => {
         resolve(res)
       })
     })
   }
   // 整改确认结案
-  handlerectifyClose(body){
+  handlerectifyClose(body) {
     return new Promise(resolve => {
-      post("/ship/docsRectify/apis/rectifyClose",body).then(res=>{
+      post("/ship/docsRectify/apis/rectifyClose", body).then(res => {
         resolve(res)
       })
     })
   }
   // 整改再次下发
-  handleRectifyReturn(body){
+  handleRectifyReturn(body) {
     return new Promise(resolve => {
-      post("/ship/docsRectify/apis/rectifyReturn",body).then(res=>{
+      post("/ship/docsRectify/apis/rectifyReturn", body).then(res => {
         resolve(res)
       })
     })
   }
   // 历史图片审核通过分页列表
-  getHisPicAdoptList(data){
+  getHisPicAdoptList(data) {
     return new Promise(resolve => {
-      get("/ship/docsImgs/apis/page?query="+data).then(res=>{
+      get("/ship/docsImgs/apis/page?query=" + data).then(res => {
         resolve(res)
       })
     })
   }
   // 运行记录审核通过分页列表
-  getRunAdoptList(data){
+  getRunAdoptList(data) {
     return new Promise(resolve => {
-      get("/ship/docsOprRecord/apis/page?query="+data).then(res=>{
+      get("/ship/docsOprRecord/apis/page?query=" + data).then(res => {
         resolve(res)
       })
     })
   }
   // 云检验审核通过分页列表
-  getCloudTestAdoptList(data){
+  getCloudTestAdoptList(data) {
     return new Promise(resolve => {
-      get("/ship/docsInsp/apis/page?query="+data).then(res=>{
+      get("/ship/docsInsp/apis/page?query=" + data).then(res => {
         resolve(res)
       })
     })
   }
   //云检验详情
-  getDocsInspDetail(data){
+  getDocsInspDetail(data) {
     return new Promise(resolve => {
-      get("/ship/docsInsp/apis/info/"+data).then(res=>{
+      get("/ship/docsInsp/apis/info/" + data).then(res => {
         resolve(res)
       })
     })
   }
   // 首页招标公告分页列表
-  getZbggList(data){
+  getZbggList(data) {
     return new Promise(resolve => {
-      get("/ship/bidAffiche/apis/api/pageWithStatus?query="+data).then(res=>{
+      get("/ship/bidAffiche/apis/api/pageWithStatus?query=" + data).then(res => {
         resolve(res)
       })
     })
   }
   // 新闻咨询招标分页列表
-  getBidList(data){
+  getBidList(data) {
     return new Promise(resolve => {
-      get("/ship/bid/apis/api/page?query="+data).then(res=>{
+      get("/ship/bid/apis/api/page?query=" + data).then(res => {
         resolve(res)
       })
     })
   }
   // 招标公告分页列表
-  getBidAfficheList(data){
+  getBidAfficheList(data) {
     return new Promise(resolve => {
-      get("/ship/bidAffiche/apis/api/list?query="+data).then(res=>{
+      get("/ship/bidAffiche/apis/api/list?query=" + data).then(res => {
         resolve(res)
       })
     })
   }
   // 招标公告分页列表
-  getBidAfficheList2(data){
+  getBidAfficheList2(data) {
     return new Promise(resolve => {
-      get("/ship/bidAffiche/list?query="+data).then(res=>{
+      get("/ship/bidAffiche/list?query=" + data).then(res => {
         resolve(res)
       })
     })
   }
   // 招投标详情
-  getBidInfo(data,orgId) {
+  getBidInfo(data, orgId) {
     return new Promise(resolve => {
-      get("/ship/bid/apis/api/info/"+data+"?orgId="+orgId).then(res=>{
+      get("/ship/bid/apis/api/info/" + data + "?orgId=" + orgId).then(res => {
         resolve(res)
       })
     })
@@ -2892,15 +2902,15 @@ class api {
   // 我的投标报名列表
   getMyBidApplyList(data) {
     return new Promise(resolve => {
-      get("/ship/bidApply/page?query="+data).then(res=>{
+      get("/ship/bidApply/page?query=" + data).then(res => {
         resolve(res)
       })
     })
   }
   // 全部投标，投标结果列表
-  getMyBidList(data,id) {
+  getMyBidList(data, id) {
     return new Promise(resolve => {
-      get("/ship/bid/pageOfMy?query="+data+'&id='+id).then(res=>{
+      get("/ship/bid/pageOfMy?query=" + data + '&id=' + id).then(res => {
         resolve(res)
       })
     })
@@ -2924,7 +2934,7 @@ class api {
   //签到
   bidSign(data) {
     return new Promise(resolve => {
-      get("/ship/bidSignin/bidSignin/"+data).then(res => {
+      get("/ship/bidSignin/bidSignin/" + data).then(res => {
         resolve(res)
       })
     })
