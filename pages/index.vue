@@ -7,7 +7,6 @@
     </el-carousel>
     <div class="info" :style="{width:width + 'px'}">
       <div class="left">
-
         <div class="title1">
           <p><img src="@/assets/img/new.png"/>{{newTitle1}}</p>
           <p class="more" @click="toPage('../tradeInfo/tradeInfo?cid='+ '5002994345202688')">更多 >></p>
